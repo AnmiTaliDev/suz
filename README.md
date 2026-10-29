@@ -16,6 +16,14 @@ cabal test
 cabal run suz-examples
 ```
 
+If GHC is installed without static libraries (for example the Arch Linux package), the build fails with `Could not find module 'Prelude'`. Pass the dynamic linking flags to every cabal command:
+
+```
+cabal build --enable-shared --disable-library-vanilla --enable-executable-dynamic
+cabal test --enable-shared --disable-library-vanilla --enable-executable-dynamic
+cabal run suz-examples --enable-shared --disable-library-vanilla --enable-executable-dynamic
+```
+
 ## License
 
 GNU General Public License, version 3 or later. See [LICENSE](LICENSE).
