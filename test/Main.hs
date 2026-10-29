@@ -4,7 +4,7 @@ module Main (main) where
 import Control.Monad (foldM)
 import qualified Data.ByteString as BS
 import qualified Data.Text as T
-import Data.Word (Word64)
+import Data.Word (Word64, Word8)
 import Suz
 import System.Exit (exitFailure, exitSuccess)
 
@@ -131,6 +131,19 @@ segmentationDoc =
 appliedSegmentation :: Language -> Document -> Document
 appliedSegmentation lang doc = fst (must (apply (Batch (suggestSegmentation lang doc)) doc))
 
+snapshotDocs :: [Document]
+snapshotDocs =
+  [ emptyDocument
+  , plainDoc
+  , baseDoc
+  , twoSegmentDoc
+  , segmentationDoc
+  , sessionDocument session2
+  , after (RemoveSegment (segmentId plainSegment))
+  , after (SetSurface (tokenId tokA) "a\tb\nc\\d\r")
+  , after (SetGloss mA1 (Just (Gloss "-" ["x\ty"])))
+  ]
+
 after :: Command -> Document
 after c = fst (must (apply c baseDoc))
 
@@ -156,14 +169,45 @@ tinyLanguage =
 
 trickyLanguage :: Language
 trickyLanguage =
-  mkLanguage
-    "na\tme\\"
-    ["A", "B\tC"]
-    [ ("f\to", Gloss "-" ["A"], 1.5)
-    , ("f\to", Gloss "" ["A", "B\tC"], 0.25)
-    , ("x", Gloss "a\nb" [], 2)
-    , ("neg", Gloss "n" [], -1.5)
+  withContext
+    [ ("p\tq", "f\to", Gloss "-" ["A"], 2)
+    , ("p\tq", "f\to", Gloss "" [], -0.5)
+    , ("z", "x", Gloss "a\nb" [], 1)
     ]
+    ( mkLanguage
+        "na\tme\\"
+        ["A", "B\tC"]
+        [ ("f\to", Gloss "-" ["A"], 1.5)
+        , ("f\to", Gloss "" ["A", "B\tC"], 0.25)
+        , ("x", Gloss "a\nb" [], 2)
+        , ("neg", Gloss "n" [], -1.5)
+        ]
+    )
+
+glossSg3 :: Gloss
+glossSg3 = Gloss "" ["3SG"]
+
+contextLanguage :: Language
+contextLanguage = withContext [("cat", "s", glossPl, 3), ("walk", "s", glossSg3, 2.5), ("cat", "zz", glossPl, 1)] tinyLanguage
+
+contextDoc :: Document
+contextDoc =
+  fst
+    ( must
+        ( apply
+            (InsertSegment 0 (buildSegment emptyDocument [("cats", ["cat", "s"]), ("walks", ["walk", "s"]), ("s", ["s"])]))
+            emptyDocument
+        )
+    )
+
+contextGlossLanguage :: Language
+contextGlossLanguage =
+  withContext
+    [("walk", "s", glossSg3, 2)]
+    (mkLanguage "ctx" ["PL", "3SG"] [("cat", glossBook, 1), ("walk", Gloss "walk" [], 1), ("s", glossPl, 5.5), ("s", glossSg3, 5)])
+
+v1Header :: [Word8]
+v1Header = [0x53, 0x55, 0x5A, 0x4C, 1, 0]
 
 checks :: [(String, Bool)]
 checks =
@@ -252,6 +296,53 @@ checks =
   , ("suggest segmentation with three pieces", length (suggestSegmentation segLanguage (appliedWith "китапларны")) == 2)
   , ("suggest segmentation skips segmented tokens", null (suggestSegmentation segLanguage baseDoc))
   , ("suggest segmentation skips glossed morphs", null (suggestSegmentation segLanguage (after (SetGloss mA1 (Just glossBook)))))
+  , ("context raw candidates", contextCandidates contextLanguage "walk" "s" == [(glossSg3, 2.5)])
+  , ("context adds to plain weights", candidatesAfter contextLanguage (Just "walk") "s" == [(glossSg3, 6.5), (glossPl, 5.5)])
+  , ("context after cat", candidatesAfter contextLanguage (Just "cat") "s" == [(glossPl, 8.5), (glossSg3, 4)])
+  , ("no previous form equals plain candidates", candidatesAfter contextLanguage Nothing "s" == candidates contextLanguage "s")
+  , ("unknown previous form equals plain candidates", candidatesAfter contextLanguage (Just "dog") "s" == candidates contextLanguage "s")
+  , ("context-only candidates", candidatesAfter contextLanguage (Just "cat") "zz" == [(glossPl, 1)])
+  , ("suggest after", suggestAfter contextLanguage (Just "walk") "s" == Just glossSg3 && suggest contextLanguage "s" == Just glossPl)
+  , ("confirm after flips ranking", suggestAfter (confirmAfter "walk" "s" glossSg3 (confirmAfter "walk" "s" glossSg3 tinyLanguage)) (Just "walk") "s" == Just glossSg3)
+  , ("confirm after leaves plain weights", candidates (confirmAfter "walk" "s" glossSg3 tinyLanguage) "s" == candidates tinyLanguage "s")
+  , ("reject after lowers context weight", contextCandidates (rejectAfter "walk" "s" glossSg3 tinyLanguage) "walk" "s" == [(glossSg3, -1)])
+  , ("reject after cancels confirm after", contextCandidates (rejectAfter "p" "q" glossPl (confirmAfter "p" "q" glossPl tinyLanguage)) "p" "q" == [(glossPl, 0)])
+  , ("with context sums repeated entries", contextCandidates (withContext [("p", "q", glossPl, 1)] (withContext [("p", "q", glossPl, 2)] tinyLanguage)) "p" "q" == [(glossPl, 3)])
+  , ( "suggested glosses use context"
+    , [g | Just g <- map (\c -> case c of SetGloss _ g' -> g'; _ -> Nothing) (suggestGlosses contextGlossLanguage contextDoc)]
+        == [glossBook, glossPl, Gloss "walk" [], glossSg3, glossPl]
+    )
+  , ("language text round trip with context", parseLanguage (renderLanguage contextLanguage) == Right contextLanguage)
+  , ("language text context line", parseLanguage "language\ta\ncontext\tp\tx\t2\t-\tT\n" == Right (withContext [("p", "x", Gloss "" ["T"], 2)] (mkLanguage "a" [] [])))
+  , ("language text rejects short context line", errorOf (parseLanguage "language\ta\ncontext\tp\tx\t1\n") == Just (2, "unrecognized line"))
+  , ("language binary round trip with context", decodeLanguage (encodeLanguage contextLanguage) == Right contextLanguage)
+  , ( "language binary context layout"
+    , encodeLanguage (withContext [("p", "x", Gloss "" [], 1)] (mkLanguage "a" [] []))
+        == BS.pack (header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [1, 0, 0, 0] ++ [1, 0, 0, 0, 0x70] ++ [1, 0, 0, 0, 0x78] ++ [1, 0, 0, 0] ++ [0, 0, 0, 0, 0, 0, 0xF0, 0x3F] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0])
+    )
+  , ( "language binary reads version 1"
+    , decodeLanguage (BS.pack (v1Header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [1, 0, 0, 0] ++ [1, 0, 0, 0, 0x78] ++ [1, 0, 0, 0] ++ [0, 0, 0, 0, 0, 0, 0xF0, 0x3F] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0]))
+        == Right (mkLanguage "a" [] [("x", Gloss "" [], 1)])
+    )
+  , ("language binary version 1 has no context section", errorOf (decodeLanguage (BS.pack (v1Header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0]))) == Just "trailing data")
+  , ("snapshot round trip", all (\d -> parseSnapshot (renderSnapshot d) == Right d) snapshotDocs)
+  , ("snapshot is stable", all (\d -> fmap renderSnapshot (parseSnapshot (renderSnapshot d)) == Right (renderSnapshot d)) snapshotDocs)
+  , ("snapshot keeps next id", fmap documentNextId (parseSnapshot (renderSnapshot (after (RemoveSegment (segmentId plainSegment))))) == Right (nextFreeId baseDoc))
+  , ("snapshot distinguishes absent and empty gloss", parseSnapshot "document\t3\nsegment\t0\ntoken\t1\tt\nmorph\t2\tm\t-\n" == Right (Document 3 [Segment (SegmentId 0) [Token (TokenId 1) "t" [Morph (MorphId 2) "m" (Just (Gloss "" []))]]]))
+  , ("snapshot layout", renderSnapshot baseDoc == "document\t6\nsegment\t0\ntoken\t1\tкитаплар\nmorph\t2\tкитап\tbook\nmorph\t3\tлар\t-\tPL\ntoken\t4\tмин\nmorph\t5\tмин\n")
+  , ("snapshot skips comments and blanks", parseSnapshot "# c\n\ndocument\t0\n   \n" == Right emptyDocument)
+  , ("snapshot allows continuing the edit", either (const False) (\d -> either (const False) (const True) (apply (InsertSegment 0 (buildSegment d [("a", ["a"])])) d)) (parseSnapshot (renderSnapshot baseDoc)))
+  , ("snapshot of restored document continues the session", either (const False) (\d -> either (const False) (const True) (perform (InsertSegment 0 (buildSegment d [("a", ["a"])])) (newSession d))) (parseSnapshot (renderSnapshot baseDoc)))
+  , ("snapshot missing document line", errorOf (parseSnapshot "segment\t0\n") == Just (0, "missing document line"))
+  , ("snapshot empty input", errorOf (parseSnapshot "") == Just (0, "missing document line"))
+  , ("snapshot second document line", errorOf (parseSnapshot "document\t1\ndocument\t1\n") == Just (2, "line out of place"))
+  , ("snapshot token outside segment", errorOf (parseSnapshot "document\t2\ntoken\t0\tt\n") == Just (2, "line out of place"))
+  , ("snapshot morph outside token", errorOf (parseSnapshot "document\t2\nsegment\t0\nmorph\t1\tm\n") == Just (3, "line out of place"))
+  , ("snapshot duplicate id", errorOf (parseSnapshot "document\t3\nsegment\t0\ntoken\t1\tt\ntoken\t1\tu\n") == Just (4, "duplicate identifier 1"))
+  , ("snapshot id not below next", errorOf (parseSnapshot "document\t1\nsegment\t1\n") == Just (2, "identifier 1 is not below the next free identifier"))
+  , ("snapshot bad number", errorOf (parseSnapshot "document\t-1\n") == Just (1, "bad number: -1"))
+  , ("snapshot unrecognized line", errorOf (parseSnapshot "document\t1\nbogus\n") == Just (2, "unrecognized line"))
+  , ("snapshot bad escape", errorOf (parseSnapshot "document\t2\nsegment\t0\ntoken\t1\ta\\q\n") == Just (3, "unknown escape"))
   , ("language text round trip", parseLanguage (renderLanguage tinyLanguage) == Right tinyLanguage)
   , ("language text round trip with escapes", parseLanguage (renderLanguage trickyLanguage) == Right trickyLanguage)
   , ("language text is stable", fmap renderLanguage (parseLanguage (renderLanguage trickyLanguage)) == Right (renderLanguage trickyLanguage))
@@ -268,13 +359,13 @@ checks =
   , ("language binary round trip with escapes", decodeLanguage (encodeLanguage trickyLanguage) == Right trickyLanguage)
   , ("language binary is deterministic", fmap encodeLanguage (decodeLanguage trickyBytes) == Right trickyBytes)
   , ("language binary agrees with text", fmap renderLanguage (decodeLanguage trickyBytes) == Right (renderLanguage trickyLanguage))
-  , ("language binary empty layout", encodeLanguage (mkLanguage "a" [] []) == BS.pack (header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0, 0, 0, 0, 0]))
+  , ("language binary empty layout", encodeLanguage (mkLanguage "a" [] []) == BS.pack (header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
   , ( "language binary weight layout"
     , encodeLanguage (mkLanguage "a" [] [("x", Gloss "" [], 1)])
-        == BS.pack (header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [1, 0, 0, 0] ++ [1, 0, 0, 0, 0x78] ++ [1, 0, 0, 0] ++ [0, 0, 0, 0, 0, 0, 0xF0, 0x3F] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0])
+        == BS.pack (header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [1, 0, 0, 0] ++ [1, 0, 0, 0, 0x78] ++ [1, 0, 0, 0] ++ [0, 0, 0, 0, 0, 0, 0xF0, 0x3F] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0])
     )
   , ("language binary rejects bad magic", errorOf (decodeLanguage (BS.pack (0x58 : drop 1 header ++ [1, 0, 0, 0, 0x61, 0, 0, 0, 0, 0, 0, 0, 0]))) == Just "bad magic")
-  , ("language binary rejects other version", errorOf (decodeLanguage (BS.pack (take 4 header ++ [2, 0] ++ [1, 0, 0, 0, 0x61, 0, 0, 0, 0, 0, 0, 0, 0]))) == Just "unsupported version: 2")
+  , ("language binary rejects other version", errorOf (decodeLanguage (BS.pack (take 4 header ++ [3, 0] ++ [1, 0, 0, 0, 0x61, 0, 0, 0, 0, 0, 0, 0, 0]))) == Just "unsupported version: 3")
   , ("language binary rejects truncated data", all (\n -> errorOf (decodeLanguage (BS.take n trickyBytes)) /= Nothing) [0 .. BS.length trickyBytes - 1])
   , ("language binary rejects trailing data", errorOf (decodeLanguage (trickyBytes <> BS.pack [0])) == Just "trailing data")
   , ("language binary rejects invalid UTF-8", errorOf (decodeLanguage (BS.pack (header ++ [1, 0, 0, 0, 0xFF, 0, 0, 0, 0, 0, 0, 0, 0]))) /= Nothing)
@@ -284,7 +375,7 @@ checks =
   where
     appliedWith surface =
       fst (must (apply (InsertSegment 0 (buildSegment emptyDocument [(surface, [surface])])) emptyDocument))
-    header = [0x53, 0x55, 0x5A, 0x4C, 1, 0]
+    header = [0x53, 0x55, 0x5A, 0x4C, 2, 0]
     trickyBytes = encodeLanguage trickyLanguage
     spareId = MorphId (nextFreeId baseDoc)
     firstGloss doc = morphGloss (head (concatMap tokenMorphs (concatMap segmentTokens (documentSegments doc))))
