@@ -2,6 +2,7 @@
 module Main (main) where
 
 import Control.Monad (foldM)
+import qualified Data.ByteString as BS
 import qualified Data.Text as T
 import Data.Word (Word64)
 import Suz
@@ -160,8 +161,26 @@ checks =
   , ("language text rejects bad number", errorOf (parseLanguage "language\ta\nweight\tx\tone\t-\n") == Just (2, "bad weight: one"))
   , ("language text rejects unknown line", errorOf (parseLanguage "language\ta\nbogus\n") == Just (2, "unrecognized line"))
   , ("language text rejects short weight line", errorOf (parseLanguage "language\ta\nweight\tx\t1\n") == Just (2, "unrecognized line"))
+  , ("language binary round trip", decodeLanguage (encodeLanguage tinyLanguage) == Right tinyLanguage)
+  , ("language binary round trip with escapes", decodeLanguage (encodeLanguage trickyLanguage) == Right trickyLanguage)
+  , ("language binary is deterministic", fmap encodeLanguage (decodeLanguage trickyBytes) == Right trickyBytes)
+  , ("language binary agrees with text", fmap renderLanguage (decodeLanguage trickyBytes) == Right (renderLanguage trickyLanguage))
+  , ("language binary empty layout", encodeLanguage (mkLanguage "a" [] []) == BS.pack (header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0, 0, 0, 0, 0]))
+  , ( "language binary weight layout"
+    , encodeLanguage (mkLanguage "a" [] [("x", Gloss "" [], 1)])
+        == BS.pack (header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [1, 0, 0, 0] ++ [1, 0, 0, 0, 0x78] ++ [1, 0, 0, 0] ++ [0, 0, 0, 0, 0, 0, 0xF0, 0x3F] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0])
+    )
+  , ("language binary rejects bad magic", errorOf (decodeLanguage (BS.pack (0x58 : drop 1 header ++ [1, 0, 0, 0, 0x61, 0, 0, 0, 0, 0, 0, 0, 0]))) == Just "bad magic")
+  , ("language binary rejects other version", errorOf (decodeLanguage (BS.pack (take 4 header ++ [2, 0] ++ [1, 0, 0, 0, 0x61, 0, 0, 0, 0, 0, 0, 0, 0]))) == Just "unsupported version: 2")
+  , ("language binary rejects truncated data", all (\n -> errorOf (decodeLanguage (BS.take n trickyBytes)) /= Nothing) [0 .. BS.length trickyBytes - 1])
+  , ("language binary rejects trailing data", errorOf (decodeLanguage (trickyBytes <> BS.pack [0])) == Just "trailing data")
+  , ("language binary rejects invalid UTF-8", errorOf (decodeLanguage (BS.pack (header ++ [1, 0, 0, 0, 0xFF, 0, 0, 0, 0, 0, 0, 0, 0]))) /= Nothing)
+  , ("language binary rejects oversized length", errorOf (decodeLanguage (BS.pack (header ++ [0xFF, 0xFF, 0xFF, 0xFF]))) == Just "unexpected end of data")
+  , ("language binary rejects non-finite weight", errorOf (decodeLanguage (encodeLanguage (mkLanguage "a" [] [("x", Gloss "" [], 0 / 0)]))) == Just "non-finite weight")
   ]
   where
+    header = [0x53, 0x55, 0x5A, 0x4C, 1, 0]
+    trickyBytes = encodeLanguage trickyLanguage
     spareId = MorphId (nextFreeId baseDoc)
     firstGloss doc = morphGloss (head (concatMap tokenMorphs (concatMap segmentTokens (documentSegments doc))))
     performAny c = either (Left . JournalEdit) Right . perform c
