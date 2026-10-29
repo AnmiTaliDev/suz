@@ -5,6 +5,7 @@ module Suz.Language
   , candidates
   , suggest
   , confirm
+  , reject
   , isValidGloss
   ) where
 
@@ -41,18 +42,27 @@ candidates :: Language -> Text -> [(Gloss, Double)]
 candidates lang form =
   sortBy (comparing (Down . snd) <> comparing fst) (maybe [] Map.toList (Map.lookup form (languageWeights lang)))
 
--- | The heaviest candidate for a morph form.
+-- | The heaviest candidate for a morph form. Candidates with a weight of zero
+-- or less are never suggested.
 suggest :: Language -> Text -> Maybe Gloss
-suggest lang form = case candidates lang form of
+suggest lang form = case filter ((> 0) . snd) (candidates lang form) of
   (g, _) : _ -> Just g
   [] -> Nothing
 
 -- | Adds 1 to the weight of a (form, gloss) pair, creating it if needed.
 confirm :: Text -> Gloss -> Language -> Language
-confirm form g lang =
+confirm = adjustWeight 1
+
+-- | Subtracts 1 from the weight of a (form, gloss) pair, creating it if
+-- needed. The weight may become negative.
+reject :: Text -> Gloss -> Language -> Language
+reject = adjustWeight (-1)
+
+adjustWeight :: Double -> Text -> Gloss -> Language -> Language
+adjustWeight delta form g lang =
   lang
     { languageWeights =
-        Map.insertWith (Map.unionWith (+)) form (Map.singleton g 1) (languageWeights lang)
+        Map.insertWith (Map.unionWith (+)) form (Map.singleton g delta) (languageWeights lang)
     }
 
 -- | True when every tag of the gloss is allowed by the language.
