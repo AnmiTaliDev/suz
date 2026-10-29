@@ -18,6 +18,9 @@ data Command
   | InsertToken SegmentId Int Token
   | RemoveToken TokenId
   | SetSurface TokenId Text
+  | SplitToken TokenId Int Int TokenId
+  | MergeToken TokenId
+  | MoveToken TokenId SegmentId Int
   | InsertMorph TokenId Int Morph
   | RemoveMorph MorphId
   | SetForm MorphId Text
@@ -35,6 +38,8 @@ data EditError
   | DuplicateId Word64
   | BadSplitPoint MorphId Int
   | NoNextMorph MorphId
+  | BadTokenSplit TokenId Int Int
+  | NoNextToken TokenId
   deriving (Eq, Show)
 
 -- | Applies a command to a document. On success returns the new document and
@@ -42,7 +47,12 @@ data EditError
 -- identifiers, which must not be in use. A 'Batch' is applied in order and
 -- fails as a whole. 'SplitMorph' keeps the gloss on the first part and leaves
 -- the new part unglossed. 'MergeMorph' joins a morph with the next one in the
--- same token and keeps the gloss of the first.
+-- same token and keeps the gloss of the first. 'SplitToken' divides the morphs
+-- at the first index and the surface form at the second, both may be 0 or the
+-- full length, and gives the second part the new identifier. 'MergeToken'
+-- joins a token with the next one in the same segment and keeps the
+-- identifier of the first. 'MoveToken' puts the token at a position of the
+-- given segment, counted after the token has been taken out.
 apply :: Command -> Document -> Either EditError (Document, Command)
 apply command doc = case command of
   InsertSegment i seg -> do
@@ -72,6 +82,41 @@ apply command doc = case command of
   SetSurface tid surface -> do
     (_, _, tok) <- needToken tid doc
     pure (replaceToken tok {tokenSurface = surface} doc, SetSurface tid (tokenSurface tok))
+  SplitToken tid k j newId@(TokenId n) -> do
+    (seg, i, tok) <- needToken tid doc
+    unless
+      (k >= 0 && k <= length (tokenMorphs tok) && j >= 0 && j <= T.length (tokenSurface tok))
+      (Left (BadTokenSplit tid k j))
+    checkFresh doc [n]
+    let (surfaceA, surfaceB) = T.splitAt j (tokenSurface tok)
+        (morphsA, morphsB) = splitAt k (tokenMorphs tok)
+        parts = [tok {tokenSurface = surfaceA, tokenMorphs = morphsA}, Token newId surfaceB morphsB]
+        toks = segmentTokens seg
+    pure
+      ( claimIds [n] (replaceSegment seg {segmentTokens = take i toks ++ parts ++ drop (i + 1) toks} doc)
+      , MergeToken tid
+      )
+  MergeToken tid -> do
+    (seg, i, tok) <- needToken tid doc
+    let toks = segmentTokens seg
+    next <- case drop (i + 1) toks of
+      t : _ -> Right t
+      [] -> Left (NoNextToken tid)
+    let merged =
+          tok
+            { tokenSurface = tokenSurface tok <> tokenSurface next
+            , tokenMorphs = tokenMorphs tok ++ tokenMorphs next
+            }
+    pure
+      ( replaceSegment seg {segmentTokens = take i toks ++ [merged] ++ drop (i + 2) toks} doc
+      , SplitToken tid (length (tokenMorphs tok)) (T.length (tokenSurface tok)) (tokenId next)
+      )
+  MoveToken tid sid i -> do
+    (src, j, tok) <- needToken tid doc
+    let removed = replaceSegment src {segmentTokens = removeAt j (segmentTokens src)} doc
+    (_, dst) <- needSegment sid removed
+    toks <- insertAt i tok (segmentTokens dst)
+    pure (replaceSegment dst {segmentTokens = toks} removed, MoveToken tid (segmentId src) j)
   InsertMorph tid i morph@(Morph (MorphId n) _ _) -> do
     (_, _, tok) <- needToken tid doc
     checkFresh doc [n]
