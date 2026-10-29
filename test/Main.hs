@@ -94,6 +94,13 @@ forms doc =
   , m <- tokenMorphs t
   ]
 
+badTagDoc :: Document
+badTagDoc = after (SetGloss mA1 (Just (Gloss "x" ["ACC", "PL", "FOO"])))
+
+twoBadTagsDoc :: Document
+twoBadTagsDoc =
+  fst (must (apply (SetGloss mA2 (Just (Gloss "" ["BAR"]))) badTagDoc))
+
 after :: Command -> Document
 after c = fst (must (apply c baseDoc))
 
@@ -186,6 +193,11 @@ checks =
   , ("merge last token", errorOf (apply (MergeToken (tokenId tokB)) baseDoc) == Just (NoNextToken (tokenId tokB)))
   , ("move token to unknown segment", errorOf (apply (MoveToken (tokenId tokA) (SegmentId 999) 0) baseDoc) == Just (NoSuchSegment (SegmentId 999)))
   , ("move token out of range", errorOf (apply (MoveToken (tokenId tokA) (segmentId plainSegment) 5) baseDoc) == Just (IndexOutOfRange 5))
+  , ("validate accepts declared tags", null (validateDocument tinyLanguage baseDoc))
+  , ("validate skips unglossed morphs", null (validateDocument tinyLanguage plainDoc))
+  , ("validate reports unknown tags", validateDocument tinyLanguage badTagDoc == [Violation mA1 ["ACC", "FOO"]])
+  , ("validate keeps document order", map violationMorph (validateDocument tinyLanguage twoBadTagsDoc) == [mA1, mA2])
+  , ("validate with empty language", map violationMorph (validateDocument (mkLanguage "e" [] []) baseDoc) == [mA2])
   , ("language text round trip", parseLanguage (renderLanguage tinyLanguage) == Right tinyLanguage)
   , ("language text round trip with escapes", parseLanguage (renderLanguage trickyLanguage) == Right trickyLanguage)
   , ("language text is stable", fmap renderLanguage (parseLanguage (renderLanguage trickyLanguage)) == Right (renderLanguage trickyLanguage))
