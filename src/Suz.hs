@@ -9,6 +9,7 @@ module Suz
   , module Suz.LanguageText
   , module Suz.Model
   , module Suz.Render
+  , module Suz.Segment
   , module Suz.Suggest
   , module Suz.Validate
   ) where
@@ -22,5 +23,6 @@ import Suz.LanguageBinary
 import Suz.LanguageText
 import Suz.Model
 import Suz.Render
+import Suz.Segment
 import Suz.Suggest
 import Suz.Validate
