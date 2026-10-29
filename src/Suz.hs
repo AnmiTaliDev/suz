@@ -5,6 +5,7 @@ module Suz
   , module Suz.Command
   , module Suz.Journal
   , module Suz.Language
+  , module Suz.LanguageText
   , module Suz.Model
   , module Suz.Render
   , module Suz.Suggest
@@ -15,6 +16,7 @@ import Suz.Codec
 import Suz.Command
 import Suz.Journal
 import Suz.Language
+import Suz.LanguageText
 import Suz.Model
 import Suz.Render
 import Suz.Suggest
