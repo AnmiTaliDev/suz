@@ -23,18 +23,21 @@ library
                       Suz.Command
                       Suz.Journal
                       Suz.Language
+                      Suz.LanguageBinary
                       Suz.LanguageText
                       Suz.Model
                       Suz.Render
                       Suz.Suggest
-    build-depends:    containers >=0.6 && <0.8
+    build-depends:    bytestring >=0.10 && <0.13,
+                      containers >=0.6 && <0.8
 
 test-suite suz-test
     import:           shared
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
     main-is:          Main.hs
-    build-depends:    suz
+    build-depends:    suz,
+                      bytestring >=0.10 && <0.13
 
 executable suz-examples
     import:           shared
