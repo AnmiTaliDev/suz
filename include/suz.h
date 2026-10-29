@@ -97,6 +97,21 @@ uint64_t suz_next_id(suz_session *session);
 int suz_perform(suz_session *session, const char *command, char **error);
 
 /**
+ * Applies one editing command like suz_perform() and, when it succeeds,
+ * updates the weights of the language from the glosses it set, replaced or
+ * cleared. Use it for edits made by a person. Suggestions applied with
+ * suz_suggest_glosses() do not change the language. Undoing the command does
+ * not revert the language.
+ * @param session Session.
+ * @param language Language to update.
+ * @param command One command in the line format of suz_journal().
+ * @param error Receives the message on failure, may be NULL.
+ * @return 0 on success, -1 on failure. Session and language are unchanged on
+ *         failure.
+ */
+int suz_perform_learning(suz_session *session, suz_language *language, const char *command, char **error);
+
+/**
  * Reverts the most recent recorded command.
  * @param session Session.
  * @param error Receives the message on failure, may be NULL.
@@ -151,6 +166,23 @@ suz_language *suz_language_from_text(const char *text, char **error);
  * @return New language, release with suz_language_free(), or NULL.
  */
 suz_language *suz_language_from_binary(const uint8_t *data, size_t size, char **error);
+
+/**
+ * Text form of a language, including the weights changed by
+ * suz_perform_learning().
+ * @param language Language.
+ * @return Text, release with suz_free().
+ */
+char *suz_language_to_text(const suz_language *language);
+
+/**
+ * Binary form of a language, including the weights changed by
+ * suz_perform_learning().
+ * @param language Language.
+ * @param size Receives the size of the result in bytes.
+ * @return Bytes, release with suz_free().
+ */
+uint8_t *suz_language_to_binary(const suz_language *language, size_t *size);
 
 /**
  * Releases a language.
