@@ -4,6 +4,8 @@ module Suz.Codec
   , decodeCommand
   , escape
   , unescape
+  , encodeLexical
+  , decodeLexical
   ) where
 
 import Control.Monad (ap, replicateM)
@@ -89,6 +91,19 @@ unescape =fmap T.pack . go . T.unpack
     go "\\" = Left "dangling escape"
     go (ch : rest) = (ch :) <$> go rest
     go [] = Right []
+
+-- | Field form of the lexical part of a gloss: an empty part is written as
+-- @-@, a literal @-@ as @\\-@, any other text is escaped with 'escape'.
+encodeLexical :: Text -> Text
+encodeLexical "" = "-"
+encodeLexical "-" = "\\-"
+encodeLexical t = escape t
+
+-- | Inverse of 'encodeLexical'.
+decodeLexical :: Text -> Either String Text
+decodeLexical "-" = Right ""
+decodeLexical "\\-" = Right "-"
+decodeLexical t = unescape t
 
 newtype Parser a = Parser {runParser :: [Text] -> Either String (a, [Text])}
 
