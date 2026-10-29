@@ -23,6 +23,7 @@ library
                       Suz.Command
                       Suz.Journal
                       Suz.Language
+                      Suz.LanguageText
                       Suz.Model
                       Suz.Render
                       Suz.Suggest
