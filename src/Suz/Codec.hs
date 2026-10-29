@@ -2,6 +2,8 @@
 module Suz.Codec
   ( encodeCommand
   , decodeCommand
+  , escape
+  , unescape
   ) where
 
 import Control.Monad (ap, replicateM)
@@ -60,6 +62,8 @@ int = T.pack . show
 word :: Word64 -> Text
 word = T.pack . show
 
+-- | Escapes backslash, tab, newline and carriage return so the text can be
+-- used as a tab-separated field.
 escape :: Text -> Text
 escape = T.concatMap f
   where
@@ -69,8 +73,9 @@ escape = T.concatMap f
     f '\r' = "\\r"
     f ch = T.singleton ch
 
+-- | Inverse of 'escape'. Fails on an unknown or dangling escape.
 unescape :: Text -> Either String Text
-unescape = fmap T.pack . go . T.unpack
+unescape =fmap T.pack . go . T.unpack
   where
     go ('\\' : ch : rest) = case ch of
       '\\' -> ('\\' :) <$> go rest
