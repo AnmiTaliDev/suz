@@ -58,12 +58,33 @@ commands =
   , MergeMorph mA1
   , Batch [SetForm mA1 "x", SetGloss mA1 Nothing, RemoveMorph mA2]
   , SetSurface (tokenId tokB) "a\tb\nc\\d\r"
+  , SplitToken (tokenId tokA) 1 5 splitTokenId
+  , SplitToken (tokenId tokA) 0 0 splitTokenId
+  , SplitToken (tokenId tokA) 2 8 splitTokenId
+  , MergeToken (tokenId tokA)
+  , MoveToken (tokenId tokB) (segmentId plainSegment) 0
+  , MoveToken (tokenId tokA) (segmentId plainSegment) 1
   ]
 
-roundTrips :: Command -> Bool
-roundTrips c = case apply c baseDoc >>= \(d, inverse) -> apply inverse d of
-  Right (d', _) -> documentSegments d' == documentSegments baseDoc
+roundTripsIn :: Document -> Command -> Bool
+roundTripsIn doc c = case apply c doc >>= \(d, inverse) -> apply inverse d of
+  Right (d', _) -> documentSegments d' == documentSegments doc
   Left _ -> False
+
+roundTrips :: Command -> Bool
+roundTrips = roundTripsIn baseDoc
+
+tokenSurfaces :: Document -> [[String]]
+tokenSurfaces doc = [[T.unpack (tokenSurface t) | t <- segmentTokens s] | s <- documentSegments doc]
+
+splitTokenId :: TokenId
+splitTokenId = TokenId (nextFreeId baseDoc)
+
+otherSegment :: Segment
+otherSegment = buildSegment baseDoc [("z", ["z"])]
+
+twoSegmentDoc :: Document
+twoSegmentDoc = fst (must (apply (InsertSegment 1 otherSegment) baseDoc))
 
 forms :: Document -> [String]
 forms doc =
@@ -149,6 +170,22 @@ checks =
   , ("suggest skips glossed morphs", null (suggestGlosses tinyLanguage baseDoc))
   , ("suggested glosses apply", glossesAfterSuggest == [Just glossBook, Just glossPl, Nothing])
   , ("render", renderDocument baseDoc == "китаплар  мин\nкитап-лар мин\nbook-PL   ?")
+  , ("split token surfaces", tokenSurfaces (after (SplitToken (tokenId tokA) 1 5 splitTokenId)) == [["китап", "лар", "мин"]])
+  , ("split token keeps morph order", forms (after (SplitToken (tokenId tokA) 1 5 splitTokenId)) == ["китап", "лар", "мин"])
+  , ("split token moves morphs", map (length . tokenMorphs) (segmentTokens (head (documentSegments (after (SplitToken (tokenId tokA) 1 5 splitTokenId))))) == [1, 1, 1])
+  , ("split token at the ends", all (roundTrips . (\(k, j) -> SplitToken (tokenId tokA) k j splitTokenId)) [(0, 0), (2, 8), (0, 8), (2, 0)])
+  , ("merge token surfaces", tokenSurfaces (after (MergeToken (tokenId tokA))) == [["китаплармин"]])
+  , ("merge token keeps first id", fmap (\d -> map tokenId (segmentTokens (head (documentSegments d)))) (fmap fst (apply (MergeToken (tokenId tokA)) baseDoc)) == Right [tokenId tokA])
+  , ("move token within segment", tokenSurfaces (after (MoveToken (tokenId tokB) (segmentId plainSegment) 0)) == [["мин", "китаплар"]])
+  , ("move token to another segment", tokenSurfaces (fst (must (apply (MoveToken (tokenId tokA) (segmentId otherSegment) 1) twoSegmentDoc))) == [["мин"], ["z", "китаплар"]])
+  , ("move token across segments is undone", roundTripsIn twoSegmentDoc (MoveToken (tokenId tokA) (segmentId otherSegment) 0))
+  , ("split token bad morph index", errorOf (apply (SplitToken (tokenId tokA) 3 0 splitTokenId) baseDoc) == Just (BadTokenSplit (tokenId tokA) 3 0))
+  , ("split token bad surface index", errorOf (apply (SplitToken (tokenId tokA) 0 9 splitTokenId) baseDoc) == Just (BadTokenSplit (tokenId tokA) 0 9))
+  , ("split token negative index", errorOf (apply (SplitToken (tokenId tokA) (-1) 0 splitTokenId) baseDoc) == Just (BadTokenSplit (tokenId tokA) (-1) 0))
+  , ("split token duplicate id", errorOf (apply (SplitToken (tokenId tokA) 1 1 (tokenId tokB)) baseDoc) == Just (DuplicateId (rawToken tokB)))
+  , ("merge last token", errorOf (apply (MergeToken (tokenId tokB)) baseDoc) == Just (NoNextToken (tokenId tokB)))
+  , ("move token to unknown segment", errorOf (apply (MoveToken (tokenId tokA) (SegmentId 999) 0) baseDoc) == Just (NoSuchSegment (SegmentId 999)))
+  , ("move token out of range", errorOf (apply (MoveToken (tokenId tokA) (segmentId plainSegment) 5) baseDoc) == Just (IndexOutOfRange 5))
   , ("language text round trip", parseLanguage (renderLanguage tinyLanguage) == Right tinyLanguage)
   , ("language text round trip with escapes", parseLanguage (renderLanguage trickyLanguage) == Right trickyLanguage)
   , ("language text is stable", fmap renderLanguage (parseLanguage (renderLanguage trickyLanguage)) == Right (renderLanguage trickyLanguage))
