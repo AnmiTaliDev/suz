@@ -35,6 +35,9 @@ commandFields c = case c of
   InsertToken (SegmentId s) i t -> "insert-token" : word s : int i : tokenFields t
   RemoveToken (TokenId n) -> ["remove-token", word n]
   SetSurface (TokenId n) s -> ["set-surface", word n, s]
+  SplitToken (TokenId n) k j (TokenId m) -> ["split-token", word n, int k, int j, word m]
+  MergeToken (TokenId n) -> ["merge-token", word n]
+  MoveToken (TokenId n) (SegmentId s) i -> ["move-token", word n, word s, int i]
   InsertMorph (TokenId t) i m -> "insert-morph" : word t : int i : morphFields m
   RemoveMorph (MorphId n) -> ["remove-morph", word n]
   SetForm (MorphId n) f -> ["set-form", word n, f]
@@ -131,6 +134,9 @@ commandP = do
     "insert-token" -> InsertToken . SegmentId <$> wordP <*> intP <*> tokenP
     "remove-token" -> RemoveToken . TokenId <$> wordP
     "set-surface" -> SetSurface . TokenId <$> wordP <*> field
+    "split-token" -> SplitToken . TokenId <$> wordP <*> intP <*> intP <*> (TokenId <$> wordP)
+    "merge-token" -> MergeToken . TokenId <$> wordP
+    "move-token" -> MoveToken . TokenId <$> wordP <*> (SegmentId <$> wordP) <*> intP
     "insert-morph" -> InsertMorph . TokenId <$> wordP <*> intP <*> morphP
     "remove-morph" -> RemoveMorph . MorphId <$> wordP
     "set-form" -> SetForm . MorphId <$> wordP <*> field
