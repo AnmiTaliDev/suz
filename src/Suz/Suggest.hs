@@ -8,13 +8,14 @@ import Suz.Language
 import Suz.Model
 
 -- | One 'SetGloss' for every unglossed morph whose form has a candidate in the
--- language. The commands are not applied.
+-- language. The previous morph of the same token is used as context, see
+-- 'suggestAfter'. The commands are not applied.
 suggestGlosses :: Language -> Document -> [Command]
 suggestGlosses lang doc =
   [ SetGloss (morphId m) (Just g)
   | s <- documentSegments doc
   , t <- segmentTokens s
-  , m <- tokenMorphs t
+  , (prev, m) <- zip (Nothing : map (Just . morphForm) (tokenMorphs t)) (tokenMorphs t)
   , Nothing <- [morphGloss m]
-  , Just g <- [suggest lang (morphForm m)]
+  , Just g <- [suggestAfter lang prev (morphForm m)]
   ]
