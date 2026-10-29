@@ -25,6 +25,7 @@ library
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
+                      Suz.Learn
                       Suz.Model
                       Suz.Render
                       Suz.Segment
