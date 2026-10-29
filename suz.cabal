@@ -27,6 +27,7 @@ library
                       Suz.LanguageText
                       Suz.Model
                       Suz.Render
+                      Suz.Segment
                       Suz.Suggest
                       Suz.Validate
     build-depends:    bytestring >=0.10 && <0.13,
