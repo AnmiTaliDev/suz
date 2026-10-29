@@ -7,6 +7,7 @@ module Suz
   , module Suz.Language
   , module Suz.LanguageBinary
   , module Suz.LanguageText
+  , module Suz.Learn
   , module Suz.Model
   , module Suz.Render
   , module Suz.Segment
@@ -22,6 +23,7 @@ import Suz.Journal
 import Suz.Language
 import Suz.LanguageBinary
 import Suz.LanguageText
+import Suz.Learn
 import Suz.Model
 import Suz.Render
 import Suz.Segment
