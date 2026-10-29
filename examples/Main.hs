@@ -51,3 +51,7 @@ englishExample = do
   putStrLn "-- suggestion for \"s\" before and after confirm"
   print (fmap renderGloss (suggest english "s"))
   print (fmap renderGloss (suggest (confirm "s" correct english) "s"))
+  putStrLn "-- suggestion for \"s\" after \"walk\" and after \"cat\" once the correction is confirmed in context"
+  let learned = confirmAfter "walk" "s" correct english
+  print (fmap renderGloss (suggestAfter learned (Just "walk") "s"))
+  print (fmap renderGloss (suggestAfter learned (Just "cat") "s"))
