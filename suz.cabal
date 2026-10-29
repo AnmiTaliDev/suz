@@ -28,6 +28,7 @@ library
                       Suz.Model
                       Suz.Render
                       Suz.Segment
+                      Suz.Snapshot
                       Suz.Suggest
                       Suz.Validate
     build-depends:    bytestring >=0.10 && <0.13,
