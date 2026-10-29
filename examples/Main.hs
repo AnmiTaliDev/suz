@@ -45,13 +45,19 @@ englishExample = do
   T.putStrLn (renderDocument (sessionDocument glossed))
   let suffix = morphId (last (tokenMorphs (last (segmentTokens segment))))
       correct = Gloss "" ["3SG"]
-  fixed <- must (perform (SetGloss suffix (Just correct)) glossed)
+  (fixed, learnedOnce) <- must (performLearning (SetGloss suffix (Just correct)) english glossed)
   putStrLn "-- after correction"
   T.putStrLn (renderDocument (sessionDocument fixed))
-  putStrLn "-- suggestion for \"s\" before and after confirm"
+  let cats = buildSegment (sessionDocument fixed) [("cats", ["cat", "s"])]
+      [catMorph, pluralMorph] = tokenMorphs (head (segmentTokens cats))
+  withCats <- must (perform (InsertSegment 1 cats) fixed)
+  (_, learned) <-
+    must
+      ( performLearning (SetGloss (morphId catMorph) (Just (Gloss "cat" []))) learnedOnce withCats
+          >>= \(session, lang) -> performLearning (SetGloss (morphId pluralMorph) (Just (Gloss "" ["PL"]))) lang session
+      )
+  putStrLn "-- suggestion for \"s\": before learning, with no context, after \"walk\", after \"cat\""
   print (fmap renderGloss (suggest english "s"))
-  print (fmap renderGloss (suggest (confirm "s" correct english) "s"))
-  putStrLn "-- suggestion for \"s\" after \"walk\" and after \"cat\" once the correction is confirmed in context"
-  let learned = confirmAfter "walk" "s" correct english
+  print (fmap renderGloss (suggest learned "s"))
   print (fmap renderGloss (suggestAfter learned (Just "walk") "s"))
   print (fmap renderGloss (suggestAfter learned (Just "cat") "s"))
