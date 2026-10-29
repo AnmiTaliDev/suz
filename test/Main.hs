@@ -132,6 +132,7 @@ trickyLanguage =
     [ ("f\to", Gloss "-" ["A"], 1.5)
     , ("f\to", Gloss "" ["A", "B\tC"], 0.25)
     , ("x", Gloss "a\nb" [], 2)
+    , ("neg", Gloss "n" [], -1.5)
     ]
 
 checks :: [(String, Bool)]
@@ -172,6 +173,13 @@ checks =
   , ("candidates order", candidates tinyLanguage "s" == [(glossPl, 5.5), (Gloss "" ["3SG"], 4)])
   , ("unknown form", null (candidates tinyLanguage "zzz") && suggest tinyLanguage "zzz" == Nothing)
   , ("confirm changes ranking", suggest (confirmTwice tinyLanguage) "s" == Just (Gloss "" ["3SG"]))
+  , ("reject lowers the weight", candidates (reject "s" glossPl tinyLanguage) "s" == [(glossPl, 4.5), (Gloss "" ["3SG"], 4)])
+  , ("reject changes ranking", suggest (reject "s" glossPl (reject "s" glossPl tinyLanguage)) "s" == Just (Gloss "" ["3SG"]))
+  , ("reject creates a negative entry", candidates (reject "q" glossPl tinyLanguage) "q" == [(glossPl, -1)])
+  , ("zero weight is not suggested", suggest (reject "q" glossPl (confirm "q" glossPl (mkLanguage "z" [] []))) "q" == Nothing)
+  , ("zero weight stays a candidate", candidates (reject "q" glossPl (confirm "q" glossPl (mkLanguage "z" [] []))) "q" == [(glossPl, 0)])
+  , ("confirm undoes reject", candidates (confirm "s" glossPl (reject "s" glossPl tinyLanguage)) "s" == candidates tinyLanguage "s")
+  , ("negative weight is not suggested", suggest (reject "q" glossPl (reject "q" glossPl (confirm "q" glossPl (mkLanguage "z" [] [])))) "q" == Nothing)
   , ("valid gloss", isValidGloss tinyLanguage glossPl && not (isValidGloss tinyLanguage (Gloss "" ["ACC"])))
   , ("suggest fills unglossed morphs", suggestions == 2)
   , ("suggest skips glossed morphs", null (suggestGlosses tinyLanguage baseDoc))
