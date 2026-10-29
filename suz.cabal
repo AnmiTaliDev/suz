@@ -49,3 +49,13 @@ executable suz-examples
     other-modules:    English
                       Tatar
     build-depends:    suz
+
+foreign-library suz
+    import:           shared
+    type:             native-shared
+    hs-source-dirs:   ffi
+    other-modules:    Suz.Foreign
+    c-sources:        csrc/suz_init.c
+    include-dirs:     include
+    build-depends:    suz,
+                      bytestring >=0.10 && <0.13
