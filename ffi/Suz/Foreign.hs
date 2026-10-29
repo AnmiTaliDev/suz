@@ -34,6 +34,9 @@ foreign export ccall "suz_journal" sessionJournal :: Ptr () -> IO CString
 foreign export ccall "suz_language_from_text" languageFromText :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_language_from_binary" languageFromBinary :: Ptr Word8 -> CSize -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_language_free" languageFree :: Ptr () -> IO ()
+foreign export ccall "suz_language_to_text" languageToText :: Ptr () -> IO CString
+foreign export ccall "suz_language_to_binary" languageToBinary :: Ptr () -> Ptr CSize -> IO (Ptr Word8)
+foreign export ccall "suz_perform_learning" sessionPerformLearning :: Ptr () -> Ptr () -> CString -> Ptr CString -> IO CInt
 foreign export ccall "suz_suggest_segmentation" suggestSegmentationC :: Ptr () -> Ptr () -> Ptr CString -> IO CInt
 foreign export ccall "suz_suggest_glosses" suggestGlossesC :: Ptr () -> Ptr () -> Ptr CString -> IO CInt
 
@@ -137,22 +140,52 @@ languageFromText s errp = do
   input <- peekText s
   case input >>= first lineError . parseLanguage of
     Left msg -> failHandle errp msg
-    Right lang -> newHandle lang
+    Right lang -> newIORef lang >>= newHandle
 
 languageFromBinary :: Ptr Word8 -> CSize -> Ptr CString -> IO (Ptr ())
 languageFromBinary p n errp = do
   bytes <- BS.packCStringLen (castPtr p, fromIntegral n)
   case decodeLanguage bytes of
     Left msg -> failHandle errp msg
-    Right lang -> newHandle lang
+    Right lang -> newIORef lang >>= newHandle
 
 languageFree :: Ptr () -> IO ()
 languageFree = freeHandle
 
+readLanguage :: Ptr () -> IO Language
+readLanguage h = deref h >>= readIORef
+
+languageToText :: Ptr () -> IO CString
+languageToText h = readLanguage h >>= newUtf8 . renderLanguage
+
+languageToBinary :: Ptr () -> Ptr CSize -> IO (Ptr Word8)
+languageToBinary h sizep = do
+  bytes <- encodeLanguage <$> readLanguage h
+  buffer <- mallocBytes (max 1 (BS.length bytes))
+  BU.unsafeUseAsCStringLen bytes $ \(src, len) -> copyBytes buffer (castPtr src) len
+  poke sizep (fromIntegral (BS.length bytes))
+  pure buffer
+
+sessionPerformLearning :: Ptr () -> Ptr () -> CString -> Ptr CString -> IO CInt
+sessionPerformLearning h lh line errp = do
+  input <- peekText line
+  case input of
+    Left msg -> failCode errp msg
+    Right text -> do
+      ref <- deref h :: IO (IORef Session)
+      langRef <- deref lh :: IO (IORef Language)
+      session <- readIORef ref
+      lang <- readIORef langRef
+      case first ("bad command: " ++) (decodeCommand text) of
+        Left msg -> failCode errp msg
+        Right command -> case performLearning command lang session of
+          Left e -> failCode errp (show e)
+          Right (session', lang') -> writeIORef ref session' >> writeIORef langRef lang' >> pure 0
+
 suggestWith :: (Language -> Document -> [Command]) -> Ptr () -> Ptr () -> Ptr CString -> IO CInt
 suggestWith suggestions h lh errp = do
   ref <- deref h :: IO (IORef Session)
-  lang <- deref lh
+  lang <- readLanguage lh
   session <- readIORef ref
   case suggestions lang (sessionDocument session) of
     [] -> pure 0
