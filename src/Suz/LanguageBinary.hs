@@ -22,15 +22,17 @@ import Suz.Language
 import Suz.Model
 
 formatVersion :: Int
-formatVersion = 1
+formatVersion = 2
 
 -- | Binary form of a language. All integers are little-endian. The layout is
 -- the magic @SUZL@, the format version (u16), the language name, the tags,
--- then the forms. A string is a u32 byte length followed by UTF-8 bytes. A
--- list is a u32 count followed by its items. A form is its string, then a
--- list of candidates, each a weight (IEEE 754 binary64), the lexical part
--- and a list of tags. Tags and forms are sorted and candidates go from the
--- heaviest to the lightest, so equal languages give equal bytes.
+-- then the forms, then the context entries. A string is a u32 byte length
+-- followed by UTF-8 bytes. A list is a u32 count followed by its items. A form
+-- is its string, then a list of candidates, each a weight (IEEE 754 binary64),
+-- the lexical part and a list of tags. A context entry is the previous form,
+-- the form and a list of candidates. Tags, forms and context entries are
+-- sorted and candidates go from the heaviest to the lightest, so equal
+-- languages give equal bytes.
 encodeLanguage :: Language -> ByteString
 encodeLanguage lang = BL.toStrict (B.toLazyByteString body)
   where
@@ -40,9 +42,11 @@ encodeLanguage lang = BL.toStrict (B.toLazyByteString body)
         <> string (languageName lang)
         <> list string (Set.toList (languageTags lang))
         <> list (formBuilder lang) (Map.keys (languageWeights lang))
+        <> list (contextBuilder lang) (Map.keys (languageContext lang))
 
--- | Inverse of 'encodeLanguage'. Fails on a wrong magic, an unsupported
--- version, truncated or trailing data, invalid UTF-8, and non-finite weights.
+-- | Inverse of 'encodeLanguage'. Reads format versions 1 (no context entries)
+-- and 2. Fails on a wrong magic, an unsupported version, truncated or trailing
+-- data, invalid UTF-8, and non-finite weights.
 decodeLanguage :: ByteString -> Either String Language
 decodeLanguage bytes = do
   (lang, rest) <- runReader languageR bytes
@@ -58,9 +62,14 @@ list :: (a -> Builder) -> [a] -> Builder
 list f xs = B.word32LE (fromIntegral (length xs)) <> mconcat (map f xs)
 
 formBuilder :: Language -> Text -> Builder
-formBuilder lang form = string form <> list candidate (candidates lang form)
-  where
-    candidate (Gloss lexical tags, w) = B.doubleLE w <> string lexical <> list string tags
+formBuilder lang form = string form <> list candidateBuilder (candidates lang form)
+
+contextBuilder :: Language -> (Text, Text) -> Builder
+contextBuilder lang (prev, form) =
+  string prev <> string form <> list candidateBuilder (contextCandidates lang prev form)
+
+candidateBuilder :: (Gloss, Double) -> Builder
+candidateBuilder (Gloss lexical tags, w) = B.doubleLE w <> string lexical <> list string tags
 
 newtype Reader a = Reader {runReader :: ByteString -> Either String (a, ByteString)}
 
@@ -105,17 +114,27 @@ languageR = do
   magic <- takeBytes 4
   unless (magic == "SUZL") (failR "bad magic")
   version <- unsigned 2
-  unless (fromIntegral version == formatVersion) (failR ("unsupported version: " ++ show version))
+  unless (version `elem` [1, 2]) (failR ("unsupported version: " ++ show version))
   name <- textR
   tags <- listR textR
   entries <- concat <$> listR formR
-  pure (mkLanguage name tags entries)
+  contexts <- if version >= 2 then concat <$> listR contextR else pure []
+  pure (withContext contexts (mkLanguage name tags entries))
 
 formR :: Reader [(Text, Gloss, Double)]
 formR = do
   form <- textR
-  listR $ do
-    w <- weightR
-    lexical <- textR
-    tags <- listR textR
-    pure (form, Gloss lexical tags, w)
+  map (\(g, w) -> (form, g, w)) <$> listR candidateR
+
+contextR :: Reader [(Text, Text, Gloss, Double)]
+contextR = do
+  prev <- textR
+  form <- textR
+  map (\(g, w) -> (prev, form, g, w)) <$> listR candidateR
+
+candidateR :: Reader (Gloss, Double)
+candidateR = do
+  w <- weightR
+  lexical <- textR
+  tags <- listR textR
+  pure (Gloss lexical tags, w)
