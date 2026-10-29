@@ -21,13 +21,14 @@ main = do
 
 tatarExample :: IO ()
 tatarExample = do
-  putStrLn "== Tatar: suggestions, undo, journal"
+  putStrLn "== Tatar: segmentation, suggestions, undo, journal"
   let segment =
         buildSegment
           emptyDocument
-          [("Мин", ["мин"]), ("китапларны", ["китап", "лар", "ны"]), ("укыдым", ["укы", "ды", "м"])]
+          [("Мин", ["мин"]), ("китапларны", ["китапларны"]), ("укыдым", ["укыдым"])]
   inserted <- must (perform (InsertSegment 0 segment) (newSession emptyDocument))
-  glossed <- must (foldM (flip perform) inserted (suggestGlosses tatar (sessionDocument inserted)))
+  segmented <- must (foldM (flip perform) inserted (suggestSegmentation tatar (sessionDocument inserted)))
+  glossed <- must (foldM (flip perform) segmented (suggestGlosses tatar (sessionDocument segmented)))
   T.putStrLn (renderDocument (sessionDocument glossed))
   putStrLn "-- after one undo"
   reverted <- must (undo glossed)
