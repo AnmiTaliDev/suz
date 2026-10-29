@@ -10,6 +10,7 @@ module Suz
   , module Suz.Model
   , module Suz.Render
   , module Suz.Suggest
+  , module Suz.Validate
   ) where
 
 import Suz.Build
@@ -22,3 +23,4 @@ import Suz.LanguageText
 import Suz.Model
 import Suz.Render
 import Suz.Suggest
+import Suz.Validate
