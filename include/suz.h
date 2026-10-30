@@ -72,6 +72,29 @@ suz_session *suz_session_from_snapshot(const char *text, char **error);
 suz_session *suz_session_from_journal(const char *text, char **error);
 
 /**
+ * Creates a session from raw text. Every non-empty line becomes a segment,
+ * every whitespace-separated word becomes a token with one unglossed morph
+ * whose form is the word. Punctuation stays attached to its word. The history
+ * of the new session is empty.
+ * @param text Raw text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_text(const char *text, char **error);
+
+/**
+ * Creates a session from Toolbox text as written by suz_toolbox(). Records
+ * without a \\tx line are skipped. A gloss is split at periods: the first part
+ * is a tag when the language lists it and the lexical part otherwise. The
+ * history of the new session is empty and the language is not changed.
+ * @param language Language that supplies the tag list.
+ * @param text Toolbox text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_toolbox(const suz_language *language, const char *text, char **error);
+
+/**
  * Releases a session.
  * @param session Session to release.
  */
@@ -149,6 +172,16 @@ char *suz_snapshot(suz_session *session);
  * @return Text, release with suz_free().
  */
 char *suz_journal(suz_session *session);
+
+/**
+ * Toolbox text of the document: one record per segment with the \\ref, \\tx,
+ * \\mb and \\ge fields. The text is not escaped, so surface forms with
+ * whitespace and morph forms with hyphens do not survive a round trip through
+ * suz_session_from_toolbox().
+ * @param session Session.
+ * @return Text, release with suz_free().
+ */
+char *suz_toolbox(suz_session *session);
 
 /**
  * Reads a language from its text form.
