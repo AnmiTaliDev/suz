@@ -191,6 +191,34 @@ properties =
         Left _ -> property Discard
         Right s -> fmap (documentSegments . sessionDocument) (undo s) === Right (documentSegments d) .&&. fmap sessionDocument (undo s >>= redo) === Right (sessionDocument s)
     )
+  , ( "a batch gives the same document as its commands applied one by one"
+    , forAll (genDocument >>= \d -> (,) d <$> genRun 4 d) $ \(d0, (d, cs)) ->
+        fmap fst (apply (Batch cs) d0) === Right d
+    )
+  , ( "the inverse of a batch restores the document"
+    , forAll (genDocument >>= \d -> (,) d <$> genRun 4 d) $ \(d0, (_, cs)) -> case apply (Batch cs) d0 of
+        Left e -> counterexample (show e) False
+        Right (d', inverse) -> fmap (documentSegments . fst) (apply inverse d') === Right (documentSegments d0)
+    )
+  , ( "a batch is one step of undo and redo"
+    , forAll (genDocument >>= \d -> (,) d <$> genRun 4 d) $ \(d0, (d, cs)) -> case perform (Batch cs) (newSession d0) of
+        Left e -> counterexample (show e) False
+        Right s ->
+          fmap (documentSegments . sessionDocument) (undo s) === Right (documentSegments d0)
+            .&&. fmap sessionDocument (undo s >>= redo) === Right d
+    )
+  , ( "a batch with a failing command is rejected"
+    , forAll (genDocument >>= \d -> (,) d <$> genRun 4 d) $ \(d0, (_, cs)) ->
+        case perform (Batch (cs ++ [RemoveMorph (MorphId maxBound)])) (newSession d0) of
+          Left _ -> property True
+          Right _ -> counterexample "accepted" False
+    )
+  , ( "a nested batch round-trips through the codec and gives the same document"
+    , forAll (genDocument >>= \d -> (,) d <$> genRun 4 d) $ \(d0, (d, cs)) ->
+        let (front, back) = splitAt (length cs `div` 2) cs
+            c = Batch [Batch front, Batch back]
+         in decodeCommand (encodeCommand c) === Right c .&&. fmap fst (apply c d0) === Right d
+    )
   , ( "a journal replays to the same document"
     , forAll (genDocument >>= \d -> (,) d <$> genRun 6 d) $ \(d0, (d, cs)) ->
         fmap sessionDocument (replayJournal d0 (T.unlines (map encodeCommand cs))) === Right d
