@@ -17,8 +17,16 @@ checks =
   , ("toolbox mb must match tx", errorOf (parseToolbox tinyLanguage "\\tx a b\n\\mb a\n") == Just (2, "\\mb does not match \\tx"))
   , ("toolbox ge must match mb", errorOf (parseToolbox tinyLanguage "\n\\tx a\n\\mb a-b\n\\ge x\n") == Just (4, "\\ge does not match \\mb"))
   , ("toolbox rejects a line without a marker", errorOf (parseToolbox tinyLanguage "\\tx a\nb\n") == Just (2, "line out of place"))
+  , ("toolbox round trip with special characters", parseToolbox escapeLanguage (renderToolbox trickyDoc) == Right trickyDoc)
+  , ("toolbox escapes", renderToolbox trickyDoc == "\\ref 0\n\\tx a\\u20;b\\u9;c x\\\\y\n\\mb a\\-b-\\u20; \\_\n\\ge x\\.y.PL-\\? ?\n")
+  , ("toolbox bad escape", errorOf (parseToolbox tinyLanguage "\\tx a\\qb\n") == Just (1, "bad escape"))
+  , ("toolbox bad code point", errorOf (parseToolbox tinyLanguage "\\tx a\\ud800;\n") == Just (1, "bad escape"))
+  , ("toolbox unterminated code point", errorOf (parseToolbox tinyLanguage "\\tx a\\u20\n") == Just (1, "bad escape"))
+  , ("toolbox plain text needs no escapes", toolboxGlosses "\\tx a\n\\mb a\n\\ge x\n" == Right [Just (Gloss "x" [])])
   , ("toolbox import is valid", fmap (null . validateDocument tinyLanguage) (parseToolbox tinyLanguage (renderToolbox baseDoc)) == Right True)
   ]
   where
+    escapeLanguage = tinyLanguage
+    trickyDoc = Document 6 [Segment (SegmentId 0) [Token (TokenId 1) "a b\tc" [Morph (MorphId 2) "a-b" (Just (Gloss "x.y" ["PL"])), Morph (MorphId 3) " " (Just (Gloss "?" []))], Token (TokenId 4) "x\\y" [Morph (MorphId 5) "_" Nothing]]]
     emptySegmentDoc = fst (must (apply (InsertSegment 0 (buildSegment emptyDocument [])) emptyDocument))
     toolboxGlosses t = fmap (map morphGloss . concatMap tokenMorphs . concatMap segmentTokens . documentSegments) (parseToolbox tinyLanguage t)

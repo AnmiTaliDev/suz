@@ -25,11 +25,11 @@ parseLeipzig lang text = do
   pure (Document next (reverse segments))
   where
     step (n, acc) block = case block of
-      [(_, tx), mb, ge] -> add n acc tx mb ge
-      [(_, tx), mb, ge, _] -> add n acc tx mb ge
+      [tx, mb, ge] -> add n acc tx mb ge
+      [tx, mb, ge, _] -> add n acc tx mb ge
       (ln, _) : _ -> Left (ln, "expected 3 or 4 lines")
       [] -> Right (n, acc)
     add n acc tx mb ge = do
       (n', seg) <- segmentFromLines lang names n tx (Just mb) (Just ge)
       pure (n', seg : acc)
-    names = Names "word line" "morph line" "gloss line"
+    names = Names "word line" "morph line" "gloss line" False

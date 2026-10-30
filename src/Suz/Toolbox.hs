@@ -11,16 +11,17 @@ import qualified Data.Text as T
 import Suz.Interlinear
 import Suz.Language
 import Suz.Model
-import Suz.Render (renderGloss)
 
 -- | Toolbox (SFM) text of a document. Each segment is a record of four
 -- lines, @\\ref@ with the segment identifier, @\\tx@ with the surface forms,
 -- @\\mb@ with the morph forms and @\\ge@ with the glosses, and records are
 -- separated by a blank line. Tokens are separated by spaces and morphs by
 -- hyphens. A morph without a gloss shows as @?@. A token without morphs shows
--- as @_@ in @\\mb@ and @\\ge@. The text is not escaped, so surface forms with
--- whitespace, morph forms with hyphens, and glosses with periods or hyphens in
--- the lexical part do not survive 'parseToolbox'.
+-- as @_@ in @\\mb@ and @\\ge@. A backslash, hyphen or period in a form, lexical
+-- part or tag is written after a backslash, any whitespace character as
+-- @\\u@, its code in hexadecimal and a semicolon, and a lone @_@ or @?@ after a
+-- backslash. An empty form or an empty gloss cannot be written and does not
+-- survive 'parseToolbox'.
 renderToolbox :: Document -> Text
 renderToolbox = T.intercalate "\n" . map record . documentSegments
 
@@ -30,7 +31,8 @@ renderToolbox = T.intercalate "\n" . map record . documentSegments
 -- token gets one morph with the surface form as its form, and without @\\ge@
 -- the morphs are unglossed. A gloss is split at periods: the first part is a
 -- tag when the language lists it as one and the lexical part otherwise, the
--- rest are tags. Identifiers are assigned in document order from 0. The error
+-- rest are tags. The escapes of 'renderToolbox' are read; a bad one is an
+-- error. Identifiers are assigned in document order from 0. The error
 -- holds the line number and a short description.
 parseToolbox :: Language -> Text -> Either (Int, String) Document
 parseToolbox lang text = do
@@ -41,24 +43,30 @@ parseToolbox lang text = do
     step (n, acc) fields = case lookupField "tx" fields of
       Nothing -> Right (n, acc)
       Just tx -> do
-        (n', seg) <- segmentFromLines lang names n (snd tx) (lookupField "mb" fields) (lookupField "ge" fields)
+        (n', seg) <- segmentFromLines lang names n tx (lookupField "mb" fields) (lookupField "ge" fields)
         pure (n', seg : acc)
 
 names :: Names
-names = Names "\\tx" "\\mb" "\\ge"
+names = Names "\\tx" "\\mb" "\\ge" True
 
 record :: Segment -> Text
 record (Segment (SegmentId n) tokens) =
   T.unlines
     [ "\\ref " <> T.pack (show n)
-    , "\\tx " <> T.unwords (map tokenSurface tokens)
-    , "\\mb " <> T.unwords (map (cell morphForm) tokens)
-    , "\\ge " <> T.unwords (map (cell (maybe "?" renderGloss . morphGloss)) tokens)
+    , "\\tx " <> T.unwords (map (escapeCell . tokenSurface) tokens)
+    , "\\mb " <> T.unwords (map (cell (escapeCell . morphForm)) tokens)
+    , "\\ge " <> T.unwords (map (cell (glossPiece . morphGloss)) tokens)
     ]
   where
     cell f t = case tokenMorphs t of
       [] -> "_"
-      ms -> T.intercalate "-" (map f ms)
+      ms -> case T.intercalate "-" (map f ms) of
+        "_" -> "\\_"
+        c -> c
+    glossPiece Nothing = "?"
+    glossPiece (Just (Gloss lexical tags)) = case T.intercalate "." (filter (not . T.null) [escapeCell lexical] ++ map escapeCell tags) of
+      "?" -> "\\?"
+      c -> c
 
 type Field = (Int, Text, Text)
 
