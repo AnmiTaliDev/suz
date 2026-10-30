@@ -4,13 +4,11 @@ module Suz.Toolbox
   , parseToolbox
   ) where
 
-import Control.Monad (foldM, unless, zipWithM)
+import Control.Monad (foldM)
 import Data.Char (isSpace)
-import Data.List (mapAccumL)
-import qualified Data.Set as Set
 import Data.Text (Text)
 import qualified Data.Text as T
-import Data.Word (Word64)
+import Suz.Interlinear
 import Suz.Language
 import Suz.Model
 import Suz.Render (renderGloss)
@@ -36,15 +34,18 @@ renderToolbox = T.intercalate "\n" . map record . documentSegments
 -- holds the line number and a short description.
 parseToolbox :: Language -> Text -> Either (Int, String) Document
 parseToolbox lang text = do
-  records <- traverse fieldsOf (groups (zip [1 ..] (T.lines text)))
+  records <- traverse fieldsOf (blocks (zip [1 ..] (T.lines text)))
   (next, segments) <- foldM step (0, []) records
   pure (Document next (reverse segments))
   where
     step (n, acc) fields = case lookupField "tx" fields of
       Nothing -> Right (n, acc)
-      Just (_, tx) -> do
-        (n', seg) <- segmentFrom lang n tx fields
+      Just tx -> do
+        (n', seg) <- segmentFromLines lang names n (snd tx) (lookupField "mb" fields) (lookupField "ge" fields)
         pure (n', seg : acc)
+
+names :: Names
+names = Names "\\tx" "\\mb" "\\ge"
 
 record :: Segment -> Text
 record (Segment (SegmentId n) tokens) =
@@ -61,14 +62,6 @@ record (Segment (SegmentId n) tokens) =
 
 type Field = (Int, Text, Text)
 
-groups :: [(Int, Text)] -> [[(Int, Text)]]
-groups [] = []
-groups ls = case break blank (dropWhile blank ls) of
-  ([], _) -> []
-  (g, rest) -> g : groups rest
-  where
-    blank = T.null . T.strip . snd
-
 fieldsOf :: [(Int, Text)] -> Either (Int, String) [Field]
 fieldsOf = traverse field
   where
@@ -82,42 +75,3 @@ lookupField :: Text -> [Field] -> Maybe (Int, Text)
 lookupField marker fields = case [(n, c) | (n, m, c) <- fields, m == marker] of
   f : _ -> Just f
   [] -> Nothing
-
-segmentFrom :: Language -> Word64 -> Text -> [Field] -> Either (Int, String) (Word64, Segment)
-segmentFrom lang n tx fields = do
-  let surfaces = T.words tx
-  forms <- case lookupField "mb" fields of
-    Nothing -> Right (map (: []) surfaces)
-    Just (ln, c) -> do
-      let ws = T.words c
-      unless (length ws == length surfaces) (Left (ln, "\\mb does not match \\tx"))
-      pure (map splitCell ws)
-  glosses <- case lookupField "ge" fields of
-    Nothing -> Right (map (map (const Nothing)) forms)
-    Just (ln, c) -> do
-      let ws = T.words c
-      unless (length ws == length surfaces) (Left (ln, "\\ge does not match \\tx"))
-      zipWithM (glossCell ln) forms (map splitCell ws)
-  let (end, tokens) = mapAccumL tokenFrom (n + 1) (zip3 surfaces forms glosses)
-  pure (end, Segment (SegmentId n) tokens)
-  where
-    splitCell "_" = []
-    splitCell w = T.splitOn "-" w
-    glossCell ln fs gs = do
-      unless (length fs == length gs) (Left (ln, "\\ge does not match \\mb"))
-      pure (map (parseGloss lang) gs)
-
-parseGloss :: Language -> Text -> Maybe Gloss
-parseGloss _ "?" = Nothing
-parseGloss lang p
-  | Set.member first (languageTags lang) = Just (Gloss "" (first : later))
-  | otherwise = Just (Gloss first later)
-  where
-    (first, rest) = T.breakOn "." p
-    later = if T.null rest then [] else T.splitOn "." (T.drop 1 rest)
-
-tokenFrom :: Word64 -> (Text, [Text], [Maybe Gloss]) -> (Word64, Token)
-tokenFrom n (surface, forms, glosses) =
-  ( n + 1 + fromIntegral (length forms)
-  , Token (TokenId n) surface (zipWith3 (\i f g -> Morph (MorphId i) f g) [n + 1 ..] forms glosses)
-  )
