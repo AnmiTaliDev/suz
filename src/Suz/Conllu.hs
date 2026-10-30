@@ -22,13 +22,13 @@ data Ident = Word Int | Range Int Int | Empty
 parseConllu :: Text -> Either (Int, String) Document
 parseConllu text = do
   sentences <- traverse (traverse row) (blocks content)
-  let (next, segments) = foldl' add (0, []) (filter (not . null) (map tokensOf sentences))
-  pure (Document next (reverse segments))
+  let (next, segments) = mapAccumL segment 0 (filter (not . null) (map tokensOf sentences))
+  pure (Document next segments)
   where
     content = [(n, l) | (n, l) <- zip [1 ..] (T.lines text), not ("#" `T.isPrefixOf` l)]
-    add (n, acc) tokens =
+    segment n tokens =
       let (end, ts) = mapAccumL tokenFrom (n + 1) tokens
-       in (end, Segment (SegmentId n) ts : acc)
+       in (end, Segment (SegmentId n) ts)
 
 row :: (Int, Text) -> Either (Int, String) (Ident, Text)
 row (n, l) = case T.splitOn "\t" l of
