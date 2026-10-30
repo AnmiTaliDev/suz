@@ -317,6 +317,9 @@ properties =
               Nothing -> []
          in map (\v -> (violationMorph v, violationTags v)) (validateDocument l d) === [(morphId m, bad m) | m <- allMorphs d, not (null (bad m))]
     )
+  , ( "conllu output is read back to the same output"
+    , forAll genDocument $ \d -> fmap renderConllu (parseConllu (renderConllu d)) === Right (renderConllu d)
+    )
   , ( "import keeps the characters of the words"
     , forAll ((,) <$> genLanguage <*> genRawText) $ \(l, t) ->
         T.concat (map tokenSurface (concatMap segmentTokens (documentSegments (importTextWith l t)))) === T.concat (T.words t)

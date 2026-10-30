@@ -1,9 +1,10 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 module Suz.Conllu
   ( parseConllu
+  , renderConllu
   ) where
 
-import Data.Char (isDigit)
+import Data.Char (isDigit, isSpace)
 import Data.List (mapAccumL)
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -29,6 +30,27 @@ parseConllu text = do
     segment n tokens =
       let (end, ts) = mapAccumL tokenFrom (n + 1) tokens
        in (end, Segment (SegmentId n) ts)
+
+-- | CoNLL-U text of a document, readable by 'parseConllu'. Only the ID and
+-- FORM columns are filled, the others hold @_@. A token with several morphs is
+-- written as a range line with the surface form followed by a line per morph
+-- form; any other token is one line with the surface form. Segments without
+-- tokens are skipped. Whitespace in a form is written as a no-break space and
+-- an empty form as @_@. Identifiers and the morph forms of single-morph tokens
+-- are not kept.
+renderConllu :: Document -> Text
+renderConllu doc = T.unlines (concatMap sentence (filter (not . null . segmentTokens) (documentSegments doc)))
+  where
+    sentence s = concat (snd (mapAccumL token 1 (segmentTokens s))) ++ [""]
+    token i t = case tokenMorphs t of
+      ms | length ms > 1 ->
+        let end = i + length ms - 1
+         in (end + 1, line (T.pack (show i ++ "-" ++ show end)) (tokenSurface t) : [line (T.pack (show k)) (morphForm m) | (k, m) <- zip [i ..] ms])
+      _ -> (i + 1, [line (T.pack (show i)) (tokenSurface t)])
+    line ident form = T.intercalate "\t" (ident : cell form : replicate 8 "_")
+    cell form
+      | T.null form = "_"
+      | otherwise = T.map (\c -> if isSpace c then '\xa0' else c) form
 
 row :: (Int, Text) -> Either (Int, String) (Ident, Text)
 row (n, l) = case T.splitOn "\t" l of
