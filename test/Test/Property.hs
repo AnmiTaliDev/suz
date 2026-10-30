@@ -237,6 +237,33 @@ properties =
             Left e -> counterexample (show e) False
             Right (d', _) -> weightOf (learnChange d d' l) (morphForm m) g === weightOf l (morphForm m) g + 1
     )
+  , ( "replacing a gloss rejects the old pair and confirms the new one"
+    , forAll ((,,) <$> genKnownLanguage <*> genKnownDocument 3 <*> genKnownGloss) $ \(l, d, g) ->
+        case [(m, old) | m <- allMorphs d, Just old <- [morphGloss m], old /= g] of
+          [] -> property Discard
+          (m, old) : _ -> case apply (SetGloss (morphId m) (Just g)) d of
+            Left e -> counterexample (show e) False
+            Right (d', _) ->
+              let l' = learnChange d d' l
+                  form = morphForm m
+               in weightOf l' form old === weightOf l form old - 1 .&&. weightOf l' form g === weightOf l form g + 1
+    )
+  , ( "clearing a gloss rejects its pair"
+    , forAll ((,) <$> genKnownLanguage <*> genKnownDocument 3) $ \(l, d) ->
+        case [(m, old) | m <- allMorphs d, Just old <- [morphGloss m]] of
+          [] -> property Discard
+          (m, old) : _ -> case apply (SetGloss (morphId m) Nothing) d of
+            Left e -> counterexample (show e) False
+            Right (d', _) -> weightOf (learnChange d d' l) (morphForm m) old === weightOf l (morphForm m) old - 1
+    )
+  , ( "removing a glossed morph does not change the language"
+    , forAll ((,) <$> genKnownLanguage <*> genKnownDocument 3) $ \(l, d) ->
+        case [m | m <- allMorphs d, morphGloss m /= Nothing] of
+          [] -> property Discard
+          m : _ -> case apply (RemoveMorph (morphId m)) d of
+            Left e -> counterexample (show e) False
+            Right (d', _) -> learnChange d d' l === l
+    )
   , ( "validation reports exactly the glossed morphs with undeclared tags"
     , forAll ((,) <$> genKnownLanguage <*> genKnownDocument 3) $ \(l, d) ->
         let bad m = case morphGloss m of
