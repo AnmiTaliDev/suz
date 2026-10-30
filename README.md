@@ -38,6 +38,20 @@ scripts/bundle.sh path/to/libsuz.so destination-directory
 
 The library looks for its dependencies next to itself. The C library, the math library and GMP are taken from the system.
 
+To install the headers, the library with its runtime and a `suz.pc` file:
+
+```
+make install PREFIX=/usr/local
+```
+
+The library goes to `PREFIX/lib/suz`, the headers to `PREFIX/include`. `DESTDIR` is supported. `make uninstall` removes the installed files. A program is built with:
+
+```
+cc main.c $(pkg-config --cflags --libs suz)
+```
+
+`pkg-config` finds `suz.pc` through `PKG_CONFIG_PATH=PREFIX/lib/pkgconfig` when the prefix is not a system one.
+
 ## License
 
 GNU General Public License, version 3 or later. See [LICENSE](LICENSE).
