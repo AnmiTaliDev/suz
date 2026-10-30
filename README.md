@@ -30,6 +30,14 @@ c-example/suz-c-example
 
 `make` takes the library location from `SUZ_BUILD`, which defaults to the build directory of the `ghc` found in `PATH`.
 
+`libsuz.so` needs the Haskell runtime libraries of the GHC that built it. To collect them in one directory that can be moved to another machine with the same architecture, run:
+
+```
+scripts/bundle.sh path/to/libsuz.so destination-directory
+```
+
+The library looks for its dependencies next to itself. The C library, the math library and GMP are taken from the system.
+
 ## License
 
 GNU General Public License, version 3 or later. See [LICENSE](LICENSE).
