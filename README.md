@@ -16,7 +16,13 @@ cabal test
 cabal run suz-examples
 ```
 
-The build is static. A GHC without static libraries (for example the Arch Linux `ghc` package) fails with `Could not find module 'Prelude'`; use a GHC installed with ghcup.
+The build is static. A GHC without static libraries (for example the Arch Linux `ghc` package) fails with `Could not find module 'Prelude'`; use a GHC installed with ghcup, or build dynamically:
+
+```
+cabal test --enable-shared --disable-library-vanilla --ghc-options=-dynamic
+```
+
+For the C library on such a GHC, build `flib:suz` with the same options and run `make -o all install SUZ_BUILD=path/to/build/suz`, where the path is the directory that holds `libsuz.so.X.Y.Z`.
 
 ## C interface
 
