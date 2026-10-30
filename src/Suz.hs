@@ -3,6 +3,7 @@ module Suz
   ( module Suz.Build
   , module Suz.Codec
   , module Suz.Command
+  , module Suz.Import
   , module Suz.Journal
   , module Suz.Language
   , module Suz.LanguageBinary
@@ -19,6 +20,7 @@ module Suz
 import Suz.Build
 import Suz.Codec
 import Suz.Command
+import Suz.Import
 import Suz.Journal
 import Suz.Language
 import Suz.LanguageBinary
