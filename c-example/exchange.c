@@ -23,6 +23,24 @@ void demo_exchange(suz_language *language)
         fail("toolbox", error);
     show("read back from Toolbox", from_toolbox);
 
+    char *leipzig = suz_render(raw);
+    suz_session *from_leipzig = suz_session_from_leipzig(language, leipzig, &error);
+    if (!from_leipzig)
+        fail("leipzig", error);
+    show("read back from interlinear text", from_leipzig);
+
+    suz_session *from_conllu = suz_session_from_conllu(
+        "# text = Мин укыдым\n"
+        "1\tМин\tмин\tPRON\t_\t_\t2\tnsubj\t_\t_\n"
+        "2\tукыдым\tукы\tVERB\t_\t_\t0\troot\t_\t_\n",
+        &error);
+    if (!from_conllu)
+        fail("conllu", error);
+    show("imported from CoNLL-U", from_conllu);
+
+    suz_session_free(from_conllu);
+    suz_session_free(from_leipzig);
+    suz_free(leipzig);
     suz_session_free(from_toolbox);
     suz_free(toolbox);
     suz_session_free(raw);
