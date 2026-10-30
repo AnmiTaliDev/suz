@@ -50,8 +50,9 @@ suz_session *suz_session_from_text(const char *text, char **error);
 /**
  * Like suz_session_from_text(), with the import rules of the language: each
  * punctuation character at the start or end of a word becomes a token of its
- * own, and morph forms are lowercased if the language asks for it. The
- * surface form keeps its case. The language is not changed.
+ * own, and morph forms are lowercased if the language asks for it, with the
+ * Turkic mapping of I and İ if it asks for that. The surface form keeps its
+ * case. The language is not changed.
  * @param language Language that supplies the import rules.
  * @param text Raw text.
  * @param error Receives the message on failure, may be NULL.
