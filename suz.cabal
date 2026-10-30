@@ -60,6 +60,7 @@ test-suite suz-test
                       Test.LanguageText
                       Test.Learn
                       Test.Leipzig
+                      Test.Property
                       Test.Render
                       Test.Segment
                       Test.Snapshot
@@ -67,7 +68,8 @@ test-suite suz-test
                       Test.Toolbox
                       Test.Validate
     build-depends:    suz,
-                      bytestring >=0.10 && <0.13
+                      bytestring >=0.10 && <0.13,
+                      QuickCheck >=2.14 && <3
 
 executable suz-examples
     import:           shared

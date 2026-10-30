@@ -11,6 +11,7 @@ import qualified Test.LanguageBinary as LanguageBinary
 import qualified Test.LanguageText as LanguageText
 import qualified Test.Learn as Learn
 import qualified Test.Leipzig as Leipzig
+import qualified Test.Property as Property
 import qualified Test.Render as Render
 import qualified Test.Segment as Segment
 import qualified Test.Snapshot as Snapshot
@@ -18,6 +19,7 @@ import qualified Test.Suggest as Suggest
 import qualified Test.Toolbox as Toolbox
 import qualified Test.Validate as Validate
 import System.Exit (exitFailure, exitSuccess)
+import Test.QuickCheck (Args (..), isSuccess, output, quickCheckWithResult, stdArgs)
 
 checks :: [(String, Bool)]
 checks = concat
@@ -42,6 +44,10 @@ checks = concat
 main :: IO ()
 main = do
   let failed = [name | (name, False) <- checks]
+  results <- mapM (\(name, p) -> (,) name <$> quickCheckWithResult stdArgs {chatty = False} p) Property.properties
+  let failedProperties = [(name, r) | (name, r) <- results, not (isSuccess r)]
   mapM_ (putStrLn . ("FAIL: " ++)) failed
-  putStrLn (show (length checks - length failed) ++ "/" ++ show (length checks) ++ " passed")
-  if null failed then exitSuccess else exitFailure
+  mapM_ (\(name, r) -> putStrLn ("FAIL: property " ++ name) >> putStr (output r)) failedProperties
+  putStrLn (show (length checks - length failed) ++ "/" ++ show (length checks) ++ " checks passed")
+  putStrLn (show (length results - length failedProperties) ++ "/" ++ show (length results) ++ " properties passed")
+  if null failed && null failedProperties then exitSuccess else exitFailure
