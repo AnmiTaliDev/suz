@@ -1,4 +1,5 @@
-SUZ_BUILD ?= $(abspath ../dist-newstyle/build/x86_64-linux/ghc-9.6.7/suz-0.1.0.0/f/suz/build/suz)
+GHC_VERSION := $(shell ghc --numeric-version)
+SUZ_BUILD ?= $(abspath ../dist-newstyle/build/$(shell uname -m)-linux/ghc-$(GHC_VERSION)/suz-0.1.0.0/f/suz/build/suz)
 CC ?= cc
 CFLAGS ?= -Wall -Wextra -O2
 
