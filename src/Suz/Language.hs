@@ -3,6 +3,7 @@ module Suz.Language
   ( Language (..)
   , mkLanguage
   , withContext
+  , withImportRules
   , candidates
   , contextCandidates
   , candidatesAfter
@@ -29,6 +30,8 @@ data Language = Language
   , languageTags :: Set Text
   , languageWeights :: Map Text (Map Gloss Double)
   , languageContext :: Map (Text, Text) (Map Gloss Double)
+  , languagePunctuation :: Set Char
+  , languageFoldCase :: Bool
   }
   deriving (Eq, Show)
 
@@ -43,6 +46,8 @@ mkLanguage name tags entries =
     , languageWeights =
         Map.fromListWith (Map.unionWith (+)) [(form, Map.singleton g w) | (form, g, w) <- entries]
     , languageContext = Map.empty
+    , languagePunctuation = Set.empty
+    , languageFoldCase = False
     }
 
 -- | Adds (previous form, form, gloss, weight) entries to the context table.
@@ -56,6 +61,13 @@ withContext entries lang =
           (languageContext lang)
           (Map.fromListWith (Map.unionWith (+)) [((prev, form), Map.singleton g w) | (prev, form, g, w) <- entries])
     }
+
+-- | Sets the rules used when importing raw text: the characters that are
+-- split off the start and end of a word as tokens of their own, and whether
+-- morph forms are lowercased. Both are off in a language from 'mkLanguage'.
+withImportRules :: [Char] -> Bool -> Language -> Language
+withImportRules punctuation foldCase lang =
+  lang {languagePunctuation = Set.fromList punctuation, languageFoldCase = foldCase}
 
 rank :: Map Gloss Double -> [(Gloss, Double)]
 rank = sortBy (comparing (Down . snd) <> comparing fst) . Map.toList
