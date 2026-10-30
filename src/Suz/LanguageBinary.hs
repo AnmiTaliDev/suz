@@ -15,14 +15,20 @@ import qualified Data.ByteString.Lazy as BL
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
 import Data.Text (Text)
+import qualified Data.Text as T
 import qualified Data.Text.Encoding as TE
 import Data.Word (Word64)
 import GHC.Float (castWord64ToDouble)
 import Suz.Language
 import Suz.Model
 
-formatVersion :: Int
-formatVersion = 2
+formatVersion :: Language -> Int
+formatVersion lang
+  | hasImportRules lang = 3
+  | otherwise = 2
+
+hasImportRules :: Language -> Bool
+hasImportRules lang = not (Set.null (languagePunctuation lang)) || languageFoldCase lang
 
 -- | Binary form of a language. All integers are little-endian. The layout is
 -- the magic @SUZL@, the format version (u16), the language name, the tags,
@@ -32,20 +38,29 @@ formatVersion = 2
 -- the lexical part and a list of tags. A context entry is the previous form,
 -- the form and a list of candidates. Tags, forms and context entries are
 -- sorted and candidates go from the heaviest to the lightest, so equal
--- languages give equal bytes.
+-- languages give equal bytes. A language with import rules is written as
+-- version 3, which adds after the context entries the punctuation characters
+-- as one string and the fold-case flag (u8, 0 or 1); other languages are
+-- written as version 2.
 encodeLanguage :: Language -> ByteString
 encodeLanguage lang = BL.toStrict (B.toLazyByteString body)
   where
     body =
       B.byteString "SUZL"
-        <> B.word16LE (fromIntegral formatVersion)
+        <> B.word16LE (fromIntegral (formatVersion lang))
         <> string (languageName lang)
         <> list string (Set.toList (languageTags lang))
         <> list (formBuilder lang) (Map.keys (languageWeights lang))
         <> list (contextBuilder lang) (Map.keys (languageContext lang))
+        <> importRules lang
 
--- | Inverse of 'encodeLanguage'. Reads format versions 1 (no context entries)
--- and 2. Fails on a wrong magic, an unsupported version, truncated or trailing
+importRules :: Language -> Builder
+importRules lang
+  | hasImportRules lang = string (T.pack (Set.toList (languagePunctuation lang))) <> B.word8 (if languageFoldCase lang then 1 else 0)
+  | otherwise = mempty
+
+-- | Inverse of 'encodeLanguage'. Reads format versions 1 (no context entries),
+-- 2 and 3 (adds import rules). Fails on a wrong magic, an unsupported version, truncated or trailing
 -- data, invalid UTF-8, and non-finite weights.
 decodeLanguage :: ByteString -> Either String Language
 decodeLanguage bytes = do
@@ -114,12 +129,21 @@ languageR = do
   magic <- takeBytes 4
   unless (magic == "SUZL") (failR "bad magic")
   version <- unsigned 2
-  unless (version `elem` [1, 2]) (failR ("unsupported version: " ++ show version))
+  unless (version `elem` [1, 2, 3]) (failR ("unsupported version: " ++ show version))
   name <- textR
   tags <- listR textR
   entries <- concat <$> listR formR
   contexts <- if version >= 2 then concat <$> listR contextR else pure []
-  pure (withContext contexts (mkLanguage name tags entries))
+  rules <- if version >= 3 then Just <$> rulesR else pure Nothing
+  let lang = withContext contexts (mkLanguage name tags entries)
+  pure (maybe lang (\(punctuation, foldCase) -> withImportRules punctuation foldCase lang) rules)
+
+rulesR :: Reader (String, Bool)
+rulesR = do
+  punctuation <- textR
+  flag <- unsigned 1
+  unless (flag <= 1) (failR "bad flag")
+  pure (T.unpack punctuation, flag == 1)
 
 formR :: Reader [(Text, Gloss, Double)]
 formR = do

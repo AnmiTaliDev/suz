@@ -30,8 +30,12 @@ checks =
     , encodeLanguage (mkLanguage "a" [] [("x", Gloss "" [], 1)])
         == BS.pack (header ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [1, 0, 0, 0] ++ [1, 0, 0, 0, 0x78] ++ [1, 0, 0, 0] ++ [0, 0, 0, 0, 0, 0, 0xF0, 0x3F] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0])
     )
+  , ("language binary round trip with import rules", decodeLanguage (encodeLanguage ruled) == Right ruled)
+  , ("language binary import rules layout", encodeLanguage ruled == BS.pack (take 4 header ++ [3, 0] ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [1, 0, 0, 0, 0x2E] ++ [1]))
+  , ("language binary rejects a bad flag", errorOf (decodeLanguage (BS.pack (take 4 header ++ [3, 0] ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [2]))) == Just "bad flag")
+  , ("language binary version 3 needs the rules", errorOf (decodeLanguage (BS.pack (take 4 header ++ [3, 0] ++ [1, 0, 0, 0, 0x61] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0] ++ [0, 0, 0, 0]))) == Just "unexpected end of data")
   , ("language binary rejects bad magic", errorOf (decodeLanguage (BS.pack (0x58 : drop 1 header ++ [1, 0, 0, 0, 0x61, 0, 0, 0, 0, 0, 0, 0, 0]))) == Just "bad magic")
-  , ("language binary rejects other version", errorOf (decodeLanguage (BS.pack (take 4 header ++ [3, 0] ++ [1, 0, 0, 0, 0x61, 0, 0, 0, 0, 0, 0, 0, 0]))) == Just "unsupported version: 3")
+  , ("language binary rejects other version", errorOf (decodeLanguage (BS.pack (take 4 header ++ [4, 0] ++ [1, 0, 0, 0, 0x61, 0, 0, 0, 0, 0, 0, 0, 0]))) == Just "unsupported version: 4")
   , ("language binary rejects truncated data", all (\n -> errorOf (decodeLanguage (BS.take n trickyBytes)) /= Nothing) [0 .. BS.length trickyBytes - 1])
   , ("language binary rejects trailing data", errorOf (decodeLanguage (trickyBytes <> BS.pack [0])) == Just "trailing data")
   , ("language binary rejects invalid UTF-8", errorOf (decodeLanguage (BS.pack (header ++ [1, 0, 0, 0, 0xFF, 0, 0, 0, 0, 0, 0, 0, 0]))) /= Nothing)
@@ -41,3 +45,4 @@ checks =
   where
     header = [0x53, 0x55, 0x5A, 0x4C, 2, 0]
     trickyBytes = encodeLanguage trickyLanguage
+    ruled = withImportRules "." True (mkLanguage "a" [] [])
