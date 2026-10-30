@@ -48,6 +48,18 @@ suz_session *suz_session_from_journal(const char *text, char **error);
 suz_session *suz_session_from_text(const char *text, char **error);
 
 /**
+ * Like suz_session_from_text(), with the import rules of the language: each
+ * punctuation character at the start or end of a word becomes a token of its
+ * own, and morph forms are lowercased if the language asks for it. The
+ * surface form keeps its case. The language is not changed.
+ * @param language Language that supplies the import rules.
+ * @param text Raw text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_text_with_language(const suz_language *language, const char *text, char **error);
+
+/**
  * Creates a session from Toolbox text as written by suz_toolbox(). Records
  * without a \\tx line are skipped. A gloss is split at periods: the first part
  * is a tag when the language lists it and the lexical part otherwise. The

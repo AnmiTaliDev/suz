@@ -17,6 +17,7 @@ foreign export ccall "suz_session_new" sessionNew :: IO (Ptr ())
 foreign export ccall "suz_session_from_snapshot" sessionFromSnapshot :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_journal" sessionFromJournal :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_text" sessionFromText :: CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_session_from_text_with_language" sessionFromTextWithLanguage :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_toolbox" sessionFromToolbox :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_leipzig" sessionFromLeipzig :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_conllu" sessionFromConllu :: CString -> Ptr CString -> IO (Ptr ())
@@ -53,6 +54,14 @@ sessionFromText s errp = do
   case input of
     Left msg -> failHandle errp msg
     Right text -> newIORef (newSession (importText text)) >>= newHandle
+
+sessionFromTextWithLanguage :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
+sessionFromTextWithLanguage lh s errp = do
+  lang <- readLanguage lh
+  input <- peekText s
+  case input of
+    Left msg -> failHandle errp msg
+    Right text -> newIORef (newSession (importTextWith lang text)) >>= newHandle
 
 sessionFromToolbox :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 sessionFromToolbox lh s errp = do
