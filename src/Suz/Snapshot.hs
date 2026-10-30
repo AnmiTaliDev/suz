@@ -10,7 +10,7 @@ import qualified Data.Set as Set
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Word (Word64)
-import Suz.Codec (decodeLexical, encodeLexical, escape, unescape)
+import Suz.Codec.Escape (decodeLexical, encodeLexical, escape, unescape)
 import Suz.Model
 import Text.Read (readMaybe)
 

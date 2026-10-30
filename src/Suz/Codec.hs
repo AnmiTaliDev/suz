@@ -2,20 +2,15 @@
 module Suz.Codec
   ( encodeCommand
   , decodeCommand
-  , escape
-  , unescape
-  , encodeLexical
-  , decodeLexical
   ) where
 
-import Control.Monad (ap, replicateM)
-import Data.Bifunctor (first)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Word (Word64)
+import Suz.Codec.Escape (escape, unescape)
+import Suz.Codec.Parser
 import Suz.Command
 import Suz.Model
-import Text.Read (readMaybe)
 
 -- | One-line text form of a command: tab-separated fields, with backslash,
 -- tab, newline and carriage return escaped inside fields.
@@ -66,79 +61,6 @@ int = T.pack . show
 
 word :: Word64 -> Text
 word = T.pack . show
-
--- | Escapes backslash, tab, newline and carriage return so the text can be
--- used as a tab-separated field.
-escape :: Text -> Text
-escape = T.concatMap f
-  where
-    f '\\' = "\\\\"
-    f '\t' = "\\t"
-    f '\n' = "\\n"
-    f '\r' = "\\r"
-    f ch = T.singleton ch
-
--- | Inverse of 'escape'. Fails on an unknown or dangling escape.
-unescape :: Text -> Either String Text
-unescape =fmap T.pack . go . T.unpack
-  where
-    go ('\\' : ch : rest) = case ch of
-      '\\' -> ('\\' :) <$> go rest
-      't' -> ('\t' :) <$> go rest
-      'n' -> ('\n' :) <$> go rest
-      'r' -> ('\r' :) <$> go rest
-      _ -> Left "unknown escape"
-    go "\\" = Left "dangling escape"
-    go (ch : rest) = (ch :) <$> go rest
-    go [] = Right []
-
--- | Field form of the lexical part of a gloss: an empty part is written as
--- @-@, a literal @-@ as @\\-@, any other text is escaped with 'escape'.
-encodeLexical :: Text -> Text
-encodeLexical "" = "-"
-encodeLexical "-" = "\\-"
-encodeLexical t = escape t
-
--- | Inverse of 'encodeLexical'.
-decodeLexical :: Text -> Either String Text
-decodeLexical "-" = Right ""
-decodeLexical "\\-" = Right "-"
-decodeLexical t = unescape t
-
-newtype Parser a = Parser {runParser :: [Text] -> Either String (a, [Text])}
-
-instance Functor Parser where
-  fmap f (Parser p) = Parser (fmap (first f) . p)
-
-instance Applicative Parser where
-  pure x = Parser (\fs -> Right (x, fs))
-  (<*>) = ap
-
-instance Monad Parser where
-  Parser p >>= k = Parser $ \fs -> case p fs of
-    Left e -> Left e
-    Right (a, rest) -> runParser (k a) rest
-
-failP :: String -> Parser a
-failP msg = Parser (const (Left msg))
-
-field :: Parser Text
-field = Parser $ \fs -> case fs of
-  f : rest -> Right (f, rest)
-  [] -> Left "unexpected end of line"
-
-intP :: Parser Int
-intP = field >>= \t -> maybe (failP ("bad number: " ++ T.unpack t)) pure (readMaybe (T.unpack t))
-
-wordP :: Parser Word64
-wordP = field >>= \t -> case readMaybe (T.unpack t) :: Maybe Integer of
-  Just n | n >= 0 && n <= fromIntegral (maxBound :: Word64) -> pure (fromIntegral n)
-  _ -> failP ("bad identifier: " ++ T.unpack t)
-
-counted :: Parser a -> Parser [a]
-counted p = do
-  n <- intP
-  if n < 0 then failP "negative count" else replicateM n p
 
 commandP :: Parser Command
 commandP = do

@@ -2,6 +2,7 @@
 module Suz
   ( module Suz.Build
   , module Suz.Codec
+  , module Suz.Codec.Escape
   , module Suz.Command
   , module Suz.Import
   , module Suz.Journal
@@ -20,6 +21,7 @@ module Suz
 
 import Suz.Build
 import Suz.Codec
+import Suz.Codec.Escape
 import Suz.Command
 import Suz.Import
 import Suz.Journal

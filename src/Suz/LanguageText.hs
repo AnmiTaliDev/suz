@@ -8,7 +8,7 @@ import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
 import Data.Text (Text)
 import qualified Data.Text as T
-import Suz.Codec (decodeLexical, encodeLexical, escape, unescape)
+import Suz.Codec.Escape (decodeLexical, encodeLexical, escape, unescape)
 import Suz.Language
 import Suz.Model
 import Text.Read (readMaybe)
