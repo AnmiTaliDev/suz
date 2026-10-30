@@ -18,7 +18,7 @@ checks =
   , ("import without rules keeps case", morphsOf plain "Мин" == [("Мин", "Мин")])
   , ("import with empty rules equals importText", importTextWith plain "Мин китап укыдым.\n\n  \nСин\n" == imported)
   , ("import with rules gives a valid document", null (validateDocument tinyLanguage (importTextWith punctuating "Мин, китап!")))
-  , ("import then edit", errorOf (apply (SplitMorph (morphId (head importMorphs)) 1 (MorphId (nextFreeId imported))) imported) == Nothing)
+  , ("import then edit", errorOf (apply (SplitMorph (morphId (importMorphs !! 0)) 1 (MorphId (nextFreeId imported))) imported) == Nothing)
   ]
   where
     imported = importText "Мин китап укыдым.\n\n  \nСин\n"

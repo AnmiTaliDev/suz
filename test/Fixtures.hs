@@ -152,4 +152,4 @@ spareId :: MorphId
 spareId = MorphId (nextFreeId baseDoc)
 
 firstGloss :: Document -> Maybe Gloss
-firstGloss doc = morphGloss (head (concatMap tokenMorphs (concatMap segmentTokens (documentSegments doc))))
+firstGloss doc = morphGloss (concatMap tokenMorphs (concatMap segmentTokens (documentSegments doc)) !! 0)

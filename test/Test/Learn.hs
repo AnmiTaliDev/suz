@@ -11,8 +11,8 @@ learnDoc :: Document
 learnDoc = fst (must (apply (InsertSegment 0 learnSegment) emptyDocument))
 
 mCat, mS :: MorphId
-mCat = morphId (tokenMorphs (head (segmentTokens learnSegment)) !! 0)
-mS = morphId (tokenMorphs (head (segmentTokens learnSegment)) !! 1)
+mCat = morphId (tokenMorphs (segmentTokens learnSegment !! 0) !! 0)
+mS = morphId (tokenMorphs (segmentTokens learnSegment !! 0) !! 1)
 
 learnBase :: Language
 learnBase = mkLanguage "l" ["PL", "3SG"] []
@@ -55,11 +55,11 @@ checks =
        in candidates l "s" == [(glossPl, 0)] && candidates l "es" == [(glossSg3, 1)] && contextCandidates l "cat" "es" == [(glossSg3, 1)]
     )
   , ( "learn from an inserted glossed morph"
-    , let l = learned learnBase [InsertMorph (tokenId (head (segmentTokens learnSegment))) 2 (Morph (MorphId (nextFreeId learnDoc)) "x" (Just glossPl))]
+    , let l = learned learnBase [InsertMorph (tokenId (segmentTokens learnSegment !! 0)) 2 (Morph (MorphId (nextFreeId learnDoc)) "x" (Just glossPl))]
        in candidates l "x" == [(glossPl, 1)] && contextCandidates l "s" "x" == [(glossPl, 1)]
     )
   , ( "learn ignores commands without glosses"
-    , learned learnBase [SetForm mS "es", SetSurface (tokenId (head (segmentTokens learnSegment))) "q"] == learnBase
+    , learned learnBase [SetForm mS "es", SetSurface (tokenId (segmentTokens learnSegment !! 0)) "q"] == learnBase
     )
   , ("learn from identical documents", learnChange baseDoc baseDoc tinyLanguage == tinyLanguage)
   , ( "failed command teaches nothing"
