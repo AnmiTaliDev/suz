@@ -33,7 +33,7 @@ c-example/suz-c-example
 `libsuz.so` needs the Haskell runtime libraries of the GHC that built it. To collect them in one directory that can be moved to another machine with the same architecture, run:
 
 ```
-scripts/bundle.sh path/to/libsuz.so destination-directory
+scripts/bundle.sh path/to/libsuz.so.X.Y.Z destination-directory
 ```
 
 The library looks for its dependencies next to itself. The C library, the math library and GMP are taken from the system.
@@ -49,6 +49,8 @@ The library goes to `PREFIX/lib/suz`, the headers to `PREFIX/include`. `DESTDIR`
 ```
 cc main.c $(pkg-config --cflags --libs suz)
 ```
+
+The shared object is versioned with `lib-version-info` in `suz.cabal` (`current:revision:age`, soname `libsuz.so.current-age`). Raise `current` and `age` when functions are added, reset `age` to 0 when an existing function changes or is removed. `ABI_VERSION` in `Makefile` must match.
 
 `pkg-config` finds `suz.pc` through `PKG_CONFIG_PATH=PREFIX/lib/pkgconfig` when the prefix is not a system one.
 
