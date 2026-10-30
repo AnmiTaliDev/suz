@@ -11,5 +11,6 @@ suz_session *session_with_word(const char *word);
 void demo_editing(suz_language *language);
 void demo_learning(suz_language *language);
 void demo_exchange(suz_language *language);
+void demo_traversal(suz_language *language);
 
 #endif
