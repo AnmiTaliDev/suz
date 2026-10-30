@@ -6,7 +6,7 @@ Haskell library for morpheme-level interlinear glossing. The engine holds no lan
 
 - GHC 9.6 or newer
 - cabal-install 3.10 or newer
-- Libraries: `base`, `containers`, `text`
+- Libraries: `base`, `bytestring`, `containers`, `text`
 
 ## Build
 
