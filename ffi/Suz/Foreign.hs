@@ -23,6 +23,8 @@ foreign export ccall "suz_free" freeString :: Ptr () -> IO ()
 foreign export ccall "suz_session_new" sessionNew :: IO (Ptr ())
 foreign export ccall "suz_session_from_snapshot" sessionFromSnapshot :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_journal" sessionFromJournal :: CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_session_from_text" sessionFromText :: CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_session_from_toolbox" sessionFromToolbox :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_free" sessionFree :: Ptr () -> IO ()
 foreign export ccall "suz_next_id" sessionNextId :: Ptr () -> IO Word64
 foreign export ccall "suz_perform" sessionPerform :: Ptr () -> CString -> Ptr CString -> IO CInt
@@ -31,6 +33,7 @@ foreign export ccall "suz_redo" sessionRedo :: Ptr () -> Ptr CString -> IO CInt
 foreign export ccall "suz_render" sessionRender :: Ptr () -> IO CString
 foreign export ccall "suz_snapshot" sessionSnapshot :: Ptr () -> IO CString
 foreign export ccall "suz_journal" sessionJournal :: Ptr () -> IO CString
+foreign export ccall "suz_toolbox" sessionToolbox :: Ptr () -> IO CString
 foreign export ccall "suz_language_from_text" languageFromText :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_language_from_binary" languageFromBinary :: Ptr Word8 -> CSize -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_language_free" languageFree :: Ptr () -> IO ()
@@ -94,6 +97,21 @@ sessionFromJournal s errp = do
     Left msg -> failHandle errp msg
     Right session -> newIORef session >>= newHandle
 
+sessionFromText :: CString -> Ptr CString -> IO (Ptr ())
+sessionFromText s errp = do
+  input <- peekText s
+  case input of
+    Left msg -> failHandle errp msg
+    Right text -> newIORef (newSession (importText text)) >>= newHandle
+
+sessionFromToolbox :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
+sessionFromToolbox lh s errp = do
+  lang <- readLanguage lh
+  input <- peekText s
+  case input >>= first lineError . parseToolbox lang of
+    Left msg -> failHandle errp msg
+    Right doc -> newIORef (newSession doc) >>= newHandle
+
 sessionFree :: Ptr () -> IO ()
 sessionFree = freeHandle
 
@@ -134,6 +152,9 @@ sessionSnapshot h = readSession h >>= newUtf8 . renderSnapshot . sessionDocument
 
 sessionJournal :: Ptr () -> IO CString
 sessionJournal h = readSession h >>= newUtf8 . renderJournal
+
+sessionToolbox :: Ptr () -> IO CString
+sessionToolbox h = readSession h >>= newUtf8 . renderToolbox . sessionDocument
 
 languageFromText :: CString -> Ptr CString -> IO (Ptr ())
 languageFromText s errp = do
