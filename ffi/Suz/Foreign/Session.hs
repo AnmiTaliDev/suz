@@ -18,6 +18,8 @@ foreign export ccall "suz_session_from_snapshot" sessionFromSnapshot :: CString 
 foreign export ccall "suz_session_from_journal" sessionFromJournal :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_text" sessionFromText :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_toolbox" sessionFromToolbox :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_session_from_leipzig" sessionFromLeipzig :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_session_from_conllu" sessionFromConllu :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_free" sessionFree :: Ptr () -> IO ()
 foreign export ccall "suz_next_id" sessionNextId :: Ptr () -> IO Word64
 foreign export ccall "suz_perform" sessionPerform :: Ptr () -> CString -> Ptr CString -> IO CInt
@@ -57,6 +59,21 @@ sessionFromToolbox lh s errp = do
   lang <- readLanguage lh
   input <- peekText s
   case input >>= first lineError . parseToolbox lang of
+    Left msg -> failHandle errp msg
+    Right doc -> newIORef (newSession doc) >>= newHandle
+
+sessionFromLeipzig :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
+sessionFromLeipzig lh s errp = do
+  lang <- readLanguage lh
+  input <- peekText s
+  case input >>= first lineError . parseLeipzig lang of
+    Left msg -> failHandle errp msg
+    Right doc -> newIORef (newSession doc) >>= newHandle
+
+sessionFromConllu :: CString -> Ptr CString -> IO (Ptr ())
+sessionFromConllu s errp = do
+  input <- peekText s
+  case input >>= first lineError . parseConllu of
     Left msg -> failHandle errp msg
     Right doc -> newIORef (newSession doc) >>= newHandle
 

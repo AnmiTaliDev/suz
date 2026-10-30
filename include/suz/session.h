@@ -60,6 +60,32 @@ suz_session *suz_session_from_text(const char *text, char **error);
 suz_session *suz_session_from_toolbox(const suz_language *language, const char *text, char **error);
 
 /**
+ * Creates a session from interlinear text as written by suz_render() and by
+ * the Leipzig Glossing Rules: blocks separated by blank lines, each with a
+ * line of words, a line of morph forms and a line of glosses. A fourth line
+ * is ignored. Morphs are separated by hyphens, `_` is a word without morphs
+ * and `?` is an unglossed morph. A gloss is split at periods: the first part
+ * is a tag when the language lists it and the lexical part otherwise. The
+ * history of the new session is empty and the language is not changed.
+ * @param language Language that supplies the tag list.
+ * @param text Interlinear text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_leipzig(const suz_language *language, const char *text, char **error);
+
+/**
+ * Creates a session from CoNLL-U text. Every sentence becomes a segment and
+ * every word a token with one unglossed morph. A multiword token range
+ * becomes one token with a morph per covered word. Only the ID and FORM
+ * columns are read. The history of the new session is empty.
+ * @param text CoNLL-U text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_conllu(const char *text, char **error);
+
+/**
  * Releases a session.
  * @param session Session to release.
  */
