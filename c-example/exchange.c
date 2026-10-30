@@ -38,6 +38,10 @@ void demo_exchange(suz_language *language)
         fail("conllu", error);
     show("imported from CoNLL-U", from_conllu);
 
+    char *conllu = suz_conllu(raw);
+    printf("-- CoNLL-U\n%s", conllu);
+    suz_free(conllu);
+
     suz_session_free(from_conllu);
     suz_session_free(from_leipzig);
     suz_free(leipzig);

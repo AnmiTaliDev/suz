@@ -46,6 +46,19 @@ char *suz_journal(suz_session *session);
  */
 char *suz_toolbox(suz_session *session);
 
+/**
+ * CoNLL-U text of the document: one sentence per segment with the ID and FORM
+ * columns filled and the others set to `_`. A token with several morphs is a
+ * range line followed by a line per morph form. Segments without tokens are
+ * skipped. Whitespace in a form is written as a no-break space and an empty
+ * form as `_`. The text can be read with suz_session_from_conllu(), which
+ * gives each word one unglossed morph, so glosses and the morph forms of
+ * single-morph tokens are not kept.
+ * @param session Session.
+ * @return Text, release with suz_free().
+ */
+char *suz_conllu(suz_session *session);
+
 #ifdef __cplusplus
 }
 #endif
