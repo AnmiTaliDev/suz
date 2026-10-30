@@ -49,7 +49,8 @@ englishExample = do
   putStrLn "-- after correction"
   T.putStrLn (renderDocument (sessionDocument fixed))
   let cats = buildSegment (sessionDocument fixed) [("cats", ["cat", "s"])]
-      [catMorph, pluralMorph] = tokenMorphs (head (segmentTokens cats))
+      catMorph = head (tokenMorphs (head (segmentTokens cats)))
+      pluralMorph = tokenMorphs (head (segmentTokens cats)) !! 1
   withCats <- must (perform (InsertSegment 1 cats) fixed)
   (_, learned) <-
     must
