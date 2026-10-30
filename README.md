@@ -16,7 +16,7 @@ cabal test
 cabal run suz-examples
 ```
 
-`cabal.project` builds the libraries and executables dynamically, so GHC installations without static libraries (for example the Arch Linux package) work without extra flags.
+The build is static. A GHC without static libraries (for example the Arch Linux `ghc` package) fails with `Could not find module 'Prelude'`; use a GHC installed with ghcup.
 
 ## C interface
 
@@ -28,7 +28,7 @@ make -C c-example
 c-example/suz-c-example
 ```
 
-`make` takes the library location from `SUZ_BUILD`, which defaults to the path of a local build on x86_64 Linux.
+`make` takes the library location from `SUZ_BUILD`, which defaults to the build directory of the `ghc` found in `PATH`.
 
 ## License
 
