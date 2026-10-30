@@ -5,42 +5,11 @@ module Suz.Command
   , apply
   ) where
 
-import Control.Monad (foldM, foldM_, unless)
-import qualified Data.Set as Set
-import Data.Text (Text)
+import Control.Monad (foldM, unless)
 import qualified Data.Text as T
-import Data.Word (Word64)
+import Suz.Command.Edit
+import Suz.Command.Types
 import Suz.Model
-
-data Command
-  = InsertSegment Int Segment
-  | RemoveSegment SegmentId
-  | InsertToken SegmentId Int Token
-  | RemoveToken TokenId
-  | SetSurface TokenId Text
-  | SplitToken TokenId Int Int TokenId
-  | MergeToken TokenId
-  | MoveToken TokenId SegmentId Int
-  | InsertMorph TokenId Int Morph
-  | RemoveMorph MorphId
-  | SetForm MorphId Text
-  | SetGloss MorphId (Maybe Gloss)
-  | SplitMorph MorphId Int MorphId
-  | MergeMorph MorphId
-  | Batch [Command]
-  deriving (Eq, Show)
-
-data EditError
-  = NoSuchSegment SegmentId
-  | NoSuchToken TokenId
-  | NoSuchMorph MorphId
-  | IndexOutOfRange Int
-  | DuplicateId Word64
-  | BadSplitPoint MorphId Int
-  | NoNextMorph MorphId
-  | BadTokenSplit TokenId Int Int
-  | NoNextToken TokenId
-  deriving (Eq, Show)
 
 -- | Applies a command to a document. On success returns the new document and
 -- the command that undoes the change. Inserted nodes carry their own
@@ -166,49 +135,3 @@ apply command doc = case command of
     step (d, inverses) c = do
       (d', inverse) <- apply c d
       pure (d', inverse : inverses)
-
-needSegment :: SegmentId -> Document -> Either EditError (Int, Segment)
-needSegment sid = maybe (Left (NoSuchSegment sid)) Right . findSegment sid
-
-needToken :: TokenId -> Document -> Either EditError (Segment, Int, Token)
-needToken tid = maybe (Left (NoSuchToken tid)) Right . findToken tid
-
-needMorph :: MorphId -> Document -> Either EditError (Token, Int, Morph)
-needMorph mid = maybe (Left (NoSuchMorph mid)) Right . findMorph mid
-
-checkFresh :: Document -> [Word64] -> Either EditError ()
-checkFresh doc = foldM_ claim (documentIds doc)
-  where
-    claim seen i
-      | Set.member i seen = Left (DuplicateId i)
-      | otherwise = Right (Set.insert i seen)
-
-claimIds :: [Word64] -> Document -> Document
-claimIds ids doc = doc {documentNextId = maximum (documentNextId doc : map (+ 1) ids)}
-
-insertAt :: Int -> a -> [a] -> Either EditError [a]
-insertAt i x xs
-  | i < 0 || i > length xs = Left (IndexOutOfRange i)
-  | otherwise = Right (take i xs ++ [x] ++ drop i xs)
-
-removeAt :: Int -> [a] -> [a]
-removeAt i xs = take i xs ++ drop (i + 1) xs
-
-replaceSegment :: Segment -> Document -> Document
-replaceSegment seg doc =
-  doc
-    { documentSegments =
-        [if segmentId s == segmentId seg then seg else s | s <- documentSegments doc]
-    }
-
-mapTokens :: (Token -> Token) -> Document -> Document
-mapTokens f doc =
-  doc {documentSegments = [s {segmentTokens = map f (segmentTokens s)} | s <- documentSegments doc]}
-
-replaceToken :: Token -> Document -> Document
-replaceToken tok = mapTokens (\t -> if tokenId t == tokenId tok then tok else t)
-
-replaceMorph :: Morph -> Document -> Document
-replaceMorph morph = mapTokens (\t -> t {tokenMorphs = map swap (tokenMorphs t)})
-  where
-    swap m = if morphId m == morphId morph then morph else m
