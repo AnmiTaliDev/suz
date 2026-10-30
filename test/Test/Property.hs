@@ -1,6 +1,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 module Test.Property (properties) where
 
+import Control.Monad (foldM)
 import Data.List (mapAccumL, nub)
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -142,6 +143,38 @@ genLanguage = do
 genRawText :: Gen Text
 genRawText = T.intercalate "\n" <$> smallList 3 (T.unwords <$> smallList 4 (textOf "абв.,!«»-" 0 5))
 
+genKnownGloss :: Gen Gloss
+genKnownGloss = Gloss <$> textOf "xy" 0 2 <*> smallList 2 (elements tagNames)
+
+genKnownLanguage :: Gen Language
+genKnownLanguage = do
+  tags <- sublistOf tagNames
+  entries <- smallList 6 ((,,) <$> textOf "ab" 1 2 <*> genKnownGloss <*> weight)
+  contexts <- smallList 3 ((,,,) <$> textOf "ab" 1 2 <*> textOf "ab" 1 2 <*> genKnownGloss <*> weight)
+  pure (withContext contexts (mkLanguage "k" tags entries))
+  where
+    weight = (\n -> fromIntegral (n :: Int) / 2) <$> choose (-3, 6)
+
+genKnownDocument :: Int -> Gen Document
+genKnownDocument maxMorphs = assemble <$> shape
+  where
+    shape = do
+      n <- choose (0, 3)
+      vectorOf n (smallList 3 token)
+    token = do
+      k <- choose (1, maxMorphs)
+      ms <- vectorOf k ((,) <$> textOf "ab" 1 4 <*> oneof [pure Nothing, Just <$> genKnownGloss])
+      pure (T.concat (map fst ms), ms)
+
+allMorphs :: Document -> [Morph]
+allMorphs = concatMap tokenMorphs . concatMap segmentTokens . documentSegments
+
+applyAll :: [Command] -> Document -> Either EditError Document
+applyAll cs d = foldM (\acc c -> fst <$> apply c acc) d cs
+
+weightOf :: Language -> Text -> Gloss -> Double
+weightOf lang form g = maybe 0 id (lookup g (candidates lang form))
+
 properties :: [(String, Property)]
 properties =
   [ ("snapshot round trip", forAll genDocument $ \d -> parseSnapshot (renderSnapshot d) == Right d)
@@ -170,6 +203,47 @@ properties =
   , ("language text round trip", forAll genLanguage $ \l -> parseLanguage (renderLanguage l) == Right l)
   , ("language binary round trip", forAll genLanguage $ \l -> decodeLanguage (encodeLanguage l) == Right l)
   , ("language text and binary agree", forAll genLanguage $ \l -> fmap renderLanguage (decodeLanguage (encodeLanguage l)) === Right (renderLanguage l))
+  , ( "segmentForm returns known pieces that concatenate to the form"
+    , forAll ((,) <$> genKnownLanguage <*> textOf "ab" 0 6) $ \(l, f) -> case segmentForm l f of
+        Nothing -> property True
+        Just pieces -> T.concat pieces === f .&&. all (\p -> sum (filter (> 0) (map snd (candidates l p))) > 0) pieces
+    )
+  , ( "suggested segmentation applies and keeps the forms of every token"
+    , forAll ((,) <$> genKnownLanguage <*> genKnownDocument 1) $ \(l, d) -> case applyAll (suggestSegmentation l d) d of
+        Left e -> counterexample (show e) False
+        Right d' -> map (T.concat . map morphForm . tokenMorphs) (concatMap segmentTokens (documentSegments d')) === map (T.concat . map morphForm . tokenMorphs) (concatMap segmentTokens (documentSegments d))
+    )
+  , ( "suggested glosses apply and give each unglossed morph its best candidate"
+    , forAll ((,) <$> genKnownLanguage <*> genKnownDocument 3) $ \(l, d) -> case applyAll (suggestGlosses l d) d of
+        Left e -> counterexample (show e) False
+        Right d' ->
+          let expected =
+                [ case morphGloss m of
+                    Nothing -> suggestAfter l prev (morphForm m)
+                    glossed -> glossed
+                | t <- concatMap segmentTokens (documentSegments d)
+                , (prev, m) <- zip (Nothing : map (Just . morphForm) (tokenMorphs t)) (tokenMorphs t)
+                ]
+           in map morphGloss (allMorphs d') === expected
+    )
+  , ( "learning from an unchanged document changes nothing"
+    , forAll ((,) <$> genKnownLanguage <*> genKnownDocument 3) $ \(l, d) -> learnChange d d l === l
+    )
+  , ( "setting a gloss on an unglossed morph confirms its pair once"
+    , forAll ((,,) <$> genKnownLanguage <*> genKnownDocument 3 <*> genKnownGloss) $ \(l, d, g) ->
+        case [m | m <- allMorphs d, morphGloss m == Nothing] of
+          [] -> property Discard
+          m : _ -> case apply (SetGloss (morphId m) (Just g)) d of
+            Left e -> counterexample (show e) False
+            Right (d', _) -> weightOf (learnChange d d' l) (morphForm m) g === weightOf l (morphForm m) g + 1
+    )
+  , ( "validation reports exactly the glossed morphs with undeclared tags"
+    , forAll ((,) <$> genKnownLanguage <*> genKnownDocument 3) $ \(l, d) ->
+        let bad m = case morphGloss m of
+              Just g -> filter (`notElem` languageTagList l) (glossTags g)
+              Nothing -> []
+         in map (\v -> (violationMorph v, violationTags v)) (validateDocument l d) === [(morphId m, bad m) | m <- allMorphs d, not (null (bad m))]
+    )
   , ( "import keeps the characters of the words"
     , forAll ((,) <$> genLanguage <*> genRawText) $ \(l, t) ->
         T.concat (map tokenSurface (concatMap segmentTokens (documentSegments (importTextWith l t)))) === T.concat (T.words t)
@@ -182,4 +256,5 @@ properties =
     )
   ]
   where
+    languageTagList = foldr (:) [] . languageTags
     toolboxLanguage = mkLanguage "t" tagNames []
