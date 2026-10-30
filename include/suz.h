@@ -10,6 +10,7 @@
 #define SUZ_H
 
 #include "suz/core.h"
+#include "suz/document.h"
 #include "suz/language.h"
 #include "suz/learning.h"
 #include "suz/output.h"
