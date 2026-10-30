@@ -21,6 +21,7 @@ library
                       Suz.Build
                       Suz.Codec
                       Suz.Command
+                      Suz.Import
                       Suz.Journal
                       Suz.Language
                       Suz.LanguageBinary
