@@ -20,7 +20,11 @@ library
     exposed-modules:  Suz
                       Suz.Build
                       Suz.Codec
+                      Suz.Codec.Escape
+                      Suz.Codec.Parser
                       Suz.Command
+                      Suz.Command.Edit
+                      Suz.Command.Types
                       Suz.Import
                       Suz.Journal
                       Suz.Language
@@ -42,6 +46,21 @@ test-suite suz-test
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
     main-is:          Main.hs
+    other-modules:    Fixtures
+                      Test.Codec
+                      Test.Command
+                      Test.Import
+                      Test.Journal
+                      Test.Language
+                      Test.LanguageBinary
+                      Test.LanguageText
+                      Test.Learn
+                      Test.Render
+                      Test.Segment
+                      Test.Snapshot
+                      Test.Suggest
+                      Test.Toolbox
+                      Test.Validate
     build-depends:    suz,
                       bytestring >=0.10 && <0.13
 
@@ -58,6 +77,10 @@ foreign-library suz
     type:             native-shared
     hs-source-dirs:   ffi
     other-modules:    Suz.Foreign
+                      Suz.Foreign.Handle
+                      Suz.Foreign.Language
+                      Suz.Foreign.Learning
+                      Suz.Foreign.Session
     c-sources:        csrc/suz_init.c
     include-dirs:     include
     build-depends:    suz,
