@@ -135,8 +135,8 @@ genLanguage = do
   entries <- smallList 4 ((,,) <$> textOf wild 0 3 <*> genGloss <*> weight)
   contexts <- smallList 3 ((,,,) <$> textOf wild 0 2 <*> textOf wild 0 2 <*> genGloss <*> weight)
   punctuation <- smallList 3 (elements wild)
-  foldCase <- arbitrary
-  pure (withImportRules punctuation foldCase (withContext contexts (mkLanguage name tags entries)))
+  folding <- elements [NoFolding, SimpleFolding, TurkicFolding]
+  pure (withImportRules punctuation folding (withContext contexts (mkLanguage name tags entries)))
   where
     weight = (\n -> fromIntegral (n :: Int) / 8) <$> choose (-80, 80)
 

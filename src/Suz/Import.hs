@@ -22,7 +22,7 @@ importText = importTextWith (mkLanguage "" [] [])
 -- | Like 'importText', with the import rules of the language, see
 -- 'withImportRules'. Each punctuation character at the start or end of a word
 -- becomes a token of its own, in text order. The form of a morph is lowercased
--- when the language asks for it; the surface form keeps its case.
+-- as the language asks; the surface form keeps its case.
 importTextWith :: Language -> Text -> Document
 importTextWith lang text = Document next segments
   where
@@ -43,4 +43,13 @@ segmentFrom lang n ws = (end, Segment (SegmentId n) tokens)
 tokenFrom :: Language -> Word64 -> Text -> (Word64, Token)
 tokenFrom lang n w = (n + 2, Token (TokenId n) w [Morph (MorphId (n + 1)) form Nothing])
   where
-    form = if languageFoldCase lang then T.toLower w else w
+    form = foldCase (languageCaseFolding lang) w
+
+foldCase :: CaseFolding -> Text -> Text
+foldCase NoFolding = id
+foldCase SimpleFolding = T.toLower
+foldCase TurkicFolding = T.concatMap fold
+  where
+    fold 'I' = "\x131"
+    fold '\x130' = "i"
+    fold c = T.toLower (T.singleton c)

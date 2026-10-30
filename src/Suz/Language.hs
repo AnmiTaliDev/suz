@@ -1,6 +1,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 module Suz.Language
   ( Language (..)
+  , CaseFolding (..)
   , mkLanguage
   , withContext
   , withImportRules
@@ -31,9 +32,15 @@ data Language = Language
   , languageWeights :: Map Text (Map Gloss Double)
   , languageContext :: Map (Text, Text) (Map Gloss Double)
   , languagePunctuation :: Set Char
-  , languageFoldCase :: Bool
+  , languageCaseFolding :: CaseFolding
   }
   deriving (Eq, Show)
+
+-- | How morph forms are lowercased on import. 'SimpleFolding' is the Unicode
+-- lowercase mapping. 'TurkicFolding' maps @I@ to dotless @ı@ and @İ@ to @i@
+-- first, as Turkic languages require.
+data CaseFolding = NoFolding | SimpleFolding | TurkicFolding
+  deriving (Eq, Ord, Show)
 
 -- | Language from a name, the allowed grammatical tags and (form, gloss,
 -- weight) entries. Weights of repeated (form, gloss) pairs are summed. The
@@ -47,7 +54,7 @@ mkLanguage name tags entries =
         Map.fromListWith (Map.unionWith (+)) [(form, Map.singleton g w) | (form, g, w) <- entries]
     , languageContext = Map.empty
     , languagePunctuation = Set.empty
-    , languageFoldCase = False
+    , languageCaseFolding = NoFolding
     }
 
 -- | Adds (previous form, form, gloss, weight) entries to the context table.
@@ -63,11 +70,11 @@ withContext entries lang =
     }
 
 -- | Sets the rules used when importing raw text: the characters that are
--- split off the start and end of a word as tokens of their own, and whether
+-- split off the start and end of a word as tokens of their own, and how
 -- morph forms are lowercased. Both are off in a language from 'mkLanguage'.
-withImportRules :: [Char] -> Bool -> Language -> Language
-withImportRules punctuation foldCase lang =
-  lang {languagePunctuation = Set.fromList punctuation, languageFoldCase = foldCase}
+withImportRules :: [Char] -> CaseFolding -> Language -> Language
+withImportRules punctuation folding lang =
+  lang {languagePunctuation = Set.fromList punctuation, languageCaseFolding = folding}
 
 rank :: Map Gloss Double -> [(Gloss, Double)]
 rank = sortBy (comparing (Down . snd) <> comparing fst) . Map.toList

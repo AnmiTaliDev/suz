@@ -17,7 +17,7 @@ data Line
   = LineName Text
   | LineTag Text
   | LinePunctuation Text
-  | LineFoldCase
+  | LineFoldCase CaseFolding
   | LineWeight Text Double Gloss
   | LineContext Text Text Double Gloss
 
@@ -28,8 +28,9 @@ data Line
 -- written as @-@ and a literal @-@ as @\\-@. Blank lines and lines starting
 -- with @#@ are skipped. The error holds the line number (0 when the problem
 -- is not tied to a line) and a short description. A @punctuation@ line lists
--- the characters split off words on import and a @foldcase@ line turns on
--- lowercasing of morph forms, see 'withImportRules'.
+-- the characters split off words on import. A @foldcase@ line turns on
+-- lowercasing of morph forms and @foldcase@ with the field @turkic@ turns on
+-- the Turkic variant, see 'withImportRules'.
 parseLanguage :: Text -> Either (Int, String) Language
 parseLanguage text = do
   parsed <- traverse parseLine [(n, l) | (n, l) <- zip [1 ..] (T.lines text), not (skipped l)]
@@ -41,8 +42,8 @@ parseLanguage text = do
       entries = [(f, g, w) | (_, LineWeight f w g) <- parsed]
       contexts = [(p, f, g, w) | (_, LineContext p f w g) <- parsed]
       punctuation = concat [T.unpack c | (_, LinePunctuation c) <- parsed]
-      foldCase = not (null [() | (_, LineFoldCase) <- parsed])
-  pure (withImportRules punctuation foldCase (withContext contexts (mkLanguage name tags entries)))
+      folding = maximum (NoFolding : [f | (_, LineFoldCase f) <- parsed])
+  pure (withImportRules punctuation folding (withContext contexts (mkLanguage name tags entries)))
 
 -- | Text form of a language, readable by 'parseLanguage'. Tags and forms are
 -- sorted, candidates of a form go from the heaviest to the lightest. Context
@@ -53,7 +54,7 @@ renderLanguage lang =
     ["language\t" <> escape (languageName lang)]
       ++ ["tag\t" <> escape t | t <- Set.toList (languageTags lang)]
       ++ ["punctuation\t" <> escape (T.pack (Set.toList (languagePunctuation lang))) | not (Set.null (languagePunctuation lang))]
-      ++ ["foldcase" | languageFoldCase lang]
+      ++ foldLine (languageCaseFolding lang)
       ++ [ weightLine form g w
          | form <- Map.keys (languageWeights lang)
          , (g, w) <- candidates lang form
@@ -62,6 +63,11 @@ renderLanguage lang =
          | (prev, form) <- Map.keys (languageContext lang)
          , (g, w) <- contextCandidates lang prev form
          ]
+
+foldLine :: CaseFolding -> [Text]
+foldLine NoFolding = []
+foldLine SimpleFolding = ["foldcase"]
+foldLine TurkicFolding = ["foldcase\tturkic"]
 
 skipped :: Text -> Bool
 skipped l = T.null (T.strip l) || "#" `T.isPrefixOf` l
@@ -74,7 +80,8 @@ decodeLine raw = case T.splitOn "\t" raw of
   ["language", name] -> LineName <$> unescape name
   ["tag", tag] -> LineTag <$> unescape tag
   ["punctuation", chars] -> LinePunctuation <$> unescape chars
-  ["foldcase"] -> Right LineFoldCase
+  ["foldcase"] -> Right (LineFoldCase SimpleFolding)
+  ["foldcase", "turkic"] -> Right (LineFoldCase TurkicFolding)
   "weight" : form : w : lexical : tags -> do
     f <- unescape form
     weight <- readWeight w

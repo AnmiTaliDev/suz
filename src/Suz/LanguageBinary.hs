@@ -17,7 +17,7 @@ import qualified Data.Set as Set
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as TE
-import Data.Word (Word64)
+import Data.Word (Word64, Word8)
 import GHC.Float (castWord64ToDouble)
 import Suz.Language
 import Suz.Model
@@ -28,7 +28,7 @@ formatVersion lang
   | otherwise = 2
 
 hasImportRules :: Language -> Bool
-hasImportRules lang = not (Set.null (languagePunctuation lang)) || languageFoldCase lang
+hasImportRules lang = not (Set.null (languagePunctuation lang)) || languageCaseFolding lang /= NoFolding
 
 -- | Binary form of a language. All integers are little-endian. The layout is
 -- the magic @SUZL@, the format version (u16), the language name, the tags,
@@ -40,7 +40,7 @@ hasImportRules lang = not (Set.null (languagePunctuation lang)) || languageFoldC
 -- sorted and candidates go from the heaviest to the lightest, so equal
 -- languages give equal bytes. A language with import rules is written as
 -- version 3, which adds after the context entries the punctuation characters
--- as one string and the fold-case flag (u8, 0 or 1); other languages are
+-- as one string and the case folding (u8: 0 none, 1 simple, 2 Turkic); other languages are
 -- written as version 2.
 encodeLanguage :: Language -> ByteString
 encodeLanguage lang = BL.toStrict (B.toLazyByteString body)
@@ -56,7 +56,7 @@ encodeLanguage lang = BL.toStrict (B.toLazyByteString body)
 
 importRules :: Language -> Builder
 importRules lang
-  | hasImportRules lang = string (T.pack (Set.toList (languagePunctuation lang))) <> B.word8 (if languageFoldCase lang then 1 else 0)
+  | hasImportRules lang = string (T.pack (Set.toList (languagePunctuation lang))) <> B.word8 (foldingByte (languageCaseFolding lang))
   | otherwise = mempty
 
 -- | Inverse of 'encodeLanguage'. Reads format versions 1 (no context entries),
@@ -136,14 +136,23 @@ languageR = do
   contexts <- if version >= 2 then concat <$> listR contextR else pure []
   rules <- if version >= 3 then Just <$> rulesR else pure Nothing
   let lang = withContext contexts (mkLanguage name tags entries)
-  pure (maybe lang (\(punctuation, foldCase) -> withImportRules punctuation foldCase lang) rules)
+  pure (maybe lang (\(punctuation, folding) -> withImportRules punctuation folding lang) rules)
 
-rulesR :: Reader (String, Bool)
+rulesR :: Reader (String, CaseFolding)
 rulesR = do
   punctuation <- textR
   flag <- unsigned 1
-  unless (flag <= 1) (failR "bad flag")
-  pure (T.unpack punctuation, flag == 1)
+  folding <- case flag of
+    0 -> pure NoFolding
+    1 -> pure SimpleFolding
+    2 -> pure TurkicFolding
+    _ -> failR "bad flag"
+  pure (T.unpack punctuation, folding)
+
+foldingByte :: CaseFolding -> Word8
+foldingByte NoFolding = 0
+foldingByte SimpleFolding = 1
+foldingByte TurkicFolding = 2
 
 formR :: Reader [(Text, Gloss, Double)]
 formR = do
