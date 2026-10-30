@@ -3,6 +3,8 @@
 
 static const char *tatar_weights =
     "language\tTatar\n"
+    "punctuation\t.,!?\n"
+    "foldcase\n"
     "tag\tPL\n"
     "tag\tACC\n"
     "tag\tPST\n"

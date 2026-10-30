@@ -7,7 +7,7 @@ void demo_exchange(suz_language *language)
 {
     char *error = NULL;
 
-    suz_session *raw = suz_session_from_text("Мин китапларны укыдым.\nМин укыдым\n", &error);
+    suz_session *raw = suz_session_from_text_with_language(language, "Мин китапларны укыдым.\nМин укыдым\n", &error);
     if (!raw)
         fail("import", error);
     if (suz_suggest_segmentation(raw, language, &error) < 0)
