@@ -14,6 +14,7 @@ module Suz
   , module Suz.Segment
   , module Suz.Snapshot
   , module Suz.Suggest
+  , module Suz.Toolbox
   , module Suz.Validate
   ) where
 
@@ -31,4 +32,5 @@ import Suz.Render
 import Suz.Segment
 import Suz.Snapshot
 import Suz.Suggest
+import Suz.Toolbox
 import Suz.Validate
