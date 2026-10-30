@@ -175,6 +175,9 @@ applyAll cs d = foldM (\acc c -> fst <$> apply c acc) d cs
 weightOf :: Language -> Text -> Gloss -> Double
 weightOf lang form g = maybe 0 id (lookup g (candidates lang form))
 
+weightAfter :: Language -> Maybe Text -> Text -> Gloss -> Double
+weightAfter lang prev form g = maybe 0 id (lookup g (candidatesAfter lang prev form))
+
 properties :: [(String, Property)]
 properties =
   [ ("snapshot round trip", forAll genDocument $ \d -> parseSnapshot (renderSnapshot d) == Right d)
@@ -264,6 +267,21 @@ properties =
           m : _ -> case apply (SetGloss (morphId m) (Just g)) d of
             Left e -> counterexample (show e) False
             Right (d', _) -> weightOf (learnChange d d' l) (morphForm m) g === weightOf l (morphForm m) g + 1
+    )
+  , ( "setting a gloss also confirms the pair after the previous morph of the token"
+    , forAll ((,,) <$> genKnownLanguage <*> genKnownDocument 3 <*> genKnownGloss) $ \(l, d, g) ->
+        case [ (prev, m)
+             | t <- concatMap segmentTokens (documentSegments d)
+             , (prev, m) <- zip (Nothing : map (Just . morphForm) (tokenMorphs t)) (tokenMorphs t)
+             , morphGloss m == Nothing
+             ] of
+          [] -> property Discard
+          (prev, m) : _ -> case apply (SetGloss (morphId m) (Just g)) d of
+            Left e -> counterexample (show e) False
+            Right (d', _) ->
+              let l' = learnChange d d' l
+                  gain = maybe 1 (const 2) prev
+               in weightAfter l' prev (morphForm m) g === weightAfter l prev (morphForm m) g + gain
     )
   , ( "replacing a gloss rejects the old pair and confirms the new one"
     , forAll ((,,) <$> genKnownLanguage <*> genKnownDocument 3 <*> genKnownGloss) $ \(l, d, g) ->
