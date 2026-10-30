@@ -77,6 +77,7 @@ foreign-library suz
     type:             native-shared
     hs-source-dirs:   ffi
     other-modules:    Suz.Foreign
+                      Suz.Foreign.Document
                       Suz.Foreign.Handle
                       Suz.Foreign.Language
                       Suz.Foreign.Learning
