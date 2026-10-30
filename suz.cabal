@@ -82,6 +82,7 @@ foreign-library suz
                       Suz.Foreign.Learning
                       Suz.Foreign.Session
     c-sources:        csrc/suz_init.c
+    ld-options:       -Wl,-rpath,$ORIGIN
     include-dirs:     include
     build-depends:    suz,
                       bytestring >=0.10 && <0.13
