@@ -63,6 +63,7 @@ suz_session *suz_session_from_text_with_language(const suz_language *language, c
  * Creates a session from Toolbox text as written by suz_toolbox(). Records
  * without a \\tx line are skipped. A gloss is split at periods: the first part
  * is a tag when the language lists it and the lexical part otherwise. The
+ * escapes written by suz_toolbox() are read, a bad one is an error. The
  * history of the new session is empty and the language is not changed.
  * @param language Language that supplies the tag list.
  * @param text Toolbox text.

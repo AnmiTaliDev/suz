@@ -37,9 +37,10 @@ char *suz_journal(suz_session *session);
 
 /**
  * Toolbox text of the document: one record per segment with the \\ref, \\tx,
- * \\mb and \\ge fields. The text is not escaped, so surface forms with
- * whitespace and morph forms with hyphens do not survive a round trip through
- * suz_session_from_toolbox().
+ * \\mb and \\ge fields. A backslash, hyphen or period in a form, a lexical
+ * part or a tag is written after a backslash and whitespace as \\uHEX;, so the
+ * text survives suz_session_from_toolbox(). An empty form or an empty gloss
+ * does not.
  * @param session Session.
  * @return Text, release with suz_free().
  */
