@@ -3,12 +3,14 @@ module Main (main) where
 
 import qualified Test.Codec as Codec
 import qualified Test.Command as Command
+import qualified Test.Conllu as Conllu
 import qualified Test.Import as Import
 import qualified Test.Journal as Journal
 import qualified Test.Language as Language
 import qualified Test.LanguageBinary as LanguageBinary
 import qualified Test.LanguageText as LanguageText
 import qualified Test.Learn as Learn
+import qualified Test.Leipzig as Leipzig
 import qualified Test.Render as Render
 import qualified Test.Segment as Segment
 import qualified Test.Snapshot as Snapshot
@@ -33,6 +35,8 @@ checks = concat
   , Learn.checks
   , Import.checks
   , Toolbox.checks
+  , Leipzig.checks
+  , Conllu.checks
   ]
 
 main :: IO ()

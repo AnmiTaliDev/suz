@@ -25,12 +25,14 @@ library
                       Suz.Command
                       Suz.Command.Edit
                       Suz.Command.Types
+                      Suz.Conllu
                       Suz.Import
                       Suz.Journal
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
                       Suz.Learn
+                      Suz.Leipzig
                       Suz.Model
                       Suz.Render
                       Suz.Segment
@@ -38,6 +40,7 @@ library
                       Suz.Suggest
                       Suz.Toolbox
                       Suz.Validate
+    other-modules:    Suz.Interlinear
     build-depends:    bytestring >=0.10 && <0.13,
                       containers >=0.6 && <0.8
 
@@ -49,12 +52,14 @@ test-suite suz-test
     other-modules:    Fixtures
                       Test.Codec
                       Test.Command
+                      Test.Conllu
                       Test.Import
                       Test.Journal
                       Test.Language
                       Test.LanguageBinary
                       Test.LanguageText
                       Test.Learn
+                      Test.Leipzig
                       Test.Render
                       Test.Segment
                       Test.Snapshot
