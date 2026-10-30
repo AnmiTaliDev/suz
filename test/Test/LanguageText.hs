@@ -4,12 +4,18 @@ module Test.LanguageText (checks) where
 import Fixtures
 import Suz
 
+ruled :: Language
+ruled = withImportRules "\t\\.«" True (mkLanguage "a" ["PL"] [("x", Gloss "" ["PL"], 1)])
+
 checks :: [(String, Bool)]
 checks =
   [ ("language text round trip with context", parseLanguage (renderLanguage contextLanguage) == Right contextLanguage)
   , ("language text context line", parseLanguage "language\ta\ncontext\tp\tx\t2\t-\tT\n" == Right (withContext [("p", "x", Gloss "" ["T"], 2)] (mkLanguage "a" [] [])))
   , ("language text rejects short context line", errorOf (parseLanguage "language\ta\ncontext\tp\tx\t1\n") == Just (2, "unrecognized line"))
   , ("language text round trip", parseLanguage (renderLanguage tinyLanguage) == Right tinyLanguage)
+  , ("language text import rules", parseLanguage "language\ta\npunctuation\t.,\npunctuation\t!\nfoldcase\n" == Right (withImportRules ".,!" True (mkLanguage "a" [] [])))
+  , ("language text import rules round trip", parseLanguage (renderLanguage ruled) == Right ruled)
+  , ("language text omits default import rules", renderLanguage (mkLanguage "a" [] []) == "language\ta\n")
   , ("language text round trip with escapes", parseLanguage (renderLanguage trickyLanguage) == Right trickyLanguage)
   , ("language text is stable", fmap renderLanguage (parseLanguage (renderLanguage trickyLanguage)) == Right (renderLanguage trickyLanguage))
   , ("language text placeholders", parseLanguage "language\ta\nweight\tx\t1\t-\tT\nweight\ty\t1\t\\-\n" == Right (mkLanguage "a" [] [("x", Gloss "" ["T"], 1), ("y", Gloss "-" [], 1)]))

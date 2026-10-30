@@ -16,6 +16,8 @@ import Text.Read (readMaybe)
 data Line
   = LineName Text
   | LineTag Text
+  | LinePunctuation Text
+  | LineFoldCase
   | LineWeight Text Double Gloss
   | LineContext Text Text Double Gloss
 
@@ -25,7 +27,9 @@ data Line
 -- @weight@ lines with the previous morph form in front. An empty lexical part is
 -- written as @-@ and a literal @-@ as @\\-@. Blank lines and lines starting
 -- with @#@ are skipped. The error holds the line number (0 when the problem
--- is not tied to a line) and a short description.
+-- is not tied to a line) and a short description. A @punctuation@ line lists
+-- the characters split off words on import and a @foldcase@ line turns on
+-- lowercasing of morph forms, see 'withImportRules'.
 parseLanguage :: Text -> Either (Int, String) Language
 parseLanguage text = do
   parsed <- traverse parseLine [(n, l) | (n, l) <- zip [1 ..] (T.lines text), not (skipped l)]
@@ -36,7 +40,9 @@ parseLanguage text = do
   let tags = [t | (_, LineTag t) <- parsed]
       entries = [(f, g, w) | (_, LineWeight f w g) <- parsed]
       contexts = [(p, f, g, w) | (_, LineContext p f w g) <- parsed]
-  pure (withContext contexts (mkLanguage name tags entries))
+      punctuation = concat [T.unpack c | (_, LinePunctuation c) <- parsed]
+      foldCase = not (null [() | (_, LineFoldCase) <- parsed])
+  pure (withImportRules punctuation foldCase (withContext contexts (mkLanguage name tags entries)))
 
 -- | Text form of a language, readable by 'parseLanguage'. Tags and forms are
 -- sorted, candidates of a form go from the heaviest to the lightest. Context
@@ -46,6 +52,8 @@ renderLanguage lang =
   T.unlines $
     ["language\t" <> escape (languageName lang)]
       ++ ["tag\t" <> escape t | t <- Set.toList (languageTags lang)]
+      ++ ["punctuation\t" <> escape (T.pack (Set.toList (languagePunctuation lang))) | not (Set.null (languagePunctuation lang))]
+      ++ ["foldcase" | languageFoldCase lang]
       ++ [ weightLine form g w
          | form <- Map.keys (languageWeights lang)
          , (g, w) <- candidates lang form
@@ -65,6 +73,8 @@ decodeLine :: Text -> Either String Line
 decodeLine raw = case T.splitOn "\t" raw of
   ["language", name] -> LineName <$> unescape name
   ["tag", tag] -> LineTag <$> unescape tag
+  ["punctuation", chars] -> LinePunctuation <$> unescape chars
+  ["foldcase"] -> Right LineFoldCase
   "weight" : form : w : lexical : tags -> do
     f <- unescape form
     weight <- readWeight w
