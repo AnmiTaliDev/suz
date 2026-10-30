@@ -1,0 +1,5 @@
+packages: .
+
+shared: True
+library-vanilla: False
+executable-dynamic: True
