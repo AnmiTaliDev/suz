@@ -30,6 +30,7 @@ instance Monad Parser where
     Left e -> Left e
     Right (a, rest) -> runParser (k a) rest
 
+-- | Fails with a message.
 failP :: String -> Parser a
 failP msg = Parser (const (Left msg))
 
