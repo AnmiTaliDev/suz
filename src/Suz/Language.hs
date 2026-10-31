@@ -26,6 +26,8 @@ import qualified Data.Set as Set
 import Data.Text (Text)
 import Suz.Model
 
+-- | A weight table: allowed tags, weights of (form, gloss) pairs, weights after
+-- a previous form and the import rules. Build one with 'mkLanguage'.
 data Language = Language
   { languageName :: Text
   , languageTags :: Set Text
