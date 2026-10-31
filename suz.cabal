@@ -53,6 +53,7 @@ test-suite suz-test
                       Test.Codec
                       Test.Command
                       Test.Conllu
+                      Test.Escape
                       Test.Import
                       Test.Journal
                       Test.Language
