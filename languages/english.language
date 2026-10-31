@@ -1,0 +1,12 @@
+language	English
+tag	3SG
+tag	DEF
+tag	F
+tag	PL
+tag	SG
+weight	cat	10.0	cat
+weight	s	5.5	-	PL
+weight	s	5.0	-	3SG
+weight	she	10.0	-	3SG	F
+weight	the	10.0	-	DEF
+weight	walk	10.0	walk
