@@ -2,12 +2,14 @@
 module Main (main) where
 
 import Control.Monad (foldM)
+import Data.Text (Text)
 import qualified Data.Text.IO as T
 import English (english)
 import Suz
 import System.Exit (die)
 import System.IO (hSetEncoding, stdout, utf8)
 import Tatar (tatar)
+import Turkish (turkish)
 
 must :: Show e => Either e a -> IO a
 must = either (die . show) pure
@@ -18,6 +20,8 @@ main = do
   tatarExample
   putStrLn ""
   englishExample
+  putStrLn ""
+  rawTextExample "Turkish" turkish "Işık kitapları okudum."
 
 tatarExample :: IO ()
 tatarExample = do
@@ -61,3 +65,11 @@ englishExample = do
   print (fmap renderGloss (suggest learned "s"))
   print (fmap renderGloss (suggestAfter learned (Just "walk") "s"))
   print (fmap renderGloss (suggestAfter learned (Just "cat") "s"))
+
+rawTextExample :: String -> Language -> Text -> IO ()
+rawTextExample name lang text = do
+  putStrLn ("== " ++ name ++ ": raw text import, segmentation and suggestions")
+  let imported = newSession (importTextWith lang text)
+  segmented <- must (foldM (flip perform) imported (suggestSegmentation lang (sessionDocument imported)))
+  glossed <- must (foldM (flip perform) segmented (suggestGlosses lang (sessionDocument segmented)))
+  T.putStrLn (renderDocument (sessionDocument glossed))
