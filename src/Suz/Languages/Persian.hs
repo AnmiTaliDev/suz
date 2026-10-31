@@ -6,11 +6,6 @@ module Suz.Languages.Persian
 import Suz.Language
 import Suz.Model
 
--- | A small Persian weight table: the pronoun من, the stems کتاب and خوان,
--- the plural ending ها, the object marker را, the imperfective prefix می and
--- the first person singular ending م. The zero-width non-joiner that Persian
--- writes between morphs stays at the end of the form before it. Importing
--- splits the punctuation .،!؟? and keeps the case.
 persian :: Language
 persian =
   withImportRules ".،!؟?" NoFolding $
