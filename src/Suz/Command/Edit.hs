@@ -50,6 +50,8 @@ insertAt i x xs
   | i < 0 || i > length xs = Left (IndexOutOfRange i)
   | otherwise = Right (take i xs ++ [x] ++ drop i xs)
 
+-- | Removes the element at a position. A position outside the list changes
+-- nothing.
 removeAt :: Int -> [a] -> [a]
 removeAt i xs = take i xs ++ drop (i + 1) xs
 
