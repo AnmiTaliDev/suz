@@ -12,6 +12,8 @@ install: all
 	install -d $(DESTDIR)$(PREFIX)/include/suz $(DESTDIR)$(PREFIX)/lib/pkgconfig
 	install -m 644 include/suz.h $(DESTDIR)$(PREFIX)/include/
 	install -m 644 include/suz/*.h $(DESTDIR)$(PREFIX)/include/suz/
+	install -d $(DESTDIR)$(PREFIX)/share/suz/languages
+	install -m 644 languages/*.language $(DESTDIR)$(PREFIX)/share/suz/languages/
 	scripts/bundle.sh $(SUZ_BUILD)/libsuz.so.$(ABI_VERSION) $(DESTDIR)$(LIBDIR)
 	printf '%s\n' \
 	  'Name: suz' \
@@ -22,7 +24,7 @@ install: all
 	  > $(DESTDIR)$(PREFIX)/lib/pkgconfig/suz.pc
 
 uninstall:
-	rm -rf $(DESTDIR)$(PREFIX)/include/suz $(DESTDIR)$(LIBDIR)
+	rm -rf $(DESTDIR)$(PREFIX)/include/suz $(DESTDIR)$(LIBDIR) $(DESTDIR)$(PREFIX)/share/suz
 	rm -f $(DESTDIR)$(PREFIX)/include/suz.h $(DESTDIR)$(PREFIX)/lib/pkgconfig/suz.pc
 
 .PHONY: all install uninstall
