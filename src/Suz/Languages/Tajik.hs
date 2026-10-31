@@ -6,10 +6,6 @@ module Suz.Languages.Tajik
 import Suz.Language
 import Suz.Model
 
--- | A small Tajik weight table: the pronoun ман, the stems китоб and хон, the
--- plural ending ҳо, the object marker ро, the imperfective prefix ме and the
--- first person singular ending ам. Importing splits the punctuation .,!? and
--- lowercases.
 tajik :: Language
 tajik =
   withImportRules ".,!?" SimpleFolding $
