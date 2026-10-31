@@ -87,6 +87,9 @@ withUd d = do
 genDocument :: Gen Document
 genDocument = (assemble <$> genShape (textOf wild 0 4) (oneof [pure Nothing, Just <$> genGloss]) 0 0) >>= withUd
 
+genHtmlDocument :: Gen Document
+genHtmlDocument = assemble <$> genShape (textOf "<>&\"'ab" 0 4) (oneof [pure Nothing, Just <$> (Gloss <$> textOf "<>&\"'ab" 0 3 <*> smallList 2 (textOf "<>&\"'AB" 1 2))]) 0 0
+
 genToolboxDocument :: Gen Document
 genToolboxDocument = assemble <$> genShape (textOf wild 1 4) (oneof [pure Nothing, Just <$> genReadableGloss]) 0 0
 
@@ -458,6 +461,21 @@ properties =
               a : b : c : rest -> [a, b, c] : groups rest
               _ -> []
          in conjoin [length (nub g) === 1 | g <- groups counts]
+    )
+  , ( "html has no markup characters left once its own tags are removed"
+    , forAll genHtmlDocument $ \d ->
+        let own = ["<div class=\"word\">", "</div>", "<span class=\"surface\">", "<span class=\"forms\">", "<span class=\"glosses\">", "<span class=\"form\">", "<span class=\"gloss unglossed\">", "<span class=\"gloss\">", "<span class=\"tag\">", "</span>", "<li dir=\"auto\">", "</li>"]
+            body = T.unlines (takeWhile (/= "</ol>") (drop 1 (dropWhile (/= "<ol class=\"suz\">") (T.lines (renderHtml d)))))
+            rest = foldl (\t tag -> T.replace tag "" t) body own
+         in T.any (`elem` ("<>" :: String)) rest === False
+    )
+  , ( "html has one word for each token and one form for each morph"
+    , forAll genHtmlDocument $ \d ->
+        let out = renderHtml d
+            tokens = concatMap segmentTokens (documentSegments d)
+         in T.count "<div class=\"word\">" out === length tokens
+              .&&. T.count "class=\"form\"" out === length (concatMap tokenMorphs tokens)
+              .&&. T.count "<span" out === T.count "</span>" out
     )
   ]
   where
