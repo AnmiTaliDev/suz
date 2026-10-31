@@ -1,10 +1,15 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
-module Kyrgyz
+module Suz.Languages.Kyrgyz
   ( kyrgyz
   ) where
 
-import Suz
+import Suz.Language
+import Suz.Model
 
+-- | A small Kyrgyz weight table: the pronoun мен, the stems китеп and оку,
+-- and the plural, accusative, past tense and first person singular endings. A
+-- vowel-final ending that can be accusative or past tense is accusative after
+-- a plural ending. Importing splits the punctuation .,!? and lowercases.
 kyrgyz :: Language
 kyrgyz =
   withImportRules ".,!?" SimpleFolding $
