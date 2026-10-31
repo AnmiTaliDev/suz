@@ -1,0 +1,15 @@
+language	Spanish
+tag	1SG
+tag	M
+tag	PL
+tag	PRS
+punctuation	!,.?¡¿
+foldcase
+weight	le	10.0	read
+weight	libr	10.0	book
+weight	o	5.0	-	1SG	PRS
+weight	o	5.0	-	M
+weight	s	9.0	-	PL
+weight	yo	10.0	-	1SG
+context	le	o	6.0	-	1SG	PRS
+context	libr	o	6.0	-	M
