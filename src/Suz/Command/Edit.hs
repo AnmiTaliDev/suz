@@ -30,6 +30,8 @@ needToken tid = maybe (Left (NoSuchToken tid)) Right . findToken tid
 needMorph :: MorphId -> Document -> Either EditError (Token, Int, Morph)
 needMorph mid = maybe (Left (NoSuchMorph mid)) Right . findMorph mid
 
+-- | Fails with 'DuplicateId' when an identifier is used in the document or
+-- appears twice in the list.
 checkFresh :: Document -> [Word64] -> Either EditError ()
 checkFresh doc = foldM_ claim (documentIds doc)
   where
