@@ -1,0 +1,13 @@
+language	French
+tag	1PL
+tag	INDEF
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	des	9.0	-	INDEF	PL
+weight	lis	10.0	read
+weight	livre	10.0	book
+weight	nous	10.0	-	1PL
+weight	ons	9.0	-	1PL	PRS
+weight	s	9.0	-	PL
