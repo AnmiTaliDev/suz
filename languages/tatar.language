@@ -1,0 +1,57 @@
+language	Tatar
+tag	1PL
+tag	1SG
+tag	2SG
+tag	3PL
+tag	ABL
+tag	ACC
+tag	DAT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	POSS
+tag	PST
+tag	SG
+weight	га	8.0	-	DAT
+weight	гә	8.0	-	DAT
+weight	да	8.0	-	LOC
+weight	дан	8.0	-	ABL
+weight	де	9.0	-	PST
+weight	ды	9.0	-	PST
+weight	дә	8.0	-	LOC
+weight	дән	8.0	-	ABL
+weight	ем	8.0	-	1SG	POSS
+weight	к	9.0	-	1PL
+weight	ка	8.0	-	DAT
+weight	китап	10.0	book
+weight	кә	8.0	-	DAT
+weight	лар	8.0	-	PL
+weight	лар	2.0	-	3PL
+weight	ләр	8.0	-	PL
+weight	ләр	2.0	-	3PL
+weight	м	9.0	-	1SG
+weight	ма	8.0	-	NEG
+weight	мин	10.0	-	1SG
+weight	мә	8.0	-	NEG
+weight	н	9.0	-	ACC
+weight	на	8.0	-	DAT
+weight	нан	8.0	-	ABL
+weight	нар	8.0	-	PL
+weight	не	9.0	-	ACC
+weight	нең	8.0	-	GEN
+weight	ны	9.0	-	ACC
+weight	ның	8.0	-	GEN
+weight	нә	8.0	-	DAT
+weight	нән	8.0	-	ABL
+weight	нәр	8.0	-	PL
+weight	та	8.0	-	LOC
+weight	тан	8.0	-	ABL
+weight	те	9.0	-	PST
+weight	ты	9.0	-	PST
+weight	тә	8.0	-	LOC
+weight	тән	8.0	-	ABL
+weight	укы	10.0	read
+weight	ым	8.0	-	1SG	POSS
+weight	ң	9.0	-	2SG
+weight	өй	10.0	house
