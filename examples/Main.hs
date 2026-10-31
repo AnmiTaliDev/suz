@@ -11,6 +11,7 @@ import System.Exit (die)
 import System.IO (hSetEncoding, stdout, utf8)
 import Tatar (tatar)
 import Turkish (turkish)
+import Uzbek (uzbek)
 
 must :: Show e => Either e a -> IO a
 must = either (die . show) pure
@@ -25,6 +26,8 @@ main = do
   rawTextExample "Turkish" turkish "Işık kitapları okudum."
   putStrLn ""
   rawTextExample "Kazakh" kazakh "Мен кітаптарды оқыдым."
+  putStrLn ""
+  rawTextExample "Uzbek" uzbek "Men kitoblarni o'qidim."
 
 tatarExample :: IO ()
 tatarExample = do
