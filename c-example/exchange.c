@@ -82,6 +82,10 @@ void demo_exchange(suz_language *language)
     printf("-- CoNLL-U\n%s", conllu);
     suz_free(conllu);
 
+    char *wrapped = suz_render_wrapped(raw, 24);
+    printf("-- interlinear text wrapped to 24 columns\n%s\n\n", wrapped);
+    suz_free(wrapped);
+
     char *json = suz_json(raw);
     printf("-- JSON\n%s\n", json);
     suz_free(json);

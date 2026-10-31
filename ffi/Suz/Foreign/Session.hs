@@ -29,6 +29,7 @@ foreign export ccall "suz_clear_ud" sessionClearUd :: Ptr () -> CInt -> CInt -> 
 foreign export ccall "suz_undo" sessionUndo :: Ptr () -> Ptr CString -> IO CInt
 foreign export ccall "suz_redo" sessionRedo :: Ptr () -> Ptr CString -> IO CInt
 foreign export ccall "suz_render" sessionRender :: Ptr () -> IO CString
+foreign export ccall "suz_render_wrapped" sessionRenderWrapped :: Ptr () -> CInt -> IO CString
 foreign export ccall "suz_snapshot" sessionSnapshot :: Ptr () -> IO CString
 foreign export ccall "suz_journal" sessionJournal :: Ptr () -> IO CString
 foreign export ccall "suz_toolbox" sessionToolbox :: Ptr () -> IO CString
@@ -153,6 +154,9 @@ sessionRedo h errp = update h errp (first show . redo)
 
 sessionRender :: Ptr () -> IO CString
 sessionRender h = readSession h >>= newUtf8 . renderDocument . sessionDocument
+
+sessionRenderWrapped :: Ptr () -> CInt -> IO CString
+sessionRenderWrapped h width = readSession h >>= newUtf8 . renderDocumentWrapped (fromIntegral width) . sessionDocument
 
 sessionSnapshot :: Ptr () -> IO CString
 sessionSnapshot h = readSession h >>= newUtf8 . renderSnapshot . sessionDocument

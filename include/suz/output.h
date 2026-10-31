@@ -21,6 +21,20 @@ extern "C" {
 char *suz_render(suz_session *session);
 
 /**
+ * Interlinear text like suz_render(), with the lines broken so that none is
+ * longer than the given number of terminal columns, except where a single word
+ * is wider. The groups of three lines are separated by a blank line. Width
+ * counts terminal columns: combining marks and the zero-width non-joiner take
+ * none and East Asian wide characters take two. The text is for reading, it is
+ * not suited for suz_session_from_leipzig() because a wrapped segment becomes
+ * several.
+ * @param session Session.
+ * @param width Number of columns.
+ * @return Text, release with suz_free().
+ */
+char *suz_render_wrapped(suz_session *session, int width);
+
+/**
  * Text snapshot of the document. The history is not included.
  * @param session Session.
  * @return Text, release with suz_free().
