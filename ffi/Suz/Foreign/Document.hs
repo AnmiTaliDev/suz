@@ -2,15 +2,13 @@
 module Suz.Foreign.Document () where
 
 import Data.List (genericLength)
-import Data.Maybe (listToMaybe)
-import Data.Text (Text)
 import Data.Word (Word64)
 import Foreign.C.String (CString)
 import Foreign.C.Types (CInt (..))
-import Foreign.Ptr (Ptr, nullPtr)
+import Foreign.Ptr (Ptr)
 import Foreign.Storable (poke)
 import Suz
-import Suz.Foreign.Handle (newUtf8)
+import Suz.Foreign.Handle (at, stringOut)
 import Suz.Foreign.Session (readSession)
 
 foreign export ccall "suz_segment_count" segmentCount :: Ptr () -> IO CInt
@@ -26,11 +24,6 @@ foreign export ccall "suz_morph_lexical" morphLexical :: Ptr () -> CInt -> CInt 
 foreign export ccall "suz_morph_tag_count" morphTagCount :: Ptr () -> CInt -> CInt -> CInt -> IO CInt
 foreign export ccall "suz_morph_tag" morphTag :: Ptr () -> CInt -> CInt -> CInt -> CInt -> IO CString
 
-at :: CInt -> [a] -> Maybe a
-at n xs
-  | n < 0 = Nothing
-  | otherwise = listToMaybe (drop (fromIntegral n) xs)
-
 segmentAt :: Ptr () -> CInt -> IO (Maybe Segment)
 segmentAt h s = at s . documentSegments . sessionDocument <$> readSession h
 
@@ -45,9 +38,6 @@ count f = maybe (-1) (genericLength . f)
 
 idOut :: Ptr Word64 -> Maybe Word64 -> IO CInt
 idOut p = maybe (pure (-1)) (\n -> poke p n >> pure 0)
-
-stringOut :: Maybe Text -> IO CString
-stringOut = maybe (pure nullPtr) newUtf8
 
 segmentCount :: Ptr () -> IO CInt
 segmentCount h = genericLength . documentSegments . sessionDocument <$> readSession h

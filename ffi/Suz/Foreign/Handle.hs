@@ -4,6 +4,8 @@ module Suz.Foreign.Handle
   , deref
   , freeHandle
   , newUtf8
+  , stringOut
+  , at
   , peekText
   , failCode
   , failHandle
@@ -14,6 +16,7 @@ import Control.Monad (unless)
 import Data.Bifunctor (first)
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Unsafe as BU
+import Data.Maybe (listToMaybe)
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as TE
@@ -64,3 +67,11 @@ lineError (n, msg) = "line " ++ show n ++ ": " ++ msg
 
 freeString :: Ptr () -> IO ()
 freeString = free
+
+stringOut :: Maybe Text -> IO CString
+stringOut = maybe (pure nullPtr) newUtf8
+
+at :: CInt -> [a] -> Maybe a
+at n xs
+  | n < 0 = Nothing
+  | otherwise = listToMaybe (drop (fromIntegral n) xs)
