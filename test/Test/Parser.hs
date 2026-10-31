@@ -12,4 +12,5 @@ checks =
   , ("intP reads a negative integer", runParser intP ["-3"] == Right (-3, []))
   , ("intP rejects other text", runParser intP ["x"] == Left "bad number: x")
   , ("wordP reads an identifier", runParser wordP ["7"] == Right (7, []))
+  , ("wordP reads the largest identifier", runParser wordP ["18446744073709551615"] == Right (maxBound, []))
   ]
