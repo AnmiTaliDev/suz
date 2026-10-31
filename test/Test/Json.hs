@@ -16,6 +16,11 @@ checks =
   , ("json escapes line breaks and tabs", "\"a\\nb\\rc\\td\"" `T.isInfixOf` renderJson (surfaceDoc "a\nb\rc\td"))
   , ("json escapes other control characters", "\"a\\u0001b\\u001fc\"" `T.isInfixOf` renderJson (surfaceDoc "a\1b\31c"))
   , ("json keeps other characters", "\"мин-китап. ;#\160\"" `T.isInfixOf` renderJson (surfaceDoc "мин-китап. ;#\160"))
+  , ("json of a morph with UD fields", "{\"id\":2,\"form\":\"китап\",\"gloss\":{\"lexical\":\"book\",\"tags\":[]},\"ud\":{\"lemma\":\"kitap\",\"upos\":\"NOUN\",\"xpos\":\"\",\"feats\":\"Number=Plur\",\"head\":3,\"deprel\":\"obj\",\"deps\":\"\",\"misc\":\"SpaceAfter=No\"}}" `T.isInfixOf` renderJson udBase)
+  , ("json writes the root head as a string", "\"head\":\"root\"" `T.isInfixOf` renderJson (udWith RootHead))
+  , ("json writes a missing head as null", "\"head\":null" `T.isInfixOf` renderJson (udWith NoHead))
+  , ("json leaves out ud for a morph without annotation", not ("\"ud\"" `T.isInfixOf` renderJson baseDoc))
   ]
   where
     surfaceDoc s = Document 100 [buildSegment emptyDocument [(s, [])]]
+    udWith h = fst (must (apply (SetUd mA1 (Just udSample {udHead = h})) baseDoc))
