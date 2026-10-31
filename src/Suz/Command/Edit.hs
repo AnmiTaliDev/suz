@@ -18,20 +18,15 @@ import Data.Word (Word64)
 import Suz.Command.Types
 import Suz.Model
 
--- | Position and value of a segment, or 'NoSuchSegment'.
 needSegment :: SegmentId -> Document -> Either EditError (Int, Segment)
 needSegment sid = maybe (Left (NoSuchSegment sid)) Right . findSegment sid
 
--- | Segment, position in it and token, or 'NoSuchToken'.
 needToken :: TokenId -> Document -> Either EditError (Segment, Int, Token)
 needToken tid = maybe (Left (NoSuchToken tid)) Right . findToken tid
 
--- | Token, position in it and morph, or 'NoSuchMorph'.
 needMorph :: MorphId -> Document -> Either EditError (Token, Int, Morph)
 needMorph mid = maybe (Left (NoSuchMorph mid)) Right . findMorph mid
 
--- | Fails with 'DuplicateId' when an identifier is used in the document or
--- appears twice in the list.
 checkFresh :: Document -> [Word64] -> Either EditError ()
 checkFresh doc = foldM_ claim (documentIds doc)
   where
@@ -39,23 +34,17 @@ checkFresh doc = foldM_ claim (documentIds doc)
       | Set.member i seen = Left (DuplicateId i)
       | otherwise = Right (Set.insert i seen)
 
--- | Raises the next free identifier above all the given ones.
 claimIds :: [Word64] -> Document -> Document
 claimIds ids doc = doc {documentNextId = maximum (documentNextId doc : map (+ 1) ids)}
 
--- | Inserts at a position from 0 to the length of the list, otherwise
--- 'IndexOutOfRange'.
 insertAt :: Int -> a -> [a] -> Either EditError [a]
 insertAt i x xs
   | i < 0 || i > length xs = Left (IndexOutOfRange i)
   | otherwise = Right (take i xs ++ [x] ++ drop i xs)
 
--- | Removes the element at a position. A position outside the list changes
--- nothing.
 removeAt :: Int -> [a] -> [a]
 removeAt i xs = take i xs ++ drop (i + 1) xs
 
--- | Replaces the segment that has the same identifier.
 replaceSegment :: Segment -> Document -> Document
 replaceSegment seg doc =
   doc
@@ -67,11 +56,9 @@ mapTokens :: (Token -> Token) -> Document -> Document
 mapTokens f doc =
   doc {documentSegments = [s {segmentTokens = map f (segmentTokens s)} | s <- documentSegments doc]}
 
--- | Replaces the token that has the same identifier.
 replaceToken :: Token -> Document -> Document
 replaceToken tok = mapTokens (\t -> if tokenId t == tokenId tok then tok else t)
 
--- | Replaces the morph that has the same identifier.
 replaceMorph :: Morph -> Document -> Document
 replaceMorph morph = mapTokens (\t -> t {tokenMorphs = map swap (tokenMorphs t)})
   where
