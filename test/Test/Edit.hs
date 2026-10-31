@@ -15,4 +15,5 @@ checks =
   , ("needMorph fails for an unknown identifier", needMorph (MorphId 999) plainDoc == Left (NoSuchMorph (MorphId 999)))
   , ("checkFresh accepts unused identifiers", checkFresh plainDoc [nextFreeId plainDoc, nextFreeId plainDoc + 1] == Right ())
   , ("checkFresh rejects an identifier in use", checkFresh plainDoc [rawToken tokA] == Left (DuplicateId (rawToken tokA)))
+  , ("checkFresh rejects a repeated identifier", checkFresh plainDoc [500, 500] == Left (DuplicateId 500))
   ]
