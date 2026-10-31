@@ -10,6 +10,7 @@ import Suz.Languages.CrimeanTatar (crimeanTatar)
 import Suz.Languages.English (english)
 import Suz.Languages.French (french)
 import Suz.Languages.German (german)
+import Suz.Languages.Greek (greek)
 import Suz.Languages.Italian (italian)
 import Suz.Languages.Kazakh (kazakh)
 import Suz.Languages.Kyrgyz (kyrgyz)
@@ -56,6 +57,8 @@ checks =
   , ("Latin example passes validation", null (validateDocument latin (annotatedDocument latin "Libros lego.")))
   , ("Polish example is annotated", annotated polish "Czytam książki." == "Czytam       książki     .\nczyta-m      książk-i    .\nread-1SG.PRS book-PL.ACC ?")
   , ("Polish example passes validation", null (validateDocument polish (annotatedDocument polish "Czytam książki.")))
+  , ("Greek example is annotated", annotated greek "Διαβάζω βιβλία." == "Διαβάζω      βιβλία          .\nδιαβάζ-ω     βιβλί-α         .\nread-1SG.PRS book-NOM.ACC.PL ?")
+  , ("Greek example passes validation", null (validateDocument greek (annotatedDocument greek "Διαβάζω βιβλία.")))
   ]
   where
     annotatedDocument :: Language -> Text -> Document
