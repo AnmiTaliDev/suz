@@ -75,7 +75,8 @@ executable suz-examples
     import:           shared
     hs-source-dirs:   examples
     main-is:          Main.hs
-    other-modules:    English
+    other-modules:    Azerbaijani
+                      English
                       Kazakh
                       Kyrgyz
                       Tatar
