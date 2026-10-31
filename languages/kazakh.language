@@ -1,0 +1,100 @@
+language	Kazakh
+tag	1PL
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	DAT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	POSS
+tag	PST
+tag	SG
+punctuation	!,.?
+foldcase
+weight	ба	8.0	-	NEG
+weight	бе	8.0	-	NEG
+weight	ге	8.0	-	DAT
+weight	да	8.0	-	LOC
+weight	дан	8.0	-	ABL
+weight	дар	8.0	-	PL
+weight	де	8.0	-	LOC
+weight	ден	8.0	-	ABL
+weight	дер	8.0	-	PL
+weight	ды	9.0	-	PST
+weight	ды	5.0	-	ACC
+weight	дың	8.0	-	GEN
+weight	ді	9.0	-	PST
+weight	ді	5.0	-	ACC
+weight	дің	8.0	-	GEN
+weight	к	9.0	-	1PL
+weight	ке	8.0	-	DAT
+weight	кітап	10.0	book
+weight	лар	8.0	-	PL
+weight	лер	8.0	-	PL
+weight	м	9.0	-	1SG
+weight	ма	8.0	-	NEG
+weight	ме	8.0	-	NEG
+weight	мен	10.0	-	1SG
+weight	нан	8.0	-	ABL
+weight	нен	8.0	-	ABL
+weight	ны	9.0	-	ACC
+weight	ның	8.0	-	GEN
+weight	ні	9.0	-	ACC
+weight	нің	8.0	-	GEN
+weight	оқы	10.0	read
+weight	па	8.0	-	NEG
+weight	пе	8.0	-	NEG
+weight	та	8.0	-	LOC
+weight	тан	8.0	-	ABL
+weight	тар	8.0	-	PL
+weight	те	8.0	-	LOC
+weight	тен	8.0	-	ABL
+weight	тер	8.0	-	PL
+weight	ты	9.0	-	PST
+weight	ты	5.0	-	ACC
+weight	тың	8.0	-	GEN
+weight	ті	9.0	-	PST
+weight	ті	5.0	-	ACC
+weight	тің	8.0	-	GEN
+weight	ым	8.0	-	1SG	POSS
+weight	ім	8.0	-	1SG	POSS
+weight	ға	8.0	-	DAT
+weight	қ	9.0	-	1PL
+weight	қа	8.0	-	DAT
+weight	ң	9.0	-	2SG
+weight	үй	10.0	house
+context	дар	ды	6.0	-	ACC
+context	дар	ді	6.0	-	ACC
+context	дар	ты	6.0	-	ACC
+context	дар	ті	6.0	-	ACC
+context	дер	ды	6.0	-	ACC
+context	дер	ді	6.0	-	ACC
+context	дер	ты	6.0	-	ACC
+context	дер	ті	6.0	-	ACC
+context	кітап	ды	6.0	-	ACC
+context	кітап	ді	6.0	-	ACC
+context	кітап	ты	6.0	-	ACC
+context	кітап	ті	6.0	-	ACC
+context	лар	ды	6.0	-	ACC
+context	лар	ді	6.0	-	ACC
+context	лар	ты	6.0	-	ACC
+context	лар	ті	6.0	-	ACC
+context	лер	ды	6.0	-	ACC
+context	лер	ді	6.0	-	ACC
+context	лер	ты	6.0	-	ACC
+context	лер	ті	6.0	-	ACC
+context	тар	ды	6.0	-	ACC
+context	тар	ді	6.0	-	ACC
+context	тар	ты	6.0	-	ACC
+context	тар	ті	6.0	-	ACC
+context	тер	ды	6.0	-	ACC
+context	тер	ді	6.0	-	ACC
+context	тер	ты	6.0	-	ACC
+context	тер	ті	6.0	-	ACC
+context	үй	ды	6.0	-	ACC
+context	үй	ді	6.0	-	ACC
+context	үй	ты	6.0	-	ACC
+context	үй	ті	6.0	-	ACC
