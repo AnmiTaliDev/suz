@@ -1,7 +1,6 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 module Suz.Foreign () where
 
-import Suz.Foreign.Builtin ()
 import Suz.Foreign.Document ()
 import Suz.Foreign.Language ()
 import Suz.Foreign.Learning ()
