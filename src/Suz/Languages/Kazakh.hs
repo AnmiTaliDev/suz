@@ -1,10 +1,15 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
-module Kazakh
+module Suz.Languages.Kazakh
   ( kazakh
   ) where
 
-import Suz
+import Suz.Language
+import Suz.Model
 
+-- | A small Kazakh weight table: the pronoun мен, the stems кітап and оқы,
+-- and the plural, accusative, past tense and first person singular endings.
+-- The endings ды, ді, ты, ті are accusative after a plural ending and past
+-- tense otherwise. Importing splits the punctuation .,!? and lowercases.
 kazakh :: Language
 kazakh =
   withImportRules ".,!?" SimpleFolding $

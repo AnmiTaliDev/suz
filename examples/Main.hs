@@ -6,11 +6,11 @@ import Control.Monad (foldM)
 import CrimeanTatar (crimeanTatar)
 import Data.Text (Text)
 import qualified Data.Text.IO as T
-import Kazakh (kazakh)
 import Kyrgyz (kyrgyz)
 import Russian (russian)
 import Suz
 import Suz.Languages.English (english)
+import Suz.Languages.Kazakh (kazakh)
 import Suz.Languages.Tatar (tatar)
 import Suz.Languages.Turkish (turkish)
 import System.Exit (die)
