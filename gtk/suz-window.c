@@ -32,6 +32,9 @@ struct _SuzWindow {
     GArray *redo_groups;
     gboolean close_after_save;
     gboolean close_confirmed;
+    char *recovery_path;
+    gboolean recovery_written;
+    guint autosave_id;
 };
 
 G_DEFINE_FINAL_TYPE(SuzWindow, suz_window, ADW_TYPE_APPLICATION_WINDOW)
@@ -78,6 +81,58 @@ static gboolean has_learned_weights(SuzWindow *self)
     return path && g_file_test(path, G_FILE_TEST_IS_REGULAR);
 }
 
+static char *recovery_directory(void)
+{
+    return g_build_filename(g_get_user_data_dir(), "suz", "recovery", NULL);
+}
+
+static void remove_recovery(SuzWindow *self)
+{
+    g_clear_handle_id(&self->autosave_id, g_source_remove);
+    if (self->recovery_written) {
+        g_unlink(self->recovery_path);
+        self->recovery_written = FALSE;
+    }
+}
+
+static guint recovery_counter;
+
+static gboolean write_recovery(gpointer user_data)
+{
+    SuzWindow *self = SUZ_WINDOW(user_data);
+    self->autosave_id = 0;
+    if (!self->session || !self->dirty)
+        return G_SOURCE_REMOVE;
+
+    g_autoptr(GKeyFile) keys = g_key_file_new();
+    g_key_file_set_string(keys, "recovery", "name", self->document_name ? self->document_name : "");
+    if (self->file) {
+        g_autofree char *uri = g_file_get_uri(self->file);
+        g_key_file_set_string(keys, "recovery", "uri", uri);
+    }
+    char *snapshot = suz_snapshot(self->session);
+    g_key_file_set_string(keys, "recovery", "snapshot", snapshot);
+    suz_free(snapshot);
+
+    g_autofree char *directory = recovery_directory();
+    g_autoptr(GError) error = NULL;
+    if (g_mkdir_with_parents(directory, 0700) != 0)
+        show_error(self, "Cannot autosave the document", g_strerror(errno));
+    else if (!g_key_file_save_to_file(keys, self->recovery_path, &error))
+        show_error(self, "Cannot autosave the document", error->message);
+    else
+        self->recovery_written = TRUE;
+    return G_SOURCE_REMOVE;
+}
+
+static void update_recovery(SuzWindow *self)
+{
+    if (!self->session || !self->dirty)
+        remove_recovery(self);
+    else if (!self->autosave_id)
+        self->autosave_id = g_timeout_add_seconds(2, write_recovery, self);
+}
+
 static void update_ui(SuzWindow *self)
 {
     gboolean has_document = self->session != NULL;
@@ -97,6 +152,7 @@ static void update_ui(SuzWindow *self)
         title = g_strdup_printf("%s%s", self->dirty ? "• " : "", self->document_name ? self->document_name : "Untitled");
     adw_window_title_set_title(self->title, title ? title : "Suz");
     adw_window_title_set_subtitle(self->title, self->language_name ? self->language_name : "");
+    update_recovery(self);
 }
 
 static void refresh_view(SuzWindow *self)
@@ -524,6 +580,119 @@ static void open_document(SuzWindow *self, GFile *file)
     replace_session(self, session, file, name, FALSE);
 }
 
+static GPtrArray *stale_recoveries;
+
+typedef struct {
+    SuzWindow *window;
+    char *path;
+    GKeyFile *keys;
+} PendingRecovery;
+
+static void pending_recovery_free(PendingRecovery *pending)
+{
+    g_object_unref(pending->window);
+    g_free(pending->path);
+    g_key_file_free(pending->keys);
+    g_free(pending);
+}
+
+static void set_recovery_aside(SuzWindow *self, const char *path)
+{
+    g_autofree char *aside = g_strconcat(path, ".bad", NULL);
+    g_rename(path, aside);
+    show_error(self, "Cannot read the recovery file", aside);
+}
+
+static void offer_recovery(SuzWindow *self);
+
+static void restore_recovery(PendingRecovery *pending)
+{
+    SuzWindow *self = pending->window;
+    g_autofree char *snapshot = g_key_file_get_string(pending->keys, "recovery", "snapshot", NULL);
+    char *message = NULL;
+    suz_session *session = snapshot ? suz_session_from_snapshot(snapshot, &message) : NULL;
+    if (!session) {
+        suz_free(message);
+        set_recovery_aside(self, pending->path);
+        return;
+    }
+
+    g_autofree char *name = g_key_file_get_string(pending->keys, "recovery", "name", NULL);
+    g_autofree char *uri = g_key_file_get_string(pending->keys, "recovery", "uri", NULL);
+    g_autoptr(GFile) file = uri ? g_file_new_for_uri(uri) : NULL;
+    SuzWindow *target = self;
+    if (self->session)
+        target = suz_window_new(ADW_APPLICATION(gtk_window_get_application(GTK_WINDOW(self))));
+    replace_session(target, session, file, name && name[0] ? name : NULL, TRUE);
+    g_unlink(pending->path);
+    gtk_window_present(GTK_WINDOW(target));
+}
+
+static void on_recovery_response(GObject *source, GAsyncResult *result, gpointer user_data)
+{
+    PendingRecovery *pending = user_data;
+    const char *response = adw_alert_dialog_choose_finish(ADW_ALERT_DIALOG(source), result);
+    if (g_str_equal(response, "restore"))
+        restore_recovery(pending);
+    else if (g_str_equal(response, "discard"))
+        g_unlink(pending->path);
+
+    SuzWindow *self = g_object_ref(pending->window);
+    pending_recovery_free(pending);
+    offer_recovery(self);
+    g_object_unref(self);
+}
+
+static void offer_recovery(SuzWindow *self)
+{
+    while (stale_recoveries->len > 0) {
+        char *path = g_ptr_array_steal_index(stale_recoveries, 0);
+        GKeyFile *keys = g_key_file_new();
+        if (!g_key_file_load_from_file(keys, path, G_KEY_FILE_NONE, NULL)) {
+            g_key_file_free(keys);
+            set_recovery_aside(self, path);
+            g_free(path);
+            continue;
+        }
+
+        PendingRecovery *pending = g_new0(PendingRecovery, 1);
+        pending->window = g_object_ref(self);
+        pending->path = path;
+        pending->keys = keys;
+
+        g_autofree char *name = g_key_file_get_string(keys, "recovery", "name", NULL);
+        g_autofree char *body = g_strdup_printf("The previous session ended with unsaved changes to \"%s\".", name && name[0] ? name : "Untitled");
+        AdwDialog *dialog = adw_alert_dialog_new("Recover Unsaved Document?", body);
+        adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "later", "Not Now", "discard", "Discard", "restore", "Restore", NULL);
+        adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "discard", ADW_RESPONSE_DESTRUCTIVE);
+        adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "restore", ADW_RESPONSE_SUGGESTED);
+        adw_alert_dialog_set_default_response(ADW_ALERT_DIALOG(dialog), "restore");
+        adw_alert_dialog_set_close_response(ADW_ALERT_DIALOG(dialog), "later");
+        adw_alert_dialog_choose(ADW_ALERT_DIALOG(dialog), GTK_WIDGET(self), NULL, on_recovery_response, pending);
+        return;
+    }
+}
+
+static void offer_recovery_idle(gpointer user_data)
+{
+    SuzWindow *self = SUZ_WINDOW(user_data);
+    offer_recovery(self);
+    g_object_unref(self);
+}
+
+static void collect_stale_recoveries(void)
+{
+    stale_recoveries = g_ptr_array_new_with_free_func(g_free);
+    g_autofree char *directory = recovery_directory();
+    g_autoptr(GDir) dir = g_dir_open(directory, 0, NULL);
+    if (!dir)
+        return;
+    const char *entry;
+    while ((entry = g_dir_read_name(dir)))
+        if (g_str_has_suffix(entry, ".ini"))
+            g_ptr_array_add(stale_recoveries, g_build_filename(directory, entry, NULL));
+}
+
 typedef struct {
     SuzWindow *window;
     GFile *file;
@@ -818,8 +987,10 @@ static void on_close_response(GObject *source, GAsyncResult *result, gpointer us
 static gboolean suz_window_close_request(GtkWindow *window)
 {
     SuzWindow *self = SUZ_WINDOW(window);
-    if (!self->session || !self->dirty || self->close_confirmed)
+    if (!self->session || !self->dirty || self->close_confirmed) {
+        remove_recovery(self);
         return GTK_WINDOW_CLASS(suz_window_parent_class)->close_request(window);
+    }
 
     AdwDialog *dialog = adw_alert_dialog_new("Save Changes?", "The document has unsaved changes. They are lost if you close without saving.");
     adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", "Cancel", "discard", "Discard", "save", "Save", NULL);
@@ -1031,13 +1202,24 @@ static void suz_window_init(SuzWindow *self)
     gtk_window_set_default_size(GTK_WINDOW(self), 960, 680);
     gtk_window_set_title(GTK_WINDOW(self), "Suz");
 
+    g_autofree char *directory = recovery_directory();
+    g_autofree char *recovery_name = g_strdup_printf("%" G_GINT64_FORMAT "-%u.ini", g_get_real_time(), ++recovery_counter);
+    self->recovery_path = g_build_filename(directory, recovery_name, NULL);
+
     select_initial_language(self);
     update_ui(self);
+
+    if (!stale_recoveries) {
+        collect_stale_recoveries();
+        g_idle_add_once(offer_recovery_idle, g_object_ref(self));
+    }
 }
 
 static void suz_window_finalize(GObject *object)
 {
     SuzWindow *self = SUZ_WINDOW(object);
+    g_clear_handle_id(&self->autosave_id, g_source_remove);
+    g_free(self->recovery_path);
     if (self->session)
         suz_session_free(self->session);
     if (self->language)
