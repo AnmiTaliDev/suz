@@ -60,6 +60,16 @@ The shared object is versioned with `lib-version-info` in `suz.cabal` (`current:
 
 `pkg-config` finds `suz.pc` through `PKG_CONFIG_PATH=PREFIX/lib/pkgconfig` when the prefix is not a system one.
 
+## Languages
+
+The library ships small weight tables, each in its own module under `Suz.Languages`: Azerbaijani, CrimeanTatar, English, Kazakh, Kyrgyz, Russian, Tatar, Turkish, Turkmen and Uzbek. Each covers a handful of stems and endings. They serve as examples and as a starting point for a real table, not as a description of the language.
+
+```haskell
+import Suz.Languages.Turkish (turkish)
+```
+
+From C, `suz_builtin_language_count()` and `suz_builtin_language_name()` list the bundled languages and `suz_language_builtin()` returns a copy of one by name.
+
 ## License
 
 GNU General Public License, version 3 or later. See [LICENSE](LICENSE).
