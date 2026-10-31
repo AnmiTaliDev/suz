@@ -11,4 +11,5 @@ checks =
   , ("intP reads an integer", runParser intP ["12", "x"] == Right (12, ["x"]))
   , ("intP reads a negative integer", runParser intP ["-3"] == Right (-3, []))
   , ("intP rejects other text", runParser intP ["x"] == Left "bad number: x")
+  , ("wordP reads an identifier", runParser wordP ["7"] == Right (7, []))
   ]
