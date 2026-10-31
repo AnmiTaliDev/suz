@@ -9,6 +9,7 @@ import Data.Text (Text)
 import Suz.Language
 import Suz.Model
 
+-- | A glossed morph and the tags of its gloss that the language does not declare.
 data Violation = Violation
   { violationMorph :: MorphId
   , violationTags :: [Text]
