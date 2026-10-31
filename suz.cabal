@@ -47,6 +47,7 @@ library
                       Suz.Import
                       Suz.Journal
                       Suz.Json
+                      Suz.Latex
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
