@@ -5,6 +5,7 @@ module Suz
   , module Suz.Codec.Escape
   , module Suz.Command
   , module Suz.Conllu
+  , module Suz.Html
   , module Suz.Import
   , module Suz.Journal
   , module Suz.Json
@@ -28,6 +29,7 @@ import Suz.Codec
 import Suz.Codec.Escape
 import Suz.Command
 import Suz.Conllu
+import Suz.Html
 import Suz.Import
 import Suz.Journal
 import Suz.Json

@@ -44,6 +44,7 @@ library
                       Suz.Command.Edit
                       Suz.Command.Types
                       Suz.Conllu
+                      Suz.Html
                       Suz.Import
                       Suz.Journal
                       Suz.Json
