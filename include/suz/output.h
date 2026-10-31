@@ -59,6 +59,17 @@ char *suz_toolbox(suz_session *session);
  */
 char *suz_conllu(suz_session *session);
 
+/**
+ * JSON text of the document on one line: an object with a `segments` list of
+ * segments with `id` and `tokens`, tokens with `id`, `surface` and `morphs`,
+ * and morphs with `id`, `form` and `gloss`. The gloss is `null` for a morph
+ * without one, otherwise an object with `lexical` and `tags`. Identifiers are
+ * numbers up to 2^64-1.
+ * @param session Session.
+ * @return Text, release with suz_free().
+ */
+char *suz_json(suz_session *session);
+
 #ifdef __cplusplus
 }
 #endif

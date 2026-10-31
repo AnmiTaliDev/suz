@@ -30,6 +30,7 @@ foreign export ccall "suz_render" sessionRender :: Ptr () -> IO CString
 foreign export ccall "suz_snapshot" sessionSnapshot :: Ptr () -> IO CString
 foreign export ccall "suz_journal" sessionJournal :: Ptr () -> IO CString
 foreign export ccall "suz_toolbox" sessionToolbox :: Ptr () -> IO CString
+foreign export ccall "suz_json" sessionJson :: Ptr () -> IO CString
 foreign export ccall "suz_conllu" sessionConllu :: Ptr () -> IO CString
 
 sessionNew :: IO (Ptr ())
@@ -133,3 +134,6 @@ sessionToolbox h = readSession h >>= newUtf8 . renderToolbox . sessionDocument
 
 sessionConllu :: Ptr () -> IO CString
 sessionConllu h = readSession h >>= newUtf8 . renderConllu . sessionDocument
+
+sessionJson :: Ptr () -> IO CString
+sessionJson h = readSession h >>= newUtf8 . renderJson . sessionDocument
