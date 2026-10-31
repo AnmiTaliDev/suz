@@ -36,6 +36,8 @@ data Session = Session
   }
   deriving (Eq, Show)
 
+-- | Why 'undo' or 'redo' failed: there is nothing to revert or repeat, or the
+-- stored command no longer applies.
 data JournalError
   = NothingToUndo
   | NothingToRedo
