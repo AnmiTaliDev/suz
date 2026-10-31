@@ -64,6 +64,7 @@ data Segment = Segment
   }
   deriving (Eq, Show)
 
+-- | Segments in order and the next free identifier, see 'nextFreeId'.
 data Document = Document
   { documentNextId :: Word64
   , documentSegments :: [Segment]
