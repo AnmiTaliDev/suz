@@ -477,6 +477,16 @@ properties =
               .&&. T.count "class=\"form\"" out === length (concatMap tokenMorphs tokens)
               .&&. T.count "<span" out === T.count "</span>" out
     )
+  , ( "a rendered journal with its version replays to the same document"
+    , forAll (genDocument >>= \d -> (,) d <$> genRun 6 d) $ \(d0, (d, cs)) ->
+        case foldM (flip perform) (newSession d0) cs of
+          Left e -> counterexample (show e) False
+          Right session -> fmap sessionDocument (replayJournal d0 (renderJournal session)) === Right d
+    )
+  , ( "a snapshot with another version is rejected"
+    , forAll ((,) <$> genDocument <*> (arbitrary `suchThat` (/= (1 :: Int)))) $ \(d, v) ->
+        parseSnapshot (T.replace "suz-snapshot\t1" (T.pack ("suz-snapshot\t" ++ show v)) (renderSnapshot d)) === Left (1, "unsupported snapshot version: " ++ show v)
+    )
   ]
   where
     languageTagList = foldr (:) [] . languageTags
