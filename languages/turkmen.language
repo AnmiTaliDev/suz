@@ -1,0 +1,44 @@
+language	Turkmen
+tag	1PL
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	DAT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	POSS
+tag	PST
+tag	SG
+punctuation	!,.?
+foldcase
+weight	a	8.0	-	DAT
+weight	da	8.0	-	LOC
+weight	dan	8.0	-	ABL
+weight	de	8.0	-	LOC
+weight	den	8.0	-	ABL
+weight	di	9.0	-	PST
+weight	dy	9.0	-	PST
+weight	e	8.0	-	DAT
+weight	i	9.0	-	ACC
+weight	im	8.0	-	1SG	POSS
+weight	iň	8.0	-	GEN
+weight	k	9.0	-	1PL
+weight	kitab	10.0	book
+weight	kitap	10.0	book
+weight	lar	8.0	-	PL
+weight	ler	8.0	-	PL
+weight	m	9.0	-	1SG
+weight	ma	8.0	-	NEG
+weight	me	8.0	-	NEG
+weight	men	10.0	-	1SG
+weight	ni	9.0	-	ACC
+weight	ny	9.0	-	ACC
+weight	oka	10.0	read
+weight	y	9.0	-	ACC
+weight	ym	8.0	-	1SG	POSS
+weight	yň	8.0	-	GEN
+weight	öý	10.0	house
+weight	ň	9.0	-	2SG
