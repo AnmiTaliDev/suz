@@ -7,4 +7,5 @@ import Suz
 checks :: [(String, Bool)]
 checks =
   [ ("render", renderDocument baseDoc == "китаплар  мин\nкитап-лар мин\nbook-PL   ?")
+  , ("renderGloss joins the lexical part and the tags", renderGloss (Gloss "book" ["PL", "ACC"]) == "book.PL.ACC")
   ]
