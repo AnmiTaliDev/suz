@@ -42,6 +42,10 @@ void demo_exchange(suz_language *language)
     printf("-- CoNLL-U\n%s", conllu);
     suz_free(conllu);
 
+    char *json = suz_json(raw);
+    printf("-- JSON\n%s\n", json);
+    suz_free(json);
+
     suz_session_free(from_conllu);
     suz_session_free(from_leipzig);
     suz_free(leipzig);
