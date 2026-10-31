@@ -50,16 +50,17 @@ checks = concat
   , Model.checks
   , Edit.checks
   , Json.checks
-  , Languages.checks
   ]
 
 main :: IO ()
 main = do
-  let failed = [name | (name, False) <- checks]
+  languageChecks <- Languages.checks
+  let allChecks = checks ++ languageChecks
+      failed = [name | (name, False) <- allChecks]
   results <- mapM (\(name, p) -> (,) name <$> quickCheckWithResult stdArgs {chatty = False} p) Property.properties
   let failedProperties = [(name, r) | (name, r) <- results, not (isSuccess r)]
   mapM_ (putStrLn . ("FAIL: " ++)) failed
   mapM_ (\(name, r) -> putStrLn ("FAIL: property " ++ name) >> putStr (output r)) failedProperties
-  putStrLn (show (length checks - length failed) ++ "/" ++ show (length checks) ++ " checks passed")
+  putStrLn (show (length allChecks - length failed) ++ "/" ++ show (length allChecks) ++ " checks passed")
   putStrLn (show (length results - length failedProperties) ++ "/" ++ show (length results) ++ " properties passed")
   if null failed && null failedProperties then exitSuccess else exitFailure
