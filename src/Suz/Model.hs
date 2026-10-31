@@ -24,6 +24,7 @@ import qualified Data.Set as Set
 import Data.Text (Text)
 import Data.Word (Word64)
 
+-- | Identifier of a segment. Segments, tokens and morphs share one numbering.
 newtype SegmentId = SegmentId Word64 deriving (Eq, Ord, Show)
 
 newtype TokenId = TokenId Word64 deriving (Eq, Ord, Show)
