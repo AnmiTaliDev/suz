@@ -85,7 +85,10 @@ withUd d = do
     morph m = (\u -> m {morphUd = u}) <$> genMaybeUd ids
 
 genDocument :: Gen Document
-genDocument = (assemble <$> genShape (textOf wild 0 4) (oneof [pure Nothing, Just <$> genGloss]) 0 0) >>= withUd
+genDocument = genPlainDocument >>= withUd
+
+genPlainDocument :: Gen Document
+genPlainDocument = assemble <$> genShape (textOf wild 0 4) (oneof [pure Nothing, Just <$> genGloss]) 0 0
 
 genHtmlDocument :: Gen Document
 genHtmlDocument = assemble <$> genShape (textOf "<>&\"'ab" 0 4) (oneof [pure Nothing, Just <$> (Gloss <$> textOf "<>&\"'ab" 0 3 <*> smallList 2 (textOf "<>&\"'AB" 1 2))]) 0 0
@@ -151,6 +154,14 @@ genRun k d = do
   case apply c d of
     Left _ -> genRun (k - 1) d
     Right (d', _) -> fmap (c :) <$> genRun (k - 1) d'
+
+genAcceptedRun :: Int -> Document -> Gen (Document, [Command])
+genAcceptedRun 0 d = pure (d, [])
+genAcceptedRun k d = do
+  c <- genCommand d
+  case perform c (newSession d) of
+    Left _ -> genAcceptedRun (k - 1) d
+    Right s -> fmap (c :) <$> genAcceptedRun (k - 1) (sessionDocument s)
 
 genScenario :: Gen (Document, Command)
 genScenario = do
@@ -246,7 +257,7 @@ properties =
         Right (d', inverse) -> fmap (documentSegments . fst) (apply inverse d') === Right (documentSegments d0)
     )
   , ( "a batch is one step of undo and redo"
-    , forAll (genDocument >>= \d -> (,) d <$> genRun 4 d) $ \(d0, (d, cs)) -> case perform (Batch cs) (newSession d0) of
+    , forAll (genDocument >>= \d -> (,) d <$> genAcceptedRun 4 d) $ \(d0, (d, cs)) -> case perform (Batch cs) (newSession d0) of
         Left e -> counterexample (show e) False
         Right s ->
           fmap (documentSegments . sessionDocument) (undo s) === Right (documentSegments d0)
@@ -265,7 +276,7 @@ properties =
          in decodeCommand (encodeCommand c) === Right c .&&. fmap fst (apply c d0) === Right d
     )
   , ( "a journal replays to the same document"
-    , forAll (genDocument >>= \d -> (,) d <$> genRun 6 d) $ \(d0, (d, cs)) ->
+    , forAll (genDocument >>= \d -> (,) d <$> genAcceptedRun 6 d) $ \(d0, (d, cs)) ->
         fmap sessionDocument (replayJournal d0 (T.unlines (map encodeCommand cs))) === Right d
     )
   , ( "commands keep identifiers unique and below the next free one"
@@ -478,7 +489,7 @@ properties =
               .&&. T.count "<span" out === T.count "</span>" out
     )
   , ( "a rendered journal with its version replays to the same document"
-    , forAll (genDocument >>= \d -> (,) d <$> genRun 6 d) $ \(d0, (d, cs)) ->
+    , forAll (genDocument >>= \d -> (,) d <$> genAcceptedRun 6 d) $ \(d0, (d, cs)) ->
         case foldM (flip perform) (newSession d0) cs of
           Left e -> counterexample (show e) False
           Right session -> fmap sessionDocument (replayJournal d0 (renderJournal session)) === Right d
@@ -493,6 +504,9 @@ properties =
     )
   , ( "no sequence of commands leaves a dangling head"
     , forAll (genDocument >>= genRun 6) $ \(d, _) -> [v | v@(UdDanglingHead _ _) <- validateUd d] === []
+    )
+  , ( "performing commands on a document without annotations never leaves an invalid head"
+    , forAll (genPlainDocument >>= genAcceptedRun 8) $ \(d, _) -> validateUd d === []
     )
   , ( "removing a morph leaves no head that points at it"
     , forAll (genDocument `suchThat` (not . null . allMorphs)) $ \d ->

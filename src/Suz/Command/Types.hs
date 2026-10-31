@@ -7,6 +7,7 @@ module Suz.Command.Types
 import Data.Text (Text)
 import Data.Word (Word64)
 import Suz.Model
+import Suz.Validate (UdViolation)
 
 -- | An editing operation, applied with 'Suz.Command.apply'. Positions count from
 -- 0 and a position equal to the length of the list inserts at the end.
@@ -40,4 +41,5 @@ data EditError
   | NoNextMorph MorphId
   | BadTokenSplit TokenId Int Int
   | NoNextToken TokenId
+  | BadUdHead UdViolation
   deriving (Eq, Show)

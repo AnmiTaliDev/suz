@@ -140,7 +140,9 @@ int suz_perform(suz_session *session, const char *command, char **error);
  * @param feats FEATS column.
  * @param head 0 if the HEAD column is not given, 1 for the root of the
  *             sentence, 2 for another morph, then head_id is its identifier.
- * @param head_id Identifier of the head morph, used when head is 2.
+ * @param head_id Identifier of the head morph, used when head is 2. It fails
+ *                if that morph does not exist, is in another segment, or the
+ *                head closes a cycle.
  * @param deprel DEPREL column.
  * @param deps DEPS column, kept as written.
  * @param misc MISC column.

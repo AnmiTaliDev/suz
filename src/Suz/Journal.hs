@@ -14,13 +14,15 @@ module Suz.Journal
   , journalVersion
   ) where
 
-import Control.Monad (foldM)
+import Control.Monad (foldM, when)
 import Data.Bifunctor (first)
+import Data.List ((\\))
 import Data.Text (Text)
 import qualified Data.Text as T
 import Suz.Codec
 import Suz.Command
 import Suz.Model
+import Suz.Validate (validateUd)
 import Text.Read (readMaybe)
 
 -- | A command together with the command that reverts it.
@@ -56,16 +58,37 @@ data ReplayError
 newSession :: Document -> Session
 newSession doc = Session doc [] []
 
--- | Applies a command and records it. The redo stack is discarded.
+-- | Applies a command and records it. The redo stack is discarded. A command
+-- that gives a morph a head that does not exist, lies in another segment or
+-- closes a cycle is rejected with 'BadUdHead'. Heads that were already
+-- invalid do not block other commands, and 'undo' and 'redo' do not check.
 perform :: Command -> Session -> Either EditError Session
 perform command session = do
   (doc, inverse) <- apply command (sessionDocument session)
+  when (setsHeads command) $
+    case validateUd doc \\ validateUd (sessionDocument session) of
+      violation : _ -> Left (BadUdHead violation)
+      [] -> pure ()
   pure
     session
       { sessionDocument = doc
       , sessionDone = Entry command inverse : sessionDone session
       , sessionUndone = []
       }
+
+setsHeads :: Command -> Bool
+setsHeads command = case command of
+  SetUd _ (Just u) -> isHead (udHead u)
+  InsertSegment _ s -> any headed (concatMap tokenMorphs (segmentTokens s))
+  InsertToken _ _ t -> any headed (tokenMorphs t)
+  InsertMorph _ _ m -> headed m
+  MoveToken {} -> True
+  Batch commands -> any setsHeads commands
+  _ -> False
+  where
+    headed m = maybe False (isHead . udHead) (morphUd m)
+    isHead (HeadOf _) = True
+    isHead _ = False
 
 -- | Reverts the most recent recorded command.
 undo :: Session -> Either JournalError Session
