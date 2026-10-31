@@ -18,6 +18,7 @@ import Data.Word (Word64)
 import Suz.Command.Types
 import Suz.Model
 
+-- | Position and value of a segment, or 'NoSuchSegment'.
 needSegment :: SegmentId -> Document -> Either EditError (Int, Segment)
 needSegment sid = maybe (Left (NoSuchSegment sid)) Right . findSegment sid
 
