@@ -35,15 +35,18 @@ char *suz_render(suz_session *session);
 char *suz_render_wrapped(suz_session *session, int width);
 
 /**
- * Text snapshot of the document. The history is not included.
+ * Text snapshot of the document. The history is not included. The first line,
+ * `suz-snapshot` and a tab and the format version, names the version of the
+ * format, which is 1.
  * @param session Session.
  * @return Text, release with suz_free().
  */
 char *suz_snapshot(suz_session *session);
 
 /**
- * Journal text: the commands that produced the document, one per line, oldest
- * first. Undone commands are not included.
+ * Journal text: a first line, `suz-journal` and a tab and the format version,
+ * which is 1, then the commands that produced the document, one per line,
+ * oldest first. Undone commands are not included.
  * @param session Session.
  * @return Text, release with suz_free().
  */

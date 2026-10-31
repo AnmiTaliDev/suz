@@ -20,7 +20,8 @@ suz_session *suz_session_new(void);
 
 /**
  * Creates a session from the text produced by suz_snapshot(). The history of
- * the new session is empty.
+ * the new session is empty. Text without a version line is read as version 1,
+ * a line that names another version is an error.
  * @param text Snapshot text.
  * @param error Receives the message on failure, may be NULL.
  * @return New session or NULL.
@@ -29,7 +30,8 @@ suz_session *suz_session_from_snapshot(const char *text, char **error);
 
 /**
  * Creates a session by applying the commands of a text produced by
- * suz_journal() to an empty document.
+ * suz_journal() to an empty document. Text without a version line is read as
+ * version 1, a line that names another version is an error.
  * @param text Journal text.
  * @param error Receives the message on failure, may be NULL.
  * @return New session or NULL.
