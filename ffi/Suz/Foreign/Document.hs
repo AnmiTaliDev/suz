@@ -23,6 +23,9 @@ foreign export ccall "suz_morph_glossed" morphGlossed :: Ptr () -> CInt -> CInt 
 foreign export ccall "suz_morph_lexical" morphLexical :: Ptr () -> CInt -> CInt -> CInt -> IO CString
 foreign export ccall "suz_morph_tag_count" morphTagCount :: Ptr () -> CInt -> CInt -> CInt -> IO CInt
 foreign export ccall "suz_morph_tag" morphTag :: Ptr () -> CInt -> CInt -> CInt -> CInt -> IO CString
+foreign export ccall "suz_morph_has_ud" morphHasUd :: Ptr () -> CInt -> CInt -> CInt -> IO CInt
+foreign export ccall "suz_morph_ud_text" morphUdText :: Ptr () -> CInt -> CInt -> CInt -> CInt -> IO CString
+foreign export ccall "suz_morph_ud_head" morphUdHead :: Ptr () -> CInt -> CInt -> CInt -> Ptr Word64 -> IO CInt
 
 segmentAt :: Ptr () -> CInt -> IO (Maybe Segment)
 segmentAt h s = at s . documentSegments . sessionDocument <$> readSession h
@@ -74,3 +77,17 @@ morphTagCount h s t m = maybe (-1) (maybe 0 (genericLength . glossTags) . morphG
 
 morphTag :: Ptr () -> CInt -> CInt -> CInt -> CInt -> IO CString
 morphTag h s t m i = morphAt h s t m >>= stringOut . (>>= at i . glossTags) . (>>= morphGloss)
+
+morphHasUd :: Ptr () -> CInt -> CInt -> CInt -> IO CInt
+morphHasUd h s t m = maybe (-1) (maybe 0 (const 1) . morphUd) <$> morphAt h s t m
+
+morphUdText :: Ptr () -> CInt -> CInt -> CInt -> CInt -> IO CString
+morphUdText h s t m field = morphAt h s t m >>= stringOut . (>>= \u -> at field [udLemma u, udUpos u, udXpos u, udFeats u, udDeprel u, udDeps u, udMisc u]) . (>>= morphUd)
+
+morphUdHead :: Ptr () -> CInt -> CInt -> CInt -> Ptr Word64 -> IO CInt
+morphUdHead h s t m p = morphAt h s t m >>= maybe (pure (-1)) (maybe (pure (-1)) headOut . morphUd)
+  where
+    headOut u = case udHead u of
+      NoHead -> pure 0
+      RootHead -> pure 1
+      HeadOf (MorphId n) -> poke p n >> pure 2
