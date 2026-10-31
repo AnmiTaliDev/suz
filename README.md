@@ -68,6 +68,25 @@ The `languages` directory holds a weight table per language in the language text
 
 From C, read a file and pass its text to `suz_language_from_text()`. From Haskell, pass it to `parseLanguage` and find the files with `getDataFileName` from the generated `Paths_suz` module.
 
+## GTK application
+
+The `gtk` directory holds a GNOME application. It opens a plain text file, splits the words into morphs and glosses them with a language from `languages/`, and lets you correct the glosses. Documents are saved as snapshots and can be exported as interlinear text, Toolbox, CoNLL-U and JSON. It needs GTK 4.12 and libadwaita 1.8 or newer.
+
+```
+cabal build flib:suz
+make -C gtk
+gtk/suz-gtk text.txt
+```
+
+To install it, install the C library first, then the application:
+
+```
+make install PREFIX=/usr/local
+make -C gtk install PREFIX=/usr/local
+```
+
+Languages are read from `SUZ_LANGUAGES_DIR` (a list of directories), from `suz/languages` in the user data directory and from `suz/languages` in the system data directories. The weights learned from corrections are not written back.
+
 ## License
 
 GNU General Public License, version 3 or later. See [LICENSE](LICENSE).
