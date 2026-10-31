@@ -1,0 +1,43 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check that the tag matches the package version
+        run: |
+          version=$(awk '$1 == "version:" { print $2 }' suz.cabal)
+          test "$GITHUB_REF_NAME" = "v$version"
+
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '9.10.3'
+          cabal-version: '3.16.1.0'
+
+      - run: cabal update
+      - run: cabal build all --enable-tests
+      - run: cabal test
+
+      - name: Build and run the C example
+        run: |
+          make -C c-example
+          c-example/suz-c-example > /dev/null
+
+      - run: cabal sdist
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist-newstyle/sdist/suz-*.tar.gz \
+            --verify-tag --title "${GITHUB_REF_NAME#v}" --generate-notes
