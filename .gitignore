@@ -1,3 +1,6 @@
 dist-newstyle/
 c-example/suz-c-example
 c-example/lib/
+gtk/suz-gtk
+gtk/suz-gtk-installed
+gtk/lib/
