@@ -108,6 +108,17 @@ char *suz_latex(suz_session *session);
 char *suz_html(suz_session *session);
 
 /**
+ * An ELAN annotation file (EAF 3.0). Each segment that has tokens is an
+ * annotation of the `segment` tier with a made-up time of one second. The
+ * `word`, `morph` and `gloss` tiers hold the surface forms, the morph forms
+ * and the glosses below it, a gloss is its lexical part and its tags joined by
+ * periods, and a morph without a gloss has none. The text is not read back.
+ * @param session Session.
+ * @return Text, release with suz_free().
+ */
+char *suz_elan(suz_session *session);
+
+/**
  * Problems with the UD heads of the document, one per line with tab-separated
  * fields: `dangling`, the morph and a head that does not exist, `outside`,
  * the morph and a head in another segment, or `cycle` and a morph on a cycle

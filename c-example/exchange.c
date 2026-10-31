@@ -106,6 +106,10 @@ void demo_exchange(suz_language *language)
     printf("-- HTML (%zu bytes, the list)\n%s\n", strlen(html), list ? list : "");
     suz_free(html);
 
+    char *elan = suz_elan(raw);
+    printf("-- ELAN (%zu bytes)\n", strlen(elan));
+    suz_free(elan);
+
     char *json = suz_json(raw);
     printf("-- JSON\n%s\n", json);
     suz_session *from_json = suz_session_from_json(json, &error);

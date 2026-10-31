@@ -38,6 +38,7 @@ foreign export ccall "suz_toolbox" sessionToolbox :: Ptr () -> IO CString
 foreign export ccall "suz_json" sessionJson :: Ptr () -> IO CString
 foreign export ccall "suz_latex" sessionLatex :: Ptr () -> IO CString
 foreign export ccall "suz_html" sessionHtml :: Ptr () -> IO CString
+foreign export ccall "suz_elan" sessionElan :: Ptr () -> IO CString
 foreign export ccall "suz_validate_ud" sessionValidateUd :: Ptr () -> IO CString
 foreign export ccall "suz_conllu" sessionConllu :: Ptr () -> IO CString
 
@@ -184,6 +185,9 @@ sessionConllu h = readSession h >>= newUtf8 . renderConllu . sessionDocument
 
 sessionHtml :: Ptr () -> IO CString
 sessionHtml h = readSession h >>= newUtf8 . renderHtml . sessionDocument
+
+sessionElan :: Ptr () -> IO CString
+sessionElan h = readSession h >>= newUtf8 . renderElan . sessionDocument
 
 sessionValidateUd :: Ptr () -> IO CString
 sessionValidateUd h = readSession h >>= newUtf8 . T.unlines . map line . validateUd . sessionDocument
