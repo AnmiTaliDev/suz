@@ -49,6 +49,7 @@ data Morph = Morph
   }
   deriving (Eq, Show)
 
+-- | A word with its surface form and its morphs in order.
 data Token = Token
   { tokenId :: TokenId
   , tokenSurface :: Text
