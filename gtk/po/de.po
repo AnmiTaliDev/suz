@@ -1,0 +1,354 @@
+# Translation of Suz to de.
+# Copyright (C) the Suz authors
+# This file is distributed under the same license as the Suz package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Suz 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-31 19:03+0500\n"
+"PO-Revision-Date: 2026-10-31 19:03+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: main.c:46
+msgid "Morpheme-level interlinear glossing."
+msgstr "Interlineare Glossierung auf Morphemebene."
+
+#: main.c:64
+msgid "Documents"
+msgstr "Dokumente"
+
+#: main.c:65 suz-window.c:802
+msgid "Open Text"
+msgstr "Text öffnen"
+
+#: main.c:66 suz-window.c:814
+msgid "Open Document"
+msgstr "Dokument öffnen"
+
+#: main.c:67 suz-window.c:997 suz-window.c:1050
+msgid "Save"
+msgstr "Speichern"
+
+#: main.c:68
+msgid "Save As"
+msgstr "Speichern unter"
+
+#: main.c:71
+msgid "Editing"
+msgstr "Bearbeiten"
+
+#: main.c:72 suz-window.c:1106
+msgid "Annotate"
+msgstr "Annotieren"
+
+#: main.c:73 suz-window.c:1048 suz-window.c:1082
+msgid "Undo"
+msgstr "Rückgängig"
+
+#: main.c:74 suz-window.c:1049 suz-window.c:1085
+msgid "Redo"
+msgstr "Wiederholen"
+
+#: main.c:77
+msgid "General"
+msgstr "Allgemein"
+
+#: main.c:78 suz-window.c:1056
+msgid "Keyboard Shortcuts"
+msgstr "Tastenkürzel"
+
+#: main.c:79
+msgid "Quit"
+msgstr "Beenden"
+
+#: suz-document-view.c:94
+msgid "no gloss"
+msgstr "keine Glosse"
+
+#: suz-morph-editor.c:199
+msgid "Form"
+msgstr "Form"
+
+#: suz-morph-editor.c:206
+msgid "Gloss"
+msgstr "Glosse"
+
+#: suz-morph-editor.c:213
+msgid "Separate the parts of a gloss with periods, for example book.PL."
+msgstr "Die Teile einer Glosse werden durch Punkte getrennt, zum Beispiel book.PL."
+
+#: suz-morph-editor.c:223
+msgid "Suggestions"
+msgstr "Vorschläge"
+
+#: suz-morph-editor.c:232
+msgid "Remove Gloss"
+msgstr "Glosse entfernen"
+
+#: suz-window.c:44
+msgid "Interlinear Text…"
+msgstr "Interlinearer Text…"
+
+#: suz-window.c:45
+msgid "Toolbox…"
+msgstr "Toolbox…"
+
+#: suz-window.c:46
+msgid "CoNLL-U…"
+msgstr "CoNLL-U…"
+
+#: suz-window.c:47
+msgid "JSON…"
+msgstr "JSON…"
+
+#: suz-window.c:48
+msgid "LaTeX (gb4e)…"
+msgstr "LaTeX (gb4e)…"
+
+#: suz-window.c:49
+msgid "HTML…"
+msgstr "HTML…"
+
+#: suz-window.c:61
+msgid "unknown error"
+msgstr "unbekannter Fehler"
+
+#: suz-window.c:121 suz-window.c:123
+msgid "Cannot autosave the document"
+msgstr "Das Dokument konnte nicht automatisch gespeichert werden"
+
+#: suz-window.c:153 suz-window.c:665 suz-window.c:872 suz-window.c:963
+msgid "Untitled"
+msgstr "Unbenannt"
+
+#: suz-window.c:247
+msgid "Cannot load the language"
+msgstr "Die Sprache konnte nicht geladen werden"
+
+#: suz-window.c:284 suz-window.c:286
+msgid "Cannot save the learned weights"
+msgstr "Die gelernten Gewichte konnten nicht gespeichert werden"
+
+#: suz-window.c:329
+msgid "Cannot apply the change"
+msgstr "Die Änderung konnte nicht angewendet werden"
+
+#: suz-window.c:436
+msgid "Cannot split the words"
+msgstr "Die Wörter konnten nicht aufgeteilt werden"
+
+#: suz-window.c:442
+msgid "Cannot suggest glosses"
+msgstr "Glossen konnten nicht vorgeschlagen werden"
+
+#: suz-window.c:449
+msgid "Nothing to annotate"
+msgstr "Nichts zu annotieren"
+
+#: suz-window.c:458
+#, c-format
+msgid "Split %d, glossed %d"
+msgstr "Aufgeteilt: %d, geglossen: %d"
+
+#: suz-window.c:474
+msgid "Cannot undo"
+msgstr "Rückgängigmachen nicht möglich"
+
+#: suz-window.c:474
+msgid "Cannot redo"
+msgstr "Wiederholen nicht möglich"
+
+#: suz-window.c:509
+msgid "Cannot reset the language"
+msgstr "Die Sprache konnte nicht zurückgesetzt werden"
+
+#: suz-window.c:517
+msgid "Learned weights reset"
+msgstr "Gelernte Gewichte zurückgesetzt"
+
+#: suz-window.c:526
+msgid "Reset Learned Weights?"
+msgstr "Gelernte Gewichte zurücksetzen?"
+
+#: suz-window.c:526
+msgid ""
+"The language returns to the weights it shipped with. The weights learned "
+"from your corrections are lost."
+msgstr "Die Sprache kehrt zu den mitgelieferten Gewichten zurück. Die aus Ihren Korrekturen gelernten Gewichte gehen verloren."
+
+#: suz-window.c:527 suz-window.c:738 suz-window.c:997
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: suz-window.c:527
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: suz-window.c:541 suz-window.c:545 suz-window.c:568 suz-window.c:781
+#: suz-window.c:792
+msgid "Cannot open the file"
+msgstr "Die Datei konnte nicht geöffnet werden"
+
+#: suz-window.c:545
+msgid "the text is not valid UTF-8"
+msgstr "der Text ist kein gültiges UTF-8"
+
+#: suz-window.c:554
+msgid "Cannot import the text"
+msgstr "Der Text konnte nicht importiert werden"
+
+#: suz-window.c:575
+msgid "Cannot read the document"
+msgstr "Das Dokument konnte nicht gelesen werden"
+
+#: suz-window.c:604
+msgid "Cannot read the recovery file"
+msgstr "Die Wiederherstellungsdatei konnte nicht gelesen werden"
+
+#: suz-window.c:665
+#, c-format
+msgid "The previous session ended with unsaved changes to \"%s\"."
+msgstr "Die vorherige Sitzung endete mit ungespeicherten Änderungen an „%s“."
+
+#: suz-window.c:666
+msgid "Recover Unsaved Document?"
+msgstr "Ungespeichertes Dokument wiederherstellen?"
+
+#: suz-window.c:667
+msgid "Not Now"
+msgstr "Nicht jetzt"
+
+#: suz-window.c:667 suz-window.c:738 suz-window.c:997
+msgid "Discard"
+msgstr "Verwerfen"
+
+#: suz-window.c:667
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: suz-window.c:737
+msgid "Discard Changes?"
+msgstr "Änderungen verwerfen?"
+
+#: suz-window.c:737
+msgid "The current document has unsaved changes."
+msgstr "Das aktuelle Dokument enthält ungespeicherte Änderungen."
+
+#: suz-window.c:801
+msgid "Text files"
+msgstr "Textdateien"
+
+#: suz-window.c:813 suz-window.c:871
+msgid "Suz documents"
+msgstr "Suz-Dokumente"
+
+#: suz-window.c:832 suz-window.c:865
+msgid "Cannot save the document"
+msgstr "Das Dokument konnte nicht gespeichert werden"
+
+#: suz-window.c:845
+msgid "Document saved"
+msgstr "Dokument gespeichert"
+
+#: suz-window.c:873
+msgid "Save Document"
+msgstr "Dokument speichern"
+
+#: suz-window.c:930 suz-window.c:934
+msgid "Cannot export the document"
+msgstr "Das Dokument konnte nicht exportiert werden"
+
+#: suz-window.c:931
+msgid "Document exported"
+msgstr "Dokument exportiert"
+
+#: suz-window.c:946 suz-window.c:1042
+msgid "Export"
+msgstr "Exportieren"
+
+#: suz-window.c:996
+msgid "Save Changes?"
+msgstr "Änderungen speichern?"
+
+#: suz-window.c:996
+msgid ""
+"The document has unsaved changes. They are lost if you close without saving."
+msgstr "Das Dokument enthält ungespeicherte Änderungen. Sie gehen verloren, wenn Sie ohne Speichern schließen."
+
+#: suz-window.c:1026
+msgid "Reset Learned Weights…"
+msgstr "Gelernte Gewichte zurücksetzen…"
+
+#: suz-window.c:1031
+msgid "Language"
+msgstr "Sprache"
+
+#: suz-window.c:1051
+msgid "Save As…"
+msgstr "Speichern unter…"
+
+#: suz-window.c:1057
+msgid "About Suz"
+msgstr "Über Suz"
+
+#: suz-window.c:1068 suz-window.c:1130
+msgid "Open Text…"
+msgstr "Text öffnen…"
+
+#: suz-window.c:1069
+msgid "Open Document…"
+msgstr "Dokument öffnen…"
+
+#: suz-window.c:1071
+msgid "Open"
+msgstr "Öffnen"
+
+#: suz-window.c:1074
+msgid "Open a text file"
+msgstr "Eine Textdatei öffnen"
+
+#: suz-window.c:1096
+msgid "Main Menu"
+msgstr "Hauptmenü"
+
+#: suz-window.c:1103
+msgid "Save the document"
+msgstr "Das Dokument speichern"
+
+#: suz-window.c:1109
+msgid "Split the words and suggest glosses"
+msgstr "Wörter aufteilen und Glossen vorschlagen"
+
+#: suz-window.c:1127
+msgid "Open a Text"
+msgstr "Text öffnen"
+
+#: suz-window.c:1128
+msgid "Choose a text file, or drop one here, to start glossing."
+msgstr "Wählen Sie eine Textdatei aus oder ziehen Sie sie hierher, um mit dem Glossieren zu beginnen."
+
+#: ../data/dev.anmitali.Suz.desktop:3 ../data/dev.anmitali.Suz.metainfo.xml:7
+msgid "Suz"
+msgstr ""
+
+#: ../data/dev.anmitali.Suz.desktop:4 ../data/dev.anmitali.Suz.metainfo.xml:8
+msgid "Morpheme-level interlinear glossing"
+msgstr "Interlineare Glossierung auf Morphemebene"
+
+#: ../data/dev.anmitali.Suz.desktop:11
+msgid "gloss;glossing;interlinear;morpheme;linguistics;"
+msgstr "Glosse;Glossierung;interlinear;Morphem;Linguistik;"
+
+#: ../data/dev.anmitali.Suz.metainfo.xml:10
+msgid ""
+"Suz splits the words of a text into morphs and glosses them, using weight "
+"tables that learn from your corrections. It reads plain text and exports "
+"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML."
+msgstr "Suz teilt die Wörter eines Textes in Morphe auf und versieht sie mit Glossen. Dabei werden Gewichtstabellen verwendet, die aus Ihren Korrekturen lernen. Das Programm liest einfachen Text und exportiert interlinearen Text, Toolbox, CoNLL-U, JSON, LaTeX und HTML."
