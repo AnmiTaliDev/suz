@@ -79,6 +79,7 @@ executable suz-examples
                       Kazakh
                       Tatar
                       Turkish
+                      Uzbek
     build-depends:    suz
 
 foreign-library suz
