@@ -1,0 +1,11 @@
+language	Italian
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	i	9.0	-	PL
+weight	io	10.0	-	1SG
+weight	legg	10.0	read
+weight	libr	10.0	book
+weight	o	9.0	-	1SG	PRS
