@@ -6,13 +6,6 @@ module Suz.Languages.Kazakh
 import Suz.Language
 import Suz.Model
 
--- | A small Kazakh weight table: the pronoun мен, the stems кітап, оқы and
--- үй, and endings for the plural, the accusative, dative, locative, ablative
--- and genitive cases, the first person singular possessive, negation, the
--- past tense and the first person singular, second person singular and first
--- person plural forms. The endings ды, ді, ты, ті are accusative after a noun
--- stem or a plural ending and past tense otherwise. Importing splits the
--- punctuation .,!? and lowercases.
 kazakh :: Language
 kazakh =
   withImportRules ".,!?" SimpleFolding $
