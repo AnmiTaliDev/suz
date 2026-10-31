@@ -27,6 +27,7 @@ import Data.Word (Word64)
 -- | Identifier of a segment. Segments, tokens and morphs share one numbering.
 newtype SegmentId = SegmentId Word64 deriving (Eq, Ord, Show)
 
+-- | Identifier of a token, numbered together with segments and morphs.
 newtype TokenId = TokenId Word64 deriving (Eq, Ord, Show)
 
 newtype MorphId = MorphId Word64 deriving (Eq, Ord, Show)
