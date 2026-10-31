@@ -3,6 +3,8 @@ module Suz.Render
   ( renderGloss
   , renderSegment
   , renderDocument
+  , renderSegmentWrapped
+  , renderDocumentWrapped
   , displayWidth
   ) where
 
@@ -20,11 +22,32 @@ renderGloss (Gloss lexical tags) = T.intercalate "." (filter (not . T.null) [lex
 -- glosses joined with hyphens. A morph without a gloss shows as a question
 -- mark. Width is measured in terminal columns, see 'displayWidth'.
 renderSegment :: Segment -> Text
-renderSegment seg = T.intercalate "\n" (map row [0 .. 2])
+renderSegment = renderCells . map tokenCells . segmentTokens
+
+-- | Like 'renderSegment', but a line is broken before the first word that
+-- would take it past the given number of columns. The groups of three lines
+-- are separated by a blank line. A word wider than the limit gets a group of
+-- its own. The result is for reading: the Leipzig importer reads each
+-- group as a segment.
+renderSegmentWrapped :: Int -> Segment -> Text
+renderSegmentWrapped limit = T.intercalate "\n\n" . map renderCells . wrapCells limit . map tokenCells . segmentTokens
+
+renderCells :: [(Text, Text, Text)] -> Text
+renderCells cells = T.intercalate "\n" (map row [0 .. 2])
   where
-    cells = map tokenCells (segmentTokens seg)
     row k = T.stripEnd (T.unwords [padRight (cellWidth c) (pick k c) | c <- cells])
     pick k (a, b, c) = [a, b, c] !! k
+
+wrapCells :: Int -> [(Text, Text, Text)] -> [[(Text, Text, Text)]]
+wrapCells limit = go [] 0
+  where
+    go line _ [] = [reverse line]
+    go [] _ (c : cs) = go [c] (cellWidth c) cs
+    go line used (c : cs)
+      | used + 1 + w <= limit = go (c : line) (used + 1 + w) cs
+      | otherwise = reverse line : go [c] w cs
+      where
+        w = cellWidth c
 
 -- | Number of terminal columns the text takes. Combining marks, enclosing
 -- marks, format characters such as the zero-width non-joiner and control
@@ -68,6 +91,10 @@ cellWidth (a, b, c) = maximum (map displayWidth [a, b, c])
 -- | Segments rendered with 'renderSegment', separated by blank lines.
 renderDocument :: Document -> Text
 renderDocument = T.intercalate "\n\n" . map renderSegment . documentSegments
+
+-- | Segments rendered with 'renderSegmentWrapped', separated by blank lines.
+renderDocumentWrapped :: Int -> Document -> Text
+renderDocumentWrapped limit = T.intercalate "\n\n" . map (renderSegmentWrapped limit) . documentSegments
 
 tokenCells :: Token -> (Text, Text, Text)
 tokenCells t =
