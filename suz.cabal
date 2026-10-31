@@ -100,6 +100,7 @@ foreign-library suz
     lib-version-info: 0:0:0
     hs-source-dirs:   ffi
     other-modules:    Suz.Foreign
+                      Suz.Foreign.Builtin
                       Suz.Foreign.Document
                       Suz.Foreign.Handle
                       Suz.Foreign.Language

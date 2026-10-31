@@ -114,6 +114,28 @@ int suz_language_candidate_tag_count(const suz_language *language, const char *f
 char *suz_language_candidate_tag(const suz_language *language, const char *form, int index, int tag);
 
 /**
+ * @return Number of languages bundled with the library.
+ */
+int suz_builtin_language_count(void);
+
+/**
+ * @param index Index of a bundled language, in alphabetical order of the
+ *              English names.
+ * @return Name of the language, release with suz_free(), or NULL if the index
+ * is out of range.
+ */
+char *suz_builtin_language_name(int index);
+
+/**
+ * Creates a copy of a bundled language. The weights are small tables for a few
+ * words and endings, meant as a starting point and for examples.
+ * @param name Name as returned by suz_builtin_language_name().
+ * @param error Receives the message on failure, may be NULL.
+ * @return New language, release with suz_language_free(), or NULL.
+ */
+suz_language *suz_language_builtin(const char *name, char **error);
+
+/**
  * Releases a language.
  * @param language Language to release.
  */
