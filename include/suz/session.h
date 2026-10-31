@@ -102,6 +102,18 @@ suz_session *suz_session_from_leipzig(const suz_language *language, const char *
 suz_session *suz_session_from_conllu(const char *text, char **error);
 
 /**
+ * Creates a session from JSON text as written by suz_json(), with the
+ * identifiers, glosses and UD annotations it holds. White space and the order
+ * of members do not matter, unknown members are ignored. Identifiers must be
+ * unique. The next free identifier is one more than the largest one in the
+ * text. The history of the new session is empty.
+ * @param text JSON text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_json(const char *text, char **error);
+
+/**
  * Releases a session.
  * @param session Session to release.
  */

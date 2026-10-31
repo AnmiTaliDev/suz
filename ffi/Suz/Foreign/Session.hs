@@ -22,6 +22,7 @@ foreign export ccall "suz_session_from_text_with_language" sessionFromTextWithLa
 foreign export ccall "suz_session_from_toolbox" sessionFromToolbox :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_leipzig" sessionFromLeipzig :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_conllu" sessionFromConllu :: CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_session_from_json" sessionFromJson :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_free" sessionFree :: Ptr () -> IO ()
 foreign export ccall "suz_next_id" sessionNextId :: Ptr () -> IO Word64
 foreign export ccall "suz_perform" sessionPerform :: Ptr () -> CString -> Ptr CString -> IO CInt
@@ -92,6 +93,13 @@ sessionFromConllu :: CString -> Ptr CString -> IO (Ptr ())
 sessionFromConllu s errp = do
   input <- peekText s
   case input >>= first lineError . parseConllu of
+    Left msg -> failHandle errp msg
+    Right doc -> newIORef (newSession doc) >>= newHandle
+
+sessionFromJson :: CString -> Ptr CString -> IO (Ptr ())
+sessionFromJson s errp = do
+  input <- peekText s
+  case input >>= parseJson of
     Left msg -> failHandle errp msg
     Right doc -> newIORef (newSession doc) >>= newHandle
 

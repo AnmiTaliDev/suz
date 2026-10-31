@@ -108,6 +108,11 @@ void demo_exchange(suz_language *language)
 
     char *json = suz_json(raw);
     printf("-- JSON\n%s\n", json);
+    suz_session *from_json = suz_session_from_json(json, &error);
+    if (!from_json)
+        fail("json", error);
+    show("read back from JSON", from_json);
+    suz_session_free(from_json);
     suz_free(json);
 
     suz_session_free(from_conllu);
