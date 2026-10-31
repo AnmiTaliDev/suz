@@ -1,0 +1,11 @@
+language	Latin
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	leg	10.0	read
+weight	libr	10.0	book
+weight	o	9.0	-	1SG	PRS
+weight	os	9.0	-	ACC	PL
