@@ -429,6 +429,21 @@ properties =
   , ( "JSON has one ud object for each annotated morph"
     , forAll genDocument $ \d -> T.count "\"ud\":{" (renderJson d) === length [() | Just _ <- map morphUd (allMorphs d)]
     )
+  , ( "wrapped render with an unlimited width equals the plain render"
+    , forAll genDocument $ \d -> renderDocumentWrapped maxBound d === renderDocument d
+    )
+  , ( "a wrapped line is not wider than the limit unless it holds one word"
+    , forAll ((,) <$> genLeipzigDocument <*> choose (1, 30)) $ \(d, limit) ->
+        all (\l -> displayWidth l <= limit || not (T.any (== ' ') l)) (T.lines (renderDocumentWrapped limit d))
+    )
+  , ( "wrapping keeps the words of every line in order"
+    , forAll ((,) <$> genLeipzigDocument <*> choose (1, 30)) $ \(d, limit) ->
+        conjoin
+          [ [T.words (rows !! k) | k <- [0 .. 2]] === [concatMap (T.words . (!! k) . T.lines) (T.splitOn "\n\n" (renderSegmentWrapped limit s)) | k <- [0 .. 2]]
+          | s <- documentSegments d
+          , let rows = T.lines (renderSegment s)
+          ]
+    )
   ]
   where
     languageTagList = foldr (:) [] . languageTags
