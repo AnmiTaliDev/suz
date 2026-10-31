@@ -47,6 +47,73 @@ char *suz_language_to_text(const suz_language *language);
 uint8_t *suz_language_to_binary(const suz_language *language, size_t *size);
 
 /**
+ * @param language Language.
+ * @return Name of the language, release with suz_free().
+ */
+char *suz_language_name(const suz_language *language);
+
+/**
+ * @param language Language.
+ * @return Number of grammatical tags the language declares.
+ */
+int suz_language_tag_count(const suz_language *language);
+
+/**
+ * @param language Language.
+ * @param index Tag index, tags are in ascending order.
+ * @return Grammatical tag, release with suz_free(), or NULL if the index is
+ * out of range.
+ */
+char *suz_language_tag(const suz_language *language, int index);
+
+/**
+ * Candidate glosses of a morph form, from the heaviest to the lightest.
+ * @param language Language.
+ * @param form Morph form.
+ * @return Number of candidates, 0 if the form is unknown, -1 if the form is
+ * not valid UTF-8.
+ */
+int suz_language_candidate_count(const suz_language *language, const char *form);
+
+/**
+ * @param language Language.
+ * @param form Morph form.
+ * @param index Candidate index.
+ * @param weight Receives the weight of the candidate.
+ * @return 0 on success, -1 if the candidate does not exist.
+ */
+int suz_language_candidate_weight(const suz_language *language, const char *form, int index, double *weight);
+
+/**
+ * @param language Language.
+ * @param form Morph form.
+ * @param index Candidate index.
+ * @return Lexical part of the candidate gloss, empty for a purely
+ * grammatical gloss, release with suz_free(), or NULL if the candidate does
+ * not exist.
+ */
+char *suz_language_candidate_lexical(const suz_language *language, const char *form, int index);
+
+/**
+ * @param language Language.
+ * @param form Morph form.
+ * @param index Candidate index.
+ * @return Number of grammatical tags of the candidate gloss, -1 if the
+ * candidate does not exist.
+ */
+int suz_language_candidate_tag_count(const suz_language *language, const char *form, int index);
+
+/**
+ * @param language Language.
+ * @param form Morph form.
+ * @param index Candidate index.
+ * @param tag Tag index.
+ * @return Grammatical tag of the candidate gloss, release with suz_free(), or
+ * NULL if the candidate or the tag does not exist.
+ */
+char *suz_language_candidate_tag(const suz_language *language, const char *form, int index, int tag);
+
+/**
  * Releases a language.
  * @param language Language to release.
  */
