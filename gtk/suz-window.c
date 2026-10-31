@@ -440,6 +440,40 @@ static void action_redo(GSimpleAction *action, GVariant *parameter, gpointer use
     run_steps(self, self->redo_groups, self->undo_groups, FALSE);
 }
 
+static void on_reset_response(GObject *source, GAsyncResult *result, gpointer user_data)
+{
+    SuzWindow *self = SUZ_WINDOW(user_data);
+    const char *response = adw_alert_dialog_choose_finish(ADW_ALERT_DIALOG(source), result);
+    if (!g_str_equal(response, "reset"))
+        return;
+
+    g_autofree char *path = user_language_path(self);
+    if (!path || g_unlink(path) != 0) {
+        show_error(self, "Cannot reset the language", g_strerror(errno));
+        return;
+    }
+
+    g_clear_pointer(&self->languages, g_ptr_array_unref);
+    self->languages = suz_languages_discover();
+    g_autofree char *name = g_strdup(self->language_name);
+    if (load_language(self, name))
+        show_toast(self, "Learned weights reset");
+}
+
+static void action_reset_language(GSimpleAction *action, GVariant *parameter, gpointer user_data)
+{
+    (void)action;
+    (void)parameter;
+    SuzWindow *self = SUZ_WINDOW(user_data);
+
+    AdwDialog *dialog = adw_alert_dialog_new("Reset Learned Weights?", "The language returns to the weights it shipped with. The weights learned from your corrections are lost.");
+    adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", "Cancel", "reset", "Reset", NULL);
+    adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "reset", ADW_RESPONSE_DESTRUCTIVE);
+    adw_alert_dialog_set_default_response(ADW_ALERT_DIALOG(dialog), "cancel");
+    adw_alert_dialog_set_close_response(ADW_ALERT_DIALOG(dialog), "cancel");
+    adw_alert_dialog_choose(ADW_ALERT_DIALOG(dialog), GTK_WIDGET(self), NULL, on_reset_response, self);
+}
+
 /* Files */
 
 static void open_text(SuzWindow *self, GFile *file)
@@ -814,8 +848,16 @@ static GMenu *build_primary_menu(SuzWindow *self)
 {
     GMenu *menu = g_menu_new();
 
+    GMenu *language_submenu = g_menu_new();
+    g_menu_append_section(language_submenu, NULL, G_MENU_MODEL(self->language_menu));
+    GMenu *reset = g_menu_new();
+    g_menu_append(reset, "Reset Learned Weights…", "win.reset-language");
+    g_menu_append_section(language_submenu, NULL, G_MENU_MODEL(reset));
+    g_object_unref(reset);
+
     GMenu *languages = g_menu_new();
-    g_menu_append_submenu(languages, "Language", G_MENU_MODEL(self->language_menu));
+    g_menu_append_submenu(languages, "Language", G_MENU_MODEL(language_submenu));
+    g_object_unref(language_submenu);
     g_menu_append_section(menu, NULL, G_MENU_MODEL(languages));
     g_object_unref(languages);
 
@@ -961,6 +1003,7 @@ static void suz_window_init(SuzWindow *self)
         {"redo", action_redo, NULL, NULL, NULL, {0}},
         {"annotate", action_annotate, NULL, NULL, NULL, {0}},
         {"language", NULL, "s", "''", on_language_changed, {0}},
+        {"reset-language", action_reset_language, NULL, NULL, NULL, {0}},
     };
     g_action_map_add_action_entries(G_ACTION_MAP(self), entries, G_N_ELEMENTS(entries), self);
 
