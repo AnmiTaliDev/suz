@@ -11,4 +11,5 @@ checks =
   , ("findToken gives segment, position and token", findToken (tokenId tokB) plainDoc == Just (plainSegment, 1, tokB))
   , ("findToken gives nothing for an unknown identifier", findToken (TokenId 999) plainDoc == Nothing)
   , ("findMorph gives token, position and morph", findMorph mA2 plainDoc == Just (tokA, 1, tokenMorphs tokA !! 1))
+  , ("findMorph gives nothing for an unknown identifier", findMorph (MorphId 999) plainDoc == Nothing)
   ]
