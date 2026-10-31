@@ -1,7 +1,38 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
+#include <inttypes.h>
 #include <stdio.h>
 
 #include "example.h"
+
+static void print_ud(suz_session *session)
+{
+    printf("-- UD annotation\n");
+    int segments = suz_segment_count(session);
+    for (int s = 0; s < segments; s++) {
+        int tokens = suz_token_count(session, s);
+        for (int t = 0; t < tokens; t++) {
+            int morphs = suz_morph_count(session, s, t);
+            for (int m = 0; m < morphs; m++) {
+                if (suz_morph_has_ud(session, s, t, m) != 1)
+                    continue;
+                char *form = suz_morph_form(session, s, t, m);
+                char *upos = suz_morph_ud_text(session, s, t, m, SUZ_UD_UPOS);
+                char *deprel = suz_morph_ud_text(session, s, t, m, SUZ_UD_DEPREL);
+                uint64_t head = 0;
+                int kind = suz_morph_ud_head(session, s, t, m, &head);
+                printf("  %s %s %s", form, upos, deprel);
+                if (kind == 1)
+                    printf(" root");
+                else if (kind == 2)
+                    printf(" head %" PRIu64, head);
+                printf("\n");
+                suz_free(form);
+                suz_free(upos);
+                suz_free(deprel);
+            }
+        }
+    }
+}
 
 void demo_exchange(suz_language *language)
 {
@@ -37,6 +68,15 @@ void demo_exchange(suz_language *language)
     if (!from_conllu)
         fail("conllu", error);
     show("imported from CoNLL-U", from_conllu);
+    print_ud(from_conllu);
+
+    uint64_t verb;
+    suz_morph_id(from_conllu, 0, 1, 0, &verb);
+    if (suz_set_ud(from_conllu, 0, 0, 0, "мин", "PRON", "", "Case=Nom", 2, verb, "nsubj", "", "SpaceAfter=No", &error) < 0)
+        fail("set ud", error);
+    char *annotated = suz_conllu(from_conllu);
+    printf("-- CoNLL-U after suz_set_ud\n%s", annotated);
+    suz_free(annotated);
 
     char *conllu = suz_conllu(raw);
     printf("-- CoNLL-U\n%s", conllu);
