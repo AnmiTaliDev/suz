@@ -9,7 +9,7 @@
 #define APPLICATION_ID "dev.anmitali.Suz"
 
 #ifndef SUZ_GTK_VERSION
-#define SUZ_GTK_VERSION "0.1.0"
+#define SUZ_GTK_VERSION "0.2.0.0"
 #endif
 
 static const char *const style =
