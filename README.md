@@ -70,7 +70,7 @@ From C, read a file and pass its text to `suz_language_from_text()`. From Haskel
 
 ## GTK application
 
-The `gtk` directory holds a GNOME application. It opens a plain text file, splits the words into morphs and glosses them with a language from `languages/`, and lets you correct the glosses. Documents are saved as snapshots and can be exported as interlinear text, Toolbox, CoNLL-U, JSON and LaTeX. It needs GTK 4.12 and libadwaita 1.8 or newer.
+The `gtk` directory holds a GNOME application. It opens a plain text file, splits the words into morphs and glosses them with a language from `languages/`, and lets you correct the glosses. Documents are saved as snapshots and can be exported as interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML. It needs GTK 4.12 and libadwaita 1.8 or newer.
 
 ```
 cabal build flib:suz
