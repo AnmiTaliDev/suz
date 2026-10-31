@@ -17,4 +17,5 @@ checks =
   , ("checkFresh rejects an identifier in use", checkFresh plainDoc [rawToken tokA] == Left (DuplicateId (rawToken tokA)))
   , ("checkFresh rejects a repeated identifier", checkFresh plainDoc [500, 500] == Left (DuplicateId 500))
   , ("claimIds raises the next free identifier", nextFreeId (claimIds [50, 7] plainDoc) == 51)
+  , ("claimIds never lowers the next free identifier", nextFreeId (claimIds [0] plainDoc) == nextFreeId plainDoc)
   ]
