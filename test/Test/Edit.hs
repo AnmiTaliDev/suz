@@ -26,4 +26,5 @@ checks =
   , ("removeAt ignores a position outside the list", removeAt 5 "abc" == "abc" && removeAt (-1) "abc" == "abc")
   , ("replaceSegment replaces by identifier", documentSegments (replaceSegment plainSegment {segmentTokens = []} plainDoc) == [plainSegment {segmentTokens = []}])
   , ("replaceToken replaces by identifier", map tokenSurface (concatMap segmentTokens (documentSegments (replaceToken tokB {tokenSurface = "Мин"} plainDoc))) == ["китаплар", "Мин"])
+  , ("replaceMorph replaces by identifier", map morphForm (concatMap tokenMorphs (concatMap segmentTokens (documentSegments (replaceMorph ((tokenMorphs tokA !! 1) {morphForm = "ләр"}) plainDoc)))) == ["китап", "ләр", "мин"])
   ]
