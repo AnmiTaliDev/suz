@@ -1,0 +1,12 @@
+language	Greek
+tag	1SG
+tag	ACC
+tag	NOM
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	α	9.0	-	NOM	ACC	PL
+weight	βιβλί	10.0	book
+weight	διαβάζ	10.0	read
+weight	ω	9.0	-	1SG	PRS
