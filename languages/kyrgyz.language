@@ -1,0 +1,223 @@
+language	Kyrgyz
+tag	1PL
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	DAT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	POSS
+tag	PST
+tag	SG
+punctuation	!,.?
+foldcase
+weight	ба	8.0	-	NEG
+weight	бе	8.0	-	NEG
+weight	бо	8.0	-	NEG
+weight	бө	8.0	-	NEG
+weight	га	8.0	-	DAT
+weight	ге	8.0	-	DAT
+weight	го	8.0	-	DAT
+weight	гө	8.0	-	DAT
+weight	да	8.0	-	LOC
+weight	дан	8.0	-	ABL
+weight	дар	8.0	-	PL
+weight	де	8.0	-	LOC
+weight	ден	8.0	-	ABL
+weight	дер	8.0	-	PL
+weight	ди	9.0	-	PST
+weight	ди	5.0	-	ACC
+weight	дин	8.0	-	GEN
+weight	до	8.0	-	LOC
+weight	дон	8.0	-	ABL
+weight	дор	8.0	-	PL
+weight	ду	9.0	-	PST
+weight	ду	5.0	-	ACC
+weight	дун	8.0	-	GEN
+weight	ды	9.0	-	PST
+weight	ды	5.0	-	ACC
+weight	дын	8.0	-	GEN
+weight	дү	9.0	-	PST
+weight	дү	5.0	-	ACC
+weight	дүн	8.0	-	GEN
+weight	дө	8.0	-	LOC
+weight	дөн	8.0	-	ABL
+weight	дөр	8.0	-	PL
+weight	им	8.0	-	1SG	POSS
+weight	к	9.0	-	1PL
+weight	ка	8.0	-	DAT
+weight	ке	8.0	-	DAT
+weight	китеп	10.0	book
+weight	ко	8.0	-	DAT
+weight	кө	8.0	-	DAT
+weight	лар	8.0	-	PL
+weight	лер	8.0	-	PL
+weight	лор	8.0	-	PL
+weight	лөр	8.0	-	PL
+weight	м	9.0	-	1SG
+weight	ма	8.0	-	NEG
+weight	ме	8.0	-	NEG
+weight	мен	10.0	-	1SG
+weight	мо	8.0	-	NEG
+weight	мө	8.0	-	NEG
+weight	нан	8.0	-	ABL
+weight	нен	8.0	-	ABL
+weight	ни	9.0	-	ACC
+weight	нин	8.0	-	GEN
+weight	нон	8.0	-	ABL
+weight	ну	9.0	-	ACC
+weight	нун	8.0	-	GEN
+weight	ны	9.0	-	ACC
+weight	нын	8.0	-	GEN
+weight	нү	9.0	-	ACC
+weight	нүн	8.0	-	GEN
+weight	нөн	8.0	-	ABL
+weight	оку	10.0	read
+weight	па	8.0	-	NEG
+weight	пе	8.0	-	NEG
+weight	по	8.0	-	NEG
+weight	пө	8.0	-	NEG
+weight	та	8.0	-	LOC
+weight	тан	8.0	-	ABL
+weight	тар	8.0	-	PL
+weight	те	8.0	-	LOC
+weight	тен	8.0	-	ABL
+weight	тер	8.0	-	PL
+weight	ти	9.0	-	PST
+weight	ти	5.0	-	ACC
+weight	тин	8.0	-	GEN
+weight	то	8.0	-	LOC
+weight	тон	8.0	-	ABL
+weight	тор	8.0	-	PL
+weight	ту	9.0	-	PST
+weight	ту	5.0	-	ACC
+weight	тун	8.0	-	GEN
+weight	ты	9.0	-	PST
+weight	ты	5.0	-	ACC
+weight	тын	8.0	-	GEN
+weight	тү	9.0	-	PST
+weight	тү	5.0	-	ACC
+weight	түн	8.0	-	GEN
+weight	тө	8.0	-	LOC
+weight	төн	8.0	-	ABL
+weight	төр	8.0	-	PL
+weight	ум	8.0	-	1SG	POSS
+weight	ым	8.0	-	1SG	POSS
+weight	ң	9.0	-	2SG
+weight	үй	10.0	house
+weight	үм	8.0	-	1SG	POSS
+context	дар	ди	6.0	-	ACC
+context	дар	ду	6.0	-	ACC
+context	дар	ды	6.0	-	ACC
+context	дар	дү	6.0	-	ACC
+context	дар	ти	6.0	-	ACC
+context	дар	ту	6.0	-	ACC
+context	дар	ты	6.0	-	ACC
+context	дар	тү	6.0	-	ACC
+context	дер	ди	6.0	-	ACC
+context	дер	ду	6.0	-	ACC
+context	дер	ды	6.0	-	ACC
+context	дер	дү	6.0	-	ACC
+context	дер	ти	6.0	-	ACC
+context	дер	ту	6.0	-	ACC
+context	дер	ты	6.0	-	ACC
+context	дер	тү	6.0	-	ACC
+context	дор	ди	6.0	-	ACC
+context	дор	ду	6.0	-	ACC
+context	дор	ды	6.0	-	ACC
+context	дор	дү	6.0	-	ACC
+context	дор	ти	6.0	-	ACC
+context	дор	ту	6.0	-	ACC
+context	дор	ты	6.0	-	ACC
+context	дор	тү	6.0	-	ACC
+context	дөр	ди	6.0	-	ACC
+context	дөр	ду	6.0	-	ACC
+context	дөр	ды	6.0	-	ACC
+context	дөр	дү	6.0	-	ACC
+context	дөр	ти	6.0	-	ACC
+context	дөр	ту	6.0	-	ACC
+context	дөр	ты	6.0	-	ACC
+context	дөр	тү	6.0	-	ACC
+context	китеп	ди	6.0	-	ACC
+context	китеп	ду	6.0	-	ACC
+context	китеп	ды	6.0	-	ACC
+context	китеп	дү	6.0	-	ACC
+context	китеп	ти	6.0	-	ACC
+context	китеп	ту	6.0	-	ACC
+context	китеп	ты	6.0	-	ACC
+context	китеп	тү	6.0	-	ACC
+context	лар	ди	6.0	-	ACC
+context	лар	ду	6.0	-	ACC
+context	лар	ды	6.0	-	ACC
+context	лар	дү	6.0	-	ACC
+context	лар	ти	6.0	-	ACC
+context	лар	ту	6.0	-	ACC
+context	лар	ты	6.0	-	ACC
+context	лар	тү	6.0	-	ACC
+context	лер	ди	6.0	-	ACC
+context	лер	ду	6.0	-	ACC
+context	лер	ды	6.0	-	ACC
+context	лер	дү	6.0	-	ACC
+context	лер	ти	6.0	-	ACC
+context	лер	ту	6.0	-	ACC
+context	лер	ты	6.0	-	ACC
+context	лер	тү	6.0	-	ACC
+context	лор	ди	6.0	-	ACC
+context	лор	ду	6.0	-	ACC
+context	лор	ды	6.0	-	ACC
+context	лор	дү	6.0	-	ACC
+context	лор	ти	6.0	-	ACC
+context	лор	ту	6.0	-	ACC
+context	лор	ты	6.0	-	ACC
+context	лор	тү	6.0	-	ACC
+context	лөр	ди	6.0	-	ACC
+context	лөр	ду	6.0	-	ACC
+context	лөр	ды	6.0	-	ACC
+context	лөр	дү	6.0	-	ACC
+context	лөр	ти	6.0	-	ACC
+context	лөр	ту	6.0	-	ACC
+context	лөр	ты	6.0	-	ACC
+context	лөр	тү	6.0	-	ACC
+context	тар	ди	6.0	-	ACC
+context	тар	ду	6.0	-	ACC
+context	тар	ды	6.0	-	ACC
+context	тар	дү	6.0	-	ACC
+context	тар	ти	6.0	-	ACC
+context	тар	ту	6.0	-	ACC
+context	тар	ты	6.0	-	ACC
+context	тар	тү	6.0	-	ACC
+context	тер	ди	6.0	-	ACC
+context	тер	ду	6.0	-	ACC
+context	тер	ды	6.0	-	ACC
+context	тер	дү	6.0	-	ACC
+context	тер	ти	6.0	-	ACC
+context	тер	ту	6.0	-	ACC
+context	тер	ты	6.0	-	ACC
+context	тер	тү	6.0	-	ACC
+context	тор	ди	6.0	-	ACC
+context	тор	ду	6.0	-	ACC
+context	тор	ды	6.0	-	ACC
+context	тор	дү	6.0	-	ACC
+context	тор	ти	6.0	-	ACC
+context	тор	ту	6.0	-	ACC
+context	тор	ты	6.0	-	ACC
+context	тор	тү	6.0	-	ACC
+context	төр	ди	6.0	-	ACC
+context	төр	ду	6.0	-	ACC
+context	төр	ды	6.0	-	ACC
+context	төр	дү	6.0	-	ACC
+context	төр	ти	6.0	-	ACC
+context	төр	ту	6.0	-	ACC
+context	төр	ты	6.0	-	ACC
+context	төр	тү	6.0	-	ACC
+context	үй	ди	6.0	-	ACC
+context	үй	ду	6.0	-	ACC
+context	үй	ды	6.0	-	ACC
+context	үй	дү	6.0	-	ACC
+context	үй	ти	6.0	-	ACC
+context	үй	ту	6.0	-	ACC
+context	үй	ты	6.0	-	ACC
+context	үй	тү	6.0	-	ACC
