@@ -71,6 +71,7 @@ mapTokens f doc =
 replaceToken :: Token -> Document -> Document
 replaceToken tok = mapTokens (\t -> if tokenId t == tokenId tok then tok else t)
 
+-- | Replaces the morph that has the same identifier.
 replaceMorph :: Morph -> Document -> Document
 replaceMorph morph = mapTokens (\t -> t {tokenMorphs = map swap (tokenMorphs t)})
   where
