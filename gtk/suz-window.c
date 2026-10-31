@@ -39,6 +39,7 @@ static const char *const export_formats[][3] = {
     {"conllu", "CoNLL-U…", "conllu"},
     {"json", "JSON…", "json"},
     {"latex", "LaTeX (gb4e)…", "tex"},
+    {"html", "HTML…", "html"},
 };
 
 static void show_toast(SuzWindow *self, const char *message)
@@ -672,6 +673,8 @@ static void on_export_done(GObject *source, GAsyncResult *result, gpointer user_
             text = suz_json(self->session);
         else if (g_str_equal(pending->format, "latex"))
             text = suz_latex(self->session);
+        else if (g_str_equal(pending->format, "html"))
+            text = suz_html(self->session);
 
         if (text && write_text(self, file, text, "Cannot export the document"))
             show_toast(self, "Document exported");
