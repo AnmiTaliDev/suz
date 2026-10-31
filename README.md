@@ -87,7 +87,7 @@ make install PREFIX=/usr/local
 make -C gtk install PREFIX=/usr/local
 ```
 
-Languages are read from `SUZ_LANGUAGES_DIR` (a list of directories), from `suz/languages` in the user data directory and from `suz/languages` in the system data directories. The weights learned from corrections are not written back.
+Languages are read from `SUZ_LANGUAGES_DIR` (a list of directories), from `suz/languages` in the user data directory and from `suz/languages` in the system data directories. The weights a language learns from your corrections are saved to `suz/languages` in the user data directory and used instead of the installed file, which also means that later changes to the installed table do not reach you. "Reset Learned Weights" in the language menu removes the saved copy.
 
 ## License
 
