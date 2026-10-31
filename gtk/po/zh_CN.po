@@ -352,3 +352,7 @@ msgid ""
 "tables that learn from your corrections. It reads plain text and exports "
 "interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML."
 msgstr "Suz 将文本中的词拆分为语素并为其添加注释，使用可根据您的更正学习的权重表。它可读取纯文本，并导出为行间文本、Toolbox、CoNLL-U、JSON、LaTeX 和 HTML。"
+
+#: suz-window.c:633
+msgid "the document is open in another instance"
+msgstr "文档已在另一个实例中打开"

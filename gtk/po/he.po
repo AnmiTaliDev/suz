@@ -352,3 +352,7 @@ msgid ""
 "tables that learn from your corrections. It reads plain text and exports "
 "interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML."
 msgstr "Suz מפצל את המילים בטקסט למורפים ומוסיף להם גלוסות באמצעות טבלאות משקלים הלומדות מהתיקונים שלך. הוא קורא טקסט רגיל ומייצא טקסט בין-שורתי, Toolbox, CoNLL-U, JSON, LaTeX ו-HTML."
+
+#: suz-window.c:633
+msgid "the document is open in another instance"
+msgstr "המסמך פתוח במופע אחר"

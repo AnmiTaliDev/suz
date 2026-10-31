@@ -352,3 +352,7 @@ msgid ""
 "tables that learn from your corrections. It reads plain text and exports "
 "interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML."
 msgstr "Suz, bir metindeki sözcükleri biçimbirimlere böler ve düzeltmelerinizden öğrenen ağırlık tablolarını kullanarak bunlara gloss ekler. Düz metni okur; satır arası metin, Toolbox, CoNLL-U, JSON, LaTeX ve HTML olarak dışa aktarır."
+
+#: suz-window.c:633
+msgid "the document is open in another instance"
+msgstr "belge başka bir örnekte açık"

@@ -352,3 +352,7 @@ msgid ""
 "tables that learn from your corrections. It reads plain text and exports "
 "interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML."
 msgstr "Suz واژه‌های یک متن را به تکواژها تقسیم می‌کند و با جدول‌های وزنی که از اصلاحات شما می‌آموزند برای آن‌ها برچسب می‌گذارد. این برنامه متن ساده را می‌خواند و متن بین‌خطی، Toolbox، CoNLL-U، JSON، LaTeX و HTML را برون‌بری می‌کند."
+
+#: suz-window.c:633
+msgid "the document is open in another instance"
+msgstr "سند در نمونهٔ دیگری باز است"
