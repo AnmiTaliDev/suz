@@ -24,6 +24,7 @@ import qualified Test.Model as Model
 import qualified Test.Edit as Edit
 import qualified Test.Json as Json
 import qualified Test.Languages as Languages
+import qualified Test.Latex as Latex
 import System.Exit (exitFailure, exitSuccess)
 import Test.QuickCheck (Args (..), isSuccess, output, quickCheckWithResult, stdArgs)
 
@@ -50,6 +51,7 @@ checks = concat
   , Model.checks
   , Edit.checks
   , Json.checks
+  , Latex.checks
   ]
 
 main :: IO ()
