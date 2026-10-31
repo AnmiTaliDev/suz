@@ -1,10 +1,14 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
-module Tatar
+module Suz.Languages.Tatar
   ( tatar
   ) where
 
-import Suz
+import Suz.Language
+import Suz.Model
 
+-- | A small Tatar weight table: the pronoun мин, the stems китап and укы, and
+-- the plural, third person plural, accusative, past tense and first person
+-- singular endings.
 tatar :: Language
 tatar =
   mkLanguage
