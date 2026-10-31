@@ -7,7 +7,7 @@
   <name>Suz</name>
   <summary>Morpheme-level interlinear glossing</summary>
   <description>
-    <p>Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON and LaTeX.</p>
+    <p>Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML.</p>
   </description>
   <launchable type="desktop-id">dev.anmitali.Suz.desktop</launchable>
   <provides>
