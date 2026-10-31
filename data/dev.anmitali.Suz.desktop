@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Suz
+Comment=Morpheme-level interlinear glossing
+Exec=suz-gtk %F
+Icon=dev.anmitali.Suz
+Terminal=false
+StartupNotify=true
+Categories=Utility;TextTools;GTK;
+MimeType=text/plain;
+Keywords=gloss;glossing;interlinear;morpheme;linguistics;
