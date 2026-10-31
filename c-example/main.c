@@ -32,7 +32,6 @@ int main(void)
     demo_exchange(tatar);
     demo_traversal(tatar);
     demo_language(tatar);
-    demo_builtin();
 
     suz_language_free(tatar);
     suz_exit();
