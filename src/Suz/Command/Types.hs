@@ -23,6 +23,7 @@ data Command
   | RemoveMorph MorphId
   | SetForm MorphId Text
   | SetGloss MorphId (Maybe Gloss)
+  | SetUd MorphId (Maybe UdFields)
   | SplitMorph MorphId Int MorphId
   | MergeMorph MorphId
   | Batch [Command]

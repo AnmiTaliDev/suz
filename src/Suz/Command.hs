@@ -14,9 +14,10 @@ import Suz.Model
 -- | Applies a command to a document. On success returns the new document and
 -- the command that undoes the change. Inserted nodes carry their own
 -- identifiers, which must not be in use. A 'Batch' is applied in order and
--- fails as a whole. 'SplitMorph' keeps the gloss on the first part and leaves
--- the new part unglossed. 'MergeMorph' joins a morph with the next one in the
--- same token and keeps the gloss of the first. 'SplitToken' divides the morphs
+-- fails as a whole. 'SplitMorph' keeps the gloss and the UD annotation on the
+-- first part and leaves the new part without them. 'MergeMorph' joins a morph
+-- with the next one in the same token and keeps the gloss and the UD
+-- annotation of the first. 'SplitToken' divides the morphs
 -- at the first index and the surface form at the second, both may be 0 or the
 -- full length, and gives the second part the new identifier. 'MergeToken'
 -- joins a token with the next one in the same segment and keeps the
@@ -106,6 +107,9 @@ apply command doc = case command of
   SetGloss mid gloss -> do
     (_, _, morph) <- needMorph mid doc
     pure (replaceMorph morph {morphGloss = gloss} doc, SetGloss mid (morphGloss morph))
+  SetUd mid ud -> do
+    (_, _, morph) <- needMorph mid doc
+    pure (replaceMorph morph {morphUd = ud} doc, SetUd mid (morphUd morph))
   SplitMorph mid k newId@(MorphId n) -> do
     (tok, i, morph) <- needMorph mid doc
     unless (k > 0 && k < T.length (morphForm morph)) (Left (BadSplitPoint mid k))

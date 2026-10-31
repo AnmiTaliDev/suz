@@ -27,7 +27,7 @@ suz_session *session_with_word(const char *word)
     char command[256];
     char *error = NULL;
     snprintf(command, sizeof command,
-             "insert-segment\t0\t%" PRIu64 "\t1\t%" PRIu64 "\t%s\t1\t%" PRIu64 "\t%s\t0",
+             "insert-segment\t0\t%" PRIu64 "\t1\t%" PRIu64 "\t%s\t1\t%" PRIu64 "\t%s\t0\t0",
              n, n + 1, word, n + 2, word);
     if (suz_perform(session, command, &error) != 0)
         fail("perform", error);

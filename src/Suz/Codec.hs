@@ -4,11 +4,13 @@ module Suz.Codec
   , decodeCommand
   ) where
 
+import Control.Monad (replicateM)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Word (Word64)
 import Suz.Codec.Escape (escape, unescape)
 import Suz.Codec.Parser
+import Suz.Codec.Ud (udFromFields, udToFields)
 import Suz.Command
 import Suz.Model
 
@@ -39,6 +41,7 @@ commandFields c = case c of
   RemoveMorph (MorphId n) -> ["remove-morph", word n]
   SetForm (MorphId n) f -> ["set-form", word n, f]
   SetGloss (MorphId n) g -> "set-gloss" : word n : glossFields g
+  SetUd (MorphId n) u -> "set-ud" : word n : udFields u
   SplitMorph (MorphId n) k (MorphId m) -> ["split-morph", word n, int k, word m]
   MergeMorph (MorphId n) -> ["merge-morph", word n]
   Batch cs -> "batch" : int (length cs) : concatMap commandFields cs
@@ -50,11 +53,15 @@ tokenFields :: Token -> [Text]
 tokenFields (Token (TokenId n) s ms) = word n : s : int (length ms) : concatMap morphFields ms
 
 morphFields :: Morph -> [Text]
-morphFields (Morph (MorphId n) f g _) = word n : f : glossFields g
+morphFields (Morph (MorphId n) f g u) = word n : f : glossFields g ++ udFields u
 
 glossFields :: Maybe Gloss -> [Text]
 glossFields Nothing = ["0"]
 glossFields (Just (Gloss l tags)) = "1" : l : int (length tags) : tags
+
+udFields :: Maybe UdFields -> [Text]
+udFields Nothing = ["0"]
+udFields (Just u) = "1" : udToFields u
 
 int :: Int -> Text
 int = T.pack . show
@@ -78,6 +85,7 @@ commandP = do
     "remove-morph" -> RemoveMorph . MorphId <$> wordP
     "set-form" -> SetForm . MorphId <$> wordP <*> field
     "set-gloss" -> SetGloss . MorphId <$> wordP <*> glossP
+    "set-ud" -> SetUd . MorphId <$> wordP <*> udP
     "split-morph" -> SplitMorph . MorphId <$> wordP <*> intP <*> (MorphId <$> wordP)
     "merge-morph" -> MergeMorph . MorphId <$> wordP
     "batch" -> Batch <$> counted commandP
@@ -93,7 +101,17 @@ tokenP = do
   Token (TokenId n) surface <$> counted morphP
 
 morphP :: Parser Morph
-morphP = Morph . MorphId <$> wordP <*> field <*> glossP <*> pure Nothing
+morphP = Morph . MorphId <$> wordP <*> field <*> glossP <*> udP
+
+udP :: Parser (Maybe UdFields)
+udP = do
+  flag <- field
+  case flag of
+    "0" -> pure Nothing
+    "1" -> do
+      fields <- replicateM 8 field
+      either failP (pure . Just) (udFromFields fields)
+    _ -> failP "bad UD flag"
 
 glossP :: Parser (Maybe Gloss)
 glossP = do
