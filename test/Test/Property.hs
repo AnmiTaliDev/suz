@@ -2,6 +2,8 @@
 module Test.Property (properties) where
 
 import Control.Monad (foldM)
+import qualified Data.ByteString as BS
+import Data.Either (isLeft)
 import Data.List (mapAccumL, nub, sort)
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -165,6 +167,14 @@ genKnownDocument maxMorphs = assemble <$> shape
       k <- choose (1, maxMorphs)
       ms <- vectorOf k ((,) <$> textOf "ab" 1 4 <*> oneof [pure Nothing, Just <$> genKnownGloss])
       pure (T.concat (map fst ms), ms)
+
+mutate :: Text -> Gen Text
+mutate t
+  | T.null t = pure t
+  | otherwise = do
+      k <- choose (0, T.length t - 1)
+      c <- elements wild
+      oneof [pure (T.take k t <> T.drop (k + 1) t), pure (T.take k t <> T.singleton c <> T.drop (k + 1) t), pure (T.take k t <> T.singleton c <> T.drop k t)]
 
 allTokens :: Document -> [Token]
 allTokens = concatMap segmentTokens . documentSegments
@@ -353,6 +363,35 @@ properties =
           case apply (SplitToken (tokenId t) mi si (TokenId (nextFreeId d))) d >>= \(d', _) -> apply (MergeToken (tokenId t)) d' of
             Left e -> counterexample (show e) False
             Right (d'', _) -> documentSegments d'' === documentSegments d
+    )
+  , ( "a truncated binary language is rejected"
+    , forAll genLanguage $ \l ->
+        let bytes = encodeLanguage l
+         in forAll (choose (0, BS.length bytes - 1)) $ \k -> isLeft (decodeLanguage (BS.take k bytes))
+    )
+  , ( "a binary language with one changed byte is read or rejected"
+    , forAll genLanguage $ \l ->
+        let bytes = encodeLanguage l
+         in forAll ((,) <$> choose (0, BS.length bytes - 1) <*> arbitrary) $ \(k, b) ->
+              length (show (decodeLanguage (BS.concat [BS.take k bytes, BS.singleton b, BS.drop (k + 1) bytes]))) >= 0
+    )
+  , ( "a changed snapshot is read or rejected"
+    , forAll (genDocument >>= mutate . renderSnapshot) $ \t -> length (show (parseSnapshot t)) >= 0
+    )
+  , ( "a changed command line is read or rejected"
+    , forAll (genScenario >>= mutate . encodeCommand . snd) $ \t -> length (show (decodeCommand t)) >= 0
+    )
+  , ( "changed Toolbox text is read or rejected"
+    , forAll (genToolboxDocument >>= mutate . renderToolbox) $ \t -> length (show (parseToolbox toolboxLanguage t)) >= 0
+    )
+  , ( "changed interlinear text is read or rejected"
+    , forAll (genLeipzigDocument >>= mutate . renderDocument) $ \t -> length (show (parseLeipzig toolboxLanguage t)) >= 0
+    )
+  , ( "changed CoNLL-U text is read or rejected"
+    , forAll (genDocument >>= mutate . renderConllu) $ \t -> length (show (parseConllu t)) >= 0
+    )
+  , ( "changed language text is read or rejected"
+    , forAll (genLanguage >>= mutate . renderLanguage) $ \t -> length (show (parseLanguage t)) >= 0
     )
   ]
   where
