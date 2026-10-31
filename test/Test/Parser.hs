@@ -15,4 +15,5 @@ checks =
   , ("wordP reads the largest identifier", runParser wordP ["18446744073709551615"] == Right (maxBound, []))
   , ("wordP rejects a negative number", runParser wordP ["-1"] == Left "bad identifier: -1")
   , ("wordP rejects a number that is too large", runParser wordP ["18446744073709551616"] == Left "bad identifier: 18446744073709551616")
+  , ("counted reads a count and the items", runParser (counted field) ["2", "a", "b", "c"] == Right (["a", "b"], ["c"]))
   ]
