@@ -6,4 +6,5 @@ import Suz.Codec.Parser
 checks :: [(String, Bool)]
 checks =
   [ ("field takes the first field", runParser field ["a", "b"] == Right ("a", ["b"]))
+  , ("field fails at the end of the line", runParser field [] == Left "unexpected end of line")
   ]
