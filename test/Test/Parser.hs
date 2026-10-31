@@ -17,4 +17,5 @@ checks =
   , ("wordP rejects a number that is too large", runParser wordP ["18446744073709551616"] == Left "bad identifier: 18446744073709551616")
   , ("counted reads a count and the items", runParser (counted field) ["2", "a", "b", "c"] == Right (["a", "b"], ["c"]))
   , ("counted accepts a count of zero", runParser (counted field) ["0", "a"] == Right ([], ["a"]))
+  , ("counted rejects a negative count", runParser (counted field) ["-1"] == Left "negative count")
   ]
