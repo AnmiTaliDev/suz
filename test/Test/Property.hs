@@ -59,8 +59,33 @@ genShape text gloss minTokens minMorphs = do
       ms <- vectorOf n ((,) <$> text <*> gloss)
       pure (surface, ms)
 
+genUd :: [MorphId] -> Gen UdFields
+genUd ids =
+  UdFields
+    <$> textOf wild 0 3
+    <*> textOf wild 0 3
+    <*> textOf wild 0 3
+    <*> textOf wild 0 3
+    <*> oneof ([pure NoHead, pure RootHead] ++ [HeadOf <$> elements ids | not (null ids)])
+    <*> textOf wild 0 3
+    <*> textOf wild 0 3
+    <*> textOf wild 0 3
+
+genMaybeUd :: [MorphId] -> Gen (Maybe UdFields)
+genMaybeUd ids = oneof [pure Nothing, Just <$> genUd ids]
+
+withUd :: Document -> Gen Document
+withUd d = do
+  segments <- traverse segment (documentSegments d)
+  pure d {documentSegments = segments}
+  where
+    ids = map morphId (allMorphs d)
+    segment s = (\ts -> s {segmentTokens = ts}) <$> traverse token (segmentTokens s)
+    token t = (\ms -> t {tokenMorphs = ms}) <$> traverse morph (tokenMorphs t)
+    morph m = (\u -> m {morphUd = u}) <$> genMaybeUd ids
+
 genDocument :: Gen Document
-genDocument = assemble <$> genShape (textOf wild 0 4) (oneof [pure Nothing, Just <$> genGloss]) 0 0
+genDocument = (assemble <$> genShape (textOf wild 0 4) (oneof [pure Nothing, Just <$> genGloss]) 0 0) >>= withUd
 
 genToolboxDocument :: Gen Document
 genToolboxDocument = assemble <$> genShape (textOf wild 1 4) (oneof [pure Nothing, Just <$> genReadableGloss]) 0 0
@@ -102,12 +127,13 @@ genCommand d = oneof (map (>>= pure) gens)
           MoveToken (tokenId t) sid <$> choose (0, 3)
       , do
           (_, t) <- elements toks
-          InsertMorph (tokenId t) <$> choose (0, length (tokenMorphs t)) <*> (Morph fresh <$> textOf wild 0 3 <*> maybeGloss <*> pure Nothing)
+          InsertMorph (tokenId t) <$> choose (0, length (tokenMorphs t)) <*> (Morph fresh <$> textOf wild 0 3 <*> maybeGloss <*> genMaybeUd (map (morphId . snd) morphs))
       ]
     withMorphs =
       [ RemoveMorph . morphId . snd <$> elements morphs
       , SetForm . morphId . snd <$> elements morphs <*> textOf wild 0 3
       , SetGloss . morphId . snd <$> elements morphs <*> maybeGloss
+      , SetUd . morphId . snd <$> elements morphs <*> genMaybeUd (map (morphId . snd) morphs)
       , MergeMorph . morphId . snd <$> elements morphs
       , do
           (_, m) <- elements morphs
@@ -392,6 +418,16 @@ properties =
     )
   , ( "changed language text is read or rejected"
     , forAll (genLanguage >>= mutate . renderLanguage) $ \t -> length (show (parseLanguage t)) >= 0
+    )
+  , ( "setting the UD annotation stores exactly the given one"
+    , forAll (genDocument `suchThat` (not . null . allMorphs)) $ \d ->
+        forAll ((,) <$> elements (allMorphs d) <*> genMaybeUd (map morphId (allMorphs d))) $ \(m, u) ->
+          case apply (SetUd (morphId m) u) d of
+            Left e -> counterexample (show e) False
+            Right (d', _) -> map morphUd (filter ((== morphId m) . morphId) (allMorphs d')) === [u]
+    )
+  , ( "JSON has one ud object for each annotated morph"
+    , forAll genDocument $ \d -> T.count "\"ud\":{" (renderJson d) === length [() | Just _ <- map morphUd (allMorphs d)]
     )
   ]
   where
