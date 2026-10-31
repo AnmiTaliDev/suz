@@ -77,6 +77,8 @@ checks =
   , ("Azerbaijani second example passes validation", null (validateDocument azerbaijani (annotatedDocument azerbaijani "Mən evdə kitabı oxumadım.")))
   , ("CrimeanTatar second example is annotated", annotated crimeanTatar "Men evde kitapnı oqumadım." == "Men evde      kitapnı  oqumadım         .\nmen ev-de     kitap-nı oqu-ma-dı-m      .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
   , ("CrimeanTatar second example passes validation", null (validateDocument crimeanTatar (annotatedDocument crimeanTatar "Men evde kitapnı oqumadım.")))
+  , ("Turkmen second example is annotated", annotated turkmen "Men öýde kitaby okamadym." == "Men öýde      kitaby   okamadym         .\nmen öý-de     kitab-y  oka-ma-dy-m      .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
+  , ("Turkmen second example passes validation", null (validateDocument turkmen (annotatedDocument turkmen "Men öýde kitaby okamadym.")))
   ]
   where
     annotatedDocument :: Language -> Text -> Document
