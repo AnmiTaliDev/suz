@@ -10,4 +10,5 @@ checks =
   , ("renderGloss joins the lexical part and the tags", renderGloss (Gloss "book" ["PL", "ACC"]) == "book.PL.ACC")
   , ("renderGloss omits an empty lexical part", renderGloss (Gloss "" ["PL", "ACC"]) == "PL.ACC")
   , ("renderGloss of an empty gloss is empty", renderGloss (Gloss "" []) == "")
+  , ("renderSegment of a segment without tokens has empty lines", renderSegment (Segment (SegmentId 0) []) == "\n\n")
   ]
