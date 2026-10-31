@@ -40,6 +40,7 @@ library
                       Suz.Languages.Russian
                       Suz.Languages.Tatar
                       Suz.Languages.Turkish
+                      Suz.Languages.Turkmen
                       Suz.Languages.Uzbek
                       Suz.Learn
                       Suz.Leipzig
@@ -90,7 +91,6 @@ executable suz-examples
     import:           shared
     hs-source-dirs:   examples
     main-is:          Main.hs
-    other-modules:    Turkmen
     build-depends:    suz
 
 foreign-library suz

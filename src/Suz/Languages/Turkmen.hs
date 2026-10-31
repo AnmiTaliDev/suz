@@ -1,10 +1,15 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
-module Turkmen
+module Suz.Languages.Turkmen
   ( turkmen
   ) where
 
-import Suz
+import Suz.Language
+import Suz.Model
 
+-- | A small Turkmen weight table in the Latin script: the pronoun men, the
+-- stems kitap and oka, and the plural, accusative, past tense and first
+-- person singular endings. Importing splits the punctuation .,!? and
+-- lowercases.
 turkmen :: Language
 turkmen =
   withImportRules ".,!?" SimpleFolding $

@@ -13,10 +13,10 @@ import Suz.Languages.Kyrgyz (kyrgyz)
 import Suz.Languages.Russian (russian)
 import Suz.Languages.Tatar (tatar)
 import Suz.Languages.Turkish (turkish)
+import Suz.Languages.Turkmen (turkmen)
 import Suz.Languages.Uzbek (uzbek)
 import System.Exit (die)
 import System.IO (hSetEncoding, stdout, utf8)
-import Turkmen (turkmen)
 
 must :: Show e => Either e a -> IO a
 must = either (die . show) pure
