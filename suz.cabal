@@ -61,6 +61,7 @@ test-suite suz-test
                       Test.LanguageText
                       Test.Learn
                       Test.Leipzig
+                      Test.Model
                       Test.Parser
                       Test.Property
                       Test.Render
