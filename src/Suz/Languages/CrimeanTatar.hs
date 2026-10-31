@@ -1,10 +1,15 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
-module CrimeanTatar
+module Suz.Languages.CrimeanTatar
   ( crimeanTatar
   ) where
 
-import Suz
+import Suz.Language
+import Suz.Model
 
+-- | A small Crimean Tatar weight table in the Latin script: the pronoun men,
+-- the stems kitap and oqu, and the plural, accusative, past tense and first
+-- person singular endings. Importing splits the punctuation .,!? and
+-- lowercases with the Turkic mapping.
 crimeanTatar :: Language
 crimeanTatar =
   withImportRules ".,!?" TurkicFolding $
