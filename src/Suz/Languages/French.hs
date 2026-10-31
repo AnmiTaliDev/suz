@@ -6,9 +6,6 @@ module Suz.Languages.French
 import Suz.Language
 import Suz.Model
 
--- | A small French weight table: the pronoun nous, the article des, the stems
--- lis and livre, the ending ons for the first person plural present and the
--- plural ending s. Importing splits the punctuation .,!? and lowercases.
 french :: Language
 french =
   withImportRules ".,!?" SimpleFolding $
