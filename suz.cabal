@@ -37,6 +37,7 @@ library
                       Suz.Languages.Kyrgyz
                       Suz.Languages.Tatar
                       Suz.Languages.Turkish
+                      Suz.Languages.Uzbek
                       Suz.Learn
                       Suz.Leipzig
                       Suz.Model
@@ -90,7 +91,6 @@ executable suz-examples
                       CrimeanTatar
                       Russian
                       Turkmen
-                      Uzbek
     build-depends:    suz
 
 foreign-library suz
