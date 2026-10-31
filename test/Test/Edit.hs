@@ -20,4 +20,5 @@ checks =
   , ("claimIds never lowers the next free identifier", nextFreeId (claimIds [0] plainDoc) == nextFreeId plainDoc)
   , ("insertAt inserts in the middle", insertAt 1 'x' "ab" == Right "axb")
   , ("insertAt inserts at the end", insertAt 2 'x' "ab" == Right "abx")
+  , ("insertAt rejects a position past the end", insertAt 3 'x' "ab" == Left (IndexOutOfRange 3))
   ]
