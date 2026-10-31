@@ -1,6 +1,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 module Test.LanguageText (checks) where
 
+import qualified Data.Text as T
 import Fixtures
 import Suz
 
@@ -33,4 +34,13 @@ checks =
   , ("language text rejects bad number", errorOf (parseLanguage "language\ta\nweight\tx\tone\t-\n") == Just (2, "bad weight: one"))
   , ("language text rejects unknown line", errorOf (parseLanguage "language\ta\nbogus\n") == Just (2, "unrecognized line"))
   , ("language text rejects short weight line", errorOf (parseLanguage "language\ta\nweight\tx\t1\n") == Just (2, "unrecognized line"))
+  , ("language text version is 1", languageTextVersion == 1)
+  , ("language text starts with its version", "suz-language\t1\nlanguage\t" `T.isPrefixOf` renderLanguage tinyLanguage)
+  , ("language text without a version line is read as the current version", parseLanguage "language\ta\n" == Right (mkLanguage "a" [] []))
+  , ("language text version line may follow comments", parseLanguage "# a comment\nsuz-language\t1\nlanguage\ta\n" == Right (mkLanguage "a" [] []))
+  , ("language text rejects another version", errorOf (parseLanguage "suz-language\t2\nlanguage\ta\n") == Just (1, "unsupported language version: 2"))
+  , ("language text reports the line of an unsupported version", errorOf (parseLanguage "# a comment\nsuz-language\t9\nlanguage\ta\n") == Just (2, "unsupported language version: 9"))
+  , ("language text rejects a version that is not a number", errorOf (parseLanguage "suz-language\tx\nlanguage\ta\n") == Just (1, "bad version: x"))
+  , ("language text rejects a version line after another line", errorOf (parseLanguage "language\ta\nsuz-language\t1\n") == Just (2, "line out of place"))
+  , ("language text with only a version line has no name", errorOf (parseLanguage "suz-language\t1\n") == Just (0, "missing language line"))
   ]
