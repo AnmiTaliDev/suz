@@ -32,6 +32,7 @@ library
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
+                      Suz.Languages.English
                       Suz.Languages.Tatar
                       Suz.Learn
                       Suz.Leipzig
@@ -84,7 +85,6 @@ executable suz-examples
     main-is:          Main.hs
     other-modules:    Azerbaijani
                       CrimeanTatar
-                      English
                       Kazakh
                       Kyrgyz
                       Russian

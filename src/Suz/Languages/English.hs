@@ -1,10 +1,13 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
-module English
+module Suz.Languages.English
   ( english
   ) where
 
-import Suz
+import Suz.Language
+import Suz.Model
 
+-- | A small English weight table: the words the, she, cat and walk, and the
+-- endings s for the plural and the third person singular.
 english :: Language
 english =
   mkLanguage
