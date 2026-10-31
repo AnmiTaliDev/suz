@@ -14,6 +14,13 @@ extra-source-files: Makefile
                     c-example/Makefile
                     c-example/*.c
                     c-example/*.h
+                    gtk/Makefile
+                    gtk/*.c
+                    gtk/*.h
+                    data/dev.anmitali.Suz.desktop
+                    data/dev.anmitali.Suz.metainfo.xml
+                    data/icons/hicolor/scalable/apps/*.svg
+                    data/icons/hicolor/symbolic/apps/*.svg
 
 common shared
     default-language:   Haskell2010
