@@ -6,13 +6,6 @@ module Suz.Languages.Turkish
 import Suz.Language
 import Suz.Model
 
--- | A small Turkish weight table: the pronoun ben, the stems kitap, kitab,
--- oku, ışık and ev, and endings for the plural, the accusative, dative,
--- locative, ablative and genitive cases, the first person singular
--- possessive, negation, the future, the present progressive, the past tense
--- and the first person singular, second person singular and first person
--- plural forms. Importing splits the punctuation .,!? and lowercases with the
--- Turkic mapping.
 turkish :: Language
 turkish =
   withImportRules ".,!?" TurkicFolding $
