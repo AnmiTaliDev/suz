@@ -55,6 +55,7 @@ insertAt i x xs
 removeAt :: Int -> [a] -> [a]
 removeAt i xs = take i xs ++ drop (i + 1) xs
 
+-- | Replaces the segment that has the same identifier.
 replaceSegment :: Segment -> Document -> Document
 replaceSegment seg doc =
   doc
