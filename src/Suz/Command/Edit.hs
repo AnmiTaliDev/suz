@@ -67,6 +67,7 @@ mapTokens :: (Token -> Token) -> Document -> Document
 mapTokens f doc =
   doc {documentSegments = [s {segmentTokens = map f (segmentTokens s)} | s <- documentSegments doc]}
 
+-- | Replaces the token that has the same identifier.
 replaceToken :: Token -> Document -> Document
 replaceToken tok = mapTokens (\t -> if tokenId t == tokenId tok then tok else t)
 
