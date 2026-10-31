@@ -71,6 +71,8 @@ checks =
   , ("Kazakh second example passes validation", null (validateDocument kazakh (annotatedDocument kazakh "Мен үйде кітапты оқымадым.")))
   , ("Kyrgyz second example is annotated", annotated kyrgyz "Мен үйдө китепти окубадым." == "Мен үйдө      китепти  окубадым         .\nмен үй-дө     китеп-ти оку-ба-ды-м      .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
   , ("Kyrgyz second example passes validation", null (validateDocument kyrgyz (annotatedDocument kyrgyz "Мен үйдө китепти окубадым.")))
+  , ("Uzbek second example is annotated", annotated uzbek "Men uyda kitobni o'qimadim." == "Men uyda      kitobni  o'qimadim        .\nmen uy-da     kitob-ni o'qi-ma-di-m     .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
+  , ("Uzbek second example passes validation", null (validateDocument uzbek (annotatedDocument uzbek "Men uyda kitobni o'qimadim.")))
   ]
   where
     annotatedDocument :: Language -> Text -> Document
