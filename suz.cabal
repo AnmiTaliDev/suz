@@ -33,7 +33,6 @@ library
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
-                      Suz.Languages.Russian
                       Suz.Languages.Spanish
                       Suz.Languages.Tajik
                       Suz.Languages.Tatar
