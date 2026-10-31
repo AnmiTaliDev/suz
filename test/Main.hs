@@ -21,6 +21,7 @@ import qualified Test.Validate as Validate
 import qualified Test.Escape as Escape
 import qualified Test.Parser as Parser
 import qualified Test.Model as Model
+import qualified Test.Edit as Edit
 import System.Exit (exitFailure, exitSuccess)
 import Test.QuickCheck (Args (..), isSuccess, output, quickCheckWithResult, stdArgs)
 
@@ -45,6 +46,7 @@ checks = concat
   , Escape.checks
   , Parser.checks
   , Model.checks
+  , Edit.checks
   ]
 
 main :: IO ()
