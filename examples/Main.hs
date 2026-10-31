@@ -5,6 +5,7 @@ import Control.Monad (foldM)
 import Data.Text (Text)
 import qualified Data.Text.IO as T
 import English (english)
+import Kazakh (kazakh)
 import Suz
 import System.Exit (die)
 import System.IO (hSetEncoding, stdout, utf8)
@@ -22,6 +23,8 @@ main = do
   englishExample
   putStrLn ""
   rawTextExample "Turkish" turkish "Işık kitapları okudum."
+  putStrLn ""
+  rawTextExample "Kazakh" kazakh "Мен кітаптарды оқыдым."
 
 tatarExample :: IO ()
 tatarExample = do
