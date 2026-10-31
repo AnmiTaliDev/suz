@@ -1,0 +1,34 @@
+language	Uzbek
+tag	1PL
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	DAT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	POSS
+tag	PST
+tag	SG
+punctuation	!,.?
+foldcase
+weight	da	8.0	-	LOC
+weight	dan	8.0	-	ABL
+weight	di	9.0	-	PST
+weight	ga	8.0	-	DAT
+weight	im	8.0	-	1SG	POSS
+weight	k	9.0	-	1PL
+weight	ka	8.0	-	DAT
+weight	kitob	10.0	book
+weight	lar	8.0	-	PL
+weight	m	9.0	-	1SG
+weight	ma	8.0	-	NEG
+weight	men	10.0	-	1SG
+weight	ng	9.0	-	2SG
+weight	ni	9.0	-	ACC
+weight	ning	8.0	-	GEN
+weight	o'qi	10.0	read
+weight	qa	8.0	-	DAT
+weight	uy	10.0	house
