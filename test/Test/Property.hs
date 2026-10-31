@@ -208,6 +208,9 @@ genKnownDocument maxMorphs = assemble <$> shape
       ms <- vectorOf k ((,) <$> textOf "ab" 1 4 <*> oneof [pure Nothing, Just <$> genKnownGloss])
       pure (T.concat (map fst ms), ms)
 
+attributeValues :: Text -> Text -> [Text]
+attributeValues name = map (fst . T.breakOn "\"") . drop 1 . T.splitOn (name <> "=\"")
+
 mutate :: Text -> Gen Text
 mutate t
   | T.null t = pure t
@@ -445,6 +448,26 @@ properties =
     )
   , ( "changed JSON is read or rejected"
     , forAll (genDocument >>= mutate . renderJson) $ \t -> length (show (parseJson t)) >= 0
+    )
+  , ( "ELAN annotations have unique identifiers and every reference resolves"
+    , forAll genDocument $ \d ->
+        let out = renderElan d
+            ids = attributeValues "ANNOTATION_ID" out
+            refs = attributeValues "ANNOTATION_REF" out ++ attributeValues "PREVIOUS_ANNOTATION" out
+            slots = attributeValues "TIME_SLOT_ID" out
+            slotRefs = attributeValues "TIME_SLOT_REF1" out ++ attributeValues "TIME_SLOT_REF2" out
+         in length ids === length (nub ids)
+              .&&. all (`elem` ids) refs
+              .&&. length slots === length (nub slots)
+              .&&. all (`elem` slots) slotRefs
+              .&&. T.count "<ANNOTATION>" out === T.count "</ANNOTATION>" out
+    )
+  , ( "ELAN has an annotation value for each segment, token and morph and each gloss"
+    , forAll genDocument $ \d ->
+        let segs = filter (not . null . segmentTokens) (documentSegments d)
+            toks = concatMap segmentTokens segs
+            morphs = concatMap tokenMorphs toks
+         in T.count "<ANNOTATION_VALUE>" (renderElan d) === length segs + length toks + length morphs + length [() | Just _ <- map morphGloss morphs]
     )
   , ( "JSON has one ud object for each annotated morph"
     , forAll genDocument $ \d -> T.count "\"ud\":{" (renderJson d) === length [() | Just _ <- map morphUd (allMorphs d)]

@@ -25,6 +25,7 @@ import qualified Test.Edit as Edit
 import qualified Test.Json as Json
 import qualified Test.Languages as Languages
 import qualified Test.Latex as Latex
+import qualified Test.Elan as Elan
 import qualified Test.Html as Html
 import System.Exit (exitFailure, exitSuccess)
 import Test.QuickCheck (Args (..), isSuccess, output, quickCheckWithResult, stdArgs)
@@ -54,6 +55,7 @@ checks = concat
   , Json.checks
   , Latex.checks
   , Html.checks
+  , Elan.checks
   ]
 
 main :: IO ()
