@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 #include "suz-morph-editor.h"
 
+#include <glib/gi18n.h>
+
 typedef struct {
     SuzWindow *window;
     GtkWidget *popover;
@@ -194,21 +196,21 @@ void suz_morph_editor_popup(SuzWindow *window, GtkWidget *anchor, int segment, i
     gtk_widget_add_css_class(fields, "boxed-list");
 
     GtkWidget *form_row = adw_entry_row_new();
-    adw_preferences_row_set_title(ADW_PREFERENCES_ROW(form_row), "Form");
+    adw_preferences_row_set_title(ADW_PREFERENCES_ROW(form_row), _("Form"));
     gtk_editable_set_text(GTK_EDITABLE(form_row), form);
     adw_entry_row_set_show_apply_button(ADW_ENTRY_ROW(form_row), TRUE);
     g_signal_connect(form_row, "apply", G_CALLBACK(on_form_apply), editor);
     gtk_list_box_append(GTK_LIST_BOX(fields), form_row);
 
     GtkWidget *gloss_row = adw_entry_row_new();
-    adw_preferences_row_set_title(ADW_PREFERENCES_ROW(gloss_row), "Gloss");
+    adw_preferences_row_set_title(ADW_PREFERENCES_ROW(gloss_row), _("Gloss"));
     gtk_editable_set_text(GTK_EDITABLE(gloss_row), gloss);
     adw_entry_row_set_show_apply_button(ADW_ENTRY_ROW(gloss_row), TRUE);
     g_signal_connect(gloss_row, "apply", G_CALLBACK(on_gloss_apply), editor);
     gtk_list_box_append(GTK_LIST_BOX(fields), gloss_row);
     gtk_box_append(GTK_BOX(box), fields);
 
-    GtkWidget *hint = gtk_label_new("Separate the parts of a gloss with periods, for example book.PL.");
+    GtkWidget *hint = gtk_label_new(_("Separate the parts of a gloss with periods, for example book.PL."));
     gtk_label_set_wrap(GTK_LABEL(hint), TRUE);
     gtk_label_set_xalign(GTK_LABEL(hint), 0.0f);
     gtk_widget_add_css_class(hint, "caption");
@@ -218,7 +220,7 @@ void suz_morph_editor_popup(SuzWindow *window, GtkWidget *anchor, int segment, i
     if (language) {
         GtkWidget *candidates = make_candidates(editor, language, form);
         if (candidates) {
-            GtkWidget *heading = gtk_label_new("Suggestions");
+            GtkWidget *heading = gtk_label_new(_("Suggestions"));
             gtk_label_set_xalign(GTK_LABEL(heading), 0.0f);
             gtk_widget_add_css_class(heading, "heading");
             gtk_box_append(GTK_BOX(box), heading);
@@ -227,7 +229,7 @@ void suz_morph_editor_popup(SuzWindow *window, GtkWidget *anchor, int segment, i
     }
 
     if (glossed) {
-        GtkWidget *remove = gtk_button_new_with_label("Remove Gloss");
+        GtkWidget *remove = gtk_button_new_with_label(_("Remove Gloss"));
         gtk_widget_add_css_class(remove, "destructive-action");
         gtk_widget_set_halign(remove, GTK_ALIGN_START);
         g_signal_connect(remove, "clicked", G_CALLBACK(on_remove_gloss), editor);

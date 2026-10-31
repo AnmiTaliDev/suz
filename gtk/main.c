@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 #include <adwaita.h>
+#include <glib/gi18n.h>
+#include <locale.h>
 
 #include "suz-window.h"
 #include "suz.h"
@@ -41,7 +43,7 @@ static void action_about(GSimpleAction *action, GVariant *parameter, gpointer us
     adw_about_dialog_set_application_name(ADW_ABOUT_DIALOG(about), "Suz");
     adw_about_dialog_set_application_icon(ADW_ABOUT_DIALOG(about), APPLICATION_ID);
     adw_about_dialog_set_version(ADW_ABOUT_DIALOG(about), SUZ_GTK_VERSION);
-    adw_about_dialog_set_comments(ADW_ABOUT_DIALOG(about), "Morpheme-level interlinear glossing.");
+    adw_about_dialog_set_comments(ADW_ABOUT_DIALOG(about), _("Morpheme-level interlinear glossing."));
     adw_about_dialog_set_license_type(ADW_ABOUT_DIALOG(about), GTK_LICENSE_GPL_3_0);
     adw_dialog_present(about, GTK_WIDGET(gtk_application_get_active_window(application)));
 }
@@ -59,22 +61,22 @@ static void action_shortcuts(GSimpleAction *action, GVariant *parameter, gpointe
 
     AdwDialog *dialog = adw_shortcuts_dialog_new();
 
-    AdwShortcutsSection *documents = adw_shortcuts_section_new("Documents");
-    add_shortcut(documents, "Open Text", "<Control>o");
-    add_shortcut(documents, "Open Document", "<Control><Shift>o");
-    add_shortcut(documents, "Save", "<Control>s");
-    add_shortcut(documents, "Save As", "<Control><Shift>s");
+    AdwShortcutsSection *documents = adw_shortcuts_section_new(_("Documents"));
+    add_shortcut(documents, _("Open Text"), "<Control>o");
+    add_shortcut(documents, _("Open Document"), "<Control><Shift>o");
+    add_shortcut(documents, _("Save"), "<Control>s");
+    add_shortcut(documents, _("Save As"), "<Control><Shift>s");
     adw_shortcuts_dialog_add(ADW_SHORTCUTS_DIALOG(dialog), documents);
 
-    AdwShortcutsSection *editing = adw_shortcuts_section_new("Editing");
-    add_shortcut(editing, "Annotate", "<Control>Return");
-    add_shortcut(editing, "Undo", "<Control>z");
-    add_shortcut(editing, "Redo", "<Control><Shift>z");
+    AdwShortcutsSection *editing = adw_shortcuts_section_new(_("Editing"));
+    add_shortcut(editing, _("Annotate"), "<Control>Return");
+    add_shortcut(editing, _("Undo"), "<Control>z");
+    add_shortcut(editing, _("Redo"), "<Control><Shift>z");
     adw_shortcuts_dialog_add(ADW_SHORTCUTS_DIALOG(dialog), editing);
 
-    AdwShortcutsSection *general = adw_shortcuts_section_new("General");
-    add_shortcut(general, "Keyboard Shortcuts", "<Control>question");
-    add_shortcut(general, "Quit", "<Control>q");
+    AdwShortcutsSection *general = adw_shortcuts_section_new(_("General"));
+    add_shortcut(general, _("Keyboard Shortcuts"), "<Control>question");
+    add_shortcut(general, _("Quit"), "<Control>q");
     adw_shortcuts_dialog_add(ADW_SHORTCUTS_DIALOG(dialog), general);
 
     adw_dialog_present(dialog, GTK_WIDGET(gtk_application_get_active_window(application)));
@@ -146,6 +148,11 @@ static void on_startup_signal(GApplication *application, gpointer user_data)
 
 int main(int argc, char **argv)
 {
+    setlocale(LC_ALL, "");
+    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+    textdomain(GETTEXT_PACKAGE);
+
     suz_init();
     g_set_application_name("Suz");
 

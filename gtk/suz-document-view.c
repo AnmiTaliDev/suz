@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 #include "suz-document-view.h"
 
+#include <glib/gi18n.h>
+
 struct _SuzDocumentView {
     AdwBin parent_instance;
 
@@ -89,7 +91,7 @@ static GtkWidget *make_morph(SuzDocumentView *self, suz_session *session, int s,
     gtk_widget_add_css_class(button, "suz-morph");
     gtk_widget_set_valign(button, GTK_ALIGN_START);
 
-    g_autofree char *description = g_strdup_printf("%s, %s", form, glossed ? gtk_label_get_text(GTK_LABEL(gloss_label)) : "no gloss");
+    g_autofree char *description = g_strdup_printf("%s, %s", form, glossed ? gtk_label_get_text(GTK_LABEL(gloss_label)) : _("no gloss"));
     gtk_accessible_update_property(GTK_ACCESSIBLE(button), GTK_ACCESSIBLE_PROPERTY_LABEL, description, -1);
 
     MorphPosition *position = g_new0(MorphPosition, 1);

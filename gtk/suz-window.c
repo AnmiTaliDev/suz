@@ -3,6 +3,7 @@
 
 #include <errno.h>
 #include <glib/gstdio.h>
+#include <glib/gi18n.h>
 #include <inttypes.h>
 #include <string.h>
 
@@ -40,12 +41,12 @@ struct _SuzWindow {
 G_DEFINE_FINAL_TYPE(SuzWindow, suz_window, ADW_TYPE_APPLICATION_WINDOW)
 
 static const char *const export_formats[][3] = {
-    {"interlinear", "Interlinear Text…", "txt"},
-    {"toolbox", "Toolbox…", "txt"},
-    {"conllu", "CoNLL-U…", "conllu"},
-    {"json", "JSON…", "json"},
-    {"latex", "LaTeX (gb4e)…", "tex"},
-    {"html", "HTML…", "html"},
+    {"interlinear", N_("Interlinear Text…"), "txt"},
+    {"toolbox", N_("Toolbox…"), "txt"},
+    {"conllu", N_("CoNLL-U…"), "conllu"},
+    {"json", N_("JSON…"), "json"},
+    {"latex", N_("LaTeX (gb4e)…"), "tex"},
+    {"html", N_("HTML…"), "html"},
 };
 
 static void show_toast(SuzWindow *self, const char *message)
@@ -57,7 +58,7 @@ static void show_toast(SuzWindow *self, const char *message)
 
 static void show_error(SuzWindow *self, const char *what, const char *detail)
 {
-    g_autofree char *message = g_strdup_printf("%s: %s", what, detail ? detail : "unknown error");
+    g_autofree char *message = g_strdup_printf("%s: %s", what, detail ? detail : _("unknown error"));
     show_toast(self, message);
 }
 
@@ -117,9 +118,9 @@ static gboolean write_recovery(gpointer user_data)
     g_autofree char *directory = recovery_directory();
     g_autoptr(GError) error = NULL;
     if (g_mkdir_with_parents(directory, 0700) != 0)
-        show_error(self, "Cannot autosave the document", g_strerror(errno));
+        show_error(self, _("Cannot autosave the document"), g_strerror(errno));
     else if (!g_key_file_save_to_file(keys, self->recovery_path, &error))
-        show_error(self, "Cannot autosave the document", error->message);
+        show_error(self, _("Cannot autosave the document"), error->message);
     else
         self->recovery_written = TRUE;
     return G_SOURCE_REMOVE;
@@ -149,7 +150,7 @@ static void update_ui(SuzWindow *self)
 
     g_autofree char *title = NULL;
     if (has_document)
-        title = g_strdup_printf("%s%s", self->dirty ? "• " : "", self->document_name ? self->document_name : "Untitled");
+        title = g_strdup_printf("%s%s", self->dirty ? "• " : "", self->document_name ? self->document_name : _("Untitled"));
     adw_window_title_set_title(self->title, title ? title : "Suz");
     adw_window_title_set_subtitle(self->title, self->language_name ? self->language_name : "");
     update_recovery(self);
@@ -243,7 +244,7 @@ static gboolean load_language(SuzWindow *self, const char *name)
     g_autoptr(GError) error = NULL;
     suz_language *language = suz_languages_load(info, &error);
     if (!language) {
-        show_error(self, "Cannot load the language", error->message);
+        show_error(self, _("Cannot load the language"), error->message);
         return FALSE;
     }
 
@@ -280,9 +281,9 @@ static void save_learned_weights(SuzWindow *self)
     g_autoptr(GError) error = NULL;
     char *text = suz_language_to_text(self->language);
     if (g_mkdir_with_parents(dir, 0700) != 0)
-        show_error(self, "Cannot save the learned weights", g_strerror(errno));
+        show_error(self, _("Cannot save the learned weights"), g_strerror(errno));
     else if (!g_file_set_contents(path, text, -1, &error))
-        show_error(self, "Cannot save the learned weights", error->message);
+        show_error(self, _("Cannot save the learned weights"), error->message);
     suz_free(text);
     update_ui(self);
 }
@@ -325,7 +326,7 @@ static gboolean perform(SuzWindow *self, const char *command, gboolean learn)
         ? suz_perform_learning(self->session, self->language, command, &error)
         : suz_perform(self->session, command, &error);
     if (status != 0) {
-        show_error(self, "Cannot apply the change", error);
+        show_error(self, _("Cannot apply the change"), error);
         suz_free(error);
         return FALSE;
     }
@@ -432,20 +433,20 @@ static void action_annotate(GSimpleAction *action, GVariant *parameter, gpointer
 
     int splits = suz_suggest_segmentation(self->session, self->language, &error);
     if (splits < 0) {
-        show_error(self, "Cannot split the words", error);
+        show_error(self, _("Cannot split the words"), error);
         suz_free(error);
         return;
     }
     int glosses = suz_suggest_glosses(self->session, self->language, &error);
     if (glosses < 0) {
-        show_error(self, "Cannot suggest glosses", error);
+        show_error(self, _("Cannot suggest glosses"), error);
         suz_free(error);
         return;
     }
 
     guint steps = (splits > 0) + (glosses > 0);
     if (steps == 0) {
-        show_toast(self, "Nothing to annotate");
+        show_toast(self, _("Nothing to annotate"));
         return;
     }
 
@@ -454,7 +455,7 @@ static void action_annotate(GSimpleAction *action, GVariant *parameter, gpointer
     self->dirty = TRUE;
     refresh_view(self);
 
-    g_autofree char *message = g_strdup_printf("Split %d, glossed %d", splits, glosses);
+    g_autofree char *message = g_strdup_printf(_("Split %d, glossed %d"), splits, glosses);
     show_toast(self, message);
 }
 
@@ -470,7 +471,7 @@ static void run_steps(SuzWindow *self, GArray *from, GArray *to, gboolean undo)
         char *error = NULL;
         int status = undo ? suz_undo(self->session, &error) : suz_redo(self->session, &error);
         if (status != 0) {
-            show_error(self, undo ? "Cannot undo" : "Cannot redo", error);
+            show_error(self, undo ? _("Cannot undo") : _("Cannot redo"), error);
             suz_free(error);
             break;
         }
@@ -505,7 +506,7 @@ static void on_reset_response(GObject *source, GAsyncResult *result, gpointer us
 
     g_autofree char *path = user_language_path(self);
     if (!path || g_unlink(path) != 0) {
-        show_error(self, "Cannot reset the language", g_strerror(errno));
+        show_error(self, _("Cannot reset the language"), g_strerror(errno));
         return;
     }
 
@@ -513,7 +514,7 @@ static void on_reset_response(GObject *source, GAsyncResult *result, gpointer us
     self->languages = suz_languages_discover();
     g_autofree char *name = g_strdup(self->language_name);
     if (load_language(self, name))
-        show_toast(self, "Learned weights reset");
+        show_toast(self, _("Learned weights reset"));
 }
 
 static void action_reset_language(GSimpleAction *action, GVariant *parameter, gpointer user_data)
@@ -522,8 +523,8 @@ static void action_reset_language(GSimpleAction *action, GVariant *parameter, gp
     (void)parameter;
     SuzWindow *self = SUZ_WINDOW(user_data);
 
-    AdwDialog *dialog = adw_alert_dialog_new("Reset Learned Weights?", "The language returns to the weights it shipped with. The weights learned from your corrections are lost.");
-    adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", "Cancel", "reset", "Reset", NULL);
+    AdwDialog *dialog = adw_alert_dialog_new(_("Reset Learned Weights?"), _("The language returns to the weights it shipped with. The weights learned from your corrections are lost."));
+    adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", _("Cancel"), "reset", _("Reset"), NULL);
     adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "reset", ADW_RESPONSE_DESTRUCTIVE);
     adw_alert_dialog_set_default_response(ADW_ALERT_DIALOG(dialog), "cancel");
     adw_alert_dialog_set_close_response(ADW_ALERT_DIALOG(dialog), "cancel");
@@ -537,11 +538,11 @@ static void open_text(SuzWindow *self, GFile *file)
     g_autoptr(GError) error = NULL;
     g_autofree char *text = NULL;
     if (!g_file_load_contents(file, NULL, &text, NULL, NULL, &error)) {
-        show_error(self, "Cannot open the file", error->message);
+        show_error(self, _("Cannot open the file"), error->message);
         return;
     }
     if (!g_utf8_validate(text, -1, NULL)) {
-        show_error(self, "Cannot open the file", "the text is not valid UTF-8");
+        show_error(self, _("Cannot open the file"), _("the text is not valid UTF-8"));
         return;
     }
 
@@ -550,7 +551,7 @@ static void open_text(SuzWindow *self, GFile *file)
         ? suz_session_from_text_with_language(self->language, text, &message)
         : suz_session_from_text(text, &message);
     if (!session) {
-        show_error(self, "Cannot import the text", message);
+        show_error(self, _("Cannot import the text"), message);
         suz_free(message);
         return;
     }
@@ -564,14 +565,14 @@ static void open_document(SuzWindow *self, GFile *file)
     g_autoptr(GError) error = NULL;
     g_autofree char *text = NULL;
     if (!g_file_load_contents(file, NULL, &text, NULL, NULL, &error)) {
-        show_error(self, "Cannot open the file", error->message);
+        show_error(self, _("Cannot open the file"), error->message);
         return;
     }
 
     char *message = NULL;
     suz_session *session = suz_session_from_snapshot(text, &message);
     if (!session) {
-        show_error(self, "Cannot read the document", message);
+        show_error(self, _("Cannot read the document"), message);
         suz_free(message);
         return;
     }
@@ -600,7 +601,7 @@ static void set_recovery_aside(SuzWindow *self, const char *path)
 {
     g_autofree char *aside = g_strconcat(path, ".bad", NULL);
     g_rename(path, aside);
-    show_error(self, "Cannot read the recovery file", aside);
+    show_error(self, _("Cannot read the recovery file"), aside);
 }
 
 static void offer_recovery(SuzWindow *self);
@@ -661,9 +662,9 @@ static void offer_recovery(SuzWindow *self)
         pending->keys = keys;
 
         g_autofree char *name = g_key_file_get_string(keys, "recovery", "name", NULL);
-        g_autofree char *body = g_strdup_printf("The previous session ended with unsaved changes to \"%s\".", name && name[0] ? name : "Untitled");
-        AdwDialog *dialog = adw_alert_dialog_new("Recover Unsaved Document?", body);
-        adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "later", "Not Now", "discard", "Discard", "restore", "Restore", NULL);
+        g_autofree char *body = g_strdup_printf(_("The previous session ended with unsaved changes to \"%s\"."), name && name[0] ? name : _("Untitled"));
+        AdwDialog *dialog = adw_alert_dialog_new(_("Recover Unsaved Document?"), body);
+        adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "later", _("Not Now"), "discard", _("Discard"), "restore", _("Restore"), NULL);
         adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "discard", ADW_RESPONSE_DESTRUCTIVE);
         adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "restore", ADW_RESPONSE_SUGGESTED);
         adw_alert_dialog_set_default_response(ADW_ALERT_DIALOG(dialog), "restore");
@@ -733,8 +734,8 @@ static void open_file_guarded(SuzWindow *self, GFile *file, gboolean document)
     pending->file = g_object_ref(file);
     pending->document = document;
 
-    AdwDialog *dialog = adw_alert_dialog_new("Discard Changes?", "The current document has unsaved changes.");
-    adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", "Cancel", "discard", "Discard", NULL);
+    AdwDialog *dialog = adw_alert_dialog_new(_("Discard Changes?"), _("The current document has unsaved changes."));
+    adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", _("Cancel"), "discard", _("Discard"), NULL);
     adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "discard", ADW_RESPONSE_DESTRUCTIVE);
     adw_alert_dialog_set_default_response(ADW_ALERT_DIALOG(dialog), "cancel");
     adw_alert_dialog_set_close_response(ADW_ALERT_DIALOG(dialog), "cancel");
@@ -777,7 +778,7 @@ static void on_open_text_done(GObject *source, GAsyncResult *result, gpointer us
     if (file)
         open_file_guarded(self, file, FALSE);
     else if (!is_dismissal(error))
-        show_error(self, "Cannot open the file", error->message);
+        show_error(self, _("Cannot open the file"), error->message);
 }
 
 static void on_open_document_done(GObject *source, GAsyncResult *result, gpointer user_data)
@@ -788,7 +789,7 @@ static void on_open_document_done(GObject *source, GAsyncResult *result, gpointe
     if (file)
         open_file_guarded(self, file, TRUE);
     else if (!is_dismissal(error))
-        show_error(self, "Cannot open the file", error->message);
+        show_error(self, _("Cannot open the file"), error->message);
 }
 
 static void action_open_text(GSimpleAction *action, GVariant *parameter, gpointer user_data)
@@ -797,8 +798,8 @@ static void action_open_text(GSimpleAction *action, GVariant *parameter, gpointe
     (void)parameter;
     SuzWindow *self = SUZ_WINDOW(user_data);
     g_autoptr(GtkFileDialog) dialog = gtk_file_dialog_new();
-    g_autoptr(GListModel) filters = make_filters("Text files", NULL, "text/plain");
-    gtk_file_dialog_set_title(dialog, "Open Text");
+    g_autoptr(GListModel) filters = make_filters(_("Text files"), NULL, "text/plain");
+    gtk_file_dialog_set_title(dialog, _("Open Text"));
     gtk_file_dialog_set_filters(dialog, filters);
     gtk_file_dialog_open(dialog, GTK_WINDOW(self), NULL, on_open_text_done, self);
 }
@@ -809,8 +810,8 @@ static void action_open_document(GSimpleAction *action, GVariant *parameter, gpo
     (void)parameter;
     SuzWindow *self = SUZ_WINDOW(user_data);
     g_autoptr(GtkFileDialog) dialog = gtk_file_dialog_new();
-    g_autoptr(GListModel) filters = make_filters("Suz documents", "*.suz", NULL);
-    gtk_file_dialog_set_title(dialog, "Open Document");
+    g_autoptr(GListModel) filters = make_filters(_("Suz documents"), "*.suz", NULL);
+    gtk_file_dialog_set_title(dialog, _("Open Document"));
     gtk_file_dialog_set_filters(dialog, filters);
     gtk_file_dialog_open(dialog, GTK_WINDOW(self), NULL, on_open_document_done, self);
 }
@@ -828,7 +829,7 @@ static gboolean write_text(SuzWindow *self, GFile *file, const char *text, const
 static void save_to(SuzWindow *self, GFile *file)
 {
     char *snapshot = suz_snapshot(self->session);
-    gboolean ok = write_text(self, file, snapshot, "Cannot save the document");
+    gboolean ok = write_text(self, file, snapshot, _("Cannot save the document"));
     suz_free(snapshot);
     if (!ok) {
         self->close_after_save = FALSE;
@@ -841,7 +842,7 @@ static void save_to(SuzWindow *self, GFile *file)
     self->document_name = base_name_without_extension(file);
     self->dirty = FALSE;
     update_ui(self);
-    show_toast(self, "Document saved");
+    show_toast(self, _("Document saved"));
 
     if (self->close_after_save) {
         self->close_after_save = FALSE;
@@ -861,15 +862,15 @@ static void on_save_as_done(GObject *source, GAsyncResult *result, gpointer user
     }
     self->close_after_save = FALSE;
     if (!is_dismissal(error))
-        show_error(self, "Cannot save the document", error->message);
+        show_error(self, _("Cannot save the document"), error->message);
 }
 
 static void save_as(SuzWindow *self)
 {
     g_autoptr(GtkFileDialog) dialog = gtk_file_dialog_new();
-    g_autoptr(GListModel) filters = make_filters("Suz documents", "*.suz", NULL);
-    g_autofree char *initial = g_strdup_printf("%s.suz", self->document_name ? self->document_name : "Untitled");
-    gtk_file_dialog_set_title(dialog, "Save Document");
+    g_autoptr(GListModel) filters = make_filters(_("Suz documents"), "*.suz", NULL);
+    g_autofree char *initial = g_strdup_printf("%s.suz", self->document_name ? self->document_name : _("Untitled"));
+    gtk_file_dialog_set_title(dialog, _("Save Document"));
     gtk_file_dialog_set_filters(dialog, filters);
     gtk_file_dialog_set_initial_name(dialog, initial);
     gtk_file_dialog_save(dialog, GTK_WINDOW(self), NULL, on_save_as_done, self);
@@ -926,11 +927,11 @@ static void on_export_done(GObject *source, GAsyncResult *result, gpointer user_
         else if (g_str_equal(pending->format, "html"))
             text = suz_html(self->session);
 
-        if (text && write_text(self, file, text, "Cannot export the document"))
-            show_toast(self, "Document exported");
+        if (text && write_text(self, file, text, _("Cannot export the document")))
+            show_toast(self, _("Document exported"));
         suz_free(text);
     } else if (!file && !is_dismissal(error)) {
-        show_error(self, "Cannot export the document", error->message);
+        show_error(self, _("Cannot export the document"), error->message);
     }
     pending_export_free(pending);
 }
@@ -942,10 +943,10 @@ static void action_export(GSimpleAction *action, GVariant *parameter, gpointer u
     const char *format = g_variant_get_string(parameter, NULL);
 
     const char *extension = "txt";
-    const char *label = "Export";
+    const char *label = _("Export");
     for (guint i = 0; i < G_N_ELEMENTS(export_formats); i++) {
         if (g_str_equal(export_formats[i][0], format)) {
-            label = export_formats[i][1];
+            label = _(export_formats[i][1]);
             extension = export_formats[i][2];
         }
     }
@@ -959,7 +960,7 @@ static void action_export(GSimpleAction *action, GVariant *parameter, gpointer u
     char *ellipsis = strstr(title, "…");
     if (ellipsis)
         *ellipsis = '\0';
-    g_autofree char *initial = g_strdup_printf("%s.%s", self->document_name ? self->document_name : "Untitled", extension);
+    g_autofree char *initial = g_strdup_printf("%s.%s", self->document_name ? self->document_name : _("Untitled"), extension);
     gtk_file_dialog_set_title(dialog, title);
     gtk_file_dialog_set_initial_name(dialog, initial);
     gtk_file_dialog_save(dialog, GTK_WINDOW(self), NULL, on_export_done, pending);
@@ -992,8 +993,8 @@ static gboolean suz_window_close_request(GtkWindow *window)
         return GTK_WINDOW_CLASS(suz_window_parent_class)->close_request(window);
     }
 
-    AdwDialog *dialog = adw_alert_dialog_new("Save Changes?", "The document has unsaved changes. They are lost if you close without saving.");
-    adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", "Cancel", "discard", "Discard", "save", "Save", NULL);
+    AdwDialog *dialog = adw_alert_dialog_new(_("Save Changes?"), _("The document has unsaved changes. They are lost if you close without saving."));
+    adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", _("Cancel"), "discard", _("Discard"), "save", _("Save"), NULL);
     adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "discard", ADW_RESPONSE_DESTRUCTIVE);
     adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "save", ADW_RESPONSE_SUGGESTED);
     adw_alert_dialog_set_default_response(ADW_ALERT_DIALOG(dialog), "save");
@@ -1022,12 +1023,12 @@ static GMenu *build_primary_menu(SuzWindow *self)
     GMenu *language_submenu = g_menu_new();
     g_menu_append_section(language_submenu, NULL, G_MENU_MODEL(self->language_menu));
     GMenu *reset = g_menu_new();
-    g_menu_append(reset, "Reset Learned Weights…", "win.reset-language");
+    g_menu_append(reset, _("Reset Learned Weights…"), "win.reset-language");
     g_menu_append_section(language_submenu, NULL, G_MENU_MODEL(reset));
     g_object_unref(reset);
 
     GMenu *languages = g_menu_new();
-    g_menu_append_submenu(languages, "Language", G_MENU_MODEL(language_submenu));
+    g_menu_append_submenu(languages, _("Language"), G_MENU_MODEL(language_submenu));
     g_object_unref(language_submenu);
     g_menu_append_section(menu, NULL, G_MENU_MODEL(languages));
     g_object_unref(languages);
@@ -1035,25 +1036,25 @@ static GMenu *build_primary_menu(SuzWindow *self)
     GMenu *export_menu = g_menu_new();
     for (guint i = 0; i < G_N_ELEMENTS(export_formats); i++) {
         g_autofree char *action = g_strdup_printf("win.export::%s", export_formats[i][0]);
-        g_menu_append(export_menu, export_formats[i][1], action);
+        g_menu_append(export_menu, _(export_formats[i][1]), action);
     }
     GMenu *exports = g_menu_new();
-    g_menu_append_submenu(exports, "Export", G_MENU_MODEL(export_menu));
+    g_menu_append_submenu(exports, _("Export"), G_MENU_MODEL(export_menu));
     g_menu_append_section(menu, NULL, G_MENU_MODEL(exports));
     g_object_unref(export_menu);
     g_object_unref(exports);
 
     GMenu *document = g_menu_new();
-    g_menu_append(document, "Undo", "win.undo");
-    g_menu_append(document, "Redo", "win.redo");
-    g_menu_append(document, "Save", "win.save");
-    g_menu_append(document, "Save As…", "win.save-as");
+    g_menu_append(document, _("Undo"), "win.undo");
+    g_menu_append(document, _("Redo"), "win.redo");
+    g_menu_append(document, _("Save"), "win.save");
+    g_menu_append(document, _("Save As…"), "win.save-as");
     g_menu_append_section(menu, NULL, G_MENU_MODEL(document));
     g_object_unref(document);
 
     GMenu *help = g_menu_new();
-    g_menu_append(help, "Keyboard Shortcuts", "app.shortcuts");
-    g_menu_append(help, "About Suz", "app.about");
+    g_menu_append(help, _("Keyboard Shortcuts"), "app.shortcuts");
+    g_menu_append(help, _("About Suz"), "app.about");
     g_menu_append_section(menu, NULL, G_MENU_MODEL(help));
     g_object_unref(help);
     return menu;
@@ -1064,13 +1065,13 @@ static GtkWidget *build_header(SuzWindow *self)
     GtkWidget *header = adw_header_bar_new();
 
     GMenu *open_menu = g_menu_new();
-    g_menu_append(open_menu, "Open Text…", "win.open-text");
-    g_menu_append(open_menu, "Open Document…", "win.open-document");
+    g_menu_append(open_menu, _("Open Text…"), "win.open-text");
+    g_menu_append(open_menu, _("Open Document…"), "win.open-document");
     GtkWidget *open = adw_split_button_new();
-    adw_split_button_set_label(ADW_SPLIT_BUTTON(open), "Open");
+    adw_split_button_set_label(ADW_SPLIT_BUTTON(open), _("Open"));
     adw_split_button_set_menu_model(ADW_SPLIT_BUTTON(open), G_MENU_MODEL(open_menu));
     gtk_actionable_set_action_name(GTK_ACTIONABLE(open), "win.open-text");
-    gtk_widget_set_tooltip_text(open, "Open a text file");
+    gtk_widget_set_tooltip_text(open, _("Open a text file"));
     adw_header_bar_pack_start(ADW_HEADER_BAR(header), open);
     g_object_unref(open_menu);
 
@@ -1078,10 +1079,10 @@ static GtkWidget *build_header(SuzWindow *self)
     gtk_widget_add_css_class(history, "linked");
     GtkWidget *undo = gtk_button_new_from_icon_name("edit-undo-symbolic");
     gtk_actionable_set_action_name(GTK_ACTIONABLE(undo), "win.undo");
-    gtk_widget_set_tooltip_text(undo, "Undo");
+    gtk_widget_set_tooltip_text(undo, _("Undo"));
     GtkWidget *redo = gtk_button_new_from_icon_name("edit-redo-symbolic");
     gtk_actionable_set_action_name(GTK_ACTIONABLE(redo), "win.redo");
-    gtk_widget_set_tooltip_text(redo, "Redo");
+    gtk_widget_set_tooltip_text(redo, _("Redo"));
     gtk_box_append(GTK_BOX(history), undo);
     gtk_box_append(GTK_BOX(history), redo);
     adw_header_bar_pack_start(ADW_HEADER_BAR(header), history);
@@ -1092,20 +1093,20 @@ static GtkWidget *build_header(SuzWindow *self)
     GtkWidget *menu_button = gtk_menu_button_new();
     gtk_menu_button_set_icon_name(GTK_MENU_BUTTON(menu_button), "open-menu-symbolic");
     gtk_menu_button_set_primary(GTK_MENU_BUTTON(menu_button), TRUE);
-    gtk_widget_set_tooltip_text(menu_button, "Main Menu");
+    gtk_widget_set_tooltip_text(menu_button, _("Main Menu"));
     g_autoptr(GMenu) primary = build_primary_menu(self);
     gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(menu_button), G_MENU_MODEL(primary));
     adw_header_bar_pack_end(ADW_HEADER_BAR(header), menu_button);
 
     GtkWidget *save = gtk_button_new_from_icon_name("document-save-symbolic");
     gtk_actionable_set_action_name(GTK_ACTIONABLE(save), "win.save");
-    gtk_widget_set_tooltip_text(save, "Save the document");
+    gtk_widget_set_tooltip_text(save, _("Save the document"));
     adw_header_bar_pack_end(ADW_HEADER_BAR(header), save);
 
-    GtkWidget *annotate = gtk_button_new_with_label("Annotate");
+    GtkWidget *annotate = gtk_button_new_with_label(_("Annotate"));
     gtk_actionable_set_action_name(GTK_ACTIONABLE(annotate), "win.annotate");
     gtk_widget_add_css_class(annotate, "suggested-action");
-    gtk_widget_set_tooltip_text(annotate, "Split the words and suggest glosses");
+    gtk_widget_set_tooltip_text(annotate, _("Split the words and suggest glosses"));
     adw_header_bar_pack_end(ADW_HEADER_BAR(header), annotate);
 
     AdwBreakpoint *narrow = adw_breakpoint_new(adw_breakpoint_condition_parse("max-width: 640sp"));
@@ -1123,10 +1124,10 @@ static GtkWidget *build_empty_page(void)
 {
     GtkWidget *page = adw_status_page_new();
     adw_status_page_set_icon_name(ADW_STATUS_PAGE(page), "dev.anmitali.Suz");
-    adw_status_page_set_title(ADW_STATUS_PAGE(page), "Open a Text");
-    adw_status_page_set_description(ADW_STATUS_PAGE(page), "Choose a text file, or drop one here, to start glossing.");
+    adw_status_page_set_title(ADW_STATUS_PAGE(page), _("Open a Text"));
+    adw_status_page_set_description(ADW_STATUS_PAGE(page), _("Choose a text file, or drop one here, to start glossing."));
 
-    GtkWidget *button = gtk_button_new_with_label("Open Text…");
+    GtkWidget *button = gtk_button_new_with_label(_("Open Text…"));
     gtk_actionable_set_action_name(GTK_ACTIONABLE(button), "win.open-text");
     gtk_widget_add_css_class(button, "suggested-action");
     gtk_widget_add_css_class(button, "pill");

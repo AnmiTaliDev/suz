@@ -1,0 +1,6 @@
+main.c
+suz-document-view.c
+suz-morph-editor.c
+suz-window.c
+../data/dev.anmitali.Suz.desktop
+../data/dev.anmitali.Suz.metainfo.xml
