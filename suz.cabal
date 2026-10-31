@@ -89,6 +89,7 @@ executable suz-examples
                       Russian
                       Tatar
                       Turkish
+                      Turkmen
                       Uzbek
     build-depends:    suz
 
