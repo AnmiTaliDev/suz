@@ -1,0 +1,11 @@
+language	Polish
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	czyta	10.0	read
+weight	i	9.0	-	PL	ACC
+weight	książk	10.0	book
+weight	m	9.0	-	1SG	PRS
