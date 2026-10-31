@@ -6,11 +6,6 @@ module Suz.Languages.Tatar
 import Suz.Language
 import Suz.Model
 
--- | A small Tatar weight table: the pronoun мин, the stems китап, укы and өй,
--- and endings for the plural, the third person plural, the accusative,
--- dative, locative, ablative and genitive cases, the first person singular
--- possessive, negation, the past tense and the first person singular, second
--- person singular and first person plural forms.
 tatar :: Language
 tatar =
   mkLanguage
