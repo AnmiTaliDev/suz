@@ -77,6 +77,7 @@ executable suz-examples
     main-is:          Main.hs
     other-modules:    English
                       Tatar
+                      Turkish
     build-depends:    suz
 
 foreign-library suz
