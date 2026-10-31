@@ -89,6 +89,8 @@ make -C gtk install PREFIX=/usr/local
 
 Languages are read from `SUZ_LANGUAGES_DIR` (a list of directories), from `suz/languages` in the user data directory and from `suz/languages` in the system data directories. The weights a language learns from your corrections are saved to `suz/languages` in the user data directory and used instead of the installed file, which also means that later changes to the installed table do not reach you. "Reset Learned Weights" in the language menu removes the saved copy.
 
+While a document has unsaved changes, the application keeps a recovery copy of it in `suz/recovery` in the user data directory. The copy is removed when the document is saved or closed. After a crash the next start offers to restore it.
+
 ## License
 
 GNU General Public License, version 3 or later. See [LICENSE](LICENSE).
