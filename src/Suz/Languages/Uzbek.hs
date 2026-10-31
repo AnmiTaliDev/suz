@@ -6,12 +6,6 @@ module Suz.Languages.Uzbek
 import Suz.Language
 import Suz.Model
 
--- | A small Uzbek weight table in the Latin script: the pronoun men, the
--- stems kitob, o'qi and uy, and endings for the plural, the accusative,
--- dative, locative, ablative and genitive cases, the first person singular
--- possessive, negation, the past tense and the first person singular, second
--- person singular and first person plural forms. Importing splits the
--- punctuation .,!? and lowercases.
 uzbek :: Language
 uzbek =
   withImportRules ".,!?" SimpleFolding $
