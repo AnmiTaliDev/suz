@@ -62,13 +62,11 @@ The shared object is versioned with `lib-version-info` in `suz.cabal` (`current:
 
 ## Languages
 
-The library ships small weight tables, each in its own module under `Suz.Languages`: Azerbaijani, CrimeanTatar, English, French, German, Greek, Italian, Kazakh, Kyrgyz, Latin, Persian, Polish, Russian, Spanish, Tajik, Tatar, Turkish, Turkmen and Uzbek. Each covers a handful of stems and endings. They serve as examples and as a starting point for a real table, not as a description of the language.
+The `languages` directory holds a weight table per language in the language text format. The files are data, not code, and do not refer to each other. Each covers a handful of stems and endings and is a starting point, not a description of the language.
 
-```haskell
-import Suz.Languages.Turkish (turkish)
-```
+`cabal install` puts the files in the package data directory and `make install` puts them in `PREFIX/share/suz/languages`.
 
-From C, `suz_builtin_language_count()` and `suz_builtin_language_name()` list the bundled languages and `suz_language_builtin()` returns a copy of one by name.
+From C, read a file and pass its text to `suz_language_from_text()`. From Haskell, pass it to `parseLanguage` and find the files with `getDataFileName` from the generated `Paths_suz` module.
 
 ## License
 
