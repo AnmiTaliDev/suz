@@ -6,9 +6,6 @@ module Suz.Languages.Italian
 import Suz.Language
 import Suz.Model
 
--- | A small Italian weight table: the pronoun io, the stems legg and libr,
--- the ending o for the first person singular present and the plural ending i.
--- Importing splits the punctuation .,!? and lowercases.
 italian :: Language
 italian =
   withImportRules ".,!?" SimpleFolding $
