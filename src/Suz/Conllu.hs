@@ -64,26 +64,43 @@ udOf ids (_, r) = do
       | not (T.null t) && T.all isDigit t, Just m <- Map.lookup (read (T.unpack t)) ids = Right (HeadOf m)
       | otherwise = Left (rowLine r, "bad HEAD")
 
--- | CoNLL-U text of a document, readable by 'parseConllu'. Only the ID and
--- FORM columns are filled, the others hold @_@. A token with several morphs is
--- written as a range line with the surface form followed by a line per morph
--- form; any other token is one line with the surface form. Segments without
--- tokens are skipped. Whitespace in a form is written as a no-break space and
--- an empty form as @_@. Identifiers and the morph forms of single-morph tokens
--- are not kept.
+-- | CoNLL-U text of a document, readable by 'parseConllu'. A token with
+-- several morphs is written as a range line with the surface form followed by
+-- a line per morph with the morph form; any other token is one line with the
+-- surface form. The UD annotation of a morph fills the LEMMA, UPOS, XPOS,
+-- FEATS, HEAD, DEPREL, DEPS and MISC columns of its line, the columns of a
+-- range line and of a morph without annotation hold @_@. A head in another
+-- sentence is written as @_@ and DEPS is written as it is stored. Segments
+-- without tokens are skipped. Whitespace in a form is written as a no-break
+-- space, an empty form as @_@, and a tab or line break in another column as a
+-- space. Identifiers, glosses and the morph forms of single-morph tokens are
+-- not kept.
 renderConllu :: Document -> Text
 renderConllu doc = T.unlines (concatMap sentence (filter (not . null . segmentTokens) (documentSegments doc)))
   where
-    sentence s = concat (snd (mapAccumL token 1 (segmentTokens s))) ++ [""]
-    token i t = case tokenMorphs t of
-      ms | length ms > 1 ->
+    sentence s = concatMap (uncurry (tokenRows (locals s))) (numbered s) ++ [""]
+    numbered s = snd (mapAccumL number 1 (segmentTokens s))
+    number i t = (i + max 1 (length (tokenMorphs t)), (t, i))
+    locals s = Map.fromList [(morphId m, k) | (t, i) <- numbered s, (k, m) <- zip [i ..] (tokenMorphs t)]
+    tokenRows ls t i = case tokenMorphs t of
+      ms@(_ : _ : _) ->
         let end = i + length ms - 1
-         in (end + 1, line (T.pack (show i ++ "-" ++ show end)) (tokenSurface t) : [line (T.pack (show k)) (morphForm m) | (k, m) <- zip [i ..] ms])
-      _ -> (i + 1, [line (T.pack (show i)) (tokenSurface t)])
-    line ident form = T.intercalate "\t" (ident : cell form : replicate 8 "_")
-    cell form
+         in line (T.pack (show i ++ "-" ++ show end)) (tokenSurface t) (replicate 8 "_") : [line (T.pack (show k)) (morphForm m) (udColumns ls m) | (k, m) <- zip [i ..] ms]
+      [m] -> [line (T.pack (show i)) (tokenSurface t) (udColumns ls m)]
+      [] -> [line (T.pack (show i)) (tokenSurface t) (replicate 8 "_")]
+    line ident form cols = T.intercalate "\t" (ident : formCell form : cols)
+    formCell form
       | T.null form = "_"
       | otherwise = T.map (\c -> if isSpace c then '\xa0' else c) form
+    udColumns ls m = case morphUd m of
+      Nothing -> replicate 8 "_"
+      Just u -> [col (udLemma u), col (udUpos u), col (udXpos u), col (udFeats u), headCol ls (udHead u), col (udDeprel u), col (udDeps u), col (udMisc u)]
+    col t
+      | T.null t = "_"
+      | otherwise = T.map (\c -> if c `elem` ("\t\n\r" :: String) then ' ' else c) t
+    headCol _ NoHead = "_"
+    headCol _ RootHead = "0"
+    headCol ls (HeadOf m) = maybe "_" (T.pack . show) (Map.lookup m ls)
 
 data Row = Row
   { rowLine :: Int
