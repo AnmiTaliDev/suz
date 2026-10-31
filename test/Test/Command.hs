@@ -51,4 +51,21 @@ checks =
   , ("split leaves the new part without annotation", udOf spareId (fst (must (apply (SplitMorph mA1 2 spareId) udBase))) == Just Nothing)
   , ("merge keeps the annotation of the first morph", udOf mA1 (fst (must (apply (MergeMorph mA1) udBase))) == Just (Just udSample {udHead = NoHead}))
   , ("removing an annotated morph is undone", roundTripsIn udBase (RemoveMorph mA1))
+  , ("removing a morph clears the heads that point at it", udHeadOf mB (after' (RemoveMorph mA2) headDoc) == Just NoHead)
+  , ("removing a morph keeps the heads that point elsewhere", udHeadOf mA1 (after' (RemoveMorph mB) headDoc) == Just (HeadOf mA2))
+  , ("removing a morph with heads is undone", roundTripsIn headDoc (RemoveMorph mA2))
+  , ("removing a morph that nothing depends on has a plain inverse", plainInsert (snd (must (apply (RemoveMorph mA1) baseDoc))))
+  , ("removing a token clears the heads that point into it", udHeadOf mB (after' (RemoveToken (tokenId tokA)) headDoc) == Just NoHead)
+  , ("removing a token with heads is undone", roundTripsIn headDoc (RemoveToken (tokenId tokA)))
+  , ("removing a segment clears the heads that point into it", udHeadOf mZ (after' (RemoveSegment (segmentId plainSegment)) zHeadDoc) == Just NoHead)
+  , ("removing a segment with heads is undone", roundTripsIn zHeadDoc (RemoveSegment (segmentId plainSegment)))
+  , ("merging morphs points the heads at the merged morph", udHeadOf mB (after' (MergeMorph mA1) headDoc) == Just (HeadOf mA1))
+  , ("merging morphs with heads is undone", roundTripsIn headDoc (MergeMorph mA1))
   ]
+  where
+    headDoc = withHeads [(mA1, HeadOf mA2), (mB, HeadOf mA2)] baseDoc
+    zHeadDoc = withHeads [(mZ, HeadOf mA1)] twoSegmentDoc
+    after' c d = fst (must (apply c d))
+    plainInsert c = case c of
+      InsertMorph {} -> True
+      _ -> False

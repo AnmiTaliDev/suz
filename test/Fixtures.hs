@@ -96,6 +96,18 @@ splitTokenId = TokenId (nextFreeId baseDoc)
 otherSegment :: Segment
 otherSegment = buildSegment baseDoc [("z", ["z"])]
 
+mB, mZ :: MorphId
+mB = morphId (tokenMorphs tokB !! 0)
+mZ = morphId (tokenMorphs (segmentTokens otherSegment !! 0) !! 0)
+
+withHeads :: [(MorphId, UdHead)] -> Document -> Document
+withHeads heads doc = foldl (\d (m, h) -> fst (must (apply (SetUd m (Just (UdFields "" "" "" "" h "" "" ""))) d))) doc heads
+
+udHeadOf :: MorphId -> Document -> Maybe UdHead
+udHeadOf mid doc = case findMorph mid doc of
+  Just (_, _, m) -> fmap udHead (morphUd m)
+  Nothing -> Nothing
+
 twoSegmentDoc :: Document
 twoSegmentDoc = fst (must (apply (InsertSegment 1 otherSegment) baseDoc))
 
