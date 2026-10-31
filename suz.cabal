@@ -33,7 +33,6 @@ library
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
-                      Suz.Languages.Tajik
                       Suz.Languages.Tatar
                       Suz.Languages.Turkish
                       Suz.Languages.Turkmen
