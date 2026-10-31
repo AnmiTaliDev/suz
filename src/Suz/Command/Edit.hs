@@ -22,6 +22,7 @@ import Suz.Model
 needSegment :: SegmentId -> Document -> Either EditError (Int, Segment)
 needSegment sid = maybe (Left (NoSuchSegment sid)) Right . findSegment sid
 
+-- | Segment, position in it and token, or 'NoSuchToken'.
 needToken :: TokenId -> Document -> Either EditError (Segment, Int, Token)
 needToken tid = maybe (Left (NoSuchToken tid)) Right . findToken tid
 
