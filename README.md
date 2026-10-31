@@ -78,6 +78,8 @@ make -C gtk
 gtk/suz-gtk text.txt
 ```
 
+The `gtk/samples` directory has texts in Kazakh and Turkish and an annotated Kazakh document to try it on. The texts contain words the language does not know and one wrongly split word, to practise corrections.
+
 To install it, install the C library first, then the application:
 
 ```
