@@ -349,11 +349,13 @@ msgstr ""
 
 #: ../data/dev.anmitali.Suz.metainfo.xml:10
 msgid ""
-"Suz splits the words of a text into morphs and glosses them, using weight "
-"tables that learn from your corrections. It reads plain text and exports "
-"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML."
+"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML and ELAN."
 msgstr ""
 
 #: suz-window.c:633
 msgid "the document is open in another instance"
+msgstr ""
+
+#: suz-window.c:50
+msgid "ELAN…"
 msgstr ""

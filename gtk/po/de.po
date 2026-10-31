@@ -348,11 +348,14 @@ msgstr "Glosse;Glossierung;interlinear;Morphem;Linguistik;"
 
 #: ../data/dev.anmitali.Suz.metainfo.xml:10
 msgid ""
-"Suz splits the words of a text into morphs and glosses them, using weight "
-"tables that learn from your corrections. It reads plain text and exports "
-"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML."
-msgstr "Suz teilt die Wörter eines Textes in Morphe auf und versieht sie mit Glossen. Dabei werden Gewichtstabellen verwendet, die aus Ihren Korrekturen lernen. Das Programm liest einfachen Text und exportiert interlinearen Text, Toolbox, CoNLL-U, JSON, LaTeX und HTML."
+"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML and ELAN."
+msgstr ""
+"Suz teilt die Wörter eines Textes in Morphe auf und versieht sie mit Glossen. Dabei werden Gewichtstabellen verwendet, die aus Ihren Korrekturen lernen. Das Programm liest einfachen Text und exportiert interlinearen Text, Toolbox, CoNLL-U, JSON, LaTeX, HTML und ELAN."
 
 #: suz-window.c:633
 msgid "the document is open in another instance"
 msgstr "das Dokument ist in einer anderen Instanz geöffnet"
+
+#: suz-window.c:50
+msgid "ELAN…"
+msgstr "ELAN…"

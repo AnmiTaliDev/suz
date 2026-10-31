@@ -348,11 +348,14 @@ msgstr "глосса;глоссалау;жоларалық;морфема;лин
 
 #: ../data/dev.anmitali.Suz.metainfo.xml:10
 msgid ""
-"Suz splits the words of a text into morphs and glosses them, using weight "
-"tables that learn from your corrections. It reads plain text and exports "
-"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX and HTML."
-msgstr "Suz мәтіндегі сөздерді морфтарға бөліп, оларға глоссалар қояды; ол түзетулеріңізден үйренетін салмақ кестелерін пайдаланады. Бағдарлама қарапайым мәтінді оқиды және жоларалық мәтінді, Toolbox, CoNLL-U, JSON, LaTeX және HTML форматтарына экспорттайды."
+"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML and ELAN."
+msgstr ""
+"Suz мәтіндегі сөздерді морфтарға бөліп, оларға глоссалар қояды; ол түзетулеріңізден үйренетін салмақ кестелерін пайдаланады. Бағдарлама қарапайым мәтінді оқиды және жоларалық мәтінді, Toolbox, CoNLL-U, JSON, LaTeX, HTML және ELAN форматтарына экспорттайды."
 
 #: suz-window.c:633
 msgid "the document is open in another instance"
 msgstr "құжат басқа экземплярда ашық"
+
+#: suz-window.c:50
+msgid "ELAN…"
+msgstr "ELAN…"
