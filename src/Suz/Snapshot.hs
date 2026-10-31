@@ -2,6 +2,7 @@
 module Suz.Snapshot
   ( renderSnapshot
   , parseSnapshot
+  , snapshotVersion
   ) where
 
 import Control.Monad (foldM)
@@ -16,13 +17,19 @@ import Suz.Model
 import Text.Read (readMaybe)
 
 data Line
-  = LineDocument Word64
+  = LineVersion Int
+  | LineDocument Word64
   | LineSegment SegmentId
   | LineToken TokenId Text
   | LineMorph Morph
   | LineUd UdFields
 
--- | Text form of a document: a @document@ line with the next free
+-- | Version of the text form written by 'renderSnapshot'.
+snapshotVersion :: Int
+snapshotVersion = 1
+
+-- | Text form of a document: a @suz-snapshot@ line with the format version, a
+-- @document@ line with the next free
 -- identifier, then @segment@, @token@ and @morph@ lines in document order,
 -- tab-separated. A morph line has the identifier and the form, and for a
 -- glossed morph also the lexical part and the tags of the gloss. A morph with
@@ -31,19 +38,27 @@ data Line
 renderSnapshot :: Document -> Text
 renderSnapshot doc =
   T.unlines $
-    ["document\t" <> word (documentNextId doc)]
+    [ "suz-snapshot\t" <> word (fromIntegral snapshotVersion)
+    , "document\t" <> word (documentNextId doc)
+    ]
       ++ concatMap segmentLines (documentSegments doc)
 
 -- | Reads a document from the text form of 'renderSnapshot'. Blank lines and
 -- lines starting with @#@ are skipped. The error holds the line number (0 when
 -- the problem is not tied to a line) and a short description. A snapshot is
--- rejected when it has no @document@ line first, when a line is out of place,
+-- rejected when it has no @document@ line first, when its @suz-snapshot@ line
+-- names a version other than 'snapshotVersion', when a line is out of place,
 -- when an identifier repeats, or when an identifier is not below the next free
 -- identifier.
 parseSnapshot :: Text -> Either (Int, String) Document
 parseSnapshot text = do
   parsed <- traverse parseLine [(n, l) | (n, l) <- zip [1 ..] (T.lines text), not (skipped l)]
-  case parsed of
+  body <- case parsed of
+    (n, LineVersion v) : rest
+      | v == snapshotVersion -> Right rest
+      | otherwise -> Left (n, "unsupported snapshot version: " ++ show v)
+    _ -> Right parsed
+  case body of
     (_, LineDocument nextId) : rest -> do
       checkIds nextId rest
       segments <- segmentsP rest
@@ -75,6 +90,7 @@ parseLine (n, raw) = either (Left . (,) n) (Right . (,) n) (decodeLine raw)
 
 decodeLine :: Text -> Either String Line
 decodeLine raw = case T.splitOn "\t" raw of
+  ["suz-snapshot", v] -> maybe (Left ("bad version: " ++ T.unpack v)) (Right . LineVersion) (readMaybe (T.unpack v))
   ["document", nextId] -> LineDocument <$> readId nextId
   ["segment", i] -> LineSegment . SegmentId <$> readId i
   ["token", i, surface] -> LineToken . TokenId <$> readId i <*> unescape surface
@@ -97,6 +113,7 @@ readId t = case readMaybe (T.unpack t) :: Maybe Integer of
   _ -> Left ("bad number: " ++ T.unpack t)
 
 lineId :: Line -> Maybe Word64
+lineId (LineVersion _) = Nothing
 lineId (LineDocument _) = Nothing
 lineId (LineSegment (SegmentId n)) = Just n
 lineId (LineToken (TokenId n) _) = Just n
