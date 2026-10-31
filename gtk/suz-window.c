@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 #include "suz-window.h"
 
+#include <errno.h>
+#include <glib/gstdio.h>
 #include <inttypes.h>
 #include <string.h>
 
@@ -20,6 +22,7 @@ struct _SuzWindow {
     GPtrArray *languages;
     suz_language *language;
     char *language_name;
+    char *language_file;
 
     suz_session *session;
     GFile *file;
@@ -62,6 +65,19 @@ static void set_action_enabled(SuzWindow *self, const char *name, gboolean enabl
         g_simple_action_set_enabled(G_SIMPLE_ACTION(action), enabled);
 }
 
+static char *user_language_path(SuzWindow *self)
+{
+    if (!self->language_file)
+        return NULL;
+    return g_build_filename(g_get_user_data_dir(), "suz", "languages", self->language_file, NULL);
+}
+
+static gboolean has_learned_weights(SuzWindow *self)
+{
+    g_autofree char *path = user_language_path(self);
+    return path && g_file_test(path, G_FILE_TEST_IS_REGULAR);
+}
+
 static void update_ui(SuzWindow *self)
 {
     gboolean has_document = self->session != NULL;
@@ -72,6 +88,7 @@ static void update_ui(SuzWindow *self)
     set_action_enabled(self, "save-as", has_document);
     set_action_enabled(self, "export", has_document);
     set_action_enabled(self, "annotate", has_document && self->language);
+    set_action_enabled(self, "reset-language", has_learned_weights(self));
 
     gtk_stack_set_visible_child_name(self->stack, has_document ? "document" : "empty");
 
@@ -161,28 +178,56 @@ static void save_language(const char *name)
     g_key_file_save_to_file(keys, path, NULL);
 }
 
-static void on_language_changed(GSimpleAction *action, GVariant *value, gpointer user_data)
+static gboolean load_language(SuzWindow *self, const char *name)
 {
-    SuzWindow *self = SUZ_WINDOW(user_data);
-    const char *name = g_variant_get_string(value, NULL);
     const SuzLanguageInfo *info = find_language(self, name);
     if (!info)
-        return;
+        return FALSE;
 
     g_autoptr(GError) error = NULL;
     suz_language *language = suz_languages_load(info, &error);
     if (!language) {
         show_error(self, "Cannot load the language", error->message);
-        return;
+        return FALSE;
     }
 
+    g_autofree char *kept_name = g_strdup(name);
+    g_autofree char *file = g_path_get_basename(info->path);
     if (self->language)
         suz_language_free(self->language);
     self->language = language;
     g_free(self->language_name);
-    self->language_name = g_strdup(name);
+    self->language_name = g_steal_pointer(&kept_name);
+    g_free(self->language_file);
+    self->language_file = g_steal_pointer(&file);
+    update_ui(self);
+    return TRUE;
+}
+
+static void on_language_changed(GSimpleAction *action, GVariant *value, gpointer user_data)
+{
+    SuzWindow *self = SUZ_WINDOW(user_data);
+    const char *name = g_variant_get_string(value, NULL);
+    if (!load_language(self, name))
+        return;
     g_simple_action_set_state(action, value);
     save_language(name);
+}
+
+static void save_learned_weights(SuzWindow *self)
+{
+    g_autofree char *path = user_language_path(self);
+    if (!self->language || !path)
+        return;
+
+    g_autofree char *dir = g_path_get_dirname(path);
+    g_autoptr(GError) error = NULL;
+    char *text = suz_language_to_text(self->language);
+    if (g_mkdir_with_parents(dir, 0700) != 0)
+        show_error(self, "Cannot save the learned weights", g_strerror(errno));
+    else if (!g_file_set_contents(path, text, -1, &error))
+        show_error(self, "Cannot save the learned weights", error->message);
+    suz_free(text);
     update_ui(self);
 }
 
@@ -233,6 +278,8 @@ static gboolean perform(SuzWindow *self, const char *command, gboolean learn)
     clear_groups(self->redo_groups);
     self->dirty = TRUE;
     refresh_view(self);
+    if (learn && self->language)
+        save_learned_weights(self);
     return TRUE;
 }
 
