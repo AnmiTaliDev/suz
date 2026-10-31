@@ -14,4 +14,5 @@ checks =
   , ("findMorph gives nothing for an unknown identifier", findMorph (MorphId 999) plainDoc == Nothing)
   , ("tokenNodeIds lists the token and its morphs", tokenNodeIds tokA == rawToken tokA : [m | Morph (MorphId m) _ _ <- tokenMorphs tokA])
   , ("segmentNodeIds starts with the segment", take 1 (segmentNodeIds plainSegment) == (case segmentId plainSegment of SegmentId n -> [n]))
+  , ("documentIds holds every node once", length (documentIds plainDoc) == length (segmentNodeIds plainSegment))
   ]
