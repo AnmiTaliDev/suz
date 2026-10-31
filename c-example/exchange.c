@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 #include <inttypes.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "example.h"
 
@@ -89,6 +90,11 @@ void demo_exchange(suz_language *language)
     char *latex = suz_latex(raw);
     printf("-- LaTeX\n%s\n", latex);
     suz_free(latex);
+
+    char *html = suz_html(raw);
+    const char *list = strstr(html, "<ol");
+    printf("-- HTML (%zu bytes, the list)\n%s\n", strlen(html), list ? list : "");
+    suz_free(html);
 
     char *json = suz_json(raw);
     printf("-- JSON\n%s\n", json);

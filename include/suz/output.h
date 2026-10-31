@@ -94,6 +94,16 @@ char *suz_json(suz_session *session);
  */
 char *suz_latex(suz_session *session);
 
+/**
+ * A complete HTML page of the document with its style sheet inside. Each
+ * segment that has tokens is a list item, each token a word with its surface
+ * form, its morph forms and its glosses, tags are set in small capitals. A
+ * segment takes the direction of its first strong character.
+ * @param session Session.
+ * @return Text, release with suz_free().
+ */
+char *suz_html(suz_session *session);
+
 #ifdef __cplusplus
 }
 #endif
