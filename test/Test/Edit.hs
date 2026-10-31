@@ -18,4 +18,5 @@ checks =
   , ("checkFresh rejects a repeated identifier", checkFresh plainDoc [500, 500] == Left (DuplicateId 500))
   , ("claimIds raises the next free identifier", nextFreeId (claimIds [50, 7] plainDoc) == 51)
   , ("claimIds never lowers the next free identifier", nextFreeId (claimIds [0] plainDoc) == nextFreeId plainDoc)
+  , ("insertAt inserts in the middle", insertAt 1 'x' "ab" == Right "axb")
   ]
