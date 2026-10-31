@@ -55,7 +55,7 @@ checks =
        in candidates l "s" == [(glossPl, 0)] && candidates l "es" == [(glossSg3, 1)] && contextCandidates l "cat" "es" == [(glossSg3, 1)]
     )
   , ( "learn from an inserted glossed morph"
-    , let l = learned learnBase [InsertMorph (tokenId (segmentTokens learnSegment !! 0)) 2 (Morph (MorphId (nextFreeId learnDoc)) "x" (Just glossPl))]
+    , let l = learned learnBase [InsertMorph (tokenId (segmentTokens learnSegment !! 0)) 2 (Morph (MorphId (nextFreeId learnDoc)) "x" (Just glossPl) Nothing)]
        in candidates l "x" == [(glossPl, 1)] && contextCandidates l "s" "x" == [(glossPl, 1)]
     )
   , ( "learn ignores commands without glosses"

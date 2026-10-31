@@ -86,7 +86,7 @@ apply command doc = case command of
     (_, dst) <- needSegment sid removed
     toks <- insertAt i tok (segmentTokens dst)
     pure (replaceSegment dst {segmentTokens = toks} removed, MoveToken tid (segmentId src) j)
-  InsertMorph tid i morph@(Morph (MorphId n) _ _) -> do
+  InsertMorph tid i morph@(Morph (MorphId n) _ _ _) -> do
     (_, _, tok) <- needToken tid doc
     checkFresh doc [n]
     ms <- insertAt i morph (tokenMorphs tok)
@@ -112,7 +112,7 @@ apply command doc = case command of
     checkFresh doc [n]
     let (before, after) = T.splitAt k (morphForm morph)
         ms = tokenMorphs tok
-        parts = [morph {morphForm = before}, Morph newId after Nothing]
+        parts = [morph {morphForm = before}, Morph newId after Nothing Nothing]
     pure
       ( claimIds [n] (replaceToken tok {tokenMorphs = take i ms ++ parts ++ drop (i + 1) ms} doc)
       , MergeMorph mid

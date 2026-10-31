@@ -4,6 +4,8 @@ module Suz.Model
   , TokenId (..)
   , MorphId (..)
   , Gloss (..)
+  , UdHead (..)
+  , UdFields (..)
   , Morph (..)
   , Token (..)
   , Segment (..)
@@ -41,11 +43,31 @@ data Gloss = Gloss
   }
   deriving (Eq, Ord, Show)
 
--- | A morph with its form and its gloss, if it has one.
+-- | The HEAD column of a Universal Dependencies annotation: not given, the
+-- root of the sentence, or another morph.
+data UdHead = NoHead | RootHead | HeadOf MorphId
+  deriving (Eq, Show)
+
+-- | The CoNLL-U columns of a morph that is a word of a sentence. A text field
+-- is empty when the column is @_@. FEATS, DEPS and MISC are kept as written.
+data UdFields = UdFields
+  { udLemma :: Text
+  , udUpos :: Text
+  , udXpos :: Text
+  , udFeats :: Text
+  , udHead :: UdHead
+  , udDeprel :: Text
+  , udDeps :: Text
+  , udMisc :: Text
+  }
+  deriving (Eq, Show)
+
+-- | A morph with its form, its gloss and its UD annotation, if it has them.
 data Morph = Morph
   { morphId :: MorphId
   , morphForm :: Text
   , morphGloss :: Maybe Gloss
+  , morphUd :: Maybe UdFields
   }
   deriving (Eq, Show)
 
@@ -118,7 +140,7 @@ segmentNodeIds (Segment (SegmentId n) ts) = n : concatMap tokenNodeIds ts
 
 -- | Raw identifiers of a token and its morphs.
 tokenNodeIds :: Token -> [Word64]
-tokenNodeIds (Token (TokenId n) _ ms) = n : [m | Morph (MorphId m) _ _ <- ms]
+tokenNodeIds (Token (TokenId n) _ ms) = n : [m | Morph (MorphId m) _ _ _ <- ms]
 
 -- | Raw identifiers of every node in the document.
 documentIds :: Document -> Set Word64

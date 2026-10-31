@@ -50,7 +50,7 @@ tokenFields :: Token -> [Text]
 tokenFields (Token (TokenId n) s ms) = word n : s : int (length ms) : concatMap morphFields ms
 
 morphFields :: Morph -> [Text]
-morphFields (Morph (MorphId n) f g) = word n : f : glossFields g
+morphFields (Morph (MorphId n) f g _) = word n : f : glossFields g
 
 glossFields :: Maybe Gloss -> [Text]
 glossFields Nothing = ["0"]
@@ -93,7 +93,7 @@ tokenP = do
   Token (TokenId n) surface <$> counted morphP
 
 morphP :: Parser Morph
-morphP = Morph . MorphId <$> wordP <*> field <*> glossP
+morphP = Morph . MorphId <$> wordP <*> field <*> glossP <*> pure Nothing
 
 glossP :: Parser (Maybe Gloss)
 glossP = do

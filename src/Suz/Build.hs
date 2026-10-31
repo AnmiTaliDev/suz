@@ -27,5 +27,5 @@ buildSegment doc specs = Segment (SegmentId n) tokens
 tokenFrom :: Word64 -> (Text, [Text]) -> (Word64, Token)
 tokenFrom n (surface, forms) =
   ( n + 1 + fromIntegral (length forms)
-  , Token (TokenId n) surface (zipWith (\i f -> Morph (MorphId i) f Nothing) [n + 1 ..] forms)
+  , Token (TokenId n) surface (zipWith (\i f -> Morph (MorphId i) f Nothing Nothing) [n + 1 ..] forms)
   )

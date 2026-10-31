@@ -27,5 +27,5 @@ checks =
   , ("replaceSegment replaces by identifier", documentSegments (replaceSegment plainSegment {segmentTokens = []} plainDoc) == [plainSegment {segmentTokens = []}])
   , ("replaceToken replaces by identifier", map tokenSurface (concatMap segmentTokens (documentSegments (replaceToken tokB {tokenSurface = "Мин"} plainDoc))) == ["китаплар", "Мин"])
   , ("replaceMorph replaces by identifier", map morphForm (concatMap tokenMorphs (concatMap segmentTokens (documentSegments (replaceMorph ((tokenMorphs tokA !! 1) {morphForm = "ләр"}) plainDoc)))) == ["китап", "ләр", "мин"])
-  , ("replace helpers ignore an unknown identifier", replaceMorph (Morph (MorphId 999) "x" Nothing) plainDoc == plainDoc && replaceToken (Token (TokenId 999) "x" []) plainDoc == plainDoc)
+  , ("replace helpers ignore an unknown identifier", replaceMorph (Morph (MorphId 999) "x" Nothing Nothing) plainDoc == plainDoc && replaceToken (Token (TokenId 999) "x" []) plainDoc == plainDoc)
   ]

@@ -22,7 +22,7 @@ checks =
   [ ("snapshot round trip", all (\d -> parseSnapshot (renderSnapshot d) == Right d) snapshotDocs)
   , ("snapshot is stable", all (\d -> fmap renderSnapshot (parseSnapshot (renderSnapshot d)) == Right (renderSnapshot d)) snapshotDocs)
   , ("snapshot keeps next id", fmap documentNextId (parseSnapshot (renderSnapshot (after (RemoveSegment (segmentId plainSegment))))) == Right (nextFreeId baseDoc))
-  , ("snapshot distinguishes absent and empty gloss", parseSnapshot "document\t3\nsegment\t0\ntoken\t1\tt\nmorph\t2\tm\t-\n" == Right (Document 3 [Segment (SegmentId 0) [Token (TokenId 1) "t" [Morph (MorphId 2) "m" (Just (Gloss "" []))]]]))
+  , ("snapshot distinguishes absent and empty gloss", parseSnapshot "document\t3\nsegment\t0\ntoken\t1\tt\nmorph\t2\tm\t-\n" == Right (Document 3 [Segment (SegmentId 0) [Token (TokenId 1) "t" [Morph (MorphId 2) "m" (Just (Gloss "" [])) Nothing]]]))
   , ("snapshot layout", renderSnapshot baseDoc == "document\t6\nsegment\t0\ntoken\t1\tкитаплар\nmorph\t2\tкитап\tbook\nmorph\t3\tлар\t-\tPL\ntoken\t4\tмин\nmorph\t5\tмин\n")
   , ("snapshot skips comments and blanks", parseSnapshot "# c\n\ndocument\t0\n   \n" == Right emptyDocument)
   , ("snapshot allows continuing the edit", either (const False) (\d -> either (const False) (const True) (apply (InsertSegment 0 (buildSegment d [("a", ["a"])])) d)) (parseSnapshot (renderSnapshot baseDoc)))

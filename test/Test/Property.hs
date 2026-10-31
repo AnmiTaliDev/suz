@@ -45,7 +45,7 @@ assemble segs = Document next segments
     segment n toks = let (end, ts) = mapAccumL token (n + 1) toks in (end, Segment (SegmentId n) ts)
     token n (surface, ms) =
       ( n + 1 + fromIntegral (length ms)
-      , Token (TokenId n) surface [Morph (MorphId i) f g | (i, (f, g)) <- zip [n + 1 ..] ms]
+      , Token (TokenId n) surface [Morph (MorphId i) f g Nothing | (i, (f, g)) <- zip [n + 1 ..] ms]
       )
 
 genShape :: Gen Text -> Gen (Maybe Gloss) -> Int -> Int -> Gen Shape
@@ -102,7 +102,7 @@ genCommand d = oneof (map (>>= pure) gens)
           MoveToken (tokenId t) sid <$> choose (0, 3)
       , do
           (_, t) <- elements toks
-          InsertMorph (tokenId t) <$> choose (0, length (tokenMorphs t)) <*> (Morph fresh <$> textOf wild 0 3 <*> maybeGloss)
+          InsertMorph (tokenId t) <$> choose (0, length (tokenMorphs t)) <*> (Morph fresh <$> textOf wild 0 3 <*> maybeGloss <*> pure Nothing)
       ]
     withMorphs =
       [ RemoveMorph . morphId . snd <$> elements morphs

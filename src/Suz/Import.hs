@@ -41,7 +41,7 @@ segmentFrom lang n ws = (end, Segment (SegmentId n) tokens)
     (end, tokens) = mapAccumL (tokenFrom lang) (n + 1) ws
 
 tokenFrom :: Language -> Word64 -> Text -> (Word64, Token)
-tokenFrom lang n w = (n + 2, Token (TokenId n) w [Morph (MorphId (n + 1)) form Nothing])
+tokenFrom lang n w = (n + 2, Token (TokenId n) w [Morph (MorphId (n + 1)) form Nothing Nothing])
   where
     form = foldCase (languageCaseFolding lang) w
 

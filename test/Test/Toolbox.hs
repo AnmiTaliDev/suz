@@ -27,6 +27,6 @@ checks =
   ]
   where
     escapeLanguage = tinyLanguage
-    trickyDoc = Document 6 [Segment (SegmentId 0) [Token (TokenId 1) "a b\tc" [Morph (MorphId 2) "a-b" (Just (Gloss "x.y" ["PL"])), Morph (MorphId 3) " " (Just (Gloss "?" []))], Token (TokenId 4) "x\\y" [Morph (MorphId 5) "_" Nothing]]]
+    trickyDoc = Document 6 [Segment (SegmentId 0) [Token (TokenId 1) "a b\tc" [Morph (MorphId 2) "a-b" (Just (Gloss "x.y" ["PL"])) Nothing, Morph (MorphId 3) " " (Just (Gloss "?" [])) Nothing], Token (TokenId 4) "x\\y" [Morph (MorphId 5) "_" Nothing Nothing]]]
     emptySegmentDoc = fst (must (apply (InsertSegment 0 (buildSegment emptyDocument [])) emptyDocument))
     toolboxGlosses t = fmap (map morphGloss . concatMap tokenMorphs . concatMap segmentTokens . documentSegments) (parseToolbox tinyLanguage t)

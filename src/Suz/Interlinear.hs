@@ -124,5 +124,5 @@ parseGloss lang escaped plain ln p = do
 tokenFrom :: Word64 -> (Text, [Text], [Maybe Gloss]) -> (Word64, Token)
 tokenFrom n (surface, forms, glosses) =
   ( n + 1 + fromIntegral (length forms)
-  , Token (TokenId n) surface (zipWith3 (\i f g -> Morph (MorphId i) f g) [n + 1 ..] forms glosses)
+  , Token (TokenId n) surface (zipWith3 (\i f g -> Morph (MorphId i) f g Nothing) [n + 1 ..] forms glosses)
   )

@@ -38,7 +38,7 @@ baseDoc =
   fst (must (apply (Batch [SetGloss mA1 (Just glossBook), SetGloss mA2 (Just glossPl)]) plainDoc))
 
 spareMorph :: Morph
-spareMorph = Morph (MorphId (nextFreeId baseDoc)) "х" Nothing
+spareMorph = Morph (MorphId (nextFreeId baseDoc)) "х" Nothing Nothing
 
 commands :: [Command]
 commands =

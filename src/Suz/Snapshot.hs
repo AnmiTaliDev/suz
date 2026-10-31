@@ -55,7 +55,7 @@ tokenLines (Token (TokenId n) surface morphs) =
   T.intercalate "\t" ["token", word n, escape surface] : map morphLine morphs
 
 morphLine :: Morph -> Text
-morphLine (Morph (MorphId n) form gloss) =
+morphLine (Morph (MorphId n) form gloss _) =
   T.intercalate "\t" (["morph", word n, escape form] ++ glossFields gloss)
   where
     glossFields Nothing = []
@@ -78,13 +78,13 @@ decodeLine raw = case T.splitOn "\t" raw of
   ["morph", i, form] -> do
     mid <- readId i
     f <- unescape form
-    pure (LineMorph (Morph (MorphId mid) f Nothing))
+    pure (LineMorph (Morph (MorphId mid) f Nothing Nothing))
   "morph" : i : form : lexical : tags -> do
     mid <- readId i
     f <- unescape form
     l <- decodeLexical lexical
     ts <- traverse unescape tags
-    pure (LineMorph (Morph (MorphId mid) f (Just (Gloss l ts))))
+    pure (LineMorph (Morph (MorphId mid) f (Just (Gloss l ts)) Nothing))
   _ -> Left "unrecognized line"
 
 readId :: Text -> Either String Word64
@@ -96,7 +96,7 @@ lineId :: Line -> Maybe Word64
 lineId (LineDocument _) = Nothing
 lineId (LineSegment (SegmentId n)) = Just n
 lineId (LineToken (TokenId n) _) = Just n
-lineId (LineMorph (Morph (MorphId n) _ _)) = Just n
+lineId (LineMorph (Morph (MorphId n) _ _ _)) = Just n
 
 checkIds :: Word64 -> [(Int, Line)] -> Either (Int, String) ()
 checkIds nextId = fmap (const ()) . foldM step Set.empty
