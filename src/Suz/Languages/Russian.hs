@@ -6,9 +6,6 @@ module Suz.Languages.Russian
 import Suz.Language
 import Suz.Model
 
--- | A small Russian weight table: the pronoun я, the stems книг and чита, the
--- ending и for the plural accusative and the ending ю for the first person
--- singular present. Importing splits the punctuation .,!? and lowercases.
 russian :: Language
 russian =
   withImportRules ".,!?" SimpleFolding $
