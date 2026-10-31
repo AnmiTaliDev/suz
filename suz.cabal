@@ -72,6 +72,7 @@ test-suite suz-test
                       Test.Language
                       Test.LanguageBinary
                       Test.LanguageText
+                      Test.Languages
                       Test.Learn
                       Test.Leipzig
                       Test.Model
