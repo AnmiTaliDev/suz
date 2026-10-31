@@ -21,6 +21,7 @@ import Suz.Codec
 import Suz.Command
 import Suz.Model
 
+-- | A command together with the command that reverts it.
 data Entry = Entry
   { entryForward :: Command
   , entryInverse :: Command
