@@ -2,10 +2,13 @@
 #include "suz-window.h"
 
 #include <errno.h>
+#include <fcntl.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 #include <inttypes.h>
 #include <string.h>
+#include <sys/file.h>
+#include <unistd.h>
 
 #include "suz-document-view.h"
 #include "suz-languages.h"
@@ -33,6 +36,8 @@ struct _SuzWindow {
     GArray *redo_groups;
     gboolean close_after_save;
     gboolean close_confirmed;
+    int lock_fd;
+    char *lock_path;
     char *recovery_path;
     gboolean recovery_written;
     guint autosave_id;
@@ -170,6 +175,58 @@ static void clear_groups(GArray *groups)
 static void push_group(GArray *groups, guint steps)
 {
     g_array_append_val(groups, steps);
+}
+
+static gboolean acquire_lock(GFile *file, int *fd, char **path)
+{
+    *fd = -1;
+    *path = NULL;
+    g_autofree char *document = g_file_get_path(file);
+    if (!document)
+        return TRUE;
+
+    g_autofree char *lock = g_strconcat(document, ".lock", NULL);
+    int descriptor = open(lock, O_RDWR | O_CREAT | O_CLOEXEC, 0644);
+    if (descriptor < 0)
+        return TRUE;
+    if (flock(descriptor, LOCK_EX | LOCK_NB) != 0) {
+        gboolean busy = errno == EWOULDBLOCK;
+        close(descriptor);
+        return !busy;
+    }
+
+    *fd = descriptor;
+    *path = g_steal_pointer(&lock);
+    return TRUE;
+}
+
+static void drop_lock(int fd, char *path)
+{
+    if (fd >= 0) {
+        unlink(path);
+        close(fd);
+    }
+    g_free(path);
+}
+
+static void set_lock(SuzWindow *self, int fd, char *path)
+{
+    drop_lock(self->lock_fd, self->lock_path);
+    self->lock_fd = fd;
+    self->lock_path = path;
+}
+
+static SuzWindow *find_window_with(SuzWindow *self, GFile *file)
+{
+    GtkApplication *application = gtk_window_get_application(GTK_WINDOW(self));
+    for (GList *l = application ? gtk_application_get_windows(application) : NULL; l; l = l->next) {
+        if (!SUZ_IS_WINDOW(l->data) || l->data == self)
+            continue;
+        SuzWindow *other = l->data;
+        if (other->file && g_file_equal(other->file, file))
+            return other;
+    }
+    return NULL;
 }
 
 static void replace_session(SuzWindow *self, suz_session *session, GFile *file, const char *name, gboolean dirty)
@@ -558,14 +615,30 @@ static void open_text(SuzWindow *self, GFile *file)
 
     g_autofree char *name = base_name_without_extension(file);
     replace_session(self, session, NULL, name, TRUE);
+    set_lock(self, -1, NULL);
 }
 
 static void open_document(SuzWindow *self, GFile *file)
 {
+    SuzWindow *other = find_window_with(self, file);
+    if (other) {
+        gtk_window_present(GTK_WINDOW(other));
+        return;
+    }
+
+    gboolean same = self->file && g_file_equal(self->file, file);
+    int fd = -1;
+    char *lock_path = NULL;
+    if (!same && !acquire_lock(file, &fd, &lock_path)) {
+        show_error(self, _("Cannot open the file"), _("the document is open in another instance"));
+        return;
+    }
+
     g_autoptr(GError) error = NULL;
     g_autofree char *text = NULL;
     if (!g_file_load_contents(file, NULL, &text, NULL, NULL, &error)) {
         show_error(self, _("Cannot open the file"), error->message);
+        drop_lock(fd, lock_path);
         return;
     }
 
@@ -574,11 +647,14 @@ static void open_document(SuzWindow *self, GFile *file)
     if (!session) {
         show_error(self, _("Cannot read the document"), message);
         suz_free(message);
+        drop_lock(fd, lock_path);
         return;
     }
 
     g_autofree char *name = base_name_without_extension(file);
     replace_session(self, session, file, name, FALSE);
+    if (!same)
+        set_lock(self, fd, lock_path);
 }
 
 static GPtrArray *stale_recoveries;
@@ -624,7 +700,15 @@ static void restore_recovery(PendingRecovery *pending)
     SuzWindow *target = self;
     if (self->session)
         target = suz_window_new(ADW_APPLICATION(gtk_window_get_application(GTK_WINDOW(self))));
+    int fd = -1;
+    char *lock_path = NULL;
+    if (file && (find_window_with(target, file) || !acquire_lock(file, &fd, &lock_path))) {
+        show_error(self, _("Cannot open the file"), _("the document is open in another instance"));
+        g_clear_object(&file);
+    }
     replace_session(target, session, file, name && name[0] ? name : NULL, TRUE);
+    if (fd >= 0)
+        set_lock(target, fd, lock_path);
     g_unlink(pending->path);
     gtk_window_present(GTK_WINDOW(target));
 }
@@ -828,13 +912,25 @@ static gboolean write_text(SuzWindow *self, GFile *file, const char *text, const
 
 static void save_to(SuzWindow *self, GFile *file)
 {
+    gboolean same = self->file && g_file_equal(self->file, file);
+    int fd = -1;
+    char *lock_path = NULL;
+    if (!same && (find_window_with(self, file) || !acquire_lock(file, &fd, &lock_path))) {
+        show_error(self, _("Cannot save the document"), _("the document is open in another instance"));
+        self->close_after_save = FALSE;
+        return;
+    }
+
     char *snapshot = suz_snapshot(self->session);
     gboolean ok = write_text(self, file, snapshot, _("Cannot save the document"));
     suz_free(snapshot);
     if (!ok) {
+        drop_lock(fd, lock_path);
         self->close_after_save = FALSE;
         return;
     }
+    if (!same)
+        set_lock(self, fd, lock_path);
 
     g_clear_object(&self->file);
     self->file = g_object_ref(file);
@@ -990,6 +1086,7 @@ static gboolean suz_window_close_request(GtkWindow *window)
     SuzWindow *self = SUZ_WINDOW(window);
     if (!self->session || !self->dirty || self->close_confirmed) {
         remove_recovery(self);
+        set_lock(self, -1, NULL);
         return GTK_WINDOW_CLASS(suz_window_parent_class)->close_request(window);
     }
 
@@ -1152,6 +1249,7 @@ static void select_initial_language(SuzWindow *self)
 
 static void suz_window_init(SuzWindow *self)
 {
+    self->lock_fd = -1;
     self->undo_groups = g_array_new(FALSE, FALSE, sizeof(guint));
     self->redo_groups = g_array_new(FALSE, FALSE, sizeof(guint));
     self->languages = suz_languages_discover();
@@ -1221,6 +1319,7 @@ static void suz_window_finalize(GObject *object)
     SuzWindow *self = SUZ_WINDOW(object);
     g_clear_handle_id(&self->autosave_id, g_source_remove);
     g_free(self->recovery_path);
+    set_lock(self, -1, NULL);
     if (self->session)
         suz_session_free(self->session);
     if (self->language)
