@@ -6,12 +6,6 @@ module Suz.Languages.Azerbaijani
 import Suz.Language
 import Suz.Model
 
--- | A small Azerbaijani weight table in the Latin script: the pronoun mən,
--- the stems kitab, oxu, işıq and ev, and endings for the plural, the
--- accusative, dative, locative, ablative and genitive cases, the first person
--- singular possessive, negation, the past tense and the first person
--- singular, second person singular and first person plural forms. Importing
--- splits the punctuation .,!? and lowercases with the Turkic mapping.
 azerbaijani :: Language
 azerbaijani =
   withImportRules ".,!?" TurkicFolding $
