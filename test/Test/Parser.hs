@@ -7,4 +7,5 @@ checks :: [(String, Bool)]
 checks =
   [ ("field takes the first field", runParser field ["a", "b"] == Right ("a", ["b"]))
   , ("field fails at the end of the line", runParser field [] == Left "unexpected end of line")
+  , ("failP fails with its message", runParser (failP "no" :: Parser Int) ["a"] == Left "no")
   ]
