@@ -1,10 +1,14 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
-module Russian
+module Suz.Languages.Russian
   ( russian
   ) where
 
-import Suz
+import Suz.Language
+import Suz.Model
 
+-- | A small Russian weight table: the pronoun я, the stems книг and чита, the
+-- ending и for the plural accusative and the ending ю for the first person
+-- singular present. Importing splits the punctuation .,!? and lowercases.
 russian :: Language
 russian =
   withImportRules ".,!?" SimpleFolding $

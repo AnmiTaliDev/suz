@@ -4,13 +4,13 @@ module Main (main) where
 import Control.Monad (foldM)
 import Data.Text (Text)
 import qualified Data.Text.IO as T
-import Russian (russian)
 import Suz
 import Suz.Languages.Azerbaijani (azerbaijani)
 import Suz.Languages.CrimeanTatar (crimeanTatar)
 import Suz.Languages.English (english)
 import Suz.Languages.Kazakh (kazakh)
 import Suz.Languages.Kyrgyz (kyrgyz)
+import Suz.Languages.Russian (russian)
 import Suz.Languages.Tatar (tatar)
 import Suz.Languages.Turkish (turkish)
 import Suz.Languages.Uzbek (uzbek)
