@@ -1,0 +1,13 @@
+language	Persian
+tag	1SG
+tag	ACC
+tag	IPFV
+tag	PL
+punctuation	!.?،؟
+weight	خوان	10.0	read
+weight	را	10.0	-	ACC
+weight	م	9.0	-	1SG
+weight	من	10.0	-	1SG
+weight	می‌	9.0	-	IPFV
+weight	ها	9.0	-	PL
+weight	کتاب‌	10.0	book
