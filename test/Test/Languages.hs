@@ -37,7 +37,11 @@ annotated lang text = renderDocument (annotatedDocument lang text)
 
 files :: [(String, [(Text, Text)])]
 files =
-  [ ("azerbaijani",
+  [ ("ancient-hebrew",
+      [ ("בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הָאָרֶץ׃",
+         "בְּרֵאשִׁית       בָּרָא    אֱלֹהִים אֵת  הָאָרֶץ      ׃\nבְּ-רֵאשִׁית      בָּרָא    אֱלֹהִים אֵת  הָ-אָרֶץ     ׃\nin-beginning create God   ACC DEF-earth ?")
+      ])
+  , ("azerbaijani",
       [ ("İşıq kitabları oxudum.",
          "İşıq  kitabları   oxudum       .\nişıq  kitab-lar-ı oxu-du-m     .\nlight book-PL-ACC read-PST-1SG ?"),
         ("Mən evdə kitabı oxumadım.",

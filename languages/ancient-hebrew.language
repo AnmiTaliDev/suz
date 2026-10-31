@@ -1,0 +1,13 @@
+suz-language	1
+language	Ancient Hebrew
+tag	ACC
+tag	DEF
+punctuation	!,.?׃
+weight	בְּ	9.0	in
+weight	רֵאשִׁית	10.0	beginning
+weight	בָּרָא	10.0	create
+weight	אֱלֹהִים	10.0	God
+weight	אֵת	10.0	-	ACC
+weight	וְ	9.0	and
+weight	הָ	9.0	-	DEF
+weight	אָרֶץ	10.0	earth
