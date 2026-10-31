@@ -91,6 +91,8 @@ The interface is translated with gettext. The catalogs are `gtk/po/*.po`, the la
 
 Languages are read from `SUZ_LANGUAGES_DIR` (a list of directories), from `suz/languages` in the user data directory and from `suz/languages` in the system data directories. The weights a language learns from your corrections are saved to `suz/languages` in the user data directory and used instead of the installed file, which also means that later changes to the installed table do not reach you. "Reset Learned Weights" in the language menu removes the saved copy.
 
+An open `.suz` document is locked with `flock` on a `NAME.suz.lock` file next to it. A second window or instance that opens or saves to the same file is refused, and a window that already has the file is shown instead. The lock is released when the process ends, a leftover `.lock` file after a crash does not block anything. Locks do not work on file systems without `flock` support, the document is then opened without one.
+
 While a document has unsaved changes, the application keeps a recovery copy of it in `suz/recovery` in the user data directory. The copy is removed when the document is saved or closed. After a crash the next start offers to restore it.
 
 ## License
