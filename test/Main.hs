@@ -20,6 +20,7 @@ import qualified Test.Toolbox as Toolbox
 import qualified Test.Validate as Validate
 import qualified Test.Escape as Escape
 import qualified Test.Parser as Parser
+import qualified Test.Model as Model
 import System.Exit (exitFailure, exitSuccess)
 import Test.QuickCheck (Args (..), isSuccess, output, quickCheckWithResult, stdArgs)
 
@@ -43,6 +44,7 @@ checks = concat
   , Conllu.checks
   , Escape.checks
   , Parser.checks
+  , Model.checks
   ]
 
 main :: IO ()
