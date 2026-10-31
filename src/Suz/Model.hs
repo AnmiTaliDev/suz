@@ -57,6 +57,7 @@ data Token = Token
   }
   deriving (Eq, Show)
 
+-- | A run of tokens, such as a sentence or a line of text.
 data Segment = Segment
   { segmentId :: SegmentId
   , segmentTokens :: [Token]
