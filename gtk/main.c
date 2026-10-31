@@ -87,7 +87,7 @@ static void action_quit(GSimpleAction *action, GVariant *parameter, gpointer use
     (void)action;
     (void)parameter;
     GtkApplication *application = GTK_APPLICATION(user_data);
-    GList *windows = gtk_application_get_windows(application);
+    g_autoptr(GList) windows = g_list_copy(gtk_application_get_windows(application));
     for (GList *l = windows; l; l = l->next)
         gtk_window_close(GTK_WINDOW(l->data));
 }
