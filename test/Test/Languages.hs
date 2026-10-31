@@ -11,6 +11,7 @@ import Suz.Languages.English (english)
 import Suz.Languages.Kazakh (kazakh)
 import Suz.Languages.Kyrgyz (kyrgyz)
 import Suz.Languages.Russian (russian)
+import Suz.Languages.Spanish (spanish)
 import Suz.Languages.Tatar (tatar)
 import Suz.Languages.Turkish (turkish)
 import Suz.Languages.Turkmen (turkmen)
@@ -38,6 +39,8 @@ checks =
   , ("Russian example passes validation", null (validateDocument russian (annotatedDocument russian "Я читаю книги.")))
   , ("Turkmen example is annotated", annotated turkmen "Men kitaplary okadym." == "Men kitaplary   okadym       .\nmen kitap-lar-y oka-dy-m     .\n1SG book-PL-ACC read-PST-1SG ?")
   , ("Turkmen example passes validation", null (validateDocument turkmen (annotatedDocument turkmen "Men kitaplary okadym.")))
+  , ("Spanish example is annotated", annotated spanish "Yo leo libros." == "Yo  leo          libros    .\nyo  le-o         libr-o-s  .\n1SG read-1SG.PRS book-M-PL ?")
+  , ("Spanish example passes validation", null (validateDocument spanish (annotatedDocument spanish "Yo leo libros.")))
   ]
   where
     annotatedDocument :: Language -> Text -> Document
