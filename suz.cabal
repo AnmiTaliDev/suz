@@ -116,7 +116,7 @@ executable suz-examples
 foreign-library suz
     import:           shared
     type:             native-shared
-    lib-version-info: 1:0:1
+    lib-version-info: 2:0:2
     hs-source-dirs:   ffi
     other-modules:    Suz.Foreign
                       Suz.Foreign.Document

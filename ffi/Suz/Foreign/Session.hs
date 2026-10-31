@@ -5,6 +5,7 @@ module Suz.Foreign.Session
 
 import Data.Bifunctor (first)
 import Data.IORef (IORef, newIORef, readIORef, writeIORef)
+import qualified Data.Text as T
 import Data.Word (Word64)
 import Foreign.C.String (CString)
 import Foreign.C.Types (CInt (..))
@@ -36,6 +37,7 @@ foreign export ccall "suz_toolbox" sessionToolbox :: Ptr () -> IO CString
 foreign export ccall "suz_json" sessionJson :: Ptr () -> IO CString
 foreign export ccall "suz_latex" sessionLatex :: Ptr () -> IO CString
 foreign export ccall "suz_html" sessionHtml :: Ptr () -> IO CString
+foreign export ccall "suz_validate_ud" sessionValidateUd :: Ptr () -> IO CString
 foreign export ccall "suz_conllu" sessionConllu :: Ptr () -> IO CString
 
 sessionNew :: IO (Ptr ())
@@ -174,6 +176,14 @@ sessionConllu h = readSession h >>= newUtf8 . renderConllu . sessionDocument
 
 sessionHtml :: Ptr () -> IO CString
 sessionHtml h = readSession h >>= newUtf8 . renderHtml . sessionDocument
+
+sessionValidateUd :: Ptr () -> IO CString
+sessionValidateUd h = readSession h >>= newUtf8 . T.unlines . map line . validateUd . sessionDocument
+  where
+    line (UdDanglingHead m x) = T.intercalate "\t" ["dangling", number m, number x]
+    line (UdHeadOutsideSegment m x) = T.intercalate "\t" ["outside", number m, number x]
+    line (UdHeadCycle m) = T.intercalate "\t" ["cycle", number m]
+    number (MorphId n) = T.pack (show n)
 
 sessionLatex :: Ptr () -> IO CString
 sessionLatex h = readSession h >>= newUtf8 . renderLatex . sessionDocument

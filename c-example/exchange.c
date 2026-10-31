@@ -79,6 +79,16 @@ void demo_exchange(suz_language *language)
     printf("-- CoNLL-U after suz_set_ud\n%s", annotated);
     suz_free(annotated);
 
+    if (suz_set_ud(from_conllu, 0, 1, 0, "укы", "VERB", "", "", 2, verb, "root", "", "", &error) == 0)
+        fail("set ud", "a morph that is its own head was accepted");
+    printf("-- suz_set_ud with a morph as its own head\n%s\n", error);
+    suz_free(error);
+    error = NULL;
+
+    char *problems = suz_validate_ud(from_conllu);
+    printf("-- suz_validate_ud, %s\n", *problems ? "problems found" : "no problems");
+    suz_free(problems);
+
     char *conllu = suz_conllu(raw);
     printf("-- CoNLL-U\n%s", conllu);
     suz_free(conllu);

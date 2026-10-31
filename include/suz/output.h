@@ -107,6 +107,17 @@ char *suz_latex(suz_session *session);
  */
 char *suz_html(suz_session *session);
 
+/**
+ * Problems with the UD heads of the document, one per line with tab-separated
+ * fields: `dangling`, the morph and a head that does not exist, `outside`,
+ * the morph and a head in another segment, or `cycle` and a morph on a cycle
+ * of heads. The text is empty if there are none. Commands do not create such
+ * heads, they come from a snapshot or CoNLL-U text that was read.
+ * @param session Session.
+ * @return Text, release with suz_free().
+ */
+char *suz_validate_ud(suz_session *session);
+
 #ifdef __cplusplus
 }
 #endif
