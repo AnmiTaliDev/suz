@@ -1,6 +1,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 module Main (main) where
 
+import Azerbaijani (azerbaijani)
 import Control.Monad (foldM)
 import Data.Text (Text)
 import qualified Data.Text.IO as T
@@ -31,6 +32,8 @@ main = do
   rawTextExample "Uzbek" uzbek "Men kitoblarni o'qidim."
   putStrLn ""
   rawTextExample "Kyrgyz" kyrgyz "Мен китептерди окудум."
+  putStrLn ""
+  rawTextExample "Azerbaijani" azerbaijani "İşıq kitabları oxudum."
 
 tatarExample :: IO ()
 tatarExample = do
