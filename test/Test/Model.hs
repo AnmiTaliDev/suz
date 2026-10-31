@@ -9,4 +9,5 @@ checks =
   [ ("findSegment gives position and segment", findSegment (segmentId plainSegment) plainDoc == Just (0, plainSegment))
   , ("findSegment gives nothing for an unknown identifier", findSegment (SegmentId 999) plainDoc == Nothing)
   , ("findToken gives segment, position and token", findToken (tokenId tokB) plainDoc == Just (plainSegment, 1, tokB))
+  , ("findToken gives nothing for an unknown identifier", findToken (TokenId 999) plainDoc == Nothing)
   ]
