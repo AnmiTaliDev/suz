@@ -7,6 +7,7 @@ module Suz
   , module Suz.Conllu
   , module Suz.Import
   , module Suz.Journal
+  , module Suz.Json
   , module Suz.Language
   , module Suz.LanguageBinary
   , module Suz.LanguageText
@@ -28,6 +29,7 @@ import Suz.Command
 import Suz.Conllu
 import Suz.Import
 import Suz.Journal
+import Suz.Json
 import Suz.Language
 import Suz.LanguageBinary
 import Suz.LanguageText

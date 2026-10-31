@@ -28,6 +28,7 @@ library
                       Suz.Conllu
                       Suz.Import
                       Suz.Journal
+                      Suz.Json
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
