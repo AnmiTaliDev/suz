@@ -39,6 +39,7 @@ checkFresh doc = foldM_ claim (documentIds doc)
       | Set.member i seen = Left (DuplicateId i)
       | otherwise = Right (Set.insert i seen)
 
+-- | Raises the next free identifier above all the given ones.
 claimIds :: [Word64] -> Document -> Document
 claimIds ids doc = doc {documentNextId = maximum (documentNextId doc : map (+ 1) ids)}
 
