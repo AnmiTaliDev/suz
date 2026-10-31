@@ -10,4 +10,5 @@ checks =
   , ("failP fails with its message", runParser (failP "no" :: Parser Int) ["a"] == Left "no")
   , ("intP reads an integer", runParser intP ["12", "x"] == Right (12, ["x"]))
   , ("intP reads a negative integer", runParser intP ["-3"] == Right (-3, []))
+  , ("intP rejects other text", runParser intP ["x"] == Left "bad number: x")
   ]
