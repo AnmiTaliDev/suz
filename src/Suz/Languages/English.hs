@@ -6,8 +6,6 @@ module Suz.Languages.English
 import Suz.Language
 import Suz.Model
 
--- | A small English weight table: the words the, she, cat and walk, and the
--- endings s for the plural and the third person singular.
 english :: Language
 english =
   mkLanguage
