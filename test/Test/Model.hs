@@ -15,4 +15,5 @@ checks =
   , ("tokenNodeIds lists the token and its morphs", tokenNodeIds tokA == rawToken tokA : [m | Morph (MorphId m) _ _ <- tokenMorphs tokA])
   , ("segmentNodeIds starts with the segment", take 1 (segmentNodeIds plainSegment) == (case segmentId plainSegment of SegmentId n -> [n]))
   , ("documentIds holds every node once", length (documentIds plainDoc) == length (segmentNodeIds plainSegment))
+  , ("an empty document has no identifiers and starts at 0", documentIds emptyDocument == mempty && nextFreeId emptyDocument == 0)
   ]
