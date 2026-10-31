@@ -1,0 +1,57 @@
+language	Azerbaijani
+tag	1PL
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	DAT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	POSS
+tag	PST
+tag	SG
+punctuation	!,.?
+foldcase	turkic
+weight	a	8.0	-	DAT
+weight	da	8.0	-	LOC
+weight	dan	8.0	-	ABL
+weight	di	9.0	-	PST
+weight	du	9.0	-	PST
+weight	dü	9.0	-	PST
+weight	dı	9.0	-	PST
+weight	də	8.0	-	LOC
+weight	dən	8.0	-	ABL
+weight	ev	10.0	house
+weight	i	9.0	-	ACC
+weight	im	8.0	-	1SG	POSS
+weight	in	8.0	-	GEN
+weight	işıq	10.0	light
+weight	k	9.0	-	1PL
+weight	kitab	10.0	book
+weight	lar	8.0	-	PL
+weight	lər	8.0	-	PL
+weight	m	9.0	-	1SG
+weight	ma	8.0	-	NEG
+weight	mə	8.0	-	NEG
+weight	mən	10.0	-	1SG
+weight	n	9.0	-	2SG
+weight	nin	8.0	-	GEN
+weight	nun	8.0	-	GEN
+weight	nün	8.0	-	GEN
+weight	nın	8.0	-	GEN
+weight	oxu	10.0	read
+weight	q	9.0	-	1PL
+weight	u	9.0	-	ACC
+weight	um	8.0	-	1SG	POSS
+weight	un	8.0	-	GEN
+weight	ya	8.0	-	DAT
+weight	yə	8.0	-	DAT
+weight	ü	9.0	-	ACC
+weight	üm	8.0	-	1SG	POSS
+weight	ün	8.0	-	GEN
+weight	ı	9.0	-	ACC
+weight	ım	8.0	-	1SG	POSS
+weight	ın	8.0	-	GEN
+weight	ə	8.0	-	DAT
