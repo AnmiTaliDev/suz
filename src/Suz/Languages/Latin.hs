@@ -6,9 +6,6 @@ module Suz.Languages.Latin
 import Suz.Language
 import Suz.Model
 
--- | A small Latin weight table: the stems libr and leg, the ending os for the
--- accusative plural and the ending o for the first person singular present.
--- Importing splits the punctuation .,!? and lowercases.
 latin :: Language
 latin =
   withImportRules ".,!?" SimpleFolding $
