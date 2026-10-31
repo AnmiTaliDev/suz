@@ -491,6 +491,15 @@ properties =
     , forAll ((,) <$> genLanguage <*> (arbitrary `suchThat` (/= (1 :: Int)))) $ \(l, v) ->
         parseLanguage (T.replace "suz-language\t1" (T.pack ("suz-language\t" ++ show v)) (renderLanguage l)) === Left (1, "unsupported language version: " ++ show v)
     )
+  , ( "no sequence of commands leaves a dangling head"
+    , forAll (genDocument >>= genRun 6) $ \(d, _) -> [v | v@(UdDanglingHead _ _) <- validateUd d] === []
+    )
+  , ( "removing a morph leaves no head that points at it"
+    , forAll (genDocument `suchThat` (not . null . allMorphs)) $ \d ->
+        forAll (elements (allMorphs d)) $ \m -> case apply (RemoveMorph (morphId m)) d of
+          Left e -> counterexample (show e) False
+          Right (d', _) -> [x | x <- allMorphs d', fmap udHead (morphUd x) == Just (HeadOf (morphId m))] === []
+    )
   ]
   where
     languageTagList = foldr (:) [] . languageTags
