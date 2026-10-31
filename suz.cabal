@@ -33,7 +33,6 @@ library
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
-                      Suz.Languages.Greek
                       Suz.Languages.Italian
                       Suz.Languages.Kazakh
                       Suz.Languages.Kyrgyz
