@@ -6,19 +6,29 @@ module Suz.Languages.Tatar
 import Suz.Language
 import Suz.Model
 
--- | A small Tatar weight table: the pronoun мин, the stems китап and укы, and
--- the plural, third person plural, accusative, past tense and first person
--- singular endings.
+-- | A small Tatar weight table: the pronoun мин, the stems китап, укы and өй,
+-- and endings for the plural, the third person plural, the accusative,
+-- dative, locative, ablative and genitive cases, the first person singular
+-- possessive, negation, the past tense and the first person singular, second
+-- person singular and first person plural forms.
 tatar :: Language
 tatar =
   mkLanguage
     "Tatar"
-    ["SG", "PL", "ACC", "PST", "1SG", "3PL"]
+    ["SG", "1SG", "PL", "3PL", "ACC", "DAT", "LOC", "ABL", "GEN", "POSS", "NEG", "PST", "2SG", "1PL"]
     ( [("мин", Gloss "" ["1SG"], 10)]
-        ++ [("китап", Gloss "book" [], 10), ("укы", Gloss "read" [], 10)]
+        ++ [("китап", Gloss "book" [], 10), ("укы", Gloss "read" [], 10), ("өй", Gloss "house" [], 10)]
         ++ [(f, Gloss "" ["PL"], 8) | f <- ["лар", "ләр", "нар", "нәр"]]
         ++ [(f, Gloss "" ["3PL"], 2) | f <- ["лар", "ләр"]]
         ++ [(f, Gloss "" ["ACC"], 9) | f <- ["ны", "не", "н"]]
+        ++ [(f, Gloss "" ["DAT"], 8) | f <- ["га", "гә", "ка", "кә", "на", "нә"]]
+        ++ [(f, Gloss "" ["LOC"], 8) | f <- ["да", "дә", "та", "тә"]]
+        ++ [(f, Gloss "" ["ABL"], 8) | f <- ["дан", "дән", "тан", "тән", "нан", "нән"]]
+        ++ [(f, Gloss "" ["GEN"], 8) | f <- ["ның", "нең"]]
+        ++ [(f, Gloss "" ["1SG", "POSS"], 8) | f <- ["ым", "ем"]]
+        ++ [(f, Gloss "" ["NEG"], 8) | f <- ["ма", "мә"]]
         ++ [(f, Gloss "" ["PST"], 9) | f <- ["ды", "де", "ты", "те"]]
-        ++ [("м", Gloss "" ["1SG"], 9)]
+        ++ [(f, Gloss "" ["1SG"], 9) | f <- ["м"]]
+        ++ [(f, Gloss "" ["2SG"], 9) | f <- ["ң"]]
+        ++ [(f, Gloss "" ["1PL"], 9) | f <- ["к"]]
     )
