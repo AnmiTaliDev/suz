@@ -1,0 +1,83 @@
+document	77
+segment	0
+token	1	Мен
+morph	2	мен	-	1SG
+ud	мен	PRON	-	-	8	nsubj	-	-
+token	3	үйде
+morph	4	үй	house
+ud	үй	NOUN	-	-	8	obl	-	-
+morph	58	де	-	LOC
+token	5	кітапты
+morph	6	кітап	book
+ud	кітап	NOUN	-	-	8	obj	-	-
+morph	59	ты	-	ACC
+token	7	оқымадым
+morph	8	оқы	read
+ud	оқы	VERB	-	-	root	root	-	-
+morph	60	ма	-	NEG
+morph	61	ды	-	PST
+morph	62	м	-	1SG
+token	9	.
+morph	10	.
+ud	.	PUNCT	-	-	8	punct	-	-
+segment	11
+token	12	Мен
+morph	13	мен	-	1SG
+token	14	кітаптарды
+morph	15	кітап	book
+morph	63	тар	-	PL
+morph	64	ды	-	ACC
+token	16	оқыдым
+morph	17	оқы	read
+morph	65	ды	-	PST
+morph	66	м	-	1SG
+token	18	.
+morph	19	.
+segment	20
+token	21	Досым
+morph	22	досым
+token	23	үйде
+morph	24	үй	house
+morph	67	де	-	LOC
+token	25	.
+morph	26	.
+segment	27
+token	28	Сен
+morph	29	сен
+token	30	үйден
+morph	31	үй	house
+morph	68	ден	-	ABL
+token	32	кітапты
+morph	33	кітап	book
+morph	69	ты	-	ACC
+token	34	оқыдың
+morph	35	оқы	read
+morph	70	дың	-	GEN
+token	36	.
+morph	37	.
+segment	38
+token	39	Біз
+morph	40	біз
+token	41	кітаптарды
+morph	42	кітап	book
+morph	71	тар	-	PL
+morph	72	ды	-	ACC
+token	43	оқыдық
+morph	44	оқы	read
+morph	73	ды	-	PST
+morph	74	қ	-	1PL
+token	45	.
+morph	46	.
+segment	47
+token	48	Бала
+morph	49	бала
+token	50	үйге
+morph	51	үй	house
+morph	75	ге	-	DAT
+token	52	кітап
+morph	53	кітап	book
+token	54	оқыды
+morph	55	оқы	read
+morph	76	ды	-	PST
+token	56	.
+morph	57	.
