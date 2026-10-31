@@ -26,6 +26,7 @@ needSegment sid = maybe (Left (NoSuchSegment sid)) Right . findSegment sid
 needToken :: TokenId -> Document -> Either EditError (Segment, Int, Token)
 needToken tid = maybe (Left (NoSuchToken tid)) Right . findToken tid
 
+-- | Token, position in it and morph, or 'NoSuchMorph'.
 needMorph :: MorphId -> Document -> Either EditError (Token, Int, Morph)
 needMorph mid = maybe (Left (NoSuchMorph mid)) Right . findMorph mid
 
