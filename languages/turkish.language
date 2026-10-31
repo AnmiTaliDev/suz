@@ -1,0 +1,76 @@
+language	Turkish
+tag	1PL
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	DAT
+tag	FUT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	POSS
+tag	PROG
+tag	PST
+tag	SG
+punctuation	!,.?
+foldcase	turkic
+weight	a	8.0	-	DAT
+weight	acak	8.0	-	FUT
+weight	ben	10.0	-	1SG
+weight	da	8.0	-	LOC
+weight	dan	8.0	-	ABL
+weight	de	8.0	-	LOC
+weight	den	8.0	-	ABL
+weight	di	9.0	-	PST
+weight	du	9.0	-	PST
+weight	dü	9.0	-	PST
+weight	dı	9.0	-	PST
+weight	e	8.0	-	DAT
+weight	ecek	8.0	-	FUT
+weight	ev	10.0	house
+weight	i	9.0	-	ACC
+weight	im	8.0	-	1SG	POSS
+weight	in	8.0	-	GEN
+weight	iyor	8.0	-	PROG
+weight	k	9.0	-	1PL
+weight	kitab	10.0	book
+weight	kitap	10.0	book
+weight	lar	8.0	-	PL
+weight	ler	8.0	-	PL
+weight	m	9.0	-	1SG
+weight	ma	8.0	-	NEG
+weight	me	8.0	-	NEG
+weight	n	9.0	-	2SG
+weight	nin	8.0	-	GEN
+weight	nun	8.0	-	GEN
+weight	nün	8.0	-	GEN
+weight	nın	8.0	-	GEN
+weight	oku	10.0	read
+weight	ta	8.0	-	LOC
+weight	tan	8.0	-	ABL
+weight	te	8.0	-	LOC
+weight	ten	8.0	-	ABL
+weight	ti	9.0	-	PST
+weight	tu	9.0	-	PST
+weight	tü	9.0	-	PST
+weight	tı	9.0	-	PST
+weight	u	9.0	-	ACC
+weight	um	8.0	-	1SG	POSS
+weight	un	8.0	-	GEN
+weight	uyor	8.0	-	PROG
+weight	ya	8.0	-	DAT
+weight	yacak	8.0	-	FUT
+weight	ye	8.0	-	DAT
+weight	yecek	8.0	-	FUT
+weight	yor	8.0	-	PROG
+weight	ü	9.0	-	ACC
+weight	üm	8.0	-	1SG	POSS
+weight	ün	8.0	-	GEN
+weight	üyor	8.0	-	PROG
+weight	ı	9.0	-	ACC
+weight	ım	8.0	-	1SG	POSS
+weight	ın	8.0	-	GEN
+weight	ıyor	8.0	-	PROG
+weight	ışık	10.0	light
