@@ -2,7 +2,7 @@
 module Test.Property (properties) where
 
 import Control.Monad (foldM)
-import Data.List (mapAccumL, nub)
+import Data.List (mapAccumL, nub, sort)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Test.QuickCheck
@@ -165,6 +165,9 @@ genKnownDocument maxMorphs = assemble <$> shape
       k <- choose (1, maxMorphs)
       ms <- vectorOf k ((,) <$> textOf "ab" 1 4 <*> oneof [pure Nothing, Just <$> genKnownGloss])
       pure (T.concat (map fst ms), ms)
+
+allTokens :: Document -> [Token]
+allTokens = concatMap segmentTokens . documentSegments
 
 allMorphs :: Document -> [Morph]
 allMorphs = concatMap tokenMorphs . concatMap segmentTokens . documentSegments
@@ -329,6 +332,27 @@ properties =
         let d = importText t
             ids = concatMap segmentNodeIds (documentSegments d)
          in length ids === length (nub ids) .&&. all ((== 1) . length . tokenMorphs) (concatMap segmentTokens (documentSegments d))
+    )
+  , ( "moving a token keeps every token"
+    , forAll (genDocument `suchThat` (not . null . allTokens)) $ \d ->
+        forAll ((,,) <$> elements (allTokens d) <*> elements (map segmentId (documentSegments d)) <*> choose (0, 4)) $ \(t, sid, i) ->
+          case apply (MoveToken (tokenId t) sid i) d of
+            Left _ -> property Discard
+            Right (d', _) -> sort (map tokenId (allTokens d')) === sort (map tokenId (allTokens d))
+    )
+  , ( "splitting a morph and merging it back restores the document"
+    , forAll (genDocument `suchThat` (not . null . allMorphs)) $ \d ->
+        forAll ((,) <$> elements (allMorphs d) <*> choose (0, 4)) $ \(m, i) ->
+          case apply (SplitMorph (morphId m) i (MorphId (nextFreeId d))) d >>= \(d', _) -> apply (MergeMorph (morphId m)) d' of
+            Left _ -> property Discard
+            Right (d'', _) -> documentSegments d'' === documentSegments d
+    )
+  , ( "splitting a token and merging it back restores the document"
+    , forAll (genDocument `suchThat` (not . null . allTokens)) $ \d ->
+        forAll (elements (allTokens d) >>= \t -> (,,) t <$> choose (0, length (tokenMorphs t)) <*> choose (0, T.length (tokenSurface t))) $ \(t, mi, si) ->
+          case apply (SplitToken (tokenId t) mi si (TokenId (nextFreeId d))) d >>= \(d', _) -> apply (MergeToken (tokenId t)) d' of
+            Left e -> counterexample (show e) False
+            Right (d'', _) -> documentSegments d'' === documentSegments d
     )
   ]
   where
