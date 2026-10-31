@@ -13,7 +13,9 @@ extern "C" {
 #endif
 
 /**
- * Reads a language from its text form.
+ * Reads a language from its text form. Text without a first line that names the
+ * format version is read as version 1, a line that names another version is an
+ * error.
  * @param text Text form.
  * @param error Receives the message on failure, may be NULL.
  * @return New language, release with suz_language_free(), or NULL.
@@ -31,7 +33,8 @@ suz_language *suz_language_from_binary(const uint8_t *data, size_t size, char **
 
 /**
  * Text form of a language, including the weights changed by
- * suz_perform_learning().
+ * suz_perform_learning(). The first line, `suz-language` and a tab and the
+ * format version, names the version of the format, which is 1.
  * @param language Language.
  * @return Text, release with suz_free().
  */
