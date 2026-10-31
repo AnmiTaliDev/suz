@@ -65,6 +65,12 @@ files =
       [ ("Διαβάζω βιβλία.",
          "Διαβάζω      βιβλία          .\nδιαβάζ-ω     βιβλί-α         .\nread-1SG.PRS book-NOM.ACC.PL ?")
       ])
+  , ("hebrew",
+      [ ("קראתי את הספרים.",
+         "קראתי        את  הספרים      .\nקרא-תי       את  ה-ספר-ים    .\nread-PST.1SG ACC DEF-book-PL ?"),
+        ("אני קורא ספרים.",
+         "אני קורא ספרים   .\nאני קורא ספר-ים  .\n1SG read book-PL ?")
+      ])
   , ("italian",
       [ ("Io leggo libri.",
          "Io  leggo        libri   .\nio  legg-o       libr-i  .\n1SG read-1SG.PRS book-PL ?")

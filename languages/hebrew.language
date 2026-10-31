@@ -1,0 +1,16 @@
+suz-language	1
+language	Hebrew
+tag	1SG
+tag	ACC
+tag	DEF
+tag	PL
+tag	PST
+punctuation	!,.?
+weight	אני	10.0	-	1SG
+weight	את	10.0	-	ACC
+weight	ה	9.0	-	DEF
+weight	ים	9.0	-	PL
+weight	קורא	10.0	read
+weight	קרא	10.0	read
+weight	ספר	10.0	book
+weight	תי	9.0	-	PST	1SG
