@@ -10,9 +10,12 @@ module Suz.Command.Edit
   , replaceSegment
   , replaceToken
   , replaceMorph
+  , releaseHeads
+  , redirectHeads
   ) where
 
 import Control.Monad (foldM_)
+import Data.Set (Set)
 import qualified Data.Set as Set
 import Data.Word (Word64)
 import Suz.Command.Types
@@ -63,3 +66,20 @@ replaceMorph :: Morph -> Document -> Document
 replaceMorph morph = mapTokens (\t -> t {tokenMorphs = map swap (tokenMorphs t)})
   where
     swap m = if morphId m == morphId morph then morph else m
+
+morphsOf :: Document -> [Morph]
+morphsOf doc = [m | s <- documentSegments doc, t <- segmentTokens s, m <- tokenMorphs t]
+
+releaseHeads :: Set MorphId -> Document -> (Document, [Command])
+releaseHeads gone doc = foldl clear (doc, []) referrers
+  where
+    referrers = [(m, u) | m <- morphsOf doc, not (Set.member (morphId m) gone), Just u <- [morphUd m], HeadOf h <- [udHead u], Set.member h gone]
+    clear (d, restores) (m, u) = (replaceMorph m {morphUd = Just u {udHead = NoHead}} d, SetUd (morphId m) (Just u) : restores)
+
+redirectHeads :: MorphId -> MorphId -> Document -> (Document, [Command])
+redirectHeads from to doc = foldl redirect (doc, []) referrers
+  where
+    referrers = [(m, u) | m <- morphsOf doc, morphId m /= from, Just u <- [morphUd m], udHead u == HeadOf from]
+    redirect (d, restores) (m, u) =
+      let hd = if morphId m == to then NoHead else HeadOf to
+       in (replaceMorph m {morphUd = Just u {udHead = hd}} d, SetUd (morphId m) (Just u) : restores)

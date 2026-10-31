@@ -6,6 +6,7 @@ module Suz.Command
   ) where
 
 import Control.Monad (foldM, unless)
+import qualified Data.Set as Set
 import qualified Data.Text as T
 import Suz.Command.Edit
 import Suz.Command.Types
@@ -17,7 +18,10 @@ import Suz.Model
 -- fails as a whole. 'SplitMorph' keeps the gloss and the UD annotation on the
 -- first part and leaves the new part without them. 'MergeMorph' joins a morph
 -- with the next one in the same token and keeps the gloss and the UD
--- annotation of the first. 'SplitToken' divides the morphs
+-- annotation of the first. Removing morphs with 'RemoveMorph', 'RemoveToken'
+-- or 'RemoveSegment' clears the head of every other morph that depended on
+-- them, 'MergeMorph' points those heads at the merged morph, and the undoing
+-- command restores them. 'SplitToken' divides the morphs
 -- at the first index and the surface form at the second, both may be 0 or the
 -- full length, and gives the second part the new identifier. 'MergeToken'
 -- joins a token with the next one in the same segment and keeps the
@@ -34,7 +38,9 @@ apply command doc = case command of
       )
   RemoveSegment sid -> do
     (i, seg) <- needSegment sid doc
-    pure (doc {documentSegments = removeAt i (documentSegments doc)}, InsertSegment i seg)
+    let gone = Set.fromList [morphId m | t <- segmentTokens seg, m <- tokenMorphs t]
+        (doc', restores) = releaseHeads gone doc {documentSegments = removeAt i (documentSegments doc)}
+    pure (doc', withRestores (InsertSegment i seg) restores)
   InsertToken sid i tok -> do
     (_, seg) <- needSegment sid doc
     checkFresh doc (tokenNodeIds tok)
@@ -45,10 +51,9 @@ apply command doc = case command of
       )
   RemoveToken tid -> do
     (seg, i, tok) <- needToken tid doc
-    pure
-      ( replaceSegment seg {segmentTokens = removeAt i (segmentTokens seg)} doc
-      , InsertToken (segmentId seg) i tok
-      )
+    let gone = Set.fromList (map morphId (tokenMorphs tok))
+        (doc', restores) = releaseHeads gone (replaceSegment seg {segmentTokens = removeAt i (segmentTokens seg)} doc)
+    pure (doc', withRestores (InsertToken (segmentId seg) i tok) restores)
   SetSurface tid surface -> do
     (_, _, tok) <- needToken tid doc
     pure (replaceToken tok {tokenSurface = surface} doc, SetSurface tid (tokenSurface tok))
@@ -97,10 +102,8 @@ apply command doc = case command of
       )
   RemoveMorph mid -> do
     (tok, i, morph) <- needMorph mid doc
-    pure
-      ( replaceToken tok {tokenMorphs = removeAt i (tokenMorphs tok)} doc
-      , InsertMorph (tokenId tok) i morph
-      )
+    let (doc', restores) = releaseHeads (Set.singleton mid) (replaceToken tok {tokenMorphs = removeAt i (tokenMorphs tok)} doc)
+    pure (doc', withRestores (InsertMorph (tokenId tok) i morph) restores)
   SetForm mid form -> do
     (_, _, morph) <- needMorph mid doc
     pure (replaceMorph morph {morphForm = form} doc, SetForm mid (morphForm morph))
@@ -128,14 +131,13 @@ apply command doc = case command of
       n : _ -> Right n
       [] -> Left (NoNextMorph mid)
     let merged = morph {morphForm = morphForm morph <> morphForm next}
-    pure
-      ( replaceToken tok {tokenMorphs = take i ms ++ [merged] ++ drop (i + 2) ms} doc
-      , Batch [InsertMorph (tokenId tok) (i + 1) next, SetForm mid (morphForm morph)]
-      )
+        (doc', restores) = redirectHeads (morphId next) mid (replaceToken tok {tokenMorphs = take i ms ++ [merged] ++ drop (i + 2) ms} doc)
+    pure (doc', Batch ([InsertMorph (tokenId tok) (i + 1) next, SetForm mid (morphForm morph)] ++ restores))
   Batch commands -> do
     (doc', inverses) <- foldM step (doc, []) commands
     pure (doc', Batch inverses)
   where
+    withRestores inverse restores = if null restores then inverse else Batch (inverse : restores)
     step (d, inverses) c = do
       (d', inverse) <- apply c d
       pure (d', inverse : inverses)

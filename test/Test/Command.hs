@@ -49,6 +49,6 @@ checks =
   , ("set ud unknown morph", errorOf (apply (SetUd (MorphId 999) Nothing) baseDoc) == Just (NoSuchMorph (MorphId 999)))
   , ("split keeps the annotation on the first part", udOf mA1 (fst (must (apply (SplitMorph mA1 2 spareId) udBase))) == Just (Just udSample))
   , ("split leaves the new part without annotation", udOf spareId (fst (must (apply (SplitMorph mA1 2 spareId) udBase))) == Just Nothing)
-  , ("merge keeps the annotation of the first morph", udOf mA1 (fst (must (apply (MergeMorph mA1) udBase))) == Just (Just udSample))
+  , ("merge keeps the annotation of the first morph", udOf mA1 (fst (must (apply (MergeMorph mA1) udBase))) == Just (Just udSample {udHead = NoHead}))
   , ("removing an annotated morph is undone", roundTripsIn udBase (RemoveMorph mA1))
   ]
