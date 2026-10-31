@@ -82,6 +82,7 @@ executable suz-examples
     hs-source-dirs:   examples
     main-is:          Main.hs
     other-modules:    Azerbaijani
+                      CrimeanTatar
                       English
                       Kazakh
                       Kyrgyz

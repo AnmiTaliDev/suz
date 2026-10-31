@@ -3,6 +3,7 @@ module Main (main) where
 
 import Azerbaijani (azerbaijani)
 import Control.Monad (foldM)
+import CrimeanTatar (crimeanTatar)
 import Data.Text (Text)
 import qualified Data.Text.IO as T
 import English (english)
@@ -34,6 +35,8 @@ main = do
   rawTextExample "Kyrgyz" kyrgyz "Мен китептерди окудум."
   putStrLn ""
   rawTextExample "Azerbaijani" azerbaijani "İşıq kitabları oxudum."
+  putStrLn ""
+  rawTextExample "Crimean Tatar" crimeanTatar "Men kitaplarnı oqudım."
 
 tatarExample :: IO ()
 tatarExample = do
