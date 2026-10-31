@@ -11,6 +11,7 @@ import Suz.Language
 import Suz.Languages.Azerbaijani (azerbaijani)
 import Suz.Languages.CrimeanTatar (crimeanTatar)
 import Suz.Languages.English (english)
+import Suz.Languages.French (french)
 import Suz.Languages.German (german)
 import Suz.Languages.Kazakh (kazakh)
 import Suz.Languages.Kyrgyz (kyrgyz)
@@ -26,7 +27,7 @@ foreign export ccall "suz_builtin_language_name" builtinName :: CInt -> IO CStri
 foreign export ccall "suz_language_builtin" languageBuiltin :: CString -> Ptr CString -> IO (Ptr ())
 
 builtins :: [Language]
-builtins = [azerbaijani, crimeanTatar, english, german, kazakh, kyrgyz, russian, spanish, tatar, turkish, turkmen, uzbek]
+builtins = [azerbaijani, crimeanTatar, english, french, german, kazakh, kyrgyz, russian, spanish, tatar, turkish, turkmen, uzbek]
 
 builtinCount :: IO CInt
 builtinCount = pure (fromIntegral (length builtins))
