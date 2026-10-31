@@ -15,7 +15,6 @@ import qualified Data.Text as T
 import Data.Word (Word64)
 import Text.Read (readMaybe)
 
--- | Reads the tab-separated fields of one line, in order.
 newtype Parser a = Parser {runParser :: [Text] -> Either String (a, [Text])}
 
 instance Functor Parser where
@@ -30,27 +29,22 @@ instance Monad Parser where
     Left e -> Left e
     Right (a, rest) -> runParser (k a) rest
 
--- | Fails with a message.
 failP :: String -> Parser a
 failP msg = Parser (const (Left msg))
 
--- | Takes the next field.
 field :: Parser Text
 field = Parser $ \fs -> case fs of
   f : rest -> Right (f, rest)
   [] -> Left "unexpected end of line"
 
--- | Takes the next field as a decimal integer.
 intP :: Parser Int
 intP = field >>= \t -> maybe (failP ("bad number: " ++ T.unpack t)) pure (readMaybe (T.unpack t))
 
--- | Takes the next field as a non-negative number that fits 64 bits.
 wordP :: Parser Word64
 wordP = field >>= \t -> case readMaybe (T.unpack t) :: Maybe Integer of
   Just n | n >= 0 && n <= fromIntegral (maxBound :: Word64) -> pure (fromIntegral n)
   _ -> failP ("bad identifier: " ++ T.unpack t)
 
--- | Reads a count and then that many items. A negative count fails.
 counted :: Parser a -> Parser [a]
 counted p = do
   n <- intP
