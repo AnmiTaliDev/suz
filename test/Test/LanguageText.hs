@@ -21,7 +21,7 @@ checks =
   , ("language text Turkic folding round trip", parseLanguage (renderLanguage turkicRuled) == Right turkicRuled)
   , ("language text rejects unknown folding", parseLanguage "language\ta\nfoldcase\tother\n" == Left (2, "unrecognized line"))
   , ("language text import rules round trip", parseLanguage (renderLanguage ruled) == Right ruled)
-  , ("language text omits default import rules", renderLanguage (mkLanguage "a" [] []) == "language\ta\n")
+  , ("language text omits default import rules", renderLanguage (mkLanguage "a" [] []) == "suz-language\t1\nlanguage\ta\n")
   , ("language text round trip with escapes", parseLanguage (renderLanguage trickyLanguage) == Right trickyLanguage)
   , ("language text is stable", fmap renderLanguage (parseLanguage (renderLanguage trickyLanguage)) == Right (renderLanguage trickyLanguage))
   , ("language text placeholders", parseLanguage "language\ta\nweight\tx\t1\t-\tT\nweight\ty\t1\t\\-\n" == Right (mkLanguage "a" [] [("x", Gloss "" ["T"], 1), ("y", Gloss "-" [], 1)]))

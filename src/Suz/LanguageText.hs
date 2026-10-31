@@ -2,6 +2,7 @@
 module Suz.LanguageText
   ( parseLanguage
   , renderLanguage
+  , languageTextVersion
   ) where
 
 import qualified Data.Map.Strict as Map
@@ -14,14 +15,21 @@ import Suz.Model
 import Text.Read (readMaybe)
 
 data Line
-  = LineName Text
+  = LineVersion Int
+  | LineName Text
   | LineTag Text
   | LinePunctuation Text
   | LineFoldCase CaseFolding
   | LineWeight Text Double Gloss
   | LineContext Text Text Double Gloss
 
--- | Reads a language from its tab-separated text form: one @language@ line,
+-- | Version of the text form written by 'renderLanguage'.
+languageTextVersion :: Int
+languageTextVersion = 1
+
+-- | Reads a language from its tab-separated text form: an optional
+-- @suz-language@ line with the format version, which must be
+-- 'languageTextVersion' (text without it is read as that version), one @language@ line,
 -- @tag@ lines, @weight@ lines with the morph form, the weight, the lexical
 -- part of the gloss and the gloss tags, and @context@ lines, which are
 -- @weight@ lines with the previous morph form in front. An empty lexical part is
@@ -33,7 +41,15 @@ data Line
 -- the Turkic variant, see 'withImportRules'.
 parseLanguage :: Text -> Either (Int, String) Language
 parseLanguage text = do
-  parsed <- traverse parseLine [(n, l) | (n, l) <- zip [1 ..] (T.lines text), not (skipped l)]
+  unversioned <- traverse parseLine [(n, l) | (n, l) <- zip [1 ..] (T.lines text), not (skipped l)]
+  parsed <- case unversioned of
+    (n, LineVersion v) : rest
+      | v == languageTextVersion -> Right rest
+      | otherwise -> Left (n, "unsupported language version: " ++ show v)
+    _ -> Right unversioned
+  case [n | (n, LineVersion _) <- parsed] of
+    n : _ -> Left (n, "line out of place")
+    [] -> Right ()
   name <- case [(n, x) | (n, LineName x) <- parsed] of
     [] -> Left (0, "missing language line")
     [(_, x)] -> Right x
@@ -45,13 +61,16 @@ parseLanguage text = do
       folding = maximum (NoFolding : [f | (_, LineFoldCase f) <- parsed])
   pure (withImportRules punctuation folding (withContext contexts (mkLanguage name tags entries)))
 
--- | Text form of a language, readable by 'parseLanguage'. Tags and forms are
+-- | Text form of a language, readable by 'parseLanguage'. It starts with a
+-- @suz-language@ line with the format version. Tags and forms are
 -- sorted, candidates of a form go from the heaviest to the lightest. Context
 -- lines follow the weight lines, ordered by previous form and then form.
 renderLanguage :: Language -> Text
 renderLanguage lang =
   T.unlines $
-    ["language\t" <> escape (languageName lang)]
+    [ "suz-language\t" <> T.pack (show languageTextVersion)
+    , "language\t" <> escape (languageName lang)
+    ]
       ++ ["tag\t" <> escape t | t <- Set.toList (languageTags lang)]
       ++ ["punctuation\t" <> escape (T.pack (Set.toList (languagePunctuation lang))) | not (Set.null (languagePunctuation lang))]
       ++ foldLine (languageCaseFolding lang)
@@ -77,6 +96,7 @@ parseLine (n, raw) = either (Left . (,) n) (Right . (,) n) (decodeLine raw)
 
 decodeLine :: Text -> Either String Line
 decodeLine raw = case T.splitOn "\t" raw of
+  ["suz-language", v] -> maybe (Left ("bad version: " ++ T.unpack v)) (Right . LineVersion) (readMaybe (T.unpack v))
   ["language", name] -> LineName <$> unescape name
   ["tag", tag] -> LineTag <$> unescape tag
   ["punctuation", chars] -> LinePunctuation <$> unescape chars
