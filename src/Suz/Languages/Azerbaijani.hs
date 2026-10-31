@@ -1,10 +1,15 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
-module Azerbaijani
+module Suz.Languages.Azerbaijani
   ( azerbaijani
   ) where
 
-import Suz
+import Suz.Language
+import Suz.Model
 
+-- | A small Azerbaijani weight table in the Latin script: the pronoun mən,
+-- the stems kitab, oxu and işıq, and the plural, accusative, past tense and
+-- first person singular endings. Importing splits the punctuation .,!? and
+-- lowercases with the Turkic mapping.
 azerbaijani :: Language
 azerbaijani =
   withImportRules ".,!?" TurkicFolding $

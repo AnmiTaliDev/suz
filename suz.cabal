@@ -32,6 +32,7 @@ library
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
+                      Suz.Languages.Azerbaijani
                       Suz.Languages.English
                       Suz.Languages.Kazakh
                       Suz.Languages.Kyrgyz
@@ -87,8 +88,7 @@ executable suz-examples
     import:           shared
     hs-source-dirs:   examples
     main-is:          Main.hs
-    other-modules:    Azerbaijani
-                      CrimeanTatar
+    other-modules:    CrimeanTatar
                       Russian
                       Turkmen
     build-depends:    suz

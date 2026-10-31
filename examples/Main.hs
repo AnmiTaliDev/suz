@@ -1,13 +1,13 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 module Main (main) where
 
-import Azerbaijani (azerbaijani)
 import Control.Monad (foldM)
 import CrimeanTatar (crimeanTatar)
 import Data.Text (Text)
 import qualified Data.Text.IO as T
 import Russian (russian)
 import Suz
+import Suz.Languages.Azerbaijani (azerbaijani)
 import Suz.Languages.English (english)
 import Suz.Languages.Kazakh (kazakh)
 import Suz.Languages.Kyrgyz (kyrgyz)
