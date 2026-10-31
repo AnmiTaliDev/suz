@@ -11,6 +11,7 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Word (Word64)
 import Suz.Codec.Escape (decodeLexical, encodeLexical, escape, unescape)
+import Suz.Codec.Ud (udFromFields, udToFields)
 import Suz.Model
 import Text.Read (readMaybe)
 
@@ -19,11 +20,13 @@ data Line
   | LineSegment SegmentId
   | LineToken TokenId Text
   | LineMorph Morph
+  | LineUd UdFields
 
 -- | Text form of a document: a @document@ line with the next free
 -- identifier, then @segment@, @token@ and @morph@ lines in document order,
 -- tab-separated. A morph line has the identifier and the form, and for a
--- glossed morph also the lexical part and the tags of the gloss. The undo
+-- glossed morph also the lexical part and the tags of the gloss. A morph with
+-- a UD annotation is followed by a @ud@ line with the eight columns. The undo
 -- history is not part of a snapshot.
 renderSnapshot :: Document -> Text
 renderSnapshot doc =
@@ -52,11 +55,11 @@ segmentLines (Segment (SegmentId n) tokens) = ("segment\t" <> word n) : concatMa
 
 tokenLines :: Token -> [Text]
 tokenLines (Token (TokenId n) surface morphs) =
-  T.intercalate "\t" ["token", word n, escape surface] : map morphLine morphs
+  T.intercalate "\t" ["token", word n, escape surface] : concatMap morphLines morphs
 
-morphLine :: Morph -> Text
-morphLine (Morph (MorphId n) form gloss _) =
-  T.intercalate "\t" (["morph", word n, escape form] ++ glossFields gloss)
+morphLines :: Morph -> [Text]
+morphLines (Morph (MorphId n) form gloss ud) =
+  T.intercalate "\t" (["morph", word n, escape form] ++ glossFields gloss) : maybe [] (\u -> [T.intercalate "\t" ("ud" : udToFields u)]) ud
   where
     glossFields Nothing = []
     glossFields (Just (Gloss lexical tags)) = encodeLexical lexical : map escape tags
@@ -85,6 +88,7 @@ decodeLine raw = case T.splitOn "\t" raw of
     l <- decodeLexical lexical
     ts <- traverse unescape tags
     pure (LineMorph (Morph (MorphId mid) f (Just (Gloss l ts)) Nothing))
+  "ud" : fields -> LineUd <$> udFromFields fields
   _ -> Left "unrecognized line"
 
 readId :: Text -> Either String Word64
@@ -97,6 +101,7 @@ lineId (LineDocument _) = Nothing
 lineId (LineSegment (SegmentId n)) = Just n
 lineId (LineToken (TokenId n) _) = Just n
 lineId (LineMorph (Morph (MorphId n) _ _ _)) = Just n
+lineId (LineUd _) = Nothing
 
 checkIds :: Word64 -> [(Int, Line)] -> Either (Int, String) ()
 checkIds nextId = fmap (const ()) . foldM step Set.empty
@@ -122,5 +127,6 @@ tokensP ((_, LineToken tid surface) : rest) = do
 tokensP rest = Right ([], rest)
 
 morphsP :: [(Int, Line)] -> ([Morph], [(Int, Line)])
+morphsP ((_, LineMorph m) : (_, LineUd u) : rest) = first (m {morphUd = Just u} :) (morphsP rest)
 morphsP ((_, LineMorph m) : rest) = first (m :) (morphsP rest)
 morphsP rest = ([], rest)

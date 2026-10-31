@@ -23,6 +23,7 @@ library
                       Suz.Codec
                       Suz.Codec.Escape
                       Suz.Codec.Parser
+                      Suz.Codec.Ud
                       Suz.Command
                       Suz.Command.Edit
                       Suz.Command.Types
