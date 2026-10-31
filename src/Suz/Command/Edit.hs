@@ -43,6 +43,8 @@ checkFresh doc = foldM_ claim (documentIds doc)
 claimIds :: [Word64] -> Document -> Document
 claimIds ids doc = doc {documentNextId = maximum (documentNextId doc : map (+ 1) ids)}
 
+-- | Inserts at a position from 0 to the length of the list, otherwise
+-- 'IndexOutOfRange'.
 insertAt :: Int -> a -> [a] -> Either EditError [a]
 insertAt i x xs
   | i < 0 || i > length xs = Left (IndexOutOfRange i)
