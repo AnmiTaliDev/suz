@@ -17,6 +17,10 @@ extra-source-files: Makefile
                     gtk/Makefile
                     gtk/*.c
                     gtk/*.h
+                    gtk/po/LINGUAS
+                    gtk/po/POTFILES.in
+                    gtk/po/*.po
+                    gtk/po/*.pot
                     gtk/samples/*.txt
                     gtk/samples/*.suz
                     data/dev.anmitali.Suz.desktop
