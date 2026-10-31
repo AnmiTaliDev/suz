@@ -1,6 +1,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 module Test.Snapshot (checks) where
 
+import qualified Data.Text as T
 import Fixtures
 import Suz
 
@@ -37,4 +38,24 @@ checks =
   , ("snapshot bad number", errorOf (parseSnapshot "document\t-1\n") == Just (1, "bad number: -1"))
   , ("snapshot unrecognized line", errorOf (parseSnapshot "document\t1\nbogus\n") == Just (2, "unrecognized line"))
   , ("snapshot bad escape", errorOf (parseSnapshot "document\t2\nsegment\t0\ntoken\t1\ta\\q\n") == Just (3, "unknown escape"))
+  , ("snapshot round trip with UD fields", parseSnapshot (renderSnapshot udDoc) == Right udDoc)
+  , ("snapshot UD layout", renderSnapshot udDoc == "document\t6\nsegment\t0\ntoken\t1\tкитаплар\nmorph\t2\tкитап\tbook\nud\tkitap\tNOUN\t-\tNumber=Plur\t3\tobj\t-\tSpaceAfter=No\nmorph\t3\tлар\t-\tPL\ntoken\t4\tмин\nmorph\t5\tмин\n")
+  , ("snapshot UD root and absent head", all (\h -> parseSnapshot (renderSnapshot (udDocWith udExample {udHead = h})) == Right (udDocWith udExample {udHead = h})) [NoHead, RootHead, HeadOf (MorphId 0)])
+  , ("snapshot UD escapes special characters", let u = udExample {udFeats = "a\tb\\c", udMisc = "-", udLemma = ""} in parseSnapshot (renderSnapshot (udDocWith u)) == Right (udDocWith u))
+  , ("snapshot rejects a UD line without a morph", errorOf (parseSnapshot "document\t2\nsegment\t0\nud\t-\t-\t-\t-\t-\t-\t-\t-\n") == Just (3, "line out of place"))
+  , ("snapshot rejects two UD lines for one morph", errorOf (parseSnapshot (T.unlines ["document\t3", "segment\t0", "token\t1\tt", "morph\t2\tm", udLine, udLine])) == Just (6, "line out of place"))
+  , ("snapshot rejects a UD line with a wrong field count", errorOf (parseSnapshot "document\t3\nsegment\t0\ntoken\t1\tt\nmorph\t2\tm\nud\ta\n") == Just (5, "expected 8 UD fields"))
+  , ("snapshot rejects a bad UD head", errorOf (parseSnapshot "document\t3\nsegment\t0\ntoken\t1\tt\nmorph\t2\tm\nud\t-\t-\t-\t-\tx\t-\t-\t-\n") == Just (5, "bad head: x"))
   ]
+
+udExample :: UdFields
+udExample = UdFields "kitap" "NOUN" "" "Number=Plur" (HeadOf mA2) "obj" "" "SpaceAfter=No"
+
+udDocWith :: UdFields -> Document
+udDocWith u = baseDoc {documentSegments = [s {segmentTokens = [t {tokenMorphs = [if morphId m == mA1 then m {morphUd = Just u} else m | m <- tokenMorphs t]} | t <- segmentTokens s] } | s <- documentSegments baseDoc]}
+
+udDoc :: Document
+udDoc = udDocWith udExample
+
+udLine :: T.Text
+udLine = "ud\t-\t-\t-\t-\t-\t-\t-\t-"
