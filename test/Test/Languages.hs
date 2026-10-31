@@ -14,6 +14,7 @@ import Suz.Languages.Italian (italian)
 import Suz.Languages.Kazakh (kazakh)
 import Suz.Languages.Kyrgyz (kyrgyz)
 import Suz.Languages.Latin (latin)
+import Suz.Languages.Polish (polish)
 import Suz.Languages.Russian (russian)
 import Suz.Languages.Spanish (spanish)
 import Suz.Languages.Tatar (tatar)
@@ -53,6 +54,8 @@ checks =
   , ("Italian example passes validation", null (validateDocument italian (annotatedDocument italian "Io leggo libri.")))
   , ("Latin example is annotated", annotated latin "Libros lego." == "Libros      lego         .\nlibr-os     leg-o        .\nbook-ACC.PL read-1SG.PRS ?")
   , ("Latin example passes validation", null (validateDocument latin (annotatedDocument latin "Libros lego.")))
+  , ("Polish example is annotated", annotated polish "Czytam książki." == "Czytam       książki     .\nczyta-m      książk-i    .\nread-1SG.PRS book-PL.ACC ?")
+  , ("Polish example passes validation", null (validateDocument polish (annotatedDocument polish "Czytam książki.")))
   ]
   where
     annotatedDocument :: Language -> Text -> Document
