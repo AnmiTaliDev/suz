@@ -13,5 +13,6 @@ void demo_learning(suz_language *language);
 void demo_exchange(suz_language *language);
 void demo_traversal(suz_language *language);
 void demo_language(suz_language *language);
+void demo_builtin(void);
 
 #endif
