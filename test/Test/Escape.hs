@@ -10,4 +10,5 @@ checks =
   , ("unescape reads what escape writes", unescape "a\\\\b\\tc\\nd\\re" == Right "a\\b\tc\nd\re")
   , ("unescape rejects an unknown escape", unescape "a\\xb" == Left "unknown escape")
   , ("unescape rejects a dangling backslash", unescape "ab\\" == Left "dangling escape")
+  , ("encodeLexical writes an empty part as a hyphen", encodeLexical "" == "-")
   ]
