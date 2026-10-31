@@ -76,6 +76,7 @@ test-suite suz-test
                       Test.Conllu
                       Test.Edit
                       Test.Escape
+                      Test.Html
                       Test.Import
                       Test.Journal
                       Test.Json
