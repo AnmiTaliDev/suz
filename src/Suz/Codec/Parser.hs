@@ -44,6 +44,7 @@ field = Parser $ \fs -> case fs of
 intP :: Parser Int
 intP = field >>= \t -> maybe (failP ("bad number: " ++ T.unpack t)) pure (readMaybe (T.unpack t))
 
+-- | Takes the next field as a non-negative number that fits 64 bits.
 wordP :: Parser Word64
 wordP = field >>= \t -> case readMaybe (T.unpack t) :: Maybe Integer of
   Just n | n >= 0 && n <= fromIntegral (maxBound :: Word64) -> pure (fromIntegral n)
