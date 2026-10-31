@@ -125,6 +125,44 @@ uint64_t suz_next_id(suz_session *session);
 int suz_perform(suz_session *session, const char *command, char **error);
 
 /**
+ * Sets the Universal Dependencies annotation of a morph and records the change
+ * in the journal. A text that is empty stands for a CoNLL-U column that is not
+ * given.
+ * @param session Session.
+ * @param segment Segment index.
+ * @param token Token index.
+ * @param morph Morph index.
+ * @param lemma LEMMA column.
+ * @param upos UPOS column.
+ * @param xpos XPOS column.
+ * @param feats FEATS column.
+ * @param head 0 if the HEAD column is not given, 1 for the root of the
+ *             sentence, 2 for another morph, then head_id is its identifier.
+ * @param head_id Identifier of the head morph, used when head is 2.
+ * @param deprel DEPREL column.
+ * @param deps DEPS column, kept as written.
+ * @param misc MISC column.
+ * @param error Receives the message on failure, may be NULL.
+ * @return 0 on success, -1 on failure. The session is unchanged on failure.
+ */
+int suz_set_ud(suz_session *session, int segment, int token, int morph,
+               const char *lemma, const char *upos, const char *xpos, const char *feats,
+               int head, uint64_t head_id,
+               const char *deprel, const char *deps, const char *misc, char **error);
+
+/**
+ * Removes the Universal Dependencies annotation of a morph and records the
+ * change in the journal.
+ * @param session Session.
+ * @param segment Segment index.
+ * @param token Token index.
+ * @param morph Morph index.
+ * @param error Receives the message on failure, may be NULL.
+ * @return 0 on success, -1 on failure. The session is unchanged on failure.
+ */
+int suz_clear_ud(suz_session *session, int segment, int token, int morph, char **error);
+
+/**
  * Reverts the most recent recorded command.
  * @param session Session.
  * @param error Receives the message on failure, may be NULL.

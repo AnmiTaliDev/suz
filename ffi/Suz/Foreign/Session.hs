@@ -10,7 +10,7 @@ import Foreign.C.String (CString)
 import Foreign.C.Types (CInt (..))
 import Foreign.Ptr (Ptr)
 import Suz
-import Suz.Foreign.Handle (deref, failCode, failHandle, freeHandle, lineError, newHandle, newUtf8, peekText)
+import Suz.Foreign.Handle (at, deref, failCode, failHandle, freeHandle, lineError, newHandle, newUtf8, peekText)
 import Suz.Foreign.Language (readLanguage)
 
 foreign export ccall "suz_session_new" sessionNew :: IO (Ptr ())
@@ -24,6 +24,8 @@ foreign export ccall "suz_session_from_conllu" sessionFromConllu :: CString -> P
 foreign export ccall "suz_session_free" sessionFree :: Ptr () -> IO ()
 foreign export ccall "suz_next_id" sessionNextId :: Ptr () -> IO Word64
 foreign export ccall "suz_perform" sessionPerform :: Ptr () -> CString -> Ptr CString -> IO CInt
+foreign export ccall "suz_set_ud" sessionSetUd :: Ptr () -> CInt -> CInt -> CInt -> CString -> CString -> CString -> CString -> CInt -> Word64 -> CString -> CString -> CString -> Ptr CString -> IO CInt
+foreign export ccall "suz_clear_ud" sessionClearUd :: Ptr () -> CInt -> CInt -> CInt -> Ptr CString -> IO CInt
 foreign export ccall "suz_undo" sessionUndo :: Ptr () -> Ptr CString -> IO CInt
 foreign export ccall "suz_redo" sessionRedo :: Ptr () -> Ptr CString -> IO CInt
 foreign export ccall "suz_render" sessionRender :: Ptr () -> IO CString
@@ -113,6 +115,35 @@ sessionPerform h line errp = do
     Right text -> update h errp $ \session -> do
       command <- first ("bad command: " ++) (decodeCommand text)
       first show (perform command session)
+
+morphAt :: Ptr () -> CInt -> CInt -> CInt -> IO (Maybe Morph)
+morphAt h s t m = do
+  doc <- sessionDocument <$> readSession h
+  pure (at s (documentSegments doc) >>= at t . segmentTokens >>= at m . tokenMorphs)
+
+sessionSetUd :: Ptr () -> CInt -> CInt -> CInt -> CString -> CString -> CString -> CString -> CInt -> Word64 -> CString -> CString -> CString -> Ptr CString -> IO CInt
+sessionSetUd h s t m lemma upos xpos feats headKind headId deprel deps misc errp = do
+  target <- morphAt h s t m
+  texts <- traverse peekText [lemma, upos, xpos, feats, deprel, deps, misc]
+  case (target, sequence texts, headOf headKind) of
+    (Nothing, _, _) -> failCode errp "no such morph position"
+    (_, Left msg, _) -> failCode errp msg
+    (_, _, Nothing) -> failCode errp "bad head kind"
+    (Just morph, Right [l, u, x, f, d, ds, mi], Just hd) ->
+      update h errp (first show . perform (SetUd (morphId morph) (Just (UdFields l u x f hd d ds mi))))
+    _ -> failCode errp "bad UD fields"
+  where
+    headOf 0 = Just NoHead
+    headOf 1 = Just RootHead
+    headOf 2 = Just (HeadOf (MorphId headId))
+    headOf _ = Nothing
+
+sessionClearUd :: Ptr () -> CInt -> CInt -> CInt -> Ptr CString -> IO CInt
+sessionClearUd h s t m errp = do
+  target <- morphAt h s t m
+  case target of
+    Nothing -> failCode errp "no such morph position"
+    Just morph -> update h errp (first show . perform (SetUd (morphId morph) Nothing))
 
 sessionUndo :: Ptr () -> Ptr CString -> IO CInt
 sessionUndo h errp = update h errp (first show . undo)
