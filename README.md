@@ -39,7 +39,7 @@ c-example/suz-c-example
 `libsuz.so` needs the Haskell runtime libraries of the GHC that built it. To collect them in one directory that can be moved to another machine with the same architecture, run:
 
 ```
-scripts/bundle.sh path/to/libsuz.so.X.Y.Z destination-directory
+sh scripts/bundle.sh path/to/libsuz.so.X.Y.Z destination-directory
 ```
 
 The library looks for its dependencies next to itself. The C library, the math library and GMP are taken from the system.
