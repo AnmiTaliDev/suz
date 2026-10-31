@@ -1,0 +1,14 @@
+language	Tajik
+tag	1SG
+tag	ACC
+tag	IPFV
+tag	PL
+punctuation	!,.?
+foldcase
+weight	ам	9.0	-	1SG
+weight	китоб	10.0	book
+weight	ман	10.0	-	1SG
+weight	ме	9.0	-	IPFV
+weight	ро	9.0	-	ACC
+weight	хон	10.0	read
+weight	ҳо	9.0	-	PL
