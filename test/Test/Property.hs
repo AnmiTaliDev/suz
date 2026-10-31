@@ -487,6 +487,10 @@ properties =
     , forAll ((,) <$> genDocument <*> (arbitrary `suchThat` (/= (1 :: Int)))) $ \(d, v) ->
         parseSnapshot (T.replace "suz-snapshot\t1" (T.pack ("suz-snapshot\t" ++ show v)) (renderSnapshot d)) === Left (1, "unsupported snapshot version: " ++ show v)
     )
+  , ( "language text with another version is rejected"
+    , forAll ((,) <$> genLanguage <*> (arbitrary `suchThat` (/= (1 :: Int)))) $ \(l, v) ->
+        parseLanguage (T.replace "suz-language\t1" (T.pack ("suz-language\t" ++ show v)) (renderLanguage l)) === Left (1, "unsupported language version: " ++ show v)
+    )
   ]
   where
     languageTagList = foldr (:) [] . languageTags
