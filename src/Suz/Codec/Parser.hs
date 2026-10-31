@@ -15,6 +15,7 @@ import qualified Data.Text as T
 import Data.Word (Word64)
 import Text.Read (readMaybe)
 
+-- | Reads the tab-separated fields of one line, in order.
 newtype Parser a = Parser {runParser :: [Text] -> Either String (a, [Text])}
 
 instance Functor Parser where
