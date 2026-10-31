@@ -2,50 +2,50 @@
 module Main (main) where
 
 import Control.Monad (foldM)
+import qualified Data.ByteString as BS
 import Data.Text (Text)
+import qualified Data.Text.Encoding as TE
 import qualified Data.Text.IO as T
+import Paths_suz (getDataFileName)
 import Suz
-import Suz.Languages.Azerbaijani (azerbaijani)
-import Suz.Languages.CrimeanTatar (crimeanTatar)
-import Suz.Languages.English (english)
-import Suz.Languages.Kazakh (kazakh)
-import Suz.Languages.Kyrgyz (kyrgyz)
-import Suz.Languages.Russian (russian)
-import Suz.Languages.Tatar (tatar)
-import Suz.Languages.Turkish (turkish)
-import Suz.Languages.Turkmen (turkmen)
-import Suz.Languages.Uzbek (uzbek)
 import System.Exit (die)
 import System.IO (hSetEncoding, stdout, utf8)
 
 must :: Show e => Either e a -> IO a
 must = either (die . show) pure
 
+loadLanguage :: String -> IO Language
+loadLanguage name = do
+  path <- getDataFileName ("languages/" ++ name ++ ".language")
+  bytes <- BS.readFile path
+  either (die . show) pure (parseLanguage (TE.decodeUtf8 bytes))
+
 main :: IO ()
 main = do
   hSetEncoding stdout utf8
-  tatarExample
+  tatar <- loadLanguage "tatar"
+  english <- loadLanguage "english"
+  tatarExample tatar
   putStrLn ""
-  englishExample
-  putStrLn ""
-  rawTextExample "Turkish" turkish "Işık kitapları okudum."
-  putStrLn ""
-  rawTextExample "Kazakh" kazakh "Мен кітаптарды оқыдым."
-  putStrLn ""
-  rawTextExample "Uzbek" uzbek "Men kitoblarni o'qidim."
-  putStrLn ""
-  rawTextExample "Kyrgyz" kyrgyz "Мен китептерди окудум."
-  putStrLn ""
-  rawTextExample "Azerbaijani" azerbaijani "İşıq kitabları oxudum."
-  putStrLn ""
-  rawTextExample "Crimean Tatar" crimeanTatar "Men kitaplarnı oqudım."
-  putStrLn ""
-  rawTextExample "Russian" russian "Я читаю книги."
-  putStrLn ""
-  rawTextExample "Turkmen" turkmen "Men kitaplary okadym."
+  englishExample english
+  mapM_
+    ( \(file, name, text) -> do
+        lang <- loadLanguage file
+        putStrLn ""
+        rawTextExample name lang text
+    )
+    [ ("turkish", "Turkish", "Işık kitapları okudum.")
+    , ("kazakh", "Kazakh", "Мен кітаптарды оқыдым.")
+    , ("uzbek", "Uzbek", "Men kitoblarni o'qidim.")
+    , ("kyrgyz", "Kyrgyz", "Мен китептерди окудум.")
+    , ("azerbaijani", "Azerbaijani", "İşıq kitabları oxudum.")
+    , ("crimean-tatar", "Crimean Tatar", "Men kitaplarnı oqudım.")
+    , ("russian", "Russian", "Я читаю книги.")
+    , ("turkmen", "Turkmen", "Men kitaplary okadym.")
+    ]
 
-tatarExample :: IO ()
-tatarExample = do
+tatarExample :: Language -> IO ()
+tatarExample tatar = do
   putStrLn "== Tatar: segmentation, suggestions, undo, journal"
   let segment =
         buildSegment
@@ -61,8 +61,8 @@ tatarExample = do
   putStrLn "-- journal"
   T.putStr (renderJournal glossed)
 
-englishExample :: IO ()
-englishExample = do
+englishExample :: Language -> IO ()
+englishExample english = do
   putStrLn "== English: correcting a suggestion and confirming it"
   let segment = buildSegment emptyDocument [("She", ["she"]), ("walks", ["walk", "s"])]
   inserted <- must (perform (InsertSegment 0 segment) (newSession emptyDocument))

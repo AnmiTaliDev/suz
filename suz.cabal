@@ -102,7 +102,10 @@ executable suz-examples
     import:           shared
     hs-source-dirs:   examples
     main-is:          Main.hs
-    build-depends:    suz
+    other-modules:    Paths_suz
+    autogen-modules:  Paths_suz
+    build-depends:    suz,
+                      bytestring >=0.10 && <0.13
 
 foreign-library suz
     import:           shared
