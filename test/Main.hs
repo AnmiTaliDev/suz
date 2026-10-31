@@ -19,6 +19,7 @@ import qualified Test.Suggest as Suggest
 import qualified Test.Toolbox as Toolbox
 import qualified Test.Validate as Validate
 import qualified Test.Escape as Escape
+import qualified Test.Parser as Parser
 import System.Exit (exitFailure, exitSuccess)
 import Test.QuickCheck (Args (..), isSuccess, output, quickCheckWithResult, stdArgs)
 
@@ -41,6 +42,7 @@ checks = concat
   , Leipzig.checks
   , Conllu.checks
   , Escape.checks
+  , Parser.checks
   ]
 
 main :: IO ()
