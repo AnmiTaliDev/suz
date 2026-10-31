@@ -24,4 +24,5 @@ checks =
   , ("insertAt rejects a negative position", insertAt (-1) 'x' "ab" == Left (IndexOutOfRange (-1)))
   , ("removeAt removes one element", removeAt 1 "abc" == "ac")
   , ("removeAt ignores a position outside the list", removeAt 5 "abc" == "abc" && removeAt (-1) "abc" == "abc")
+  , ("replaceSegment replaces by identifier", documentSegments (replaceSegment plainSegment {segmentTokens = []} plainDoc) == [plainSegment {segmentTokens = []}])
   ]
