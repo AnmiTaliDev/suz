@@ -86,6 +86,10 @@ void demo_exchange(suz_language *language)
     printf("-- interlinear text wrapped to 24 columns\n%s\n\n", wrapped);
     suz_free(wrapped);
 
+    char *latex = suz_latex(raw);
+    printf("-- LaTeX\n%s\n", latex);
+    suz_free(latex);
+
     char *json = suz_json(raw);
     printf("-- JSON\n%s\n", json);
     suz_free(json);

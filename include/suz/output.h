@@ -84,6 +84,16 @@ char *suz_conllu(suz_session *session);
  */
 char *suz_json(suz_session *session);
 
+/**
+ * LaTeX source of the document for the gb4e package: one exe environment with
+ * a three-line \glll example for each segment that has tokens. Tags are set in
+ * lowercase small capitals, special characters are escaped. Empty text when
+ * no segment has tokens.
+ * @param session Session.
+ * @return Text, release with suz_free().
+ */
+char *suz_latex(suz_session *session);
+
 #ifdef __cplusplus
 }
 #endif
