@@ -22,6 +22,7 @@ import qualified Test.Escape as Escape
 import qualified Test.Parser as Parser
 import qualified Test.Model as Model
 import qualified Test.Edit as Edit
+import qualified Test.Json as Json
 import System.Exit (exitFailure, exitSuccess)
 import Test.QuickCheck (Args (..), isSuccess, output, quickCheckWithResult, stdArgs)
 
@@ -47,6 +48,7 @@ checks = concat
   , Parser.checks
   , Model.checks
   , Edit.checks
+  , Json.checks
   ]
 
 main :: IO ()
