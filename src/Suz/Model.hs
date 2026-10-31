@@ -41,6 +41,7 @@ data Gloss = Gloss
   }
   deriving (Eq, Ord, Show)
 
+-- | A morph with its form and its gloss, if it has one.
 data Morph = Morph
   { morphId :: MorphId
   , morphForm :: Text
