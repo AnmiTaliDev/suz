@@ -15,4 +15,5 @@ checks =
   , ("encodeLexical escapes other text", encodeLexical "a\tb" == "a\\tb")
   , ("decodeLexical reads a hyphen as an empty part", decodeLexical "-" == Right "")
   , ("decodeLexical reads an escaped hyphen", decodeLexical "\\-" == Right "-")
+  , ("decodeLexical reads what encodeLexical writes", all (\t -> decodeLexical (encodeLexical t) == Right t) ["", "-", "--", "a-b", "x\ty", "\\"])
   ]
