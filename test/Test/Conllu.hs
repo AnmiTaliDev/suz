@@ -30,6 +30,11 @@ checks =
   , ("conllu rejects a head outside the sentence", errorOf (parseConllu (T.unlines [urow "1" "a" ["_", "_", "_", "_", "5", "dep", "_", "_"]])) == Just (1, "bad HEAD"))
   , ("conllu rejects a head from another sentence", errorOf (parseConllu (T.unlines [row "1" "a", row "2" "b", "", urow "1" "c" ["_", "_", "_", "_", "2", "dep", "_", "_"]])) == Just (4, "bad HEAD"))
   , ("conllu rejects a head that is not a number", errorOf (parseConllu (T.unlines [urow "1" "a" ["_", "_", "_", "_", "x", "dep", "_", "_"]])) == Just (1, "bad HEAD"))
+  , ("conllu writes the UD columns it read", fmap renderConllu (parseConllu udText) == Right udText)
+  , ("conllu writes the UD columns of a range", fmap renderConllu (parseConllu rangeText) == Right rangeText)
+  , ("conllu writes a head from another sentence as an underscore", renderConllu crossDoc == T.unlines [row "1" "a", "", urow "1" "b" ["_", "_", "_", "_", "_", "dep", "_", "_"], ""])
+  , ("conllu writes a tab in a UD column as a space", renderConllu tabDoc == T.unlines [urow "1" "a" ["x y", "_", "_", "_", "_", "_", "_", "_"], ""])
+  , ("conllu renumbers heads after an empty node", fmap renderConllu (parseConllu (T.unlines [row "1" "a", row "1.1" "e", urow "2" "b" ["_", "_", "_", "_", "1", "dep", "_", "_"]])) == Right (T.unlines [row "1" "a", urow "2" "b" ["_", "_", "_", "_", "1", "dep", "_", "_"], ""]))
   ]
   where
     split = documentOf [("китаплар", ["китап", "лар"]), ("бар", ["бар"])]
@@ -37,6 +42,10 @@ checks =
     documentOf specs = Document 100 [buildSegment emptyDocument specs]
     sample = T.unlines [T.pack "# text = Мин китап", row "1" "Мин", row "2" "китап"]
     row i f = T.intercalate "\t" [T.pack i, T.pack f, "_", "_", "_", "_", "_", "_", "_", "_"]
+    udText = T.unlines [urow "1" "Мин" ["мин", "PRON", "_", "Number=Sing", "2", "nsubj", "_", "SpaceAfter=No"], urow "2" "укыдым" ["укы", "VERB", "_", "_", "0", "root", "_", "_"], ""]
+    rangeText = T.unlines [urow "1-2" "vámonos" (replicate 8 "_"), urow "1" "vamos" ["ir", "VERB", "_", "_", "0", "root", "_", "_"], urow "2" "nos" ["nosotros", "PRON", "_", "_", "1", "obj", "_", "_"], ""]
+    crossDoc = fst (must (apply (SetUd (MorphId 5) (Just (UdFields "" "" "" "" (HeadOf (MorphId 2)) "dep" "" ""))) (must (parseConllu (T.unlines [row "1" "a", "", row "1" "b"])))))
+    tabDoc = fst (must (apply (SetUd (MorphId 2) (Just (UdFields "x\ty" "" "" "" NoHead "" "" ""))) (must (parseConllu (T.unlines [row "1" "a"])))))
     urow i f cols = T.intercalate "\t" ([T.pack i, T.pack f] ++ cols)
     uds t = fmap (map morphUd . concatMap tokenMorphs . concatMap segmentTokens . documentSegments) (parseConllu t)
     morphForms t = fmap (map (map (map morphForm . tokenMorphs) . segmentTokens) . documentSegments) (parseConllu t)
