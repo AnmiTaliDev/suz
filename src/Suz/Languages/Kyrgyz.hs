@@ -6,13 +6,6 @@ module Suz.Languages.Kyrgyz
 import Suz.Language
 import Suz.Model
 
--- | A small Kyrgyz weight table: the pronoun мен, the stems китеп, оку and
--- үй, and endings for the plural, the accusative, dative, locative, ablative
--- and genitive cases, the first person singular possessive, negation, the
--- past tense and the first person singular, second person singular and first
--- person plural forms. A vowel-final ending that can be accusative or past
--- tense is accusative after a noun stem or a plural ending. Importing splits
--- the punctuation .,!? and lowercases.
 kyrgyz :: Language
 kyrgyz =
   withImportRules ".,!?" SimpleFolding $
