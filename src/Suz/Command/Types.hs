@@ -28,6 +28,7 @@ data Command
   | Batch [Command]
   deriving (Eq, Show)
 
+-- | Why a command cannot be applied.
 data EditError
   = NoSuchSegment SegmentId
   | NoSuchToken TokenId
