@@ -444,6 +444,21 @@ properties =
           , let rows = T.lines (renderSegment s)
           ]
     )
+  , ( "latex has four lines for each non-empty segment and a frame"
+    , forAll genDocument $ \d ->
+        let n = length (filter (not . null . segmentTokens) (documentSegments d))
+            out = renderLatex d
+         in if n == 0 then out === "" else length (T.lines out) === 2 + 4 * n
+    )
+  , ( "latex has the same number of words in the three rows of an example"
+    , forAll genLeipzigDocument $ \d ->
+        let rows = [l | l <- T.lines (renderLatex d), "\\glll " `T.isPrefixOf` l || "      " `T.isPrefixOf` l]
+            counts = map (length . T.words . T.dropEnd 2 . T.drop 6) rows
+            groups xs = case xs of
+              a : b : c : rest -> [a, b, c] : groups rest
+              _ -> []
+         in conjoin [length (nub g) === 1 | g <- groups counts]
+    )
   ]
   where
     languageTagList = foldr (:) [] . languageTags
