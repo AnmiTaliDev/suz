@@ -17,6 +17,8 @@ extra-source-files: Makefile
                     gtk/Makefile
                     gtk/*.c
                     gtk/*.h
+                    gtk/samples/*.txt
+                    gtk/samples/*.suz
                     data/dev.anmitali.Suz.desktop
                     data/dev.anmitali.Suz.metainfo.xml
                     data/icons/hicolor/scalable/apps/*.svg
