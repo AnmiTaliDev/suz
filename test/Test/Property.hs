@@ -440,6 +440,12 @@ properties =
             Left e -> counterexample (show e) False
             Right (d', _) -> map morphUd (filter ((== morphId m) . morphId) (allMorphs d')) === [u]
     )
+  , ( "JSON is read back to the same segments"
+    , forAll genDocument $ \d -> fmap documentSegments (parseJson (renderJson d)) === Right (documentSegments d)
+    )
+  , ( "changed JSON is read or rejected"
+    , forAll (genDocument >>= mutate . renderJson) $ \t -> length (show (parseJson t)) >= 0
+    )
   , ( "JSON has one ud object for each annotated morph"
     , forAll genDocument $ \d -> T.count "\"ud\":{" (renderJson d) === length [() | Just _ <- map morphUd (allMorphs d)]
     )
