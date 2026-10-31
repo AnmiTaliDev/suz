@@ -33,7 +33,6 @@ library
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
-                      Suz.Languages.Turkmen
                       Suz.Languages.Uzbek
                       Suz.Learn
                       Suz.Leipzig
