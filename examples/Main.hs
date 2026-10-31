@@ -12,9 +12,9 @@ import Russian (russian)
 import Suz
 import Suz.Languages.English (english)
 import Suz.Languages.Tatar (tatar)
+import Suz.Languages.Turkish (turkish)
 import System.Exit (die)
 import System.IO (hSetEncoding, stdout, utf8)
-import Turkish (turkish)
 import Turkmen (turkmen)
 import Uzbek (uzbek)
 

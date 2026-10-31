@@ -1,10 +1,15 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
-module Turkish
+module Suz.Languages.Turkish
   ( turkish
   ) where
 
-import Suz
+import Suz.Language
+import Suz.Model
 
+-- | A small Turkish weight table: the pronoun ben, the stems kitap, oku and
+-- ışık, and the plural, accusative, past tense and first person singular
+-- endings. Importing splits the punctuation .,!? and lowercases with the
+-- Turkic mapping.
 turkish :: Language
 turkish =
   withImportRules ".,!?" TurkicFolding $

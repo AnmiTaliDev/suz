@@ -34,6 +34,7 @@ library
                       Suz.LanguageText
                       Suz.Languages.English
                       Suz.Languages.Tatar
+                      Suz.Languages.Turkish
                       Suz.Learn
                       Suz.Leipzig
                       Suz.Model
@@ -88,7 +89,6 @@ executable suz-examples
                       Kazakh
                       Kyrgyz
                       Russian
-                      Turkish
                       Turkmen
                       Uzbek
     build-depends:    suz
