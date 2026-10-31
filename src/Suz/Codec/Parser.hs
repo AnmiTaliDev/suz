@@ -40,6 +40,7 @@ field = Parser $ \fs -> case fs of
   f : rest -> Right (f, rest)
   [] -> Left "unexpected end of line"
 
+-- | Takes the next field as a decimal integer.
 intP :: Parser Int
 intP = field >>= \t -> maybe (failP ("bad number: " ++ T.unpack t)) pure (readMaybe (T.unpack t))
 
