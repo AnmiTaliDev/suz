@@ -34,6 +34,7 @@ instance Monad Parser where
 failP :: String -> Parser a
 failP msg = Parser (const (Left msg))
 
+-- | Takes the next field.
 field :: Parser Text
 field = Parser $ \fs -> case fs of
   f : rest -> Right (f, rest)
