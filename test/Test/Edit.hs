@@ -21,4 +21,5 @@ checks =
   , ("insertAt inserts in the middle", insertAt 1 'x' "ab" == Right "axb")
   , ("insertAt inserts at the end", insertAt 2 'x' "ab" == Right "abx")
   , ("insertAt rejects a position past the end", insertAt 3 'x' "ab" == Left (IndexOutOfRange 3))
+  , ("insertAt rejects a negative position", insertAt (-1) 'x' "ab" == Left (IndexOutOfRange (-1)))
   ]
