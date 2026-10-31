@@ -76,6 +76,7 @@ executable suz-examples
     hs-source-dirs:   examples
     main-is:          Main.hs
     other-modules:    English
+                      Kazakh
                       Tatar
                       Turkish
     build-depends:    suz
