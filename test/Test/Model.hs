@@ -7,4 +7,5 @@ import Suz
 checks :: [(String, Bool)]
 checks =
   [ ("findSegment gives position and segment", findSegment (segmentId plainSegment) plainDoc == Just (0, plainSegment))
+  , ("findSegment gives nothing for an unknown identifier", findSegment (SegmentId 999) plainDoc == Nothing)
   ]
