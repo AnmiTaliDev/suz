@@ -50,6 +50,7 @@ wordP = field >>= \t -> case readMaybe (T.unpack t) :: Maybe Integer of
   Just n | n >= 0 && n <= fromIntegral (maxBound :: Word64) -> pure (fromIntegral n)
   _ -> failP ("bad identifier: " ++ T.unpack t)
 
+-- | Reads a count and then that many items. A negative count fails.
 counted :: Parser a -> Parser [a]
 counted p = do
   n <- intP
