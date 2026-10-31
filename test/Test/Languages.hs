@@ -15,6 +15,7 @@ import Suz.Languages.Italian (italian)
 import Suz.Languages.Kazakh (kazakh)
 import Suz.Languages.Kyrgyz (kyrgyz)
 import Suz.Languages.Latin (latin)
+import Suz.Languages.Persian (persian)
 import Suz.Languages.Polish (polish)
 import Suz.Languages.Russian (russian)
 import Suz.Languages.Spanish (spanish)
@@ -59,6 +60,8 @@ checks =
   , ("Polish example passes validation", null (validateDocument polish (annotatedDocument polish "Czytam książki.")))
   , ("Greek example is annotated", annotated greek "Διαβάζω βιβλία." == "Διαβάζω      βιβλία          .\nδιαβάζ-ω     βιβλί-α         .\nread-1SG.PRS book-NOM.ACC.PL ?")
   , ("Greek example passes validation", null (validateDocument greek (annotatedDocument greek "Διαβάζω βιβλία.")))
+  , ("Persian example is annotated", annotated persian "من کتاب\8204ها را می\8204خوانم." == "من  کتاب\8204ها  را  می\8204خوانم      .\nمن  کتاب\8204-ها را  می\8204-خوان-م    .\n1SG book-PL  ACC IPFV-read-1SG ?")
+  , ("Persian example passes validation", null (validateDocument persian (annotatedDocument persian "من کتاب\8204ها را می\8204خوانم.")))
   ]
   where
     annotatedDocument :: Language -> Text -> Document
