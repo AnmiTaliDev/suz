@@ -6,12 +6,6 @@ module Suz.Languages.Turkmen
 import Suz.Language
 import Suz.Model
 
--- | A small Turkmen weight table in the Latin script: the pronoun men, the
--- stems kitap, kitab, oka and öý, and endings for the plural, the accusative,
--- dative, locative, ablative and genitive cases, the first person singular
--- possessive, negation, the past tense and the first person singular, second
--- person singular and first person plural forms. Importing splits the
--- punctuation .,!? and lowercases.
 turkmen :: Language
 turkmen =
   withImportRules ".,!?" SimpleFolding $
