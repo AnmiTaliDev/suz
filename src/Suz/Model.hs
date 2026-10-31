@@ -30,6 +30,7 @@ newtype SegmentId = SegmentId Word64 deriving (Eq, Ord, Show)
 -- | Identifier of a token, numbered together with segments and morphs.
 newtype TokenId = TokenId Word64 deriving (Eq, Ord, Show)
 
+-- | Identifier of a morph, numbered together with segments and tokens.
 newtype MorphId = MorphId Word64 deriving (Eq, Ord, Show)
 
 data Gloss = Gloss
