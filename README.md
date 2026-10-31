@@ -62,7 +62,7 @@ The shared object is versioned with `lib-version-info` in `suz.cabal` (`current:
 
 ## Languages
 
-The library ships small weight tables, each in its own module under `Suz.Languages`: Azerbaijani, CrimeanTatar, English, French, German, Kazakh, Kyrgyz, Russian, Spanish, Tatar, Turkish, Turkmen and Uzbek. Each covers a handful of stems and endings. They serve as examples and as a starting point for a real table, not as a description of the language.
+The library ships small weight tables, each in its own module under `Suz.Languages`: Azerbaijani, CrimeanTatar, English, French, German, Italian, Kazakh, Kyrgyz, Russian, Spanish, Tatar, Turkish, Turkmen and Uzbek. Each covers a handful of stems and endings. They serve as examples and as a starting point for a real table, not as a description of the language.
 
 ```haskell
 import Suz.Languages.Turkish (turkish)
