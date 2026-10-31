@@ -14,7 +14,7 @@ install: all
 	install -m 644 include/suz/*.h $(DESTDIR)$(PREFIX)/include/suz/
 	install -d $(DESTDIR)$(PREFIX)/share/suz/languages
 	install -m 644 languages/*.language $(DESTDIR)$(PREFIX)/share/suz/languages/
-	scripts/bundle.sh $(SUZ_BUILD)/libsuz.so.$(ABI_VERSION) $(DESTDIR)$(LIBDIR)
+	sh scripts/bundle.sh $(SUZ_BUILD)/libsuz.so.$(ABI_VERSION) $(DESTDIR)$(LIBDIR)
 	printf '%s\n' \
 	  'Name: suz' \
 	  'Description: Morpheme-level interlinear glossing engine' \
