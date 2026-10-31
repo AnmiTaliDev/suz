@@ -6,11 +6,6 @@ module Suz.Languages.Spanish
 import Suz.Language
 import Suz.Model
 
--- | A small Spanish weight table: the pronoun yo, the stems le and libr, the
--- endings o for the first person singular present and for the masculine class
--- vowel, and s for the plural. The ending o is the verb ending after le and
--- the class vowel after libr. Importing splits the punctuation .,!?¿¡ and
--- lowercases.
 spanish :: Language
 spanish =
   withImportRules ".,!?¿¡" SimpleFolding $
