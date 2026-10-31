@@ -6,9 +6,6 @@ module Suz.Languages.Polish
 import Suz.Language
 import Suz.Model
 
--- | A small Polish weight table: the stems czyta and książk, the ending m for
--- the first person singular present and the ending i for the accusative
--- plural. Importing splits the punctuation .,!? and lowercases.
 polish :: Language
 polish =
   withImportRules ".,!?" SimpleFolding $
