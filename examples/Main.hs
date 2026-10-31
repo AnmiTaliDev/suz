@@ -6,6 +6,7 @@ import Data.Text (Text)
 import qualified Data.Text.IO as T
 import English (english)
 import Kazakh (kazakh)
+import Kyrgyz (kyrgyz)
 import Suz
 import System.Exit (die)
 import System.IO (hSetEncoding, stdout, utf8)
@@ -28,6 +29,8 @@ main = do
   rawTextExample "Kazakh" kazakh "Мен кітаптарды оқыдым."
   putStrLn ""
   rawTextExample "Uzbek" uzbek "Men kitoblarni o'qidim."
+  putStrLn ""
+  rawTextExample "Kyrgyz" kyrgyz "Мен китептерди окудум."
 
 tatarExample :: IO ()
 tatarExample = do
