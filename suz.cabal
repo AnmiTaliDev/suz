@@ -33,7 +33,6 @@ library
                       Suz.Language
                       Suz.LanguageBinary
                       Suz.LanguageText
-                      Suz.Languages.Persian
                       Suz.Languages.Polish
                       Suz.Languages.Russian
                       Suz.Languages.Spanish
