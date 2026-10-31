@@ -1,0 +1,11 @@
+language	German
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	büch	10.0	book
+weight	e	9.0	-	1SG	PRS
+weight	er	9.0	-	PL
+weight	ich	10.0	-	1SG
+weight	les	10.0	read
