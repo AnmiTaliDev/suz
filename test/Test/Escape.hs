@@ -14,4 +14,5 @@ checks =
   , ("encodeLexical escapes a literal hyphen", encodeLexical "-" == "\\-")
   , ("encodeLexical escapes other text", encodeLexical "a\tb" == "a\\tb")
   , ("decodeLexical reads a hyphen as an empty part", decodeLexical "-" == Right "")
+  , ("decodeLexical reads an escaped hyphen", decodeLexical "\\-" == Right "-")
   ]
