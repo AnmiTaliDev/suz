@@ -22,4 +22,5 @@ checks =
   , ("insertAt inserts at the end", insertAt 2 'x' "ab" == Right "abx")
   , ("insertAt rejects a position past the end", insertAt 3 'x' "ab" == Left (IndexOutOfRange 3))
   , ("insertAt rejects a negative position", insertAt (-1) 'x' "ab" == Left (IndexOutOfRange (-1)))
+  , ("removeAt removes one element", removeAt 1 "abc" == "ac")
   ]
