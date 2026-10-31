@@ -11,6 +11,7 @@ module Suz.Journal
   , history
   , renderJournal
   , replayJournal
+  , journalVersion
   ) where
 
 import Control.Monad (foldM)
@@ -20,6 +21,7 @@ import qualified Data.Text as T
 import Suz.Codec
 import Suz.Command
 import Suz.Model
+import Text.Read (readMaybe)
 
 -- | A command together with the command that reverts it.
 data Entry = Entry
@@ -85,16 +87,30 @@ redo session = case sessionUndone session of
 history :: Session -> [Command]
 history = reverse . map entryForward . sessionDone
 
--- | Text form of 'history', one command per line. Undone commands are not
--- included.
+-- | Version of the text form written by 'renderJournal'.
+journalVersion :: Int
+journalVersion = 1
+
+-- | Text form of 'history': a @suz-journal@ line with the format version, then
+-- one command per line. Undone commands are not included.
 renderJournal :: Session -> Text
-renderJournal = T.unlines . map encodeCommand . history
+renderJournal session = T.unlines ("suz-journal\t" <> T.pack (show journalVersion) : map encodeCommand (history session))
 
 -- | Rebuilds a session by applying the commands of a rendered journal to the
--- given document. Blank lines are skipped.
+-- given document. Blank lines are skipped. A leading @suz-journal@ line must
+-- name 'journalVersion'; a journal without it is read as the current version.
 replayJournal :: Document -> Text -> Either ReplayError Session
-replayJournal doc text = foldM step (newSession doc) (zip [1 ..] (T.lines text))
+replayJournal doc text = do
+  body <- header (zip [1 ..] (T.lines text))
+  foldM step (newSession doc) body
   where
+    header ls = case dropWhile (T.null . T.strip . snd) ls of
+      (n, l) : rest | Just v <- T.stripPrefix "suz-journal\t" l -> versioned n v rest
+      _ -> Right ls
+    versioned n v rest = case readMaybe (T.unpack v) of
+      Just k | k == journalVersion -> Right rest
+             | otherwise -> Left (ReplayParse n ("unsupported journal version: " ++ show k))
+      Nothing -> Left (ReplayParse n ("bad version: " ++ T.unpack v))
     step session (n, line)
       | T.null (T.strip line) = Right session
       | otherwise = do
