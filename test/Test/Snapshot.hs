@@ -46,6 +46,15 @@ checks =
   , ("snapshot rejects two UD lines for one morph", errorOf (parseSnapshot (T.unlines ["document\t3", "segment\t0", "token\t1\tt", "morph\t2\tm", udLine, udLine])) == Just (6, "line out of place"))
   , ("snapshot rejects a UD line with a wrong field count", errorOf (parseSnapshot "document\t3\nsegment\t0\ntoken\t1\tt\nmorph\t2\tm\nud\ta\n") == Just (5, "expected 8 UD fields"))
   , ("snapshot rejects a bad UD head", errorOf (parseSnapshot "document\t3\nsegment\t0\ntoken\t1\tt\nmorph\t2\tm\nud\t-\t-\t-\t-\tx\t-\t-\t-\n") == Just (5, "bad head: x"))
+  , ("snapshot version is 1", snapshotVersion == 1)
+  , ("snapshot starts with its version", all (\d -> "suz-snapshot\t1\ndocument\t" `T.isPrefixOf` renderSnapshot d) snapshotDocs)
+  , ("snapshot without a version line is read as the current version", parseSnapshot "document\t3\nsegment\t0\ntoken\t1\tt\nmorph\t2\tm\n" == Right (Document 3 [Segment (SegmentId 0) [Token (TokenId 1) "t" [Morph (MorphId 2) "m" Nothing Nothing]]]))
+  , ("snapshot version line may follow comments", parseSnapshot "# a comment\nsuz-snapshot\t1\ndocument\t0\n" == Right emptyDocument)
+  , ("snapshot rejects another version", errorOf (parseSnapshot "suz-snapshot\t2\ndocument\t0\n") == Just (1, "unsupported snapshot version: 2"))
+  , ("snapshot reports the line of an unsupported version", errorOf (parseSnapshot "# a comment\nsuz-snapshot\t9\ndocument\t0\n") == Just (2, "unsupported snapshot version: 9"))
+  , ("snapshot rejects a version that is not a number", errorOf (parseSnapshot "suz-snapshot\tx\ndocument\t0\n") == Just (1, "bad version: x"))
+  , ("snapshot rejects a version line after the document line", errorOf (parseSnapshot "document\t0\nsuz-snapshot\t1\n") == Just (2, "line out of place"))
+  , ("snapshot with only a version line has no document", errorOf (parseSnapshot "suz-snapshot\t1\n") == Just (0, "missing document line"))
   ]
 
 udExample :: UdFields
