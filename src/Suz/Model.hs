@@ -33,6 +33,8 @@ newtype TokenId = TokenId Word64 deriving (Eq, Ord, Show)
 -- | Identifier of a morph, numbered together with segments and tokens.
 newtype MorphId = MorphId Word64 deriving (Eq, Ord, Show)
 
+-- | A gloss: a lexical part, empty when the gloss is only grammatical, and
+-- grammatical tags in order.
 data Gloss = Gloss
   { glossLexical :: Text
   , glossTags :: [Text]
