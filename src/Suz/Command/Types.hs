@@ -8,6 +8,8 @@ import Data.Text (Text)
 import Data.Word (Word64)
 import Suz.Model
 
+-- | An editing operation, applied with 'Suz.Command.apply'. Positions count from
+-- 0 and a position equal to the length of the list inserts at the end.
 data Command
   = InsertSegment Int Segment
   | RemoveSegment SegmentId
