@@ -40,6 +40,18 @@ baseDoc =
 spareMorph :: Morph
 spareMorph = Morph (MorphId (nextFreeId baseDoc)) "х" Nothing Nothing
 
+udSample :: UdFields
+udSample = UdFields "kitap" "NOUN" "" "Number=Plur" (HeadOf mA2) "obj" "" "SpaceAfter=No"
+
+udBase :: Document
+udBase = fst (must (apply (SetUd mA1 (Just udSample)) baseDoc))
+
+udOf :: MorphId -> Document -> Maybe (Maybe UdFields)
+udOf mid doc = fmap (\(_, _, m) -> morphUd m) (findMorph mid doc)
+
+udMorph :: Morph
+udMorph = spareMorph {morphUd = Just udSample}
+
 commands :: [Command]
 commands =
   [ InsertSegment 1 (buildSegment baseDoc [("a", ["a", "b"])])
@@ -52,6 +64,9 @@ commands =
   , SetForm mA1 "кит"
   , SetGloss mA1 (Just (Gloss "x" ["A", "B"]))
   , SetGloss mA1 Nothing
+  , SetUd mA1 (Just udSample)
+  , SetUd mA1 Nothing
+  , InsertMorph (tokenId tokA) 2 udMorph
   , SplitMorph mA1 2 (morphId spareMorph)
   , MergeMorph mA1
   , Batch [SetForm mA1 "x", SetGloss mA1 Nothing, RemoveMorph mA2]

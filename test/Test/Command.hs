@@ -43,4 +43,12 @@ checks =
   , ("merge last token", errorOf (apply (MergeToken (tokenId tokB)) baseDoc) == Just (NoNextToken (tokenId tokB)))
   , ("move token to unknown segment", errorOf (apply (MoveToken (tokenId tokA) (SegmentId 999) 0) baseDoc) == Just (NoSuchSegment (SegmentId 999)))
   , ("move token out of range", errorOf (apply (MoveToken (tokenId tokA) (segmentId plainSegment) 5) baseDoc) == Just (IndexOutOfRange 5))
+  , ("set ud stores the annotation", udOf mA1 udBase == Just (Just udSample))
+  , ("set ud with nothing clears the annotation", udOf mA1 (fst (must (apply (SetUd mA1 Nothing) udBase))) == Just Nothing)
+  , ("set ud is undone by its inverse", roundTripsIn udBase (SetUd mA1 Nothing) && roundTrips (SetUd mA1 (Just udSample)))
+  , ("set ud unknown morph", errorOf (apply (SetUd (MorphId 999) Nothing) baseDoc) == Just (NoSuchMorph (MorphId 999)))
+  , ("split keeps the annotation on the first part", udOf mA1 (fst (must (apply (SplitMorph mA1 2 spareId) udBase))) == Just (Just udSample))
+  , ("split leaves the new part without annotation", udOf spareId (fst (must (apply (SplitMorph mA1 2 spareId) udBase))) == Just Nothing)
+  , ("merge keeps the annotation of the first morph", udOf mA1 (fst (must (apply (MergeMorph mA1) udBase))) == Just (Just udSample))
+  , ("removing an annotated morph is undone", roundTripsIn udBase (RemoveMorph mA1))
   ]
