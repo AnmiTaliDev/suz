@@ -1,0 +1,18 @@
+suz-language	1
+language	Tagalog
+tag	1SG
+tag	DEF
+tag	GEN
+tag	PL
+tag	PRS
+tag	PST
+punctuation	!,.?
+foldcase
+weight	ako	10.0	-	1SG
+weight	ang	10.0	-	DEF
+weight	binasa	10.0	read	PST
+weight	ko	10.0	-	1SG	GEN
+weight	libro	10.0	book
+weight	mga	10.0	-	PL
+weight	nagbabasa	10.0	read	PRS
+weight	ng	10.0	-	GEN

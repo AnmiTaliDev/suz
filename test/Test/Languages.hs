@@ -357,6 +357,12 @@ files =
         ("Jag läste boken.",
          "Jag läste    boken    .\njag läs-te   bok-en   .\n1SG read-PST book-DEF ?")
       ])
+  , ("tagalog",
+      [ ("Binasa ko ang mga libro.",
+         "Binasa   ko      ang mga libro .\nbinasa   ko      ang mga libro .\nread.PST 1SG.GEN DEF PL  book  ?"),
+        ("Nagbabasa ako ng libro.",
+         "Nagbabasa ako ng  libro .\nnagbabasa ako ng  libro .\nread.PRS  1SG GEN book  ?")
+      ])
   , ("tajik",
       [ ("Ман китобҳоро мехонам.",
          "Ман китобҳоро   мехонам       .\nман китоб-ҳо-ро ме-хон-ам     .\n1SG book-PL-ACC IPFV-read-1SG ?")
