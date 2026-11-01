@@ -1,0 +1,14 @@
+suz-language	1
+language	Slovenian
+tag	1PL
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	ber	10.0	read
+weight	e	9.0	-	PL	ACC
+weight	em	9.0	-	1SG	PRS
+weight	emo	9.0	-	1PL	PRS
+weight	knjig	10.0	book

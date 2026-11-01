@@ -273,6 +273,12 @@ files =
         ("Čítame knihy.",
          "Čítame       knihy       .\nčíta-me      knih-y      .\nread-1PL.PRS book-PL.ACC ?")
       ])
+  , ("slovenian",
+      [ ("Berem knjige.",
+         "Berem        knjige      .\nber-em       knjig-e     .\nread-1SG.PRS book-PL.ACC ?"),
+        ("Beremo knjige.",
+         "Beremo       knjige      .\nber-emo      knjig-e     .\nread-1PL.PRS book-PL.ACC ?")
+      ])
   , ("spanish",
       [ ("Yo leo libros.",
          "Yo  leo          libros    .\nyo  le-o         libr-o-s  .\n1SG read-1SG.PRS book-M-PL ?")
