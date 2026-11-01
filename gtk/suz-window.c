@@ -654,7 +654,11 @@ static void on_tier_response(GObject *source, GAsyncResult *result, gpointer use
     const char *response = adw_alert_dialog_choose_finish(ADW_ALERT_DIALOG(source), result);
     if (g_str_equal(response, "import")) {
         char *message = NULL;
-        guint selected = gtk_drop_down_get_selected(GTK_DROP_DOWN(pending->choice));
+        guint selected = 0;
+        guint index = 0;
+        for (GtkWidget *button = gtk_widget_get_first_child(pending->choice); button; button = gtk_widget_get_next_sibling(button), index++)
+            if (gtk_check_button_get_active(GTK_CHECK_BUTTON(button)))
+                selected = index;
         suz_session *session = suz_session_from_elan_tier(pending->window->language, pending->text, pending->tiers[selected], &message);
         adopt_import(pending->window, session, message, pending->name);
     }
@@ -673,15 +677,30 @@ static void choose_tier(SuzWindow *self, char *text, char *name, char **tiers)
     pending->name = name;
     pending->tiers = tiers;
 
-    GtkStringList *list = gtk_string_list_new((const char *const *)tiers);
-    pending->choice = gtk_drop_down_new(G_LIST_MODEL(list), NULL);
+    pending->choice = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
+    GtkWidget *first = NULL;
+    for (guint i = 0; tiers[i]; i++) {
+        GtkWidget *button = gtk_check_button_new_with_label(tiers[i]);
+        if (first) {
+            gtk_check_button_set_group(GTK_CHECK_BUTTON(button), GTK_CHECK_BUTTON(first));
+        } else {
+            first = button;
+            gtk_check_button_set_active(GTK_CHECK_BUTTON(button), TRUE);
+        }
+        gtk_box_append(GTK_BOX(pending->choice), button);
+    }
+    GtkWidget *scroll = gtk_scrolled_window_new();
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_max_content_height(GTK_SCROLLED_WINDOW(scroll), 240);
+    gtk_scrolled_window_set_propagate_natural_height(GTK_SCROLLED_WINDOW(scroll), TRUE);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scroll), pending->choice);
 
     AdwDialog *dialog = adw_alert_dialog_new(_("Choose a Tier"), _("The file has several tiers without a parent. The segments are read from the tier you choose."));
     adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", _("Cancel"), "import", _("Import"), NULL);
     adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "import", ADW_RESPONSE_SUGGESTED);
     adw_alert_dialog_set_default_response(ADW_ALERT_DIALOG(dialog), "import");
     adw_alert_dialog_set_close_response(ADW_ALERT_DIALOG(dialog), "cancel");
-    adw_alert_dialog_set_extra_child(ADW_ALERT_DIALOG(dialog), pending->choice);
+    adw_alert_dialog_set_extra_child(ADW_ALERT_DIALOG(dialog), scroll);
     adw_alert_dialog_choose(ADW_ALERT_DIALOG(dialog), GTK_WIDGET(self), NULL, on_tier_response, pending);
 }
 
