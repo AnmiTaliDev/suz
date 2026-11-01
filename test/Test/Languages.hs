@@ -247,6 +247,12 @@ files =
         ("Nós lemos livros.",
          "Nós lemos        livros    .\nnós le-mos       livr-o-s  .\n1PL read-1PL.PRS book-M-PL ?")
       ])
+  , ("romanian",
+      [ ("Citesc cărți.",
+         "Citesc       cărți   .\ncit-esc      cărț-i  .\nread-1SG.PRS book-PL ?"),
+        ("Noi citim cărți.",
+         "Noi citim        cărți   .\nnoi cit-im       cărț-i  .\n1PL read-1PL.PRS book-PL ?")
+      ])
   , ("russian",
       [ ("Я читаю книги.",
          "Я   читаю        книги       .\nя   чита-ю       книг-и      .\n1SG read-1SG.PRS book-PL.ACC ?")

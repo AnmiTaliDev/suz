@@ -1,0 +1,14 @@
+suz-language	1
+language	Romanian
+tag	1PL
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	cit	10.0	read
+weight	cărț	10.0	book
+weight	esc	9.0	-	1SG	PRS
+weight	i	9.0	-	PL
+weight	im	9.0	-	1PL	PRS
+weight	noi	10.0	-	1PL
