@@ -193,6 +193,10 @@ files =
         ("אני קורא ספרים.",
          "אני קורא ספרים   .\nאני קורא ספר-ים  .\n1SG read book-PL ?")
       ])
+  , ("hindi",
+      [ ("मैं किताबें लिखता हूँ।",
+         "मैं   किताबें   लिखता        हूँ       ।\nमैं   किताब-ें  लिख-ता       हूँ       ।\n1SG book-PL write-IPFV.M 1SG.COP ?")
+      ])
   , ("hungarian",
       [ ("Könyveket olvasok.",
          "Könyveket   olvasok      .\nkönyv-ek-et olvas-ok     .\nbook-PL-ACC read-1SG.PRS ?"),

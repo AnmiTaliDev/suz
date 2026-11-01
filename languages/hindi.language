@@ -1,0 +1,18 @@
+suz-language	1
+language	Hindi
+tag	1PL
+tag	1SG
+tag	COP
+tag	IPFV
+tag	M
+tag	PL
+punctuation	!,.?।
+foldcase
+weight	किताब	10.0	book
+weight	ता	9.0	-	IPFV	M
+weight	मैं	10.0	-	1SG
+weight	लिख	10.0	write
+weight	हम	10.0	-	1PL
+weight	हूँ	10.0	-	1SG	COP
+weight	हैं	10.0	-	1PL	COP
+weight	ें	9.0	-	PL
