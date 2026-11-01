@@ -711,7 +711,9 @@ static void import_file(SuzWindow *self, GFile *file, const char *format)
     else if (g_str_equal(format, "toolbox"))
         session = suz_session_from_toolbox(self->language, text, &message);
     else if (g_str_equal(format, "conllu"))
-        session = suz_session_from_conllu(text, &message);
+        session = self->language
+            ? suz_session_from_conllu_with_language(self->language, text, &message)
+            : suz_session_from_conllu(text, &message);
     else if (g_str_equal(format, "json"))
         session = suz_session_from_json(text, &message);
     else if (g_str_equal(format, "elan")) {
