@@ -1,0 +1,42 @@
+suz-language	1
+language	Uyghur
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	DAT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	PST
+punctuation	!.?،؟
+weight	ئوقۇ	10.0	read
+weight	ئۆي	10.0	house
+weight	تا	8.0	-	LOC
+weight	تى	9.0	-	PST
+weight	تىن	8.0	-	ABL
+weight	تۇ	9.0	-	PST
+weight	تۈ	9.0	-	PST
+weight	تە	8.0	-	LOC
+weight	دا	8.0	-	LOC
+weight	دى	9.0	-	PST
+weight	دىن	8.0	-	ABL
+weight	دۇ	9.0	-	PST
+weight	دۈ	9.0	-	PST
+weight	دە	8.0	-	LOC
+weight	سەن	10.0	-	2SG
+weight	غا	8.0	-	DAT
+weight	قا	8.0	-	DAT
+weight	كىتاب	10.0	book
+weight	كە	8.0	-	DAT
+weight	لار	8.0	-	PL
+weight	لەر	8.0	-	PL
+weight	م	9.0	-	1SG
+weight	ما	8.0	-	NEG
+weight	مى	8.0	-	NEG
+weight	مە	8.0	-	NEG
+weight	مەن	10.0	-	1SG
+weight	نى	9.0	-	ACC
+weight	نىڭ	8.0	-	GEN
+weight	گە	8.0	-	DAT

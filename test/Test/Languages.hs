@@ -243,6 +243,12 @@ files =
         ("Ми читаємо книги.",
          "Ми  читаємо      книги       .\nми  чита-ємо     книг-и      .\n1PL read-1PL.PRS book-PL.ACC ?")
       ])
+  , ("uyghur",
+      [ ("مەن كىتابلارنى ئوقۇدۇم.",
+         "مەن كىتابلارنى   ئوقۇدۇم      .\nمەن كىتاب-لار-نى ئوقۇ-دۇ-م    .\n1SG book-PL-ACC  read-PST-1SG ?"),
+        ("مەن ئۆيدە كىتابنى ئوقۇمىدىم.",
+         "مەن ئۆيدە     كىتابنى  ئوقۇمىدىم        .\nمەن ئۆي-دە    كىتاب-نى ئوقۇ-مى-دى-م     .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
+      ])
   , ("uzbek",
       [ ("Men kitoblarni o'qidim.",
          "Men kitoblarni   o'qidim      .\nmen kitob-lar-ni o'qi-di-m    .\n1SG book-PL-ACC  read-PST-1SG ?"),
