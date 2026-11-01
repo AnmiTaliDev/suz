@@ -1,0 +1,15 @@
+suz-language	1
+language	Latvian
+tag	1PL
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	as	9.0	-	PL
+weight	es	10.0	-	1SG
+weight	grāmat	10.0	book
+weight	las	10.0	read
+weight	mēs	10.0	-	1PL
+weight	u	9.0	-	1SG	PRS
+weight	ām	9.0	-	1PL	PRS

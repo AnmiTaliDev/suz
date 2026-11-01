@@ -205,6 +205,12 @@ files =
       [ ("Libros lego.",
          "Libros      lego         .\nlibr-os     leg-o        .\nbook-ACC.PL read-1SG.PRS ?")
       ])
+  , ("latvian",
+      [ ("Es lasu grāmatas.",
+         "Es  lasu         grāmatas  .\nes  las-u        grāmat-as .\n1SG read-1SG.PRS book-PL   ?"),
+        ("Mēs lasām grāmatas.",
+         "Mēs lasām        grāmatas  .\nmēs las-ām       grāmat-as .\n1PL read-1PL.PRS book-PL   ?")
+      ])
   , ("mongolian",
       [ ("Би номуудыг уншсан.",
          "Би  номуудыг    уншсан   .\nби  ном-ууд-ыг  унш-сан  .\n1SG book-PL-ACC read-PST ?"),
