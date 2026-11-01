@@ -25,6 +25,7 @@ extra-source-files: Makefile
                     gtk/samples/*.suz
                     data/dev.anmitali.Suz.desktop
                     data/dev.anmitali.Suz.metainfo.xml
+                    data/dev.anmitali.Suz.xml
                     data/icons/hicolor/scalable/apps/*.svg
                     data/icons/hicolor/symbolic/apps/*.svg
 
