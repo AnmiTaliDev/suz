@@ -227,6 +227,12 @@ files =
         ("Би номыг уншсан.",
          "Би  номыг    уншсан   .\nби  ном-ыг   унш-сан  .\n1SG book-ACC read-PST ?")
       ])
+  , ("norwegian",
+      [ ("Jeg leser bøker.",
+         "Jeg leser    bøker   .\njeg les-er   bøk-er  .\n1SG read-PRS book-PL ?"),
+        ("Jeg leste boken.",
+         "Jeg leste    boken    .\njeg les-te   bok-en   .\n1SG read-PST book-DEF ?")
+      ])
   , ("persian",
       [ ("من کتاب\8204ها را می\8204خوانم.",
          "من  کتاب\8204ها  را  می\8204خوانم       .\nمن  کتاب\8204-ها را  می\8204-خوان-م     .\n1SG book-PL ACC IPFV-read-1SG ?")
