@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Suz 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 09:03+0500\n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
 "PO-Revision-Date: 2026-10-31 19:03+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,15 +24,15 @@ msgstr "语素级别的行间注释。"
 msgid "Documents"
 msgstr "文档"
 
-#: main.c:65 suz-window.c:947
+#: main.c:65 suz-window.c:1011
 msgid "Open Text"
 msgstr "打开文本"
 
-#: main.c:66 suz-window.c:959
+#: main.c:66 suz-window.c:1023
 msgid "Open Document"
 msgstr "打开文档"
 
-#: main.c:67 suz-window.c:1203 suz-window.c:1267
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
 msgid "Save"
 msgstr "保存"
 
@@ -44,15 +44,15 @@ msgstr "另存为"
 msgid "Editing"
 msgstr "编辑"
 
-#: main.c:72 suz-window.c:1323
+#: main.c:72 suz-window.c:1387
 msgid "Annotate"
 msgstr "标注"
 
-#: main.c:73 suz-window.c:1265 suz-window.c:1299
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
 msgid "Undo"
 msgstr "撤销"
 
-#: main.c:74 suz-window.c:1266 suz-window.c:1302
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
 msgid "Redo"
 msgstr "重做"
 
@@ -60,7 +60,7 @@ msgstr "重做"
 msgid "General"
 msgstr "常规"
 
-#: main.c:78 suz-window.c:1273
+#: main.c:78 suz-window.c:1337
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
@@ -132,7 +132,7 @@ msgstr "未知错误"
 msgid "Cannot autosave the document"
 msgstr "无法自动保存文档"
 
-#: suz-window.c:169 suz-window.c:804 suz-window.c:1073 suz-window.c:1168
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
 msgid "Untitled"
 msgstr "未命名"
 
@@ -191,7 +191,7 @@ msgid ""
 "from your corrections are lost."
 msgstr "语言将恢复为自带的权重。根据您的更正学习到的权重将会丢失。"
 
-#: suz-window.c:595 suz-window.c:883 suz-window.c:1203
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
 msgid "Cancel"
 msgstr "取消"
 
@@ -199,13 +199,13 @@ msgstr "取消"
 msgid "Reset"
 msgstr "重置"
 
-#: suz-window.c:609 suz-window.c:613 suz-window.c:643 suz-window.c:647
-#: suz-window.c:688 suz-window.c:695 suz-window.c:761 suz-window.c:926
-#: suz-window.c:937 suz-window.c:977
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
 msgid "Cannot open the file"
 msgstr "无法打开文件"
 
-#: suz-window.c:613 suz-window.c:647
+#: suz-window.c:613 suz-window.c:703
 msgid "the text is not valid UTF-8"
 msgstr "文本不是有效的 UTF-8"
 
@@ -213,149 +213,159 @@ msgstr "文本不是有效的 UTF-8"
 msgid "Cannot import the text"
 msgstr "无法导入文本"
 
-#: suz-window.c:636 suz-window.c:666
+#: suz-window.c:635 suz-window.c:692
 msgid "Cannot import the file"
 msgstr "无法导入文件"
 
-#: suz-window.c:636
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "选择层"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr "文件中有多个没有父层的层。片段将从您选择的层中读取。"
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "导入"
+
+#: suz-window.c:692
 msgid "no language is selected"
 msgstr "未选择语言"
 
-#: suz-window.c:688 suz-window.c:761 suz-window.c:1024
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
 msgid "the document is open in another instance"
 msgstr "文档已在另一个实例中打开"
 
-#: suz-window.c:703
+#: suz-window.c:760
 msgid "Cannot read the document"
 msgstr "无法读取文档"
 
-#: suz-window.c:735
+#: suz-window.c:792
 msgid "Cannot read the recovery file"
 msgstr "无法读取恢复文件"
 
-#: suz-window.c:804
+#: suz-window.c:861
 #, c-format
 msgid "The previous session ended with unsaved changes to \"%s\"."
 msgstr "上一次会话结束时，“%s”仍有未保存的更改。"
 
-#: suz-window.c:805
+#: suz-window.c:862
 msgid "Recover Unsaved Document?"
 msgstr "恢复未保存的文档？"
 
-#: suz-window.c:806
+#: suz-window.c:863
 msgid "Not Now"
 msgstr "暂不"
 
-#: suz-window.c:806 suz-window.c:883 suz-window.c:1203
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
 msgid "Discard"
 msgstr "放弃"
 
-#: suz-window.c:806
+#: suz-window.c:863
 msgid "Restore"
 msgstr "恢复"
 
-#: suz-window.c:882
+#: suz-window.c:939
 msgid "Discard Changes?"
 msgstr "放弃更改？"
 
-#: suz-window.c:882
+#: suz-window.c:939
 msgid "The current document has unsaved changes."
 msgstr "当前文档有未保存的更改。"
 
-#: suz-window.c:946
+#: suz-window.c:1010
 msgid "Text files"
 msgstr "文本文件"
 
-#: suz-window.c:958 suz-window.c:1072
+#: suz-window.c:1022 suz-window.c:1136
 msgid "Suz documents"
 msgstr "Suz 文档"
 
-#: suz-window.c:1024 suz-window.c:1030 suz-window.c:1066
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
 msgid "Cannot save the document"
 msgstr "无法保存文档"
 
-#: suz-window.c:1046
+#: suz-window.c:1110
 msgid "Document saved"
 msgstr "文档已保存"
 
-#: suz-window.c:1074
+#: suz-window.c:1138
 msgid "Save Document"
 msgstr "保存文档"
 
-#: suz-window.c:1135 suz-window.c:1139
+#: suz-window.c:1199 suz-window.c:1203
 msgid "Cannot export the document"
 msgstr "无法导出文档"
 
-#: suz-window.c:1136
+#: suz-window.c:1200
 msgid "Document exported"
 msgstr "文档已导出"
 
-#: suz-window.c:1151 suz-window.c:1259
+#: suz-window.c:1215 suz-window.c:1323
 msgid "Export"
 msgstr "导出"
 
-#: suz-window.c:1202
+#: suz-window.c:1266
 msgid "Save Changes?"
 msgstr "保存更改？"
 
-#: suz-window.c:1202
+#: suz-window.c:1266
 msgid ""
 "The document has unsaved changes. They are lost if you close without saving."
 msgstr "文档有未保存的更改。如果不保存就关闭，这些更改将会丢失。"
 
-#: suz-window.c:1232
+#: suz-window.c:1296
 msgid "Reset Learned Weights…"
 msgstr "重置学习到的权重…"
 
-#: suz-window.c:1237
+#: suz-window.c:1301
 msgid "Language"
 msgstr "语言"
 
-#: suz-window.c:1248
-msgid "Import"
-msgstr "导入"
-
-#: suz-window.c:1268
+#: suz-window.c:1332
 msgid "Save As…"
 msgstr "另存为…"
 
-#: suz-window.c:1274
+#: suz-window.c:1338
 msgid "About Suz"
 msgstr "关于 Suz"
 
-#: suz-window.c:1285 suz-window.c:1347
+#: suz-window.c:1349 suz-window.c:1411
 msgid "Open Text…"
 msgstr "打开文本…"
 
-#: suz-window.c:1286
+#: suz-window.c:1350
 msgid "Open Document…"
 msgstr "打开文档…"
 
-#: suz-window.c:1288
+#: suz-window.c:1352
 msgid "Open"
 msgstr "打开"
 
-#: suz-window.c:1291
+#: suz-window.c:1355
 msgid "Open a text file"
 msgstr "打开文本文件"
 
-#: suz-window.c:1313
+#: suz-window.c:1377
 msgid "Main Menu"
 msgstr "主菜单"
 
-#: suz-window.c:1320
+#: suz-window.c:1384
 msgid "Save the document"
 msgstr "保存文档"
 
-#: suz-window.c:1326
+#: suz-window.c:1390
 msgid "Split the words and suggest glosses"
 msgstr "拆分词语并给出注释建议"
 
-#: suz-window.c:1344
+#: suz-window.c:1408
 msgid "Open a Text"
 msgstr "打开文本"
 
-#: suz-window.c:1345
+#: suz-window.c:1409
 msgid "Choose a text file, or drop one here, to start glossing."
 msgstr "选择一个文本文件，或将其拖到此处，开始添加注释。"
 
