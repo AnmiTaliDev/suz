@@ -51,6 +51,7 @@ library
                       Suz.Command.Types
                       Suz.Conllu
                       Suz.Elan
+                      Suz.Flex
                       Suz.Html
                       Suz.Import
                       Suz.Journal
@@ -84,6 +85,7 @@ test-suite suz-test
                       Test.Edit
                       Test.Escape
                       Test.Elan
+                      Test.Flex
                       Test.Html
                       Test.Import
                       Test.Journal

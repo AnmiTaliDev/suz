@@ -3,6 +3,7 @@ module Test.Property (properties) where
 
 import Control.Monad (foldM)
 import qualified Data.ByteString as BS
+import Data.Char (isPunctuation, isSymbol)
 import Data.Either (isLeft)
 import Data.List (mapAccumL, nub, sort)
 import Data.Text (Text)
@@ -461,6 +462,19 @@ properties =
               .&&. length slots === length (nub slots)
               .&&. all (`elem` slots) slotRefs
               .&&. T.count "<ANNOTATION>" out === T.count "</ANNOTATION>" out
+    )
+  , ( "FLEx has a phrase for each segment, a word for each token and a morph for each morph of a word"
+    , forAll genDocument $ \d ->
+        let out = renderFlex "tt" "en" d
+            segs = filter (not . null . segmentTokens) (documentSegments d)
+            toks = concatMap segmentTokens segs
+            punct = filter (\t -> not (T.null (tokenSurface t)) && T.all (\c -> isPunctuation c || isSymbol c) (tokenSurface t)) toks
+            morphs = concatMap tokenMorphs (filter (`notElem` punct) toks)
+         in T.count "<phrase>" out === length segs
+              .&&. T.count "<word>" out === length toks
+              .&&. T.count "<morph>" out === length morphs
+              .&&. T.count "<item " out === T.count "</item>" out
+              .&&. T.count "<item type=\"gls\"" out === length [() | Just _ <- map morphGloss morphs]
     )
   , ( "ELAN has an annotation value for each segment, token and morph and each gloss"
     , forAll genDocument $ \d ->
