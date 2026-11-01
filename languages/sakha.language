@@ -1,0 +1,45 @@
+suz-language	1
+language	Sakha
+tag	1SG
+tag	2SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	а	8.0	-	PRS
+weight	ааҕ	10.0	read
+weight	бин	9.0	-	1SG
+weight	бун	9.0	-	1SG
+weight	бын	9.0	-	1SG
+weight	бүн	9.0	-	1SG
+weight	дар	8.0	-	PL
+weight	дор	8.0	-	PL
+weight	дэр	8.0	-	PL
+weight	дөр	8.0	-	PL
+weight	и	8.0	-	ACC
+weight	кинигэ	10.0	book
+weight	лар	8.0	-	PL
+weight	лор	8.0	-	PL
+weight	лэр	8.0	-	PL
+weight	лөр	8.0	-	PL
+weight	мин	10.0	-	1SG
+weight	нар	8.0	-	PL
+weight	ни	8.0	-	ACC
+weight	нор	8.0	-	PL
+weight	ну	8.0	-	ACC
+weight	ны	8.0	-	ACC
+weight	нэр	8.0	-	PL
+weight	нү	8.0	-	ACC
+weight	нөр	8.0	-	PL
+weight	о	8.0	-	PRS
+weight	тар	8.0	-	PL
+weight	тор	8.0	-	PL
+weight	тэр	8.0	-	PL
+weight	төр	8.0	-	PL
+weight	у	8.0	-	ACC
+weight	ы	8.0	-	ACC
+weight	э	8.0	-	PRS
+weight	эн	10.0	-	2SG
+weight	ү	8.0	-	ACC
+weight	ө	8.0	-	PRS

@@ -193,6 +193,12 @@ files =
       [ ("Я читаю книги.",
          "Я   читаю        книги       .\nя   чита-ю       книг-и      .\n1SG read-1SG.PRS book-PL.ACC ?")
       ])
+  , ("sakha",
+      [ ("Мин кинигэлэри ааҕабын.",
+         "Мин кинигэлэри   ааҕабын      .\nмин кинигэ-лэр-и ааҕ-а-бын    .\n1SG book-PL-ACC  read-PRS-1SG ?"),
+        ("Мин кинигэни ааҕабын.",
+         "Мин кинигэни  ааҕабын      .\nмин кинигэ-ни ааҕ-а-бын    .\n1SG book-ACC  read-PRS-1SG ?")
+      ])
   , ("spanish",
       [ ("Yo leo libros.",
          "Yo  leo          libros    .\nyo  le-o         libr-o-s  .\n1SG read-1SG.PRS book-M-PL ?")
