@@ -9,7 +9,7 @@ import qualified Data.Text as T
 import Data.Word (Word64)
 import Foreign.C.String (CString)
 import Foreign.C.Types (CInt (..))
-import Foreign.Ptr (Ptr, nullPtr)
+import Foreign.Ptr (Ptr, castPtr, nullPtr)
 import Suz
 import Suz.Foreign.Handle (at, deref, failCode, failHandle, freeHandle, lineError, newHandle, newUtf8, peekText)
 import Suz.Foreign.Language (readLanguage)
@@ -23,6 +23,8 @@ foreign export ccall "suz_session_from_toolbox" sessionFromToolbox :: Ptr () -> 
 foreign export ccall "suz_session_from_leipzig" sessionFromLeipzig :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_conllu" sessionFromConllu :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_elan" sessionFromElan :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_session_from_elan_tier" sessionFromElanTier :: Ptr () -> CString -> CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_elan_tiers" elanTierList :: CString -> Ptr CString -> IO CString
 foreign export ccall "suz_session_from_flex" sessionFromFlex :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_json" sessionFromJson :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_free" sessionFree :: Ptr () -> IO ()
@@ -107,6 +109,22 @@ sessionFromElan lh s errp = do
   case input >>= parseElan lang of
     Left msg -> failHandle errp msg
     Right doc -> newIORef (newSession doc) >>= newHandle
+
+sessionFromElanTier :: Ptr () -> CString -> CString -> Ptr CString -> IO (Ptr ())
+sessionFromElanTier lh s tier errp = do
+  lang <- readLanguage lh
+  input <- peekText s
+  name <- peekText tier
+  case (,) <$> input <*> name >>= \(text, tierName) -> parseElanTier lang tierName text of
+    Left msg -> failHandle errp msg
+    Right doc -> newIORef (newSession doc) >>= newHandle
+
+elanTierList :: CString -> Ptr CString -> IO CString
+elanTierList s errp = do
+  input <- peekText s
+  case input >>= elanTiers of
+    Left msg -> castPtr <$> failHandle errp msg
+    Right tiers -> newUtf8 (T.intercalate "\n" tiers)
 
 sessionFromFlex :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 sessionFromFlex lh s errp = do

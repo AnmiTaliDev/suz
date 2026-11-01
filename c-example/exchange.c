@@ -113,6 +113,16 @@ void demo_exchange(suz_language *language)
         fail("elan", error);
     show("read back from ELAN", from_elan);
     suz_session_free(from_elan);
+    char *tiers = suz_elan_tiers(elan, &error);
+    if (!tiers)
+        fail("elan tiers", error);
+    printf("ELAN tiers without a parent: %s\n", tiers);
+    suz_session *from_tier = suz_session_from_elan_tier(language, elan, tiers, &error);
+    if (!from_tier)
+        fail("elan tier", error);
+    show("read back from the ELAN tier", from_tier);
+    suz_session_free(from_tier);
+    suz_free(tiers);
     suz_free(elan);
 
     char *flex = suz_flex(raw, "tt", "en");

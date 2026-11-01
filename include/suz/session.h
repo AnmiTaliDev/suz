@@ -132,6 +132,29 @@ suz_session *suz_session_from_json(const char *text, char **error);
 suz_session *suz_session_from_elan(const suz_language *language, const char *text, char **error);
 
 /**
+ * Lists the tiers without a parent in an ELAN annotation file, in the order of
+ * the file. suz_session_from_elan() reads the first of them. An identifier
+ * that holds a line feed cannot be told apart from two.
+ * @param text EAF text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return Tier identifiers separated by line feeds, empty when there are no
+ *         such tiers, or NULL on failure. Release with suz_free().
+ */
+char *suz_elan_tiers(const char *text, char **error);
+
+/**
+ * Like suz_session_from_elan(), with the segments taken from the tier without
+ * a parent that has the given identifier. The tiers below it are found as
+ * there.
+ * @param language Language that supplies the tag list.
+ * @param text EAF text.
+ * @param tier Identifier of the tier, from suz_elan_tiers().
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_elan_tier(const suz_language *language, const char *text, const char *tier, char **error);
+
+/**
  * Creates a session from a FLExText file with the elements that suz_flex()
  * writes. Every phrase is a segment and every word in it a token, with the
  * first txt item (or the punct item) as the surface form. The morphs are the
