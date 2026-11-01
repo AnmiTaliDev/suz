@@ -1,0 +1,16 @@
+suz-language	1
+language	Sanskrit
+tag	1SG
+tag	ACC
+tag	NOM
+tag	PL
+tag	PRS
+tag	TH
+punctuation	!,.?
+foldcase
+weight	ahaṃ	10.0	-	1SG
+weight	mi	9.0	-	1SG	PRS
+weight	paṭh	10.0	read
+weight	pustak	10.0	book
+weight	ā	9.0	-	TH
+weight	āni	9.0	-	NOM	ACC	PL

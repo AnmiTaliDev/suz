@@ -263,6 +263,10 @@ files =
         ("Мин кинигэни ааҕабын.",
          "Мин кинигэни  ааҕабын      .\nмин кинигэ-ни ааҕ-а-бын    .\n1SG book-ACC  read-PRS-1SG ?")
       ])
+  , ("sanskrit",
+      [ ("Ahaṃ pustakāni paṭhāmi.",
+         "Ahaṃ pustakāni       paṭhāmi         .\nahaṃ pustak-āni      paṭh-ā-mi       .\n1SG  book-NOM.ACC.PL read-TH-1SG.PRS ?")
+      ])
   , ("spanish",
       [ ("Yo leo libros.",
          "Yo  leo          libros    .\nyo  le-o         libr-o-s  .\n1SG read-1SG.PRS book-M-PL ?")
