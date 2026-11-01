@@ -44,10 +44,12 @@ install:
 	$(CC) $(CFLAGS) -DSUZ_GTK_VERSION='"$(VERSION)"' \
 	  -DGETTEXT_PACKAGE='"$(GETTEXT_PACKAGE)"' -DLOCALEDIR='"$(PREFIX)/share/locale"' $(SOURCES) \
 	  $$(PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig pkg-config --cflags --libs suz gtk4 libadwaita-1) -o suz-gtk-installed
-	install -d $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications $(DESTDIR)$(PREFIX)/share/metainfo
+	install -d $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(PREFIX)/share/applications $(DESTDIR)$(PREFIX)/share/metainfo $(DESTDIR)$(PREFIX)/share/mime/packages
 	install -m 755 suz-gtk-installed $(DESTDIR)$(PREFIX)/bin/suz-gtk
 	msgfmt --desktop --template=../data/$(APP_ID).desktop -d po -o $(DESTDIR)$(PREFIX)/share/applications/$(APP_ID).desktop
 	msgfmt --xml --template=../data/$(APP_ID).metainfo.xml -d po -o $(DESTDIR)$(PREFIX)/share/metainfo/$(APP_ID).metainfo.xml
+	install -m 644 ../data/$(APP_ID).xml $(DESTDIR)$(PREFIX)/share/mime/packages/$(APP_ID).xml
+	test -n "$(DESTDIR)" || update-mime-database $(PREFIX)/share/mime
 	for lang in $(LINGUAS); do \
 	  install -d $(DESTDIR)$(PREFIX)/share/locale/$$lang/LC_MESSAGES; \
 	  msgfmt --check -o $(DESTDIR)$(PREFIX)/share/locale/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE).mo po/$$lang.po; \
@@ -61,6 +63,8 @@ uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/suz-gtk
 	rm -f $(DESTDIR)$(PREFIX)/share/applications/$(APP_ID).desktop
 	rm -f $(DESTDIR)$(PREFIX)/share/metainfo/$(APP_ID).metainfo.xml
+	rm -f $(DESTDIR)$(PREFIX)/share/mime/packages/$(APP_ID).xml
+	test -n "$(DESTDIR)" || update-mime-database $(PREFIX)/share/mime
 	rm -f $(DESTDIR)$(PREFIX)/share/icons/hicolor/scalable/apps/$(APP_ID).svg
 	rm -f $(DESTDIR)$(PREFIX)/share/icons/hicolor/symbolic/apps/$(APP_ID)-symbolic.svg
 	for lang in $(LINGUAS); do rm -f $(DESTDIR)$(PREFIX)/share/locale/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE).mo; done
