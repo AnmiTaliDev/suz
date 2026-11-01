@@ -1,0 +1,400 @@
+# Translation of Suz to uk.
+# Copyright (C) the Suz authors
+# This file is distributed under the same license as the Suz package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Suz 0.4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
+"PO-Revision-Date: 2026-11-01 09:25+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: main.c:46
+msgid "Morpheme-level interlinear glossing."
+msgstr "Міжрядкове глосування на рівні морфем."
+
+#: main.c:64
+msgid "Documents"
+msgstr "Документи"
+
+#: main.c:65 suz-window.c:1011
+msgid "Open Text"
+msgstr "Відкрити текст"
+
+#: main.c:66 suz-window.c:1023
+msgid "Open Document"
+msgstr "Відкрити документ"
+
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
+msgid "Save"
+msgstr "Зберегти"
+
+#: main.c:68
+msgid "Save As"
+msgstr "Зберегти як"
+
+#: main.c:71
+msgid "Editing"
+msgstr "Редагування"
+
+#: main.c:72 suz-window.c:1387
+msgid "Annotate"
+msgstr "Анотувати"
+
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
+msgid "Undo"
+msgstr "Скасувати"
+
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
+msgid "Redo"
+msgstr "Повторити"
+
+#: main.c:77
+msgid "General"
+msgstr "Загальні"
+
+#: main.c:78 suz-window.c:1337
+msgid "Keyboard Shortcuts"
+msgstr "Клавіатурні скорочення"
+
+#: main.c:79
+msgid "Quit"
+msgstr "Вийти"
+
+#: suz-document-view.c:94
+msgid "no gloss"
+msgstr "без глоси"
+
+#: suz-morph-editor.c:199
+msgid "Form"
+msgstr "Форма"
+
+#: suz-morph-editor.c:206
+msgid "Gloss"
+msgstr "Глоса"
+
+#: suz-morph-editor.c:213
+msgid "Separate the parts of a gloss with periods, for example book.PL."
+msgstr "Розділяйте частини глоси крапками, наприклад book.PL."
+
+#: suz-morph-editor.c:223
+msgid "Suggestions"
+msgstr "Підказки"
+
+#: suz-morph-editor.c:232
+msgid "Remove Gloss"
+msgstr "Видалити глосу"
+
+#: suz-window.c:49 suz-window.c:60
+msgid "Interlinear Text…"
+msgstr "Міжрядковий текст…"
+
+#: suz-window.c:50 suz-window.c:61
+msgid "Toolbox…"
+msgstr "Toolbox…"
+
+#: suz-window.c:51 suz-window.c:62
+msgid "CoNLL-U…"
+msgstr "CoNLL-U…"
+
+#: suz-window.c:52 suz-window.c:63
+msgid "JSON…"
+msgstr "JSON…"
+
+#: suz-window.c:53
+msgid "LaTeX (gb4e)…"
+msgstr "LaTeX (gb4e)…"
+
+#: suz-window.c:54
+msgid "HTML…"
+msgstr "HTML…"
+
+#: suz-window.c:55 suz-window.c:64
+msgid "ELAN…"
+msgstr "ELAN…"
+
+#: suz-window.c:56 suz-window.c:65
+msgid "FLEx…"
+msgstr "FLEx…"
+
+#: suz-window.c:77
+msgid "unknown error"
+msgstr "невідома помилка"
+
+#: suz-window.c:137 suz-window.c:139
+msgid "Cannot autosave the document"
+msgstr "Не вдалося автоматично зберегти документ"
+
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
+msgid "Untitled"
+msgstr "Без назви"
+
+#: suz-window.c:315
+msgid "Cannot load the language"
+msgstr "Не вдалося завантажити мову"
+
+#: suz-window.c:352 suz-window.c:354
+msgid "Cannot save the learned weights"
+msgstr "Не вдалося зберегти навчені ваги"
+
+#: suz-window.c:397
+msgid "Cannot apply the change"
+msgstr "Не вдалося застосувати зміну"
+
+#: suz-window.c:504
+msgid "Cannot split the words"
+msgstr "Не вдалося розділити слова"
+
+#: suz-window.c:510
+msgid "Cannot suggest glosses"
+msgstr "Не вдалося запропонувати глоси"
+
+#: suz-window.c:517
+msgid "Nothing to annotate"
+msgstr "Нічого анотувати"
+
+#: suz-window.c:526
+#, c-format
+msgid "Split %d, glossed %d"
+msgstr "Розділено %d, прогльосовано %d"
+
+#: suz-window.c:542
+msgid "Cannot undo"
+msgstr "Не вдалося скасувати"
+
+#: suz-window.c:542
+msgid "Cannot redo"
+msgstr "Не вдалося повторити"
+
+#: suz-window.c:577
+msgid "Cannot reset the language"
+msgstr "Не вдалося скинути мову"
+
+#: suz-window.c:585
+msgid "Learned weights reset"
+msgstr "Навчені ваги скинуто"
+
+#: suz-window.c:594
+msgid "Reset Learned Weights?"
+msgstr "Скинути навчені ваги?"
+
+#: suz-window.c:594
+msgid ""
+"The language returns to the weights it shipped with. The weights learned "
+"from your corrections are lost."
+msgstr ""
+"Мова повертається до ваг, з якими була поставлена. Ваги, навчені на ваших "
+"виправленнях, буде втрачено."
+
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: suz-window.c:595
+msgid "Reset"
+msgstr "Скинути"
+
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
+msgid "Cannot open the file"
+msgstr "Не вдалося відкрити файл"
+
+#: suz-window.c:613 suz-window.c:703
+msgid "the text is not valid UTF-8"
+msgstr "текст не є коректним UTF-8"
+
+#: suz-window.c:622
+msgid "Cannot import the text"
+msgstr "Не вдалося імпортувати текст"
+
+#: suz-window.c:635 suz-window.c:692
+msgid "Cannot import the file"
+msgstr "Не вдалося імпортувати файл"
+
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "Вибір ярусу"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr ""
+"У файлі кілька ярусів без батьківського. Сегменти читаються з вибраного "
+"ярусу."
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "Імпортувати"
+
+#: suz-window.c:692
+msgid "no language is selected"
+msgstr "мову не вибрано"
+
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
+msgid "the document is open in another instance"
+msgstr "документ відкрито в іншому екземплярі"
+
+#: suz-window.c:760
+msgid "Cannot read the document"
+msgstr "Не вдалося прочитати документ"
+
+#: suz-window.c:792
+msgid "Cannot read the recovery file"
+msgstr "Не вдалося прочитати файл відновлення"
+
+#: suz-window.c:861
+#, c-format
+msgid "The previous session ended with unsaved changes to \"%s\"."
+msgstr "Попередній сеанс завершився з незбереженими змінами в «%s»."
+
+#: suz-window.c:862
+msgid "Recover Unsaved Document?"
+msgstr "Відновити незбережений документ?"
+
+#: suz-window.c:863
+msgid "Not Now"
+msgstr "Не зараз"
+
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
+msgid "Discard"
+msgstr "Відкинути"
+
+#: suz-window.c:863
+msgid "Restore"
+msgstr "Відновити"
+
+#: suz-window.c:939
+msgid "Discard Changes?"
+msgstr "Відкинути зміни?"
+
+#: suz-window.c:939
+msgid "The current document has unsaved changes."
+msgstr "У поточному документі є незбережені зміни."
+
+#: suz-window.c:1010
+msgid "Text files"
+msgstr "Текстові файли"
+
+#: suz-window.c:1022 suz-window.c:1136
+msgid "Suz documents"
+msgstr "Документи Suz"
+
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
+msgid "Cannot save the document"
+msgstr "Не вдалося зберегти документ"
+
+#: suz-window.c:1110
+msgid "Document saved"
+msgstr "Документ збережено"
+
+#: suz-window.c:1138
+msgid "Save Document"
+msgstr "Зберегти документ"
+
+#: suz-window.c:1199 suz-window.c:1203
+msgid "Cannot export the document"
+msgstr "Не вдалося експортувати документ"
+
+#: suz-window.c:1200
+msgid "Document exported"
+msgstr "Документ експортовано"
+
+#: suz-window.c:1215 suz-window.c:1323
+msgid "Export"
+msgstr "Експортувати"
+
+#: suz-window.c:1266
+msgid "Save Changes?"
+msgstr "Зберегти зміни?"
+
+#: suz-window.c:1266
+msgid ""
+"The document has unsaved changes. They are lost if you close without saving."
+msgstr ""
+"У документі є незбережені зміни. Їх буде втрачено, якщо закрити без "
+"збереження."
+
+#: suz-window.c:1296
+msgid "Reset Learned Weights…"
+msgstr "Скинути навчені ваги…"
+
+#: suz-window.c:1301
+msgid "Language"
+msgstr "Мова"
+
+#: suz-window.c:1332
+msgid "Save As…"
+msgstr "Зберегти як…"
+
+#: suz-window.c:1338
+msgid "About Suz"
+msgstr "Про Suz"
+
+#: suz-window.c:1349 suz-window.c:1411
+msgid "Open Text…"
+msgstr "Відкрити текст…"
+
+#: suz-window.c:1350
+msgid "Open Document…"
+msgstr "Відкрити документ…"
+
+#: suz-window.c:1352
+msgid "Open"
+msgstr "Відкрити"
+
+#: suz-window.c:1355
+msgid "Open a text file"
+msgstr "Відкрити текстовий файл"
+
+#: suz-window.c:1377
+msgid "Main Menu"
+msgstr "Головне меню"
+
+#: suz-window.c:1384
+msgid "Save the document"
+msgstr "Зберегти документ"
+
+#: suz-window.c:1390
+msgid "Split the words and suggest glosses"
+msgstr "Розділити слова та запропонувати глоси"
+
+#: suz-window.c:1408
+msgid "Open a Text"
+msgstr "Відкрити текст"
+
+#: suz-window.c:1409
+msgid "Choose a text file, or drop one here, to start glossing."
+msgstr ""
+"Виберіть текстовий файл або перетягніть його сюди, щоб почати глосування."
+
+#: ../data/dev.anmitali.Suz.desktop:3 ../data/dev.anmitali.Suz.metainfo.xml:7
+msgid "Suz"
+msgstr ""
+
+#: ../data/dev.anmitali.Suz.desktop:4 ../data/dev.anmitali.Suz.metainfo.xml:8
+msgid "Morpheme-level interlinear glossing"
+msgstr "Міжрядкове глосування на рівні морфем"
+
+#: ../data/dev.anmitali.Suz.desktop:11
+msgid "gloss;glossing;interlinear;morpheme;linguistics;"
+msgstr "глоса;глосування;міжрядковий;морфема;лінгвістика;"
+
+#: ../data/dev.anmitali.Suz.metainfo.xml:10
+msgid ""
+"Suz splits the words of a text into morphs and glosses them, using weight "
+"tables that learn from your corrections. It reads plain text and exports "
+"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
+msgstr ""
+"Suz розділяє слова тексту на морфи та глосує їх за допомогою таблиць ваг, "
+"які навчаються на ваших виправленнях. Читає простий текст і експортує "
+"міжрядковий текст, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN та FLExText."
