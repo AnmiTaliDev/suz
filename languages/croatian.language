@@ -1,0 +1,14 @@
+suz-language	1
+language	Croatian
+tag	1PL
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	e	9.0	-	PL	ACC
+weight	knjig	10.0	book
+weight	m	9.0	-	1SG	PRS
+weight	mo	9.0	-	1PL	PRS
+weight	čita	10.0	read

@@ -95,6 +95,12 @@ files =
         ("Men evde kitapnı oqumadım.",
          "Men evde      kitapnı  oqumadım         .\nmen ev-de     kitap-nı oqu-ma-dı-m      .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
       ])
+  , ("croatian",
+      [ ("Čitam knjige.",
+         "Čitam        knjige      .\nčita-m       knjig-e     .\nread-1SG.PRS book-PL.ACC ?"),
+        ("Čitamo knjige.",
+         "Čitamo       knjige      .\nčita-mo      knjig-e     .\nread-1PL.PRS book-PL.ACC ?")
+      ])
   , ("czech",
       [ ("Čtu knihy.",
          "Čtu          knihy       .\nčt-u         knih-y      .\nread-1SG.PRS book-PL.ACC ?"),
