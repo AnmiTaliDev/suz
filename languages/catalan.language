@@ -1,0 +1,13 @@
+suz-language	1
+language	Catalan
+tag	1PL
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	eixo	9.0	-	1SG	PRS
+weight	im	9.0	-	1PL	PRS
+weight	lleg	10.0	read
+weight	llibre	10.0	book
+weight	s	9.0	-	PL

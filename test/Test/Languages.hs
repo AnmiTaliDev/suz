@@ -77,6 +77,12 @@ files =
         ("Ние четем книгите.",
          "Ние четем        книгите     .\nние чет-ем       книг-и-те   .\n1PL read-1PL.PRS book-PL-DEF ?")
       ])
+  , ("catalan",
+      [ ("Llegeixo llibres.",
+         "Llegeixo     llibres  .\nlleg-eixo    llibre-s .\nread-1SG.PRS book-PL  ?"),
+        ("Llegim llibres.",
+         "Llegim       llibres  .\nlleg-im      llibre-s .\nread-1PL.PRS book-PL  ?")
+      ])
   , ("chuvash",
       [ ("Эпӗ кӗнекесене вуларӑм.",
          "Эпӗ кӗнекесене  вуларӑм      .\nэпӗ кӗнеке-сене вула-р-ӑм    .\n1SG book-PL.ACC read-PST-1SG ?"),
