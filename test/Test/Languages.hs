@@ -175,6 +175,10 @@ files =
         ("Nós lemos libros.",
          "Nós lemos        libros  .\nnós le-mos       libr-os .\n1PL read-1PL.PRS book-PL ?")
       ])
+  , ("georgian",
+      [ ("მე წიგნებს ვკითხულობ.",
+         "მე  წიგნებს     ვკითხულობ    .\nმე  წიგნ-ებს    ვკითხულ-ობ   .\n1SG book-PL.DAT read-1SG.PRS ?")
+      ])
   , ("german",
       [ ("Ich lese Bücher.",
          "Ich lese         Bücher  .\nich les-e        büch-er .\n1SG read-1SG.PRS book-PL ?")

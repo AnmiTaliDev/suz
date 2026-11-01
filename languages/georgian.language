@@ -1,0 +1,13 @@
+suz-language	1
+language	Georgian
+tag	1SG
+tag	DAT
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	ებს	9.0	-	PL	DAT
+weight	ვკითხულ	10.0	read
+weight	მე	10.0	-	1SG
+weight	ობ	9.0	-	1SG	PRS
+weight	წიგნ	10.0	book
