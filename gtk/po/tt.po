@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Suz 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 19:03+0500\n"
+"POT-Creation-Date: 2026-11-01 09:03+0500\n"
 "PO-Revision-Date: 2026-10-31 19:03+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,15 +24,15 @@ msgstr "Морфема дәрәҗәсендә юллар арасындагы г
 msgid "Documents"
 msgstr "Документлар"
 
-#: main.c:65 suz-window.c:802
+#: main.c:65 suz-window.c:947
 msgid "Open Text"
 msgstr "Текстны ачу"
 
-#: main.c:66 suz-window.c:814
+#: main.c:66 suz-window.c:959
 msgid "Open Document"
 msgstr "Документны ачу"
 
-#: main.c:67 suz-window.c:997 suz-window.c:1050
+#: main.c:67 suz-window.c:1203 suz-window.c:1267
 msgid "Save"
 msgstr "Саклау"
 
@@ -44,15 +44,15 @@ msgstr "Башка исем белән саклау"
 msgid "Editing"
 msgstr "Төзәтү"
 
-#: main.c:72 suz-window.c:1106
+#: main.c:72 suz-window.c:1323
 msgid "Annotate"
 msgstr "Тамгалау"
 
-#: main.c:73 suz-window.c:1048 suz-window.c:1082
+#: main.c:73 suz-window.c:1265 suz-window.c:1299
 msgid "Undo"
 msgstr "Кире алу"
 
-#: main.c:74 suz-window.c:1049 suz-window.c:1085
+#: main.c:74 suz-window.c:1266 suz-window.c:1302
 msgid "Redo"
 msgstr "Кабатлау"
 
@@ -60,7 +60,7 @@ msgstr "Кабатлау"
 msgid "General"
 msgstr "Гомуми"
 
-#: main.c:78 suz-window.c:1056
+#: main.c:78 suz-window.c:1273
 msgid "Keyboard Shortcuts"
 msgstr "Клавиатура кыскартмалары"
 
@@ -92,247 +92,277 @@ msgstr "Тәкъдимнәр"
 msgid "Remove Gloss"
 msgstr "Глоссаны бетерү"
 
-#: suz-window.c:44
+#: suz-window.c:49 suz-window.c:60
 msgid "Interlinear Text…"
 msgstr "Юллар арасындагы текст…"
 
-#: suz-window.c:45
+#: suz-window.c:50 suz-window.c:61
 msgid "Toolbox…"
 msgstr "Toolbox…"
 
-#: suz-window.c:46
+#: suz-window.c:51 suz-window.c:62
 msgid "CoNLL-U…"
 msgstr "CoNLL-U…"
 
-#: suz-window.c:47
+#: suz-window.c:52 suz-window.c:63
 msgid "JSON…"
 msgstr "JSON…"
 
-#: suz-window.c:48
+#: suz-window.c:53
 msgid "LaTeX (gb4e)…"
 msgstr "LaTeX (gb4e)…"
 
-#: suz-window.c:49
+#: suz-window.c:54
 msgid "HTML…"
 msgstr "HTML…"
 
-#: suz-window.c:61
+#: suz-window.c:55 suz-window.c:64
+msgid "ELAN…"
+msgstr "ELAN…"
+
+#: suz-window.c:56 suz-window.c:65
+msgid "FLEx…"
+msgstr "FLEx…"
+
+#: suz-window.c:77
 msgid "unknown error"
 msgstr "билгесез хата"
 
-#: suz-window.c:121 suz-window.c:123
+#: suz-window.c:137 suz-window.c:139
 msgid "Cannot autosave the document"
 msgstr "Документны үзеннән-үзе саклап булмады"
 
-#: suz-window.c:153 suz-window.c:665 suz-window.c:872 suz-window.c:963
+#: suz-window.c:169 suz-window.c:804 suz-window.c:1073 suz-window.c:1168
 msgid "Untitled"
 msgstr "Исемсез"
 
-#: suz-window.c:247
+#: suz-window.c:315
 msgid "Cannot load the language"
 msgstr "Телне йөкләп булмады"
 
-#: suz-window.c:284 suz-window.c:286
+#: suz-window.c:352 suz-window.c:354
 msgid "Cannot save the learned weights"
 msgstr "Өйрәтелгән авырлыкларны саклап булмады"
 
-#: suz-window.c:329
+#: suz-window.c:397
 msgid "Cannot apply the change"
 msgstr "Үзгәрешне куллану мөмкин булмады"
 
-#: suz-window.c:436
+#: suz-window.c:504
 msgid "Cannot split the words"
 msgstr "Сүзләрне бүлеп булмады"
 
-#: suz-window.c:442
+#: suz-window.c:510
 msgid "Cannot suggest glosses"
 msgstr "Глоссалар тәкъдим итеп булмады"
 
-#: suz-window.c:449
+#: suz-window.c:517
 msgid "Nothing to annotate"
 msgstr "Тамгалау өчен берни юк"
 
-#: suz-window.c:458
+#: suz-window.c:526
 #, c-format
 msgid "Split %d, glossed %d"
 msgstr "Бүленгән: %d, глоссалы: %d"
 
-#: suz-window.c:474
+#: suz-window.c:542
 msgid "Cannot undo"
 msgstr "Кире алып булмады"
 
-#: suz-window.c:474
+#: suz-window.c:542
 msgid "Cannot redo"
 msgstr "Кабатлап булмады"
 
-#: suz-window.c:509
+#: suz-window.c:577
 msgid "Cannot reset the language"
 msgstr "Телне баштагы хәленә кайтарып булмады"
 
-#: suz-window.c:517
+#: suz-window.c:585
 msgid "Learned weights reset"
 msgstr "Өйрәтелгән авырлыклар баштагы хәленә кайтарылды"
 
-#: suz-window.c:526
+#: suz-window.c:594
 msgid "Reset Learned Weights?"
 msgstr "Өйрәтелгән авырлыкларны баштагы хәленә кайтарасызмы?"
 
-#: suz-window.c:526
+#: suz-window.c:594
 msgid ""
 "The language returns to the weights it shipped with. The weights learned "
 "from your corrections are lost."
-msgstr "Тел җибәрелгән авырлыкларына кайтачак. Сезнең төзәтүләрдән өйрәтелгән авырлыклар югалачак."
+msgstr ""
+"Тел җибәрелгән авырлыкларына кайтачак. Сезнең төзәтүләрдән өйрәтелгән "
+"авырлыклар югалачак."
 
-#: suz-window.c:527 suz-window.c:738 suz-window.c:997
+#: suz-window.c:595 suz-window.c:883 suz-window.c:1203
 msgid "Cancel"
 msgstr "Баш тарту"
 
-#: suz-window.c:527
+#: suz-window.c:595
 msgid "Reset"
 msgstr "Кайтару"
 
-#: suz-window.c:541 suz-window.c:545 suz-window.c:568 suz-window.c:781
-#: suz-window.c:792
+#: suz-window.c:609 suz-window.c:613 suz-window.c:643 suz-window.c:647
+#: suz-window.c:688 suz-window.c:695 suz-window.c:761 suz-window.c:926
+#: suz-window.c:937 suz-window.c:977
 msgid "Cannot open the file"
 msgstr "Файлны ачып булмады"
 
-#: suz-window.c:545
+#: suz-window.c:613 suz-window.c:647
 msgid "the text is not valid UTF-8"
 msgstr "текст дөрес UTF-8 түгел"
 
-#: suz-window.c:554
+#: suz-window.c:622
 msgid "Cannot import the text"
 msgstr "Текстны импортлап булмады"
 
-#: suz-window.c:575
+#: suz-window.c:636 suz-window.c:666
+msgid "Cannot import the file"
+msgstr "Файлны импортлап булмады"
+
+#: suz-window.c:636
+msgid "no language is selected"
+msgstr "тел сайланмаган"
+
+#: suz-window.c:688 suz-window.c:761 suz-window.c:1024
+msgid "the document is open in another instance"
+msgstr "документ башка экземплярда ачык"
+
+#: suz-window.c:703
 msgid "Cannot read the document"
 msgstr "Документны укып булмады"
 
-#: suz-window.c:604
+#: suz-window.c:735
 msgid "Cannot read the recovery file"
 msgstr "Торгызу файлын укып булмады"
 
-#: suz-window.c:665
+#: suz-window.c:804
 #, c-format
 msgid "The previous session ended with unsaved changes to \"%s\"."
-msgstr "Узган сессия «%s» документындагы сакланмаган үзгәрешләр белән тәмамланды."
+msgstr ""
+"Узган сессия «%s» документындагы сакланмаган үзгәрешләр белән тәмамланды."
 
-#: suz-window.c:666
+#: suz-window.c:805
 msgid "Recover Unsaved Document?"
 msgstr "Сакланмаган документны торгызасызмы?"
 
-#: suz-window.c:667
+#: suz-window.c:806
 msgid "Not Now"
 msgstr "Хәзер түгел"
 
-#: suz-window.c:667 suz-window.c:738 suz-window.c:997
+#: suz-window.c:806 suz-window.c:883 suz-window.c:1203
 msgid "Discard"
 msgstr "Ташлау"
 
-#: suz-window.c:667
+#: suz-window.c:806
 msgid "Restore"
 msgstr "Торгызу"
 
-#: suz-window.c:737
+#: suz-window.c:882
 msgid "Discard Changes?"
 msgstr "Үзгәрешләрне ташларгамы?"
 
-#: suz-window.c:737
+#: suz-window.c:882
 msgid "The current document has unsaved changes."
 msgstr "Хәзерге документта сакланмаган үзгәрешләр бар."
 
-#: suz-window.c:801
+#: suz-window.c:946
 msgid "Text files"
 msgstr "Текст файллары"
 
-#: suz-window.c:813 suz-window.c:871
+#: suz-window.c:958 suz-window.c:1072
 msgid "Suz documents"
 msgstr "Suz документлары"
 
-#: suz-window.c:832 suz-window.c:865
+#: suz-window.c:1024 suz-window.c:1030 suz-window.c:1066
 msgid "Cannot save the document"
 msgstr "Документны саклап булмады"
 
-#: suz-window.c:845
+#: suz-window.c:1046
 msgid "Document saved"
 msgstr "Документ сакланды"
 
-#: suz-window.c:873
+#: suz-window.c:1074
 msgid "Save Document"
 msgstr "Документны саклау"
 
-#: suz-window.c:930 suz-window.c:934
+#: suz-window.c:1135 suz-window.c:1139
 msgid "Cannot export the document"
 msgstr "Документны экспортлап булмады"
 
-#: suz-window.c:931
+#: suz-window.c:1136
 msgid "Document exported"
 msgstr "Документ экспортланды"
 
-#: suz-window.c:946 suz-window.c:1042
+#: suz-window.c:1151 suz-window.c:1259
 msgid "Export"
 msgstr "Экспорт"
 
-#: suz-window.c:996
+#: suz-window.c:1202
 msgid "Save Changes?"
 msgstr "Үзгәрешләрне саклыйсызмы?"
 
-#: suz-window.c:996
+#: suz-window.c:1202
 msgid ""
 "The document has unsaved changes. They are lost if you close without saving."
-msgstr "Документта сакланмаган үзгәрешләр бар. Саклаусыз ябсагыз, алар югалачак."
+msgstr ""
+"Документта сакланмаган үзгәрешләр бар. Саклаусыз ябсагыз, алар югалачак."
 
-#: suz-window.c:1026
+#: suz-window.c:1232
 msgid "Reset Learned Weights…"
 msgstr "Өйрәтелгән авырлыкларны кайтару…"
 
-#: suz-window.c:1031
+#: suz-window.c:1237
 msgid "Language"
 msgstr "Тел"
 
-#: suz-window.c:1051
+#: suz-window.c:1248
+msgid "Import"
+msgstr "Импорт"
+
+#: suz-window.c:1268
 msgid "Save As…"
 msgstr "Башка исем белән саклау…"
 
-#: suz-window.c:1057
+#: suz-window.c:1274
 msgid "About Suz"
 msgstr "Suz турында"
 
-#: suz-window.c:1068 suz-window.c:1130
+#: suz-window.c:1285 suz-window.c:1347
 msgid "Open Text…"
 msgstr "Текстны ачу…"
 
-#: suz-window.c:1069
+#: suz-window.c:1286
 msgid "Open Document…"
 msgstr "Документны ачу…"
 
-#: suz-window.c:1071
+#: suz-window.c:1288
 msgid "Open"
 msgstr "Ачу"
 
-#: suz-window.c:1074
+#: suz-window.c:1291
 msgid "Open a text file"
 msgstr "Текст файлын ачу"
 
-#: suz-window.c:1096
+#: suz-window.c:1313
 msgid "Main Menu"
 msgstr "Төп меню"
 
-#: suz-window.c:1103
+#: suz-window.c:1320
 msgid "Save the document"
 msgstr "Документны саклау"
 
-#: suz-window.c:1109
+#: suz-window.c:1326
 msgid "Split the words and suggest glosses"
 msgstr "Сүзләрне бүлү һәм глоссалар тәкъдим итү"
 
-#: suz-window.c:1127
+#: suz-window.c:1344
 msgid "Open a Text"
 msgstr "Текстны ачыгыз"
 
-#: suz-window.c:1128
+#: suz-window.c:1345
 msgid "Choose a text file, or drop one here, to start glossing."
-msgstr "Глоссалауны башлау өчен текст файлын сайлагыз яки монда сөйрәп китерегез."
+msgstr ""
+"Глоссалауны башлау өчен текст файлын сайлагыз яки монда сөйрәп китерегез."
 
 #: ../data/dev.anmitali.Suz.desktop:3 ../data/dev.anmitali.Suz.metainfo.xml:7
 msgid "Suz"
@@ -348,18 +378,11 @@ msgstr "глосса;глоссалау;юллар арасы;морфема;л�
 
 #: ../data/dev.anmitali.Suz.metainfo.xml:10
 msgid ""
-"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
+"Suz splits the words of a text into morphs and glosses them, using weight "
+"tables that learn from your corrections. It reads plain text and exports "
+"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
 msgstr ""
-"Suz текстагы сүзләрне морфларга бүлә һәм аларга глоссалар куя, сезнең төзәтүләрдән өйрәнә торган авырлык таблицаларын кулланып. Ул гади текстны укый һәм юллар арасындагы текстны, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN һәм FLExText форматларына экспортлый."
-
-#: suz-window.c:633
-msgid "the document is open in another instance"
-msgstr "документ башка экземплярда ачык"
-
-#: suz-window.c:50
-msgid "ELAN…"
-msgstr "ELAN…"
-
-#: suz-window.c:51
-msgid "FLEx…"
-msgstr "FLEx…"
+"Suz текстагы сүзләрне морфларга бүлә һәм аларга глоссалар куя, сезнең "
+"төзәтүләрдән өйрәнә торган авырлык таблицаларын кулланып. Ул гади текстны "
+"укый һәм юллар арасындагы текстны, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN "
+"һәм FLExText форматларына экспортлый."
