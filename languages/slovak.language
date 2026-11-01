@@ -1,0 +1,14 @@
+suz-language	1
+language	Slovak
+tag	1PL
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	knih	10.0	book
+weight	m	9.0	-	1SG	PRS
+weight	me	9.0	-	1PL	PRS
+weight	y	9.0	-	PL	ACC
+weight	číta	10.0	read
