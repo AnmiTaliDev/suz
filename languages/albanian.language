@@ -1,0 +1,15 @@
+suz-language	1
+language	Albanian
+tag	1PL
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	a	9.0	-	PL
+weight	j	9.0	-	1SG	PRS
+weight	jmë	9.0	-	1PL	PRS
+weight	lexo	10.0	read
+weight	libr	10.0	book
+weight	ne	10.0	-	1PL
+weight	unë	10.0	-	1SG

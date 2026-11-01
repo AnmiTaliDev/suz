@@ -43,6 +43,12 @@ files =
         ("Ek lees die boek.",
          "Ek  lees die boek .\nek  lees die boek .\n1SG read DEF book ?")
       ])
+  , ("albanian",
+      [ ("Unë lexoj libra.",
+         "Unë lexoj        libra   .\nunë lexo-j       libr-a  .\n1SG read-1SG.PRS book-PL ?"),
+        ("Ne lexojmë libra.",
+         "Ne  lexojmë      libra   .\nne  lexo-jmë     libr-a  .\n1PL read-1PL.PRS book-PL ?")
+      ])
   , ("ancient-hebrew",
       [ ("בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הָאָרֶץ׃",
          "בְּרֵאשִׁית       בָּרָא    אֱלֹהִים אֵת  הָאָרֶץ      ׃\nבְּ-רֵאשִׁית      בָּרָא    אֱלֹהִים אֵת  הָ-אָרֶץ     ׃\nin-beginning create God   ACC DEF-earth ?")
