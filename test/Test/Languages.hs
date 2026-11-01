@@ -99,6 +99,12 @@ files =
         ("Ma lugesin raamatut.",
          "Ma  lugesin      raamatut  .\nma  luge-si-n    raamatu-t .\n1SG read-PST-1SG book-PTV  ?")
       ])
+  , ("finnish",
+      [ ("Luin kirjan talossa.",
+         "Luin         kirjan   talossa   .\nlu-i-n       kirja-n  talo-ssa  .\nread-PST-1SG book-ACC house-INE ?"),
+        ("Luen kirjoja.",
+         "Luen     kirjoja     .\nlue-n    kirjo-j-a   .\nread-1SG book-PL-PTV ?")
+      ])
   , ("french",
       [ ("Nous lisons des livres.",
          "Nous lisons       des      livres  .\nnous lis-ons      des      livre-s .\n1PL  read-1PL.PRS INDEF.PL book-PL ?")

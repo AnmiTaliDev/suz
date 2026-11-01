@@ -1,0 +1,23 @@
+suz-language	1
+language	Finnish
+tag	1SG
+tag	ACC
+tag	INE
+tag	PL
+tag	PST
+tag	PTV
+punctuation	!,.?
+foldcase
+weight	a	8.0	-	PTV
+weight	i	9.0	-	PST
+weight	j	9.0	-	PL
+weight	kirja	10.0	book
+weight	kirjo	10.0	book
+weight	lu	10.0	read
+weight	lue	10.0	read
+weight	minä	10.0	-	1SG
+weight	n	9.0	-	1SG
+weight	n	5.0	-	ACC
+weight	ssa	8.0	-	INE
+weight	talo	10.0	house
+context	kirja	n	9.0	-	ACC
