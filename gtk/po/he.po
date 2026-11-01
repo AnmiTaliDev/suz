@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Suz 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 09:03+0500\n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
 "PO-Revision-Date: 2026-10-31 19:03+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,15 +24,15 @@ msgstr "גלוסציה בין-שורתית ברמת המורפמה."
 msgid "Documents"
 msgstr "מסמכים"
 
-#: main.c:65 suz-window.c:947
+#: main.c:65 suz-window.c:1011
 msgid "Open Text"
 msgstr "פתיחת טקסט"
 
-#: main.c:66 suz-window.c:959
+#: main.c:66 suz-window.c:1023
 msgid "Open Document"
 msgstr "פתיחת מסמך"
 
-#: main.c:67 suz-window.c:1203 suz-window.c:1267
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
 msgid "Save"
 msgstr "שמירה"
 
@@ -44,15 +44,15 @@ msgstr "שמירה בשם"
 msgid "Editing"
 msgstr "עריכה"
 
-#: main.c:72 suz-window.c:1323
+#: main.c:72 suz-window.c:1387
 msgid "Annotate"
 msgstr "סימון"
 
-#: main.c:73 suz-window.c:1265 suz-window.c:1299
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
 msgid "Undo"
 msgstr "ביטול"
 
-#: main.c:74 suz-window.c:1266 suz-window.c:1302
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
 msgid "Redo"
 msgstr "ביצוע חוזר"
 
@@ -60,7 +60,7 @@ msgstr "ביצוע חוזר"
 msgid "General"
 msgstr "כללי"
 
-#: main.c:78 suz-window.c:1273
+#: main.c:78 suz-window.c:1337
 msgid "Keyboard Shortcuts"
 msgstr "קיצורי מקלדת"
 
@@ -132,7 +132,7 @@ msgstr "שגיאה לא ידועה"
 msgid "Cannot autosave the document"
 msgstr "לא ניתן לשמור את המסמך אוטומטית"
 
-#: suz-window.c:169 suz-window.c:804 suz-window.c:1073 suz-window.c:1168
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
 msgid "Untitled"
 msgstr "ללא שם"
 
@@ -191,7 +191,7 @@ msgid ""
 "from your corrections are lost."
 msgstr "השפה תחזור למשקלים שסופקו עמה. המשקלים שנלמדו מהתיקונים שלך יאבדו."
 
-#: suz-window.c:595 suz-window.c:883 suz-window.c:1203
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -199,13 +199,13 @@ msgstr "ביטול"
 msgid "Reset"
 msgstr "איפוס"
 
-#: suz-window.c:609 suz-window.c:613 suz-window.c:643 suz-window.c:647
-#: suz-window.c:688 suz-window.c:695 suz-window.c:761 suz-window.c:926
-#: suz-window.c:937 suz-window.c:977
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
 msgid "Cannot open the file"
 msgstr "לא ניתן לפתוח את הקובץ"
 
-#: suz-window.c:613 suz-window.c:647
+#: suz-window.c:613 suz-window.c:703
 msgid "the text is not valid UTF-8"
 msgstr "הטקסט אינו UTF-8 תקין"
 
@@ -213,149 +213,159 @@ msgstr "הטקסט אינו UTF-8 תקין"
 msgid "Cannot import the text"
 msgstr "לא ניתן לייבא את הטקסט"
 
-#: suz-window.c:636 suz-window.c:666
+#: suz-window.c:635 suz-window.c:692
 msgid "Cannot import the file"
 msgstr "לא ניתן לייבא את הקובץ"
 
-#: suz-window.c:636
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "בחירת שכבה"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr "בקובץ יש כמה שכבות ללא שכבת אב. הקטעים נקראים מהשכבה שתבחרו."
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "ייבוא"
+
+#: suz-window.c:692
 msgid "no language is selected"
 msgstr "לא נבחרה שפה"
 
-#: suz-window.c:688 suz-window.c:761 suz-window.c:1024
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
 msgid "the document is open in another instance"
 msgstr "המסמך פתוח במופע אחר"
 
-#: suz-window.c:703
+#: suz-window.c:760
 msgid "Cannot read the document"
 msgstr "לא ניתן לקרוא את המסמך"
 
-#: suz-window.c:735
+#: suz-window.c:792
 msgid "Cannot read the recovery file"
 msgstr "לא ניתן לקרוא את קובץ השחזור"
 
-#: suz-window.c:804
+#: suz-window.c:861
 #, c-format
 msgid "The previous session ended with unsaved changes to \"%s\"."
 msgstr "ההפעלה הקודמת הסתיימה עם שינויים שלא נשמרו ב-“%s”."
 
-#: suz-window.c:805
+#: suz-window.c:862
 msgid "Recover Unsaved Document?"
 msgstr "לשחזר מסמך שלא נשמר?"
 
-#: suz-window.c:806
+#: suz-window.c:863
 msgid "Not Now"
 msgstr "לא עכשיו"
 
-#: suz-window.c:806 suz-window.c:883 suz-window.c:1203
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
 msgid "Discard"
 msgstr "השלכה"
 
-#: suz-window.c:806
+#: suz-window.c:863
 msgid "Restore"
 msgstr "שחזור"
 
-#: suz-window.c:882
+#: suz-window.c:939
 msgid "Discard Changes?"
 msgstr "להשליך את השינויים?"
 
-#: suz-window.c:882
+#: suz-window.c:939
 msgid "The current document has unsaved changes."
 msgstr "במסמך הנוכחי יש שינויים שלא נשמרו."
 
-#: suz-window.c:946
+#: suz-window.c:1010
 msgid "Text files"
 msgstr "קובצי טקסט"
 
-#: suz-window.c:958 suz-window.c:1072
+#: suz-window.c:1022 suz-window.c:1136
 msgid "Suz documents"
 msgstr "מסמכי Suz"
 
-#: suz-window.c:1024 suz-window.c:1030 suz-window.c:1066
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
 msgid "Cannot save the document"
 msgstr "לא ניתן לשמור את המסמך"
 
-#: suz-window.c:1046
+#: suz-window.c:1110
 msgid "Document saved"
 msgstr "המסמך נשמר"
 
-#: suz-window.c:1074
+#: suz-window.c:1138
 msgid "Save Document"
 msgstr "שמירת המסמך"
 
-#: suz-window.c:1135 suz-window.c:1139
+#: suz-window.c:1199 suz-window.c:1203
 msgid "Cannot export the document"
 msgstr "לא ניתן לייצא את המסמך"
 
-#: suz-window.c:1136
+#: suz-window.c:1200
 msgid "Document exported"
 msgstr "המסמך יוצא"
 
-#: suz-window.c:1151 suz-window.c:1259
+#: suz-window.c:1215 suz-window.c:1323
 msgid "Export"
 msgstr "ייצוא"
 
-#: suz-window.c:1202
+#: suz-window.c:1266
 msgid "Save Changes?"
 msgstr "לשמור את השינויים?"
 
-#: suz-window.c:1202
+#: suz-window.c:1266
 msgid ""
 "The document has unsaved changes. They are lost if you close without saving."
 msgstr "במסמך יש שינויים שלא נשמרו. הם יאבדו אם תסגור בלי לשמור."
 
-#: suz-window.c:1232
+#: suz-window.c:1296
 msgid "Reset Learned Weights…"
 msgstr "איפוס המשקלים שנלמדו…"
 
-#: suz-window.c:1237
+#: suz-window.c:1301
 msgid "Language"
 msgstr "שפה"
 
-#: suz-window.c:1248
-msgid "Import"
-msgstr "ייבוא"
-
-#: suz-window.c:1268
+#: suz-window.c:1332
 msgid "Save As…"
 msgstr "שמירה בשם…"
 
-#: suz-window.c:1274
+#: suz-window.c:1338
 msgid "About Suz"
 msgstr "על אודות Suz"
 
-#: suz-window.c:1285 suz-window.c:1347
+#: suz-window.c:1349 suz-window.c:1411
 msgid "Open Text…"
 msgstr "פתיחת טקסט…"
 
-#: suz-window.c:1286
+#: suz-window.c:1350
 msgid "Open Document…"
 msgstr "פתיחת מסמך…"
 
-#: suz-window.c:1288
+#: suz-window.c:1352
 msgid "Open"
 msgstr "פתיחה"
 
-#: suz-window.c:1291
+#: suz-window.c:1355
 msgid "Open a text file"
 msgstr "פתיחת קובץ טקסט"
 
-#: suz-window.c:1313
+#: suz-window.c:1377
 msgid "Main Menu"
 msgstr "תפריט ראשי"
 
-#: suz-window.c:1320
+#: suz-window.c:1384
 msgid "Save the document"
 msgstr "שמירת המסמך"
 
-#: suz-window.c:1326
+#: suz-window.c:1390
 msgid "Split the words and suggest glosses"
 msgstr "פיצול המילים והצעת גלוסות"
 
-#: suz-window.c:1344
+#: suz-window.c:1408
 msgid "Open a Text"
 msgstr "פתיחת טקסט"
 
-#: suz-window.c:1345
+#: suz-window.c:1409
 msgid "Choose a text file, or drop one here, to start glossing."
 msgstr "בחר קובץ טקסט או גרור אותו לכאן כדי להתחיל בגלוסציה."
 
