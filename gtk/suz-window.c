@@ -890,7 +890,14 @@ static void open_file_guarded(SuzWindow *self, GFile *file, gboolean document, c
 void suz_window_open_file(SuzWindow *self, GFile *file)
 {
     g_autofree char *base = g_file_get_basename(file);
-    open_file_guarded(self, file, g_str_has_suffix(base, ".suz"), NULL);
+    g_autofree char *lower = g_ascii_strdown(base, -1);
+    const char *format = NULL;
+    for (guint i = 0; i < G_N_ELEMENTS(import_formats); i++) {
+        const char *extension = import_formats[i][2] + 1;
+        if (!g_str_equal(extension, ".txt") && g_str_has_suffix(lower, extension))
+            format = import_formats[i][0];
+    }
+    open_file_guarded(self, file, g_str_has_suffix(lower, ".suz"), format);
 }
 
 static GListModel *make_filters(const char *name, const char *pattern, const char *mime)
