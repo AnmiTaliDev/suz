@@ -1,0 +1,65 @@
+suz-language	1
+language	Karakalpak
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	DAT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	POSS
+tag	PST
+punctuation	!,.?
+foldcase	turkic
+weight	da	8.0	-	LOC
+weight	dan	8.0	-	ABL
+weight	de	8.0	-	LOC
+weight	den	8.0	-	ABL
+weight	di	9.0	-	ACC
+weight	di	5.0	-	PST
+weight	diń	8.0	-	GEN
+weight	dı	9.0	-	ACC
+weight	dı	5.0	-	PST
+weight	dıń	8.0	-	GEN
+weight	ga	8.0	-	DAT
+weight	ge	8.0	-	DAT
+weight	im	8.0	-	1SG	POSS
+weight	ke	8.0	-	DAT
+weight	kitap	10.0	book
+weight	lar	8.0	-	PL
+weight	ler	8.0	-	PL
+weight	m	9.0	-	1SG
+weight	ma	8.0	-	NEG
+weight	me	8.0	-	NEG
+weight	men	10.0	-	1SG
+weight	nan	8.0	-	ABL
+weight	nen	8.0	-	ABL
+weight	ni	9.0	-	ACC
+weight	niń	8.0	-	GEN
+weight	nı	9.0	-	ACC
+weight	nıń	8.0	-	GEN
+weight	oqı	10.0	read
+weight	qa	8.0	-	DAT
+weight	sen	10.0	-	2SG
+weight	ta	8.0	-	LOC
+weight	tan	8.0	-	ABL
+weight	te	8.0	-	LOC
+weight	ten	8.0	-	ABL
+weight	ti	9.0	-	ACC
+weight	ti	5.0	-	PST
+weight	tiń	8.0	-	GEN
+weight	tı	9.0	-	ACC
+weight	tı	5.0	-	PST
+weight	tıń	8.0	-	GEN
+weight	úy	10.0	house
+weight	ım	8.0	-	1SG	POSS
+context	ma	di	9.0	-	PST
+context	ma	dı	9.0	-	PST
+context	ma	ti	9.0	-	PST
+context	ma	tı	9.0	-	PST
+context	oqı	di	9.0	-	PST
+context	oqı	dı	9.0	-	PST
+context	oqı	ti	9.0	-	PST
+context	oqı	tı	9.0	-	PST

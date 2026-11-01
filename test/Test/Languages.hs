@@ -141,6 +141,12 @@ files =
       [ ("Io leggo libri.",
          "Io  leggo        libri   .\nio  legg-o       libr-i  .\n1SG read-1SG.PRS book-PL ?")
       ])
+  , ("karakalpak",
+      [ ("Men kitaplardı oqıdım.",
+         "Men kitaplardı   oqıdım       .\nmen kitap-lar-dı oqı-dı-m     .\n1SG book-PL-ACC  read-PST-1SG ?"),
+        ("Men úyde kitaptı oqımadım.",
+         "Men úyde      kitaptı  oqımadım         .\nmen úy-de     kitap-tı oqı-ma-dı-m      .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
+      ])
   , ("kazakh",
       [ ("Мен кітаптарды оқыдым.",
          "Мен кітаптарды   оқыдым       .\nмен кітап-тар-ды оқы-ды-м     .\n1SG book-PL-ACC  read-PST-1SG ?"),
