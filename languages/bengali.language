@@ -1,0 +1,15 @@
+suz-language	1
+language	Bengali
+tag	1
+tag	1PL
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?।
+foldcase
+weight	আমরা	10.0	-	1PL
+weight	আমি	10.0	-	1SG
+weight	গুলো	9.0	-	PL
+weight	ছি	9.0	-	1	PRS
+weight	পড়	10.0	read
+weight	বই	10.0	book
