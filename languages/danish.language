@@ -1,0 +1,19 @@
+suz-language	1
+language	Danish
+tag	1SG
+tag	DEF
+tag	PL
+tag	PRS
+tag	PST
+punctuation	!,.?
+foldcase
+weight	bog	10.0	book
+weight	bøg	10.0	book
+weight	en	9.0	-	DEF
+weight	er	9.0	-	PRS
+weight	er	5.0	-	PL
+weight	jeg	10.0	-	1SG
+weight	læs	10.0	read
+weight	te	9.0	-	PST
+context	bøg	er	9.0	-	PL
+context	læs	er	9.0	-	PRS

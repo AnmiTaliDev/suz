@@ -107,6 +107,12 @@ files =
         ("Čteme knihy.",
          "Čteme        knihy       .\nčt-eme       knih-y      .\nread-1PL.PRS book-PL.ACC ?")
       ])
+  , ("danish",
+      [ ("Jeg læser bøger.",
+         "Jeg læser    bøger   .\njeg læs-er   bøg-er  .\n1SG read-PRS book-PL ?"),
+        ("Jeg læste bogen.",
+         "Jeg læste    bogen    .\njeg læs-te   bog-en   .\n1SG read-PST book-DEF ?")
+      ])
   , ("dutch",
       [ ("Ik lees boeken.",
          "Ik  lees boeken  .\nik  lees boek-en .\n1SG read book-PL ?"),
