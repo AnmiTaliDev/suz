@@ -12,6 +12,11 @@
   <launchable type="desktop-id">dev.anmitali.Suz.desktop</launchable>
   <provides>
     <binary>suz-gtk</binary>
+    <mediatype>text/plain</mediatype>
+    <mediatype>application/x-suz-document</mediatype>
+    <mediatype>application/x-eaf+xml</mediatype>
+    <mediatype>application/x-flextext+xml</mediatype>
+    <mediatype>text/x-conllu</mediatype>
   </provides>
   <content_rating type="oars-1.1"/>
   <supports>

@@ -7,5 +7,5 @@ Icon=dev.anmitali.Suz
 Terminal=false
 StartupNotify=true
 Categories=Utility;TextTools;GTK;
-MimeType=text/plain;
+MimeType=text/plain;application/x-suz-document;application/x-eaf+xml;application/x-flextext+xml;text/x-conllu;
 Keywords=gloss;glossing;interlinear;morpheme;linguistics;
