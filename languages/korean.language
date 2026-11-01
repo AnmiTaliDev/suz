@@ -1,0 +1,19 @@
+suz-language	1
+language	Korean
+tag	1SG
+tag	ACC
+tag	DECL
+tag	LOC
+tag	PST
+tag	TOP
+punctuation	!,.?
+weight	나	10.0	-	1SG
+weight	는	9.0	-	TOP
+weight	다	9.0	-	DECL
+weight	를	9.0	-	ACC
+weight	었	9.0	-	PST
+weight	에서	9.0	-	LOC
+weight	을	9.0	-	ACC
+weight	읽	10.0	read
+weight	책	10.0	book
+weight	학교	10.0	school
