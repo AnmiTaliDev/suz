@@ -70,7 +70,7 @@ From C, read a file and pass its text to `suz_language_from_text()`. From Haskel
 
 ## GTK application
 
-The `gtk` directory holds a GNOME application. It opens a plain text file, splits the words into morphs and glosses them with a language from `languages/`, and lets you correct the glosses. Documents are saved as snapshots and can be exported as interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText. The same formats except LaTeX and HTML can be imported from the main menu; the language selected at that moment supplies the tag list. A file dropped on the window or given on the command line is imported by its extension (`.eaf`, `.flextext`, `.conllu`, `.json`), `.suz` is opened as a document and anything else as text. It needs GTK 4.12 and libadwaita 1.8 or newer.
+The `gtk` directory holds a GNOME application. It opens a plain text file, splits the words into morphs and glosses them with a language from `languages/`, and lets you correct the glosses. Documents are saved as snapshots and can be exported as interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText. The same formats except LaTeX and HTML can be imported from the main menu; the language selected at that moment supplies the tag list. An ELAN file with several tiers without a parent asks which of them holds the segments. A file dropped on the window or given on the command line is imported by its extension (`.eaf`, `.flextext`, `.conllu`, `.json`), `.suz` is opened as a document and anything else as text. It needs GTK 4.12 and libadwaita 1.8 or newer.
 
 ```
 cabal build flib:suz
