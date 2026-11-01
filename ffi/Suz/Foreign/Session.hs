@@ -23,6 +23,7 @@ foreign export ccall "suz_session_from_toolbox" sessionFromToolbox :: Ptr () -> 
 foreign export ccall "suz_session_from_leipzig" sessionFromLeipzig :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_conllu" sessionFromConllu :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_elan" sessionFromElan :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_session_from_flex" sessionFromFlex :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_json" sessionFromJson :: CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_free" sessionFree :: Ptr () -> IO ()
 foreign export ccall "suz_next_id" sessionNextId :: Ptr () -> IO Word64
@@ -104,6 +105,14 @@ sessionFromElan lh s errp = do
   lang <- readLanguage lh
   input <- peekText s
   case input >>= parseElan lang of
+    Left msg -> failHandle errp msg
+    Right doc -> newIORef (newSession doc) >>= newHandle
+
+sessionFromFlex :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
+sessionFromFlex lh s errp = do
+  lang <- readLanguage lh
+  input <- peekText s
+  case input >>= parseFlex lang of
     Left msg -> failHandle errp msg
     Right doc -> newIORef (newSession doc) >>= newHandle
 

@@ -132,6 +132,23 @@ suz_session *suz_session_from_json(const char *text, char **error);
 suz_session *suz_session_from_elan(const suz_language *language, const char *text, char **error);
 
 /**
+ * Creates a session from a FLExText file with the elements that suz_flex()
+ * writes. Every phrase is a segment and every word in it a token, with the
+ * first txt item (or the punct item) as the surface form. The morphs are the
+ * morph elements of morphemes, with the first txt item as the form and the
+ * first gls item as the gloss. Words and morphs without a form are left out.
+ * Other items, such as free translations, are ignored. A gloss is split at
+ * periods: the first part is a tag when the language lists it and the lexical
+ * part otherwise. The history of the new session is empty and the language is
+ * not changed.
+ * @param language Language that supplies the tag list.
+ * @param text FLExText file text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_flex(const suz_language *language, const char *text, char **error);
+
+/**
  * Releases a session.
  * @param session Session to release.
  */

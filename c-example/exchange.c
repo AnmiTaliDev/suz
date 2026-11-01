@@ -117,6 +117,11 @@ void demo_exchange(suz_language *language)
 
     char *flex = suz_flex(raw, "tt", "en");
     printf("-- FLExText (%zu bytes)\n", strlen(flex));
+    suz_session *from_flex = suz_session_from_flex(language, flex, &error);
+    if (!from_flex)
+        fail("flex", error);
+    show("read back from FLExText", from_flex);
+    suz_session_free(from_flex);
     suz_free(flex);
 
     char *json = suz_json(raw);
