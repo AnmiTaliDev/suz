@@ -43,6 +43,7 @@ library
                       Suz.Codec
                       Suz.Codec.Escape
                       Suz.Codec.JsonValue
+                      Suz.Codec.Xml
                       Suz.Codec.Parser
                       Suz.Codec.Ud
                       Suz.Command

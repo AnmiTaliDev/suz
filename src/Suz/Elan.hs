@@ -5,6 +5,7 @@ module Suz.Elan
 
 import Data.Text (Text)
 import qualified Data.Text as T
+import Suz.Codec.Xml (escapeXml)
 import Suz.Model
 
 -- | An ELAN annotation file (EAF 3.0) of a document. There is no media file, so
@@ -15,9 +16,8 @@ import Suz.Model
 -- association with a morph, left out for a morph without a gloss). A gloss is
 -- its lexical part and its tags joined by periods. A segment without tokens is
 -- left out. Annotation identifiers are @a@ and the identifier of the segment,
--- token or morph, @g@ and the identifier of the morph for a gloss. The
--- characters @&@, @<@, @>@, @\"@ and @'@ are escaped, a tab or line break
--- becomes a space and other control characters become U+FFFD.
+-- token or morph, @g@ and the identifier of the morph for a gloss. Text is
+-- escaped with 'escapeXml'.
 renderElan :: Document -> Text
 renderElan doc =
   T.unlines $
@@ -111,23 +111,7 @@ glossAnnotation m (Gloss lexical tags) =
     <> "</REF_ANNOTATION></ANNOTATION>"
 
 value :: Text -> Text
-value t = "<ANNOTATION_VALUE>" <> escape t <> "</ANNOTATION_VALUE>"
+value t = "<ANNOTATION_VALUE>" <> escapeXml t <> "</ANNOTATION_VALUE>"
 
 number :: Show a => a -> Text
 number = T.pack . show
-
-escape :: Text -> Text
-escape = T.concatMap replace
-  where
-    replace c = case c of
-      '&' -> "&amp;"
-      '<' -> "&lt;"
-      '>' -> "&gt;"
-      '"' -> "&quot;"
-      '\'' -> "&apos;"
-      '\t' -> " "
-      '\n' -> " "
-      '\r' -> " "
-      _
-        | c < ' ' || c == '\xFFFE' || c == '\xFFFF' -> "\xFFFD"
-        | otherwise -> T.singleton c
