@@ -1,0 +1,394 @@
+# Translation of Suz to ja.
+# Copyright (C) the Suz authors
+# This file is distributed under the same license as the Suz package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Suz 0.4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
+"PO-Revision-Date: 2026-11-01 09:25+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: main.c:46
+msgid "Morpheme-level interlinear glossing."
+msgstr "形態素レベルの行間グロス。"
+
+#: main.c:64
+msgid "Documents"
+msgstr "ドキュメント"
+
+#: main.c:65 suz-window.c:1011
+msgid "Open Text"
+msgstr "テキストを開く"
+
+#: main.c:66 suz-window.c:1023
+msgid "Open Document"
+msgstr "ドキュメントを開く"
+
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
+msgid "Save"
+msgstr "保存"
+
+#: main.c:68
+msgid "Save As"
+msgstr "名前を付けて保存"
+
+#: main.c:71
+msgid "Editing"
+msgstr "編集"
+
+#: main.c:72 suz-window.c:1387
+msgid "Annotate"
+msgstr "注釈を付ける"
+
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
+msgid "Undo"
+msgstr "元に戻す"
+
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
+msgid "Redo"
+msgstr "やり直す"
+
+#: main.c:77
+msgid "General"
+msgstr "一般"
+
+#: main.c:78 suz-window.c:1337
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+#: main.c:79
+msgid "Quit"
+msgstr "終了"
+
+#: suz-document-view.c:94
+msgid "no gloss"
+msgstr "グロスなし"
+
+#: suz-morph-editor.c:199
+msgid "Form"
+msgstr "形式"
+
+#: suz-morph-editor.c:206
+msgid "Gloss"
+msgstr "グロス"
+
+#: suz-morph-editor.c:213
+msgid "Separate the parts of a gloss with periods, for example book.PL."
+msgstr "グロスの各部分はピリオドで区切ります。例: book.PL。"
+
+#: suz-morph-editor.c:223
+msgid "Suggestions"
+msgstr "候補"
+
+#: suz-morph-editor.c:232
+msgid "Remove Gloss"
+msgstr "グロスを削除"
+
+#: suz-window.c:49 suz-window.c:60
+msgid "Interlinear Text…"
+msgstr "行間テキスト…"
+
+#: suz-window.c:50 suz-window.c:61
+msgid "Toolbox…"
+msgstr "Toolbox…"
+
+#: suz-window.c:51 suz-window.c:62
+msgid "CoNLL-U…"
+msgstr "CoNLL-U…"
+
+#: suz-window.c:52 suz-window.c:63
+msgid "JSON…"
+msgstr "JSON…"
+
+#: suz-window.c:53
+msgid "LaTeX (gb4e)…"
+msgstr "LaTeX (gb4e)…"
+
+#: suz-window.c:54
+msgid "HTML…"
+msgstr "HTML…"
+
+#: suz-window.c:55 suz-window.c:64
+msgid "ELAN…"
+msgstr "ELAN…"
+
+#: suz-window.c:56 suz-window.c:65
+msgid "FLEx…"
+msgstr "FLEx…"
+
+#: suz-window.c:77
+msgid "unknown error"
+msgstr "不明なエラー"
+
+#: suz-window.c:137 suz-window.c:139
+msgid "Cannot autosave the document"
+msgstr "ドキュメントを自動保存できません"
+
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
+msgid "Untitled"
+msgstr "無題"
+
+#: suz-window.c:315
+msgid "Cannot load the language"
+msgstr "言語を読み込めません"
+
+#: suz-window.c:352 suz-window.c:354
+msgid "Cannot save the learned weights"
+msgstr "学習した重みを保存できません"
+
+#: suz-window.c:397
+msgid "Cannot apply the change"
+msgstr "変更を適用できません"
+
+#: suz-window.c:504
+msgid "Cannot split the words"
+msgstr "単語を分割できません"
+
+#: suz-window.c:510
+msgid "Cannot suggest glosses"
+msgstr "グロスの候補を出せません"
+
+#: suz-window.c:517
+msgid "Nothing to annotate"
+msgstr "注釈を付けるものがありません"
+
+#: suz-window.c:526
+#, c-format
+msgid "Split %d, glossed %d"
+msgstr "分割 %d、グロス付与 %d"
+
+#: suz-window.c:542
+msgid "Cannot undo"
+msgstr "元に戻せません"
+
+#: suz-window.c:542
+msgid "Cannot redo"
+msgstr "やり直せません"
+
+#: suz-window.c:577
+msgid "Cannot reset the language"
+msgstr "言語をリセットできません"
+
+#: suz-window.c:585
+msgid "Learned weights reset"
+msgstr "学習した重みをリセットしました"
+
+#: suz-window.c:594
+msgid "Reset Learned Weights?"
+msgstr "学習した重みをリセットしますか?"
+
+#: suz-window.c:594
+msgid ""
+"The language returns to the weights it shipped with. The weights learned "
+"from your corrections are lost."
+msgstr "言語は同梱時の重みに戻ります。修正から学習した重みは失われます。"
+
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: suz-window.c:595
+msgid "Reset"
+msgstr "リセット"
+
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
+msgid "Cannot open the file"
+msgstr "ファイルを開けません"
+
+#: suz-window.c:613 suz-window.c:703
+msgid "the text is not valid UTF-8"
+msgstr "テキストは有効な UTF-8 ではありません"
+
+#: suz-window.c:622
+msgid "Cannot import the text"
+msgstr "テキストをインポートできません"
+
+#: suz-window.c:635 suz-window.c:692
+msgid "Cannot import the file"
+msgstr "ファイルをインポートできません"
+
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "階層を選択"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr ""
+"ファイルに親のない階層が複数あります。セグメントは選択した階層から読み込まれ"
+"ます。"
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "インポート"
+
+#: suz-window.c:692
+msgid "no language is selected"
+msgstr "言語が選択されていません"
+
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
+msgid "the document is open in another instance"
+msgstr "ドキュメントは別のインスタンスで開かれています"
+
+#: suz-window.c:760
+msgid "Cannot read the document"
+msgstr "ドキュメントを読み込めません"
+
+#: suz-window.c:792
+msgid "Cannot read the recovery file"
+msgstr "復旧ファイルを読み込めません"
+
+#: suz-window.c:861
+#, c-format
+msgid "The previous session ended with unsaved changes to \"%s\"."
+msgstr "前回のセッションは「%s」の未保存の変更を残して終了しました。"
+
+#: suz-window.c:862
+msgid "Recover Unsaved Document?"
+msgstr "未保存のドキュメントを復元しますか?"
+
+#: suz-window.c:863
+msgid "Not Now"
+msgstr "今はしない"
+
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
+msgid "Discard"
+msgstr "破棄"
+
+#: suz-window.c:863
+msgid "Restore"
+msgstr "復元"
+
+#: suz-window.c:939
+msgid "Discard Changes?"
+msgstr "変更を破棄しますか?"
+
+#: suz-window.c:939
+msgid "The current document has unsaved changes."
+msgstr "現在のドキュメントには未保存の変更があります。"
+
+#: suz-window.c:1010
+msgid "Text files"
+msgstr "テキストファイル"
+
+#: suz-window.c:1022 suz-window.c:1136
+msgid "Suz documents"
+msgstr "Suz ドキュメント"
+
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
+msgid "Cannot save the document"
+msgstr "ドキュメントを保存できません"
+
+#: suz-window.c:1110
+msgid "Document saved"
+msgstr "ドキュメントを保存しました"
+
+#: suz-window.c:1138
+msgid "Save Document"
+msgstr "ドキュメントを保存"
+
+#: suz-window.c:1199 suz-window.c:1203
+msgid "Cannot export the document"
+msgstr "ドキュメントをエクスポートできません"
+
+#: suz-window.c:1200
+msgid "Document exported"
+msgstr "ドキュメントをエクスポートしました"
+
+#: suz-window.c:1215 suz-window.c:1323
+msgid "Export"
+msgstr "エクスポート"
+
+#: suz-window.c:1266
+msgid "Save Changes?"
+msgstr "変更を保存しますか?"
+
+#: suz-window.c:1266
+msgid ""
+"The document has unsaved changes. They are lost if you close without saving."
+msgstr "ドキュメントには未保存の変更があります。保存せずに閉じると失われます。"
+
+#: suz-window.c:1296
+msgid "Reset Learned Weights…"
+msgstr "学習した重みをリセット…"
+
+#: suz-window.c:1301
+msgid "Language"
+msgstr "言語"
+
+#: suz-window.c:1332
+msgid "Save As…"
+msgstr "名前を付けて保存…"
+
+#: suz-window.c:1338
+msgid "About Suz"
+msgstr "Suz について"
+
+#: suz-window.c:1349 suz-window.c:1411
+msgid "Open Text…"
+msgstr "テキストを開く…"
+
+#: suz-window.c:1350
+msgid "Open Document…"
+msgstr "ドキュメントを開く…"
+
+#: suz-window.c:1352
+msgid "Open"
+msgstr "開く"
+
+#: suz-window.c:1355
+msgid "Open a text file"
+msgstr "テキストファイルを開く"
+
+#: suz-window.c:1377
+msgid "Main Menu"
+msgstr "メインメニュー"
+
+#: suz-window.c:1384
+msgid "Save the document"
+msgstr "ドキュメントを保存"
+
+#: suz-window.c:1390
+msgid "Split the words and suggest glosses"
+msgstr "単語を分割してグロスを提案"
+
+#: suz-window.c:1408
+msgid "Open a Text"
+msgstr "テキストを開く"
+
+#: suz-window.c:1409
+msgid "Choose a text file, or drop one here, to start glossing."
+msgstr "テキストファイルを選ぶか、ここにドロップして、グロス付けを始めます。"
+
+#: ../data/dev.anmitali.Suz.desktop:3 ../data/dev.anmitali.Suz.metainfo.xml:7
+msgid "Suz"
+msgstr ""
+
+#: ../data/dev.anmitali.Suz.desktop:4 ../data/dev.anmitali.Suz.metainfo.xml:8
+msgid "Morpheme-level interlinear glossing"
+msgstr "形態素レベルの行間グロス"
+
+#: ../data/dev.anmitali.Suz.desktop:11
+msgid "gloss;glossing;interlinear;morpheme;linguistics;"
+msgstr "グロス;グロス付け;行間;形態素;言語学;"
+
+#: ../data/dev.anmitali.Suz.metainfo.xml:10
+msgid ""
+"Suz splits the words of a text into morphs and glosses them, using weight "
+"tables that learn from your corrections. It reads plain text and exports "
+"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
+msgstr ""
+"Suz はテキストの単語を形態素に分割し、修正から学習する重みテーブルでグロスを"
+"付けます。プレーンテキストを読み込み、行間テキスト、Toolbox、CoNLL-U、JSON、"
+"LaTeX、HTML、ELAN、FLExText にエクスポートします。"
