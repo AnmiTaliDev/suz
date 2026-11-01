@@ -56,6 +56,15 @@ static const char *const export_formats[][3] = {
     {"flex", N_("FLEx…"), "flextext"},
 };
 
+static const char *const import_formats[][3] = {
+    {"interlinear", N_("Interlinear Text…"), "*.txt"},
+    {"toolbox", N_("Toolbox…"), "*.txt"},
+    {"conllu", N_("CoNLL-U…"), "*.conllu"},
+    {"json", N_("JSON…"), "*.json"},
+    {"elan", N_("ELAN…"), "*.eaf"},
+    {"flex", N_("FLEx…"), "*.flextext"},
+};
+
 static void show_toast(SuzWindow *self, const char *message)
 {
     AdwToast *toast = adw_toast_new(message);
@@ -620,6 +629,50 @@ static void open_text(SuzWindow *self, GFile *file)
     set_lock(self, -1, NULL);
 }
 
+static void import_file(SuzWindow *self, GFile *file, const char *format)
+{
+    gboolean needs_language = !g_str_equal(format, "conllu") && !g_str_equal(format, "json");
+    if (needs_language && !self->language) {
+        show_error(self, _("Cannot import the file"), _("no language is selected"));
+        return;
+    }
+
+    g_autoptr(GError) error = NULL;
+    g_autofree char *text = NULL;
+    if (!g_file_load_contents(file, NULL, &text, NULL, NULL, &error)) {
+        show_error(self, _("Cannot open the file"), error->message);
+        return;
+    }
+    if (!g_utf8_validate(text, -1, NULL)) {
+        show_error(self, _("Cannot open the file"), _("the text is not valid UTF-8"));
+        return;
+    }
+
+    char *message = NULL;
+    suz_session *session;
+    if (g_str_equal(format, "interlinear"))
+        session = suz_session_from_leipzig(self->language, text, &message);
+    else if (g_str_equal(format, "toolbox"))
+        session = suz_session_from_toolbox(self->language, text, &message);
+    else if (g_str_equal(format, "conllu"))
+        session = suz_session_from_conllu(text, &message);
+    else if (g_str_equal(format, "json"))
+        session = suz_session_from_json(text, &message);
+    else if (g_str_equal(format, "elan"))
+        session = suz_session_from_elan(self->language, text, &message);
+    else
+        session = suz_session_from_flex(self->language, text, &message);
+    if (!session) {
+        show_error(self, _("Cannot import the file"), message);
+        suz_free(message);
+        return;
+    }
+
+    g_autofree char *name = base_name_without_extension(file);
+    replace_session(self, session, NULL, name, TRUE);
+    set_lock(self, -1, NULL);
+}
+
 static void open_document(SuzWindow *self, GFile *file)
 {
     SuzWindow *other = find_window_with(self, file);
@@ -784,6 +837,7 @@ typedef struct {
     SuzWindow *window;
     GFile *file;
     gboolean document;
+    const char *format;
 } PendingOpen;
 
 static void pending_open_free(PendingOpen *pending)
@@ -797,7 +851,9 @@ static void on_discard_response(GObject *source, GAsyncResult *result, gpointer 
     PendingOpen *pending = user_data;
     const char *response = adw_alert_dialog_choose_finish(ADW_ALERT_DIALOG(source), result);
     if (g_str_equal(response, "discard")) {
-        if (pending->document)
+        if (pending->format)
+            import_file(pending->window, pending->file, pending->format);
+        else if (pending->document)
             open_document(pending->window, pending->file);
         else
             open_text(pending->window, pending->file);
@@ -805,10 +861,12 @@ static void on_discard_response(GObject *source, GAsyncResult *result, gpointer 
     pending_open_free(pending);
 }
 
-static void open_file_guarded(SuzWindow *self, GFile *file, gboolean document)
+static void open_file_guarded(SuzWindow *self, GFile *file, gboolean document, const char *format)
 {
     if (!self->session || !self->dirty) {
-        if (document)
+        if (format)
+            import_file(self, file, format);
+        else if (document)
             open_document(self, file);
         else
             open_text(self, file);
@@ -819,6 +877,7 @@ static void open_file_guarded(SuzWindow *self, GFile *file, gboolean document)
     pending->window = self;
     pending->file = g_object_ref(file);
     pending->document = document;
+    pending->format = format;
 
     AdwDialog *dialog = adw_alert_dialog_new(_("Discard Changes?"), _("The current document has unsaved changes."));
     adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", _("Cancel"), "discard", _("Discard"), NULL);
@@ -831,7 +890,7 @@ static void open_file_guarded(SuzWindow *self, GFile *file, gboolean document)
 void suz_window_open_file(SuzWindow *self, GFile *file)
 {
     g_autofree char *base = g_file_get_basename(file);
-    open_file_guarded(self, file, g_str_has_suffix(base, ".suz"));
+    open_file_guarded(self, file, g_str_has_suffix(base, ".suz"), NULL);
 }
 
 static GListModel *make_filters(const char *name, const char *pattern, const char *mime)
@@ -862,7 +921,7 @@ static void on_open_text_done(GObject *source, GAsyncResult *result, gpointer us
     g_autoptr(GError) error = NULL;
     g_autoptr(GFile) file = gtk_file_dialog_open_finish(GTK_FILE_DIALOG(source), result, &error);
     if (file)
-        open_file_guarded(self, file, FALSE);
+        open_file_guarded(self, file, FALSE, NULL);
     else if (!is_dismissal(error))
         show_error(self, _("Cannot open the file"), error->message);
 }
@@ -873,7 +932,7 @@ static void on_open_document_done(GObject *source, GAsyncResult *result, gpointe
     g_autoptr(GError) error = NULL;
     g_autoptr(GFile) file = gtk_file_dialog_open_finish(GTK_FILE_DIALOG(source), result, &error);
     if (file)
-        open_file_guarded(self, file, TRUE);
+        open_file_guarded(self, file, TRUE, NULL);
     else if (!is_dismissal(error))
         show_error(self, _("Cannot open the file"), error->message);
 }
@@ -900,6 +959,50 @@ static void action_open_document(GSimpleAction *action, GVariant *parameter, gpo
     gtk_file_dialog_set_title(dialog, _("Open Document"));
     gtk_file_dialog_set_filters(dialog, filters);
     gtk_file_dialog_open(dialog, GTK_WINDOW(self), NULL, on_open_document_done, self);
+}
+
+typedef struct {
+    SuzWindow *window;
+    const char *format;
+} PendingImport;
+
+static void on_import_done(GObject *source, GAsyncResult *result, gpointer user_data)
+{
+    PendingImport *pending = user_data;
+    g_autoptr(GError) error = NULL;
+    g_autoptr(GFile) file = gtk_file_dialog_open_finish(GTK_FILE_DIALOG(source), result, &error);
+    if (file)
+        open_file_guarded(pending->window, file, FALSE, pending->format);
+    else if (!is_dismissal(error))
+        show_error(pending->window, _("Cannot open the file"), error->message);
+    g_free(pending);
+}
+
+static void action_import(GSimpleAction *action, GVariant *parameter, gpointer user_data)
+{
+    (void)action;
+    SuzWindow *self = SUZ_WINDOW(user_data);
+    const char *format = g_variant_get_string(parameter, NULL);
+
+    for (guint i = 0; i < G_N_ELEMENTS(import_formats); i++) {
+        if (!g_str_equal(import_formats[i][0], format))
+            continue;
+        g_autofree char *title = g_strdup(_(import_formats[i][1]));
+        char *ellipsis = strstr(title, "…");
+        if (ellipsis)
+            *ellipsis = '\0';
+
+        PendingImport *pending = g_new0(PendingImport, 1);
+        pending->window = self;
+        pending->format = import_formats[i][0];
+
+        g_autoptr(GtkFileDialog) dialog = gtk_file_dialog_new();
+        g_autoptr(GListModel) filters = make_filters(title, import_formats[i][2], NULL);
+        gtk_file_dialog_set_title(dialog, title);
+        gtk_file_dialog_set_filters(dialog, filters);
+        gtk_file_dialog_open(dialog, GTK_WINDOW(self), NULL, on_import_done, pending);
+        return;
+    }
 }
 
 static gboolean write_text(SuzWindow *self, GFile *file, const char *text, const char *what)
@@ -1136,6 +1239,17 @@ static GMenu *build_primary_menu(SuzWindow *self)
     g_menu_append_section(menu, NULL, G_MENU_MODEL(languages));
     g_object_unref(languages);
 
+    GMenu *import_menu = g_menu_new();
+    for (guint i = 0; i < G_N_ELEMENTS(import_formats); i++) {
+        g_autofree char *action = g_strdup_printf("win.import::%s", import_formats[i][0]);
+        g_menu_append(import_menu, _(import_formats[i][1]), action);
+    }
+    GMenu *imports = g_menu_new();
+    g_menu_append_submenu(imports, _("Import"), G_MENU_MODEL(import_menu));
+    g_menu_append_section(menu, NULL, G_MENU_MODEL(imports));
+    g_object_unref(import_menu);
+    g_object_unref(imports);
+
     GMenu *export_menu = g_menu_new();
     for (guint i = 0; i < G_N_ELEMENTS(export_formats); i++) {
         g_autofree char *action = g_strdup_printf("win.export::%s", export_formats[i][0]);
@@ -1274,6 +1388,7 @@ static void suz_window_init(SuzWindow *self)
         {"open-document", action_open_document, NULL, NULL, NULL, {0}},
         {"save", action_save, NULL, NULL, NULL, {0}},
         {"save-as", action_save_as, NULL, NULL, NULL, {0}},
+        {"import", action_import, "s", NULL, NULL, {0}},
         {"export", action_export, "s", NULL, NULL, {0}},
         {"undo", action_undo, NULL, NULL, NULL, {0}},
         {"redo", action_redo, NULL, NULL, NULL, {0}},
