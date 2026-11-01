@@ -114,6 +114,24 @@ suz_session *suz_session_from_conllu(const char *text, char **error);
 suz_session *suz_session_from_json(const char *text, char **error);
 
 /**
+ * Creates a session from an ELAN annotation file (EAF) with the tiers that
+ * suz_elan() writes. The first tier without a parent holds the segments, a
+ * symbolic subdivision of it the words, a symbolic subdivision of that the
+ * morphs and a symbolic association with the morphs the glosses. Tiers are
+ * found by their place and constraint, not by name, and other tiers are
+ * ignored. Without a word tier a segment is split at white space, and without
+ * a morph tier a word has one morph. A gloss is split at periods: the first
+ * part is a tag when the language lists it and the lexical part otherwise.
+ * Annotations are used in file order, times are not read. The history of the
+ * new session is empty and the language is not changed.
+ * @param language Language that supplies the tag list.
+ * @param text EAF text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_elan(const suz_language *language, const char *text, char **error);
+
+/**
  * Releases a session.
  * @param session Session to release.
  */

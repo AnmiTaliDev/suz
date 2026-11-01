@@ -108,6 +108,11 @@ void demo_exchange(suz_language *language)
 
     char *elan = suz_elan(raw);
     printf("-- ELAN (%zu bytes)\n", strlen(elan));
+    suz_session *from_elan = suz_session_from_elan(language, elan, &error);
+    if (!from_elan)
+        fail("elan", error);
+    show("read back from ELAN", from_elan);
+    suz_session_free(from_elan);
     suz_free(elan);
 
     char *flex = suz_flex(raw, "tt", "en");
