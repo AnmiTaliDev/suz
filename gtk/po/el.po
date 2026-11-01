@@ -1,0 +1,402 @@
+# Translation of Suz to el.
+# Copyright (C) the Suz authors
+# This file is distributed under the same license as the Suz package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Suz 0.4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
+"PO-Revision-Date: 2026-11-01 09:25+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: main.c:46
+msgid "Morpheme-level interlinear glossing."
+msgstr "Διαγραμμική επισημείωση σε επίπεδο μορφημάτων."
+
+#: main.c:64
+msgid "Documents"
+msgstr "Έγγραφα"
+
+#: main.c:65 suz-window.c:1011
+msgid "Open Text"
+msgstr "Άνοιγμα κειμένου"
+
+#: main.c:66 suz-window.c:1023
+msgid "Open Document"
+msgstr "Άνοιγμα εγγράφου"
+
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: main.c:68
+msgid "Save As"
+msgstr "Αποθήκευση ως"
+
+#: main.c:71
+msgid "Editing"
+msgstr "Επεξεργασία"
+
+#: main.c:72 suz-window.c:1387
+msgid "Annotate"
+msgstr "Σχολιασμός"
+
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
+msgid "Undo"
+msgstr "Αναίρεση"
+
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
+msgid "Redo"
+msgstr "Επανάληψη"
+
+#: main.c:77
+msgid "General"
+msgstr "Γενικά"
+
+#: main.c:78 suz-window.c:1337
+msgid "Keyboard Shortcuts"
+msgstr "Συντομεύσεις πληκτρολογίου"
+
+#: main.c:79
+msgid "Quit"
+msgstr "Έξοδος"
+
+#: suz-document-view.c:94
+msgid "no gloss"
+msgstr "χωρίς επισημείωση"
+
+#: suz-morph-editor.c:199
+msgid "Form"
+msgstr "Μορφή"
+
+#: suz-morph-editor.c:206
+msgid "Gloss"
+msgstr "Επισημείωση"
+
+#: suz-morph-editor.c:213
+msgid "Separate the parts of a gloss with periods, for example book.PL."
+msgstr "Χωρίστε τα μέρη μιας επισημείωσης με τελείες, για παράδειγμα book.PL."
+
+#: suz-morph-editor.c:223
+msgid "Suggestions"
+msgstr "Προτάσεις"
+
+#: suz-morph-editor.c:232
+msgid "Remove Gloss"
+msgstr "Αφαίρεση επισημείωσης"
+
+#: suz-window.c:49 suz-window.c:60
+msgid "Interlinear Text…"
+msgstr "Διαγραμμικό κείμενο…"
+
+#: suz-window.c:50 suz-window.c:61
+msgid "Toolbox…"
+msgstr "Toolbox…"
+
+#: suz-window.c:51 suz-window.c:62
+msgid "CoNLL-U…"
+msgstr "CoNLL-U…"
+
+#: suz-window.c:52 suz-window.c:63
+msgid "JSON…"
+msgstr "JSON…"
+
+#: suz-window.c:53
+msgid "LaTeX (gb4e)…"
+msgstr "LaTeX (gb4e)…"
+
+#: suz-window.c:54
+msgid "HTML…"
+msgstr "HTML…"
+
+#: suz-window.c:55 suz-window.c:64
+msgid "ELAN…"
+msgstr "ELAN…"
+
+#: suz-window.c:56 suz-window.c:65
+msgid "FLEx…"
+msgstr "FLEx…"
+
+#: suz-window.c:77
+msgid "unknown error"
+msgstr "άγνωστο σφάλμα"
+
+#: suz-window.c:137 suz-window.c:139
+msgid "Cannot autosave the document"
+msgstr "Δεν ήταν δυνατή η αυτόματη αποθήκευση του εγγράφου"
+
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
+msgid "Untitled"
+msgstr "Χωρίς τίτλο"
+
+#: suz-window.c:315
+msgid "Cannot load the language"
+msgstr "Δεν ήταν δυνατή η φόρτωση της γλώσσας"
+
+#: suz-window.c:352 suz-window.c:354
+msgid "Cannot save the learned weights"
+msgstr "Δεν ήταν δυνατή η αποθήκευση των εκπαιδευμένων βαρών"
+
+#: suz-window.c:397
+msgid "Cannot apply the change"
+msgstr "Δεν ήταν δυνατή η εφαρμογή της αλλαγής"
+
+#: suz-window.c:504
+msgid "Cannot split the words"
+msgstr "Δεν ήταν δυνατός ο διαχωρισμός των λέξεων"
+
+#: suz-window.c:510
+msgid "Cannot suggest glosses"
+msgstr "Δεν ήταν δυνατή η πρόταση επισημειώσεων"
+
+#: suz-window.c:517
+msgid "Nothing to annotate"
+msgstr "Δεν υπάρχει τίποτα για σχολιασμό"
+
+#: suz-window.c:526
+#, c-format
+msgid "Split %d, glossed %d"
+msgstr "Διαχωρίστηκαν %d, επισημειώθηκαν %d"
+
+#: suz-window.c:542
+msgid "Cannot undo"
+msgstr "Δεν είναι δυνατή η αναίρεση"
+
+#: suz-window.c:542
+msgid "Cannot redo"
+msgstr "Δεν είναι δυνατή η επανάληψη"
+
+#: suz-window.c:577
+msgid "Cannot reset the language"
+msgstr "Δεν ήταν δυνατή η επαναφορά της γλώσσας"
+
+#: suz-window.c:585
+msgid "Learned weights reset"
+msgstr "Τα εκπαιδευμένα βάρη επαναφέρθηκαν"
+
+#: suz-window.c:594
+msgid "Reset Learned Weights?"
+msgstr "Επαναφορά των εκπαιδευμένων βαρών;"
+
+#: suz-window.c:594
+msgid ""
+"The language returns to the weights it shipped with. The weights learned "
+"from your corrections are lost."
+msgstr ""
+"Η γλώσσα επιστρέφει στα βάρη με τα οποία παραδόθηκε. Τα βάρη που "
+"εκπαιδεύτηκαν από τις διορθώσεις σας χάνονται."
+
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
+msgid "Cancel"
+msgstr "Άκυρο"
+
+#: suz-window.c:595
+msgid "Reset"
+msgstr "Επαναφορά"
+
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
+msgid "Cannot open the file"
+msgstr "Δεν ήταν δυνατό το άνοιγμα του αρχείου"
+
+#: suz-window.c:613 suz-window.c:703
+msgid "the text is not valid UTF-8"
+msgstr "το κείμενο δεν είναι έγκυρο UTF-8"
+
+#: suz-window.c:622
+msgid "Cannot import the text"
+msgstr "Δεν ήταν δυνατή η εισαγωγή του κειμένου"
+
+#: suz-window.c:635 suz-window.c:692
+msgid "Cannot import the file"
+msgstr "Δεν ήταν δυνατή η εισαγωγή του αρχείου"
+
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "Επιλέξτε επίπεδο"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr ""
+"Το αρχείο έχει πολλά επίπεδα χωρίς γονικό. Τα τμήματα διαβάζονται από το "
+"επίπεδο που θα επιλέξετε."
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "Εισαγωγή"
+
+#: suz-window.c:692
+msgid "no language is selected"
+msgstr "δεν έχει επιλεγεί γλώσσα"
+
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
+msgid "the document is open in another instance"
+msgstr "το έγγραφο είναι ανοιχτό σε άλλο στιγμιότυπο"
+
+#: suz-window.c:760
+msgid "Cannot read the document"
+msgstr "Δεν ήταν δυνατή η ανάγνωση του εγγράφου"
+
+#: suz-window.c:792
+msgid "Cannot read the recovery file"
+msgstr "Δεν ήταν δυνατή η ανάγνωση του αρχείου ανάκτησης"
+
+#: suz-window.c:861
+#, c-format
+msgid "The previous session ended with unsaved changes to \"%s\"."
+msgstr ""
+"Η προηγούμενη συνεδρία τερματίστηκε με μη αποθηκευμένες αλλαγές στο «%s»."
+
+#: suz-window.c:862
+msgid "Recover Unsaved Document?"
+msgstr "Ανάκτηση του μη αποθηκευμένου εγγράφου;"
+
+#: suz-window.c:863
+msgid "Not Now"
+msgstr "Όχι τώρα"
+
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
+msgid "Discard"
+msgstr "Απόρριψη"
+
+#: suz-window.c:863
+msgid "Restore"
+msgstr "Επαναφορά"
+
+#: suz-window.c:939
+msgid "Discard Changes?"
+msgstr "Απόρριψη των αλλαγών;"
+
+#: suz-window.c:939
+msgid "The current document has unsaved changes."
+msgstr "Το τρέχον έγγραφο έχει μη αποθηκευμένες αλλαγές."
+
+#: suz-window.c:1010
+msgid "Text files"
+msgstr "Αρχεία κειμένου"
+
+#: suz-window.c:1022 suz-window.c:1136
+msgid "Suz documents"
+msgstr "Έγγραφα Suz"
+
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
+msgid "Cannot save the document"
+msgstr "Δεν ήταν δυνατή η αποθήκευση του εγγράφου"
+
+#: suz-window.c:1110
+msgid "Document saved"
+msgstr "Το έγγραφο αποθηκεύτηκε"
+
+#: suz-window.c:1138
+msgid "Save Document"
+msgstr "Αποθήκευση εγγράφου"
+
+#: suz-window.c:1199 suz-window.c:1203
+msgid "Cannot export the document"
+msgstr "Δεν ήταν δυνατή η εξαγωγή του εγγράφου"
+
+#: suz-window.c:1200
+msgid "Document exported"
+msgstr "Το έγγραφο εξήχθη"
+
+#: suz-window.c:1215 suz-window.c:1323
+msgid "Export"
+msgstr "Εξαγωγή"
+
+#: suz-window.c:1266
+msgid "Save Changes?"
+msgstr "Αποθήκευση των αλλαγών;"
+
+#: suz-window.c:1266
+msgid ""
+"The document has unsaved changes. They are lost if you close without saving."
+msgstr ""
+"Το έγγραφο έχει μη αποθηκευμένες αλλαγές. Χάνονται αν κλείσετε χωρίς "
+"αποθήκευση."
+
+#: suz-window.c:1296
+msgid "Reset Learned Weights…"
+msgstr "Επαναφορά εκπαιδευμένων βαρών…"
+
+#: suz-window.c:1301
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: suz-window.c:1332
+msgid "Save As…"
+msgstr "Αποθήκευση ως…"
+
+#: suz-window.c:1338
+msgid "About Suz"
+msgstr "Πληροφορίες για το Suz"
+
+#: suz-window.c:1349 suz-window.c:1411
+msgid "Open Text…"
+msgstr "Άνοιγμα κειμένου…"
+
+#: suz-window.c:1350
+msgid "Open Document…"
+msgstr "Άνοιγμα εγγράφου…"
+
+#: suz-window.c:1352
+msgid "Open"
+msgstr "Άνοιγμα"
+
+#: suz-window.c:1355
+msgid "Open a text file"
+msgstr "Άνοιγμα αρχείου κειμένου"
+
+#: suz-window.c:1377
+msgid "Main Menu"
+msgstr "Κύριο μενού"
+
+#: suz-window.c:1384
+msgid "Save the document"
+msgstr "Αποθήκευση του εγγράφου"
+
+#: suz-window.c:1390
+msgid "Split the words and suggest glosses"
+msgstr "Διαχωρισμός των λέξεων και πρόταση επισημειώσεων"
+
+#: suz-window.c:1408
+msgid "Open a Text"
+msgstr "Άνοιγμα κειμένου"
+
+#: suz-window.c:1409
+msgid "Choose a text file, or drop one here, to start glossing."
+msgstr ""
+"Επιλέξτε ένα αρχείο κειμένου ή αποθέστε το εδώ για να ξεκινήσετε την "
+"επισημείωση."
+
+#: ../data/dev.anmitali.Suz.desktop:3 ../data/dev.anmitali.Suz.metainfo.xml:7
+msgid "Suz"
+msgstr ""
+
+#: ../data/dev.anmitali.Suz.desktop:4 ../data/dev.anmitali.Suz.metainfo.xml:8
+msgid "Morpheme-level interlinear glossing"
+msgstr "Διαγραμμική επισημείωση σε επίπεδο μορφημάτων"
+
+#: ../data/dev.anmitali.Suz.desktop:11
+msgid "gloss;glossing;interlinear;morpheme;linguistics;"
+msgstr "επισημείωση;διαγραμμική;μόρφημα;γλωσσολογία;"
+
+#: ../data/dev.anmitali.Suz.metainfo.xml:10
+msgid ""
+"Suz splits the words of a text into morphs and glosses them, using weight "
+"tables that learn from your corrections. It reads plain text and exports "
+"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
+msgstr ""
+"Το Suz χωρίζει τις λέξεις ενός κειμένου σε μορφές και τις επισημειώνει με "
+"πίνακες βαρών που μαθαίνουν από τις διορθώσεις σας. Διαβάζει απλό κείμενο "
+"και εξάγει διαγραμμικό κείμενο, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN "
+"και FLExText."
