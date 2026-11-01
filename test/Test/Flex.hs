@@ -71,8 +71,33 @@ checks =
   , ("flex lists one writing system when both tags are equal", T.count "<language " (renderFlex "tt" "tt" baseDoc) == 1)
   , ("flex escapes markup characters", txtOf "a&b<c>\"d'" == ["<item type=\"txt\" lang=\"tt\">a&amp;b&lt;c&gt;&quot;d&apos;</item>"])
   , ("flex escapes the tags of the writing systems", "lang=\"a&quot;b\"" `T.isInfixOf` renderFlex "a\"b" "en" baseDoc)
+  , ("parseFlex reads what renderFlex wrote", fmap documentSegments (parseFlex tinyLanguage (renderFlex "tt" "en" baseDoc)) == Right (documentSegments baseDoc))
+  , ("parseFlex reads an empty document", parseFlex tinyLanguage (renderFlex "tt" "en" emptyDocument) == Right emptyDocument)
+  , ("parseFlex sets the next identifier past the last", fmap documentNextId (parseFlex tinyLanguage (renderFlex "tt" "en" baseDoc)) == Right 6)
+  , ("parseFlex makes a phrase of each segment", fmap (length . documentSegments) (parseFlex tinyLanguage (renderFlex "tt" "en" twoSegmentDoc)) == Right 2)
+  , ("parseFlex splits a gloss at periods with the tags of the language", fmap glosses (parseFlex tinyLanguage (flex [phrase [word "x" [morph "x" (Just "book.PL")]]])) == Right [Just (Gloss "book" ["PL"])])
+  , ("parseFlex takes a leading tag of the language as a tag", fmap glosses (parseFlex tinyLanguage (flex [phrase [word "x" [morph "x" (Just "PL.3SG")]]])) == Right [Just (Gloss "" ["PL", "3SG"])])
+  , ("parseFlex leaves a morph without a gloss unglossed", fmap glosses (parseFlex tinyLanguage (flex [phrase [word "x" [morph "x" Nothing]]])) == Right [Nothing])
+  , ("parseFlex reads a punct word as a token without morphs", fmap (map (\t -> (tokenSurface t, length (tokenMorphs t))) . concatMap segmentTokens . documentSegments) (parseFlex tinyLanguage (renderFlex "tt" "en" (documentOf "."))) == Right [(".", 0)])
+  , ("parseFlex keeps a word without morphemes", fmap (map (length . tokenMorphs) . concatMap segmentTokens . documentSegments) (parseFlex tinyLanguage (flex [phrase [word "x" []]])) == Right [0])
+  , ("parseFlex reads all paragraphs of all texts", fmap (length . documentSegments) (parseFlex tinyLanguage ("<document>" <> text [phrase [word "a" []]] <> text [phrase [word "b" []], phrase [word "c" []]] <> "</document>")) == Right 3)
+  , ("parseFlex ignores free translations and word glosses", fmap formsOf (parseFlex tinyLanguage (flex ["<phrase><words><word><item type=\"txt\" lang=\"tt\">x</item><item type=\"gls\" lang=\"en\">w</item><morphemes><morph><item type=\"txt\" lang=\"tt\">x</item></morph></morphemes></word></words><item type=\"gls\" lang=\"en\">free</item></phrase>"])) == Right ["x"])
+  , ("parseFlex takes the first form when there are several writing systems", fmap formsOf (parseFlex tinyLanguage (flex ["<phrase><words><word><item type=\"txt\" lang=\"tt\">x</item><morphemes><morph><item type=\"txt\" lang=\"tt\">y</item><item type=\"txt\" lang=\"tt-Latn\">z</item></morph></morphemes></word></words></phrase>"])) == Right ["y"])
+  , ("parseFlex leaves out a word without a form", fmap (length . concatMap segmentTokens . documentSegments) (parseFlex tinyLanguage (flex ["<phrase><words><word><item type=\"gls\" lang=\"en\">w</item></word></words></phrase>"])) == Right 0)
+  , ("parseFlex leaves out a morph without a form", fmap formsOf (parseFlex tinyLanguage (flex ["<phrase><words><word><item type=\"txt\" lang=\"tt\">x</item><morphemes><morph><item type=\"gls\" lang=\"en\">g</item></morph></morphemes></word></words></phrase>"])) == Right [])
+  , ("parseFlex reads entities and CDATA", fmap formsOf (parseFlex tinyLanguage (flex [phrase [word "x" [morph "a&amp;b <![CDATA[<c>]]>" Nothing]]])) == Right ["a&b <c>"])
+  , ("parseFlex rejects a file that is not a FLExText document", parseFlex tinyLanguage "<a/>" == Left "not a FLExText document")
+  , ("parseFlex rejects text that is not XML", fmap (const ()) (parseFlex tinyLanguage "<document>") == Left "line 1: unclosed element: document")
   ]
   where
+    flex ps = "<?xml version=\"1.0\"?><document version=\"2\">" <> text ps <> "</document>"
+    text ps = "<interlinear-text><paragraphs><paragraph><phrases>" <> T.concat ps <> "</phrases></paragraph></paragraphs></interlinear-text>"
+    phrase ws = "<phrase><words>" <> T.concat ws <> "</words></phrase>"
+    word surface ms = "<word><item type=\"txt\" lang=\"tt\">" <> surface <> "</item>" <> (if null ms then "" else "<morphemes>" <> T.concat ms <> "</morphemes>") <> "</word>"
+    morph form g = "<morph><item type=\"txt\" lang=\"tt\">" <> form <> "</item>" <> maybe "" (\x -> "<item type=\"gls\" lang=\"en\">" <> x <> "</item>") g <> "</morph>"
+    glosses = map morphGloss . allMorphs
+    formsOf = map morphForm . allMorphs
+    allMorphs = concatMap tokenMorphs . concatMap segmentTokens . documentSegments
     documentOf s = Document 100 [buildSegment emptyDocument [(s, [s])]]
     textItems doc kind = [l | l <- map T.strip (T.lines (renderFlex "tt" "en" doc)), ("<item type=\"" <> kind <> "\"") `T.isPrefixOf` l]
     punctOf s = textItems (documentOf s) "punct"

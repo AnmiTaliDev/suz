@@ -455,6 +455,10 @@ properties =
   , ( "changed ELAN is read or rejected"
     , forAll (genDocument >>= mutate . renderElan) $ \t -> length (show (parseElan toolboxLanguage t)) >= 0
     )
+  , ("FLExText round trip", forAll genLeipzigDocument $ \d -> parseFlex toolboxLanguage (renderFlex "tt" "en" d) == Right d)
+  , ( "changed FLExText is read or rejected"
+    , forAll (genDocument >>= mutate . renderFlex "tt" "en") $ \t -> length (show (parseFlex toolboxLanguage t)) >= 0
+    )
   , ( "changed XML is read or rejected"
     , forAll (genDocument >>= mutate . renderFlex "tt" "en") $ \t -> length (show (parseXml t)) >= 0
     )
