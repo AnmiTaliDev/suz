@@ -93,6 +93,12 @@ files =
         ("Ni legis librojn.",
          "Ni  legis    librojn       .\nni  leg-is   libr-o-j-n    .\n1PL read-PST book-N-PL-ACC ?")
       ])
+  , ("estonian",
+      [ ("Ma lugesin raamatuid majas.",
+         "Ma  lugesin      raamatuid   majas     .\nma  luge-si-n    raamatu-id  maja-s    .\n1SG read-PST-1SG book-PL.PTV house-INE ?"),
+        ("Ma lugesin raamatut.",
+         "Ma  lugesin      raamatut  .\nma  luge-si-n    raamatu-t .\n1SG read-PST-1SG book-PTV  ?")
+      ])
   , ("french",
       [ ("Nous lisons des livres.",
          "Nous lisons       des      livres  .\nnous lis-ons      des      livre-s .\n1PL  read-1PL.PRS INDEF.PL book-PL ?")

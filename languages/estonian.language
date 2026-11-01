@@ -1,0 +1,18 @@
+suz-language	1
+language	Estonian
+tag	1SG
+tag	INE
+tag	PL
+tag	PST
+tag	PTV
+punctuation	!,.?
+foldcase
+weight	id	9.0	-	PL	PTV
+weight	luge	10.0	read
+weight	ma	10.0	-	1SG
+weight	maja	10.0	house
+weight	n	9.0	-	1SG
+weight	raamatu	10.0	book
+weight	s	8.0	-	INE
+weight	si	9.0	-	PST
+weight	t	8.0	-	PTV
