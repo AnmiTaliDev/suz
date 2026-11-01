@@ -1,0 +1,396 @@
+# Translation of Suz to cs.
+# Copyright (C) the Suz authors
+# This file is distributed under the same license as the Suz package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Suz 0.4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
+"PO-Revision-Date: 2026-11-01 09:25+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: main.c:46
+msgid "Morpheme-level interlinear glossing."
+msgstr "Interlineární glosování na úrovni morfémů."
+
+#: main.c:64
+msgid "Documents"
+msgstr "Dokumenty"
+
+#: main.c:65 suz-window.c:1011
+msgid "Open Text"
+msgstr "Otevřít text"
+
+#: main.c:66 suz-window.c:1023
+msgid "Open Document"
+msgstr "Otevřít dokument"
+
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
+msgid "Save"
+msgstr "Uložit"
+
+#: main.c:68
+msgid "Save As"
+msgstr "Uložit jako"
+
+#: main.c:71
+msgid "Editing"
+msgstr "Úpravy"
+
+#: main.c:72 suz-window.c:1387
+msgid "Annotate"
+msgstr "Anotovat"
+
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
+msgid "Undo"
+msgstr "Zpět"
+
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
+msgid "Redo"
+msgstr "Znovu"
+
+#: main.c:77
+msgid "General"
+msgstr "Obecné"
+
+#: main.c:78 suz-window.c:1337
+msgid "Keyboard Shortcuts"
+msgstr "Klávesové zkratky"
+
+#: main.c:79
+msgid "Quit"
+msgstr "Ukončit"
+
+#: suz-document-view.c:94
+msgid "no gloss"
+msgstr "bez glosy"
+
+#: suz-morph-editor.c:199
+msgid "Form"
+msgstr "Tvar"
+
+#: suz-morph-editor.c:206
+msgid "Gloss"
+msgstr "Glosa"
+
+#: suz-morph-editor.c:213
+msgid "Separate the parts of a gloss with periods, for example book.PL."
+msgstr "Části glosy oddělujte tečkami, například book.PL."
+
+#: suz-morph-editor.c:223
+msgid "Suggestions"
+msgstr "Návrhy"
+
+#: suz-morph-editor.c:232
+msgid "Remove Gloss"
+msgstr "Odstranit glosu"
+
+#: suz-window.c:49 suz-window.c:60
+msgid "Interlinear Text…"
+msgstr "Interlineární text…"
+
+#: suz-window.c:50 suz-window.c:61
+msgid "Toolbox…"
+msgstr "Toolbox…"
+
+#: suz-window.c:51 suz-window.c:62
+msgid "CoNLL-U…"
+msgstr "CoNLL-U…"
+
+#: suz-window.c:52 suz-window.c:63
+msgid "JSON…"
+msgstr "JSON…"
+
+#: suz-window.c:53
+msgid "LaTeX (gb4e)…"
+msgstr "LaTeX (gb4e)…"
+
+#: suz-window.c:54
+msgid "HTML…"
+msgstr "HTML…"
+
+#: suz-window.c:55 suz-window.c:64
+msgid "ELAN…"
+msgstr "ELAN…"
+
+#: suz-window.c:56 suz-window.c:65
+msgid "FLEx…"
+msgstr "FLEx…"
+
+#: suz-window.c:77
+msgid "unknown error"
+msgstr "neznámá chyba"
+
+#: suz-window.c:137 suz-window.c:139
+msgid "Cannot autosave the document"
+msgstr "Dokument nelze automaticky uložit"
+
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
+msgid "Untitled"
+msgstr "Bez názvu"
+
+#: suz-window.c:315
+msgid "Cannot load the language"
+msgstr "Jazyk nelze načíst"
+
+#: suz-window.c:352 suz-window.c:354
+msgid "Cannot save the learned weights"
+msgstr "Naučené váhy nelze uložit"
+
+#: suz-window.c:397
+msgid "Cannot apply the change"
+msgstr "Změnu nelze použít"
+
+#: suz-window.c:504
+msgid "Cannot split the words"
+msgstr "Slova nelze rozdělit"
+
+#: suz-window.c:510
+msgid "Cannot suggest glosses"
+msgstr "Glosy nelze navrhnout"
+
+#: suz-window.c:517
+msgid "Nothing to annotate"
+msgstr "Není co anotovat"
+
+#: suz-window.c:526
+#, c-format
+msgid "Split %d, glossed %d"
+msgstr "Rozděleno %d, oglosováno %d"
+
+#: suz-window.c:542
+msgid "Cannot undo"
+msgstr "Nelze vrátit zpět"
+
+#: suz-window.c:542
+msgid "Cannot redo"
+msgstr "Nelze provést znovu"
+
+#: suz-window.c:577
+msgid "Cannot reset the language"
+msgstr "Jazyk nelze obnovit"
+
+#: suz-window.c:585
+msgid "Learned weights reset"
+msgstr "Naučené váhy obnoveny"
+
+#: suz-window.c:594
+msgid "Reset Learned Weights?"
+msgstr "Obnovit naučené váhy?"
+
+#: suz-window.c:594
+msgid ""
+"The language returns to the weights it shipped with. The weights learned "
+"from your corrections are lost."
+msgstr ""
+"Jazyk se vrátí k vahám, s nimiž byl dodán. Váhy naučené z vašich oprav se "
+"ztratí."
+
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: suz-window.c:595
+msgid "Reset"
+msgstr "Obnovit"
+
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
+msgid "Cannot open the file"
+msgstr "Soubor nelze otevřít"
+
+#: suz-window.c:613 suz-window.c:703
+msgid "the text is not valid UTF-8"
+msgstr "text není platné UTF-8"
+
+#: suz-window.c:622
+msgid "Cannot import the text"
+msgstr "Text nelze importovat"
+
+#: suz-window.c:635 suz-window.c:692
+msgid "Cannot import the file"
+msgstr "Soubor nelze importovat"
+
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "Výběr vrstvy"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr ""
+"Soubor obsahuje několik vrstev bez nadřazené vrstvy. Segmenty se čtou z "
+"vybrané vrstvy."
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "Importovat"
+
+#: suz-window.c:692
+msgid "no language is selected"
+msgstr "není vybrán žádný jazyk"
+
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
+msgid "the document is open in another instance"
+msgstr "dokument je otevřen v jiné instanci"
+
+#: suz-window.c:760
+msgid "Cannot read the document"
+msgstr "Dokument nelze přečíst"
+
+#: suz-window.c:792
+msgid "Cannot read the recovery file"
+msgstr "Soubor pro obnovení nelze přečíst"
+
+#: suz-window.c:861
+#, c-format
+msgid "The previous session ended with unsaved changes to \"%s\"."
+msgstr "Předchozí relace skončila s neuloženými změnami v „%s“."
+
+#: suz-window.c:862
+msgid "Recover Unsaved Document?"
+msgstr "Obnovit neuložený dokument?"
+
+#: suz-window.c:863
+msgid "Not Now"
+msgstr "Teď ne"
+
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
+msgid "Discard"
+msgstr "Zahodit"
+
+#: suz-window.c:863
+msgid "Restore"
+msgstr "Obnovit"
+
+#: suz-window.c:939
+msgid "Discard Changes?"
+msgstr "Zahodit změny?"
+
+#: suz-window.c:939
+msgid "The current document has unsaved changes."
+msgstr "Aktuální dokument má neuložené změny."
+
+#: suz-window.c:1010
+msgid "Text files"
+msgstr "Textové soubory"
+
+#: suz-window.c:1022 suz-window.c:1136
+msgid "Suz documents"
+msgstr "Dokumenty Suz"
+
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
+msgid "Cannot save the document"
+msgstr "Dokument nelze uložit"
+
+#: suz-window.c:1110
+msgid "Document saved"
+msgstr "Dokument uložen"
+
+#: suz-window.c:1138
+msgid "Save Document"
+msgstr "Uložit dokument"
+
+#: suz-window.c:1199 suz-window.c:1203
+msgid "Cannot export the document"
+msgstr "Dokument nelze exportovat"
+
+#: suz-window.c:1200
+msgid "Document exported"
+msgstr "Dokument exportován"
+
+#: suz-window.c:1215 suz-window.c:1323
+msgid "Export"
+msgstr "Exportovat"
+
+#: suz-window.c:1266
+msgid "Save Changes?"
+msgstr "Uložit změny?"
+
+#: suz-window.c:1266
+msgid ""
+"The document has unsaved changes. They are lost if you close without saving."
+msgstr "Dokument má neuložené změny. Pokud jej zavřete bez uložení, ztratí se."
+
+#: suz-window.c:1296
+msgid "Reset Learned Weights…"
+msgstr "Obnovit naučené váhy…"
+
+#: suz-window.c:1301
+msgid "Language"
+msgstr "Jazyk"
+
+#: suz-window.c:1332
+msgid "Save As…"
+msgstr "Uložit jako…"
+
+#: suz-window.c:1338
+msgid "About Suz"
+msgstr "O aplikaci Suz"
+
+#: suz-window.c:1349 suz-window.c:1411
+msgid "Open Text…"
+msgstr "Otevřít text…"
+
+#: suz-window.c:1350
+msgid "Open Document…"
+msgstr "Otevřít dokument…"
+
+#: suz-window.c:1352
+msgid "Open"
+msgstr "Otevřít"
+
+#: suz-window.c:1355
+msgid "Open a text file"
+msgstr "Otevřít textový soubor"
+
+#: suz-window.c:1377
+msgid "Main Menu"
+msgstr "Hlavní nabídka"
+
+#: suz-window.c:1384
+msgid "Save the document"
+msgstr "Uložit dokument"
+
+#: suz-window.c:1390
+msgid "Split the words and suggest glosses"
+msgstr "Rozdělit slova a navrhnout glosy"
+
+#: suz-window.c:1408
+msgid "Open a Text"
+msgstr "Otevřít text"
+
+#: suz-window.c:1409
+msgid "Choose a text file, or drop one here, to start glossing."
+msgstr "Vyberte textový soubor nebo ho sem přetáhněte a začněte glosovat."
+
+#: ../data/dev.anmitali.Suz.desktop:3 ../data/dev.anmitali.Suz.metainfo.xml:7
+msgid "Suz"
+msgstr ""
+
+#: ../data/dev.anmitali.Suz.desktop:4 ../data/dev.anmitali.Suz.metainfo.xml:8
+msgid "Morpheme-level interlinear glossing"
+msgstr "Interlineární glosování na úrovni morfémů"
+
+#: ../data/dev.anmitali.Suz.desktop:11
+msgid "gloss;glossing;interlinear;morpheme;linguistics;"
+msgstr "glosa;glosování;interlineární;morfém;lingvistika;"
+
+#: ../data/dev.anmitali.Suz.metainfo.xml:10
+msgid ""
+"Suz splits the words of a text into morphs and glosses them, using weight "
+"tables that learn from your corrections. It reads plain text and exports "
+"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
+msgstr ""
+"Suz dělí slova textu na morfy a glosuje je pomocí tabulek vah, které se učí "
+"z vašich oprav. Čte prostý text a exportuje interlineární text, Toolbox, "
+"CoNLL-U, JSON, LaTeX, HTML, ELAN a FLExText."
