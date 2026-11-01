@@ -91,6 +91,11 @@ void demo_exchange(suz_language *language)
 
     char *conllu = suz_conllu(raw);
     printf("-- CoNLL-U\n%s", conllu);
+    suz_session *from_glossed = suz_session_from_conllu_with_language(language, conllu, &error);
+    if (!from_glossed)
+        fail("conllu with glosses", error);
+    show("read back from CoNLL-U with glosses", from_glossed);
+    suz_session_free(from_glossed);
     suz_free(conllu);
 
     char *wrapped = suz_render_wrapped(raw, 24);

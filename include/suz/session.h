@@ -93,13 +93,31 @@ suz_session *suz_session_from_leipzig(const suz_language *language, const char *
 /**
  * Creates a session from CoNLL-U text. Every sentence becomes a segment and
  * every word a token with one unglossed morph. A multiword token range
- * becomes one token with a morph per covered word. Only the ID and FORM
- * columns are read. The history of the new session is empty.
+ * becomes one token with a morph per covered word. The UD columns become the
+ * UD annotation of the morph, a `Gloss=` item of MISC is kept there and is not
+ * read as a gloss, see suz_session_from_conllu_with_language(). The history of
+ * the new session is empty.
  * @param text CoNLL-U text.
  * @param error Receives the message on failure, may be NULL.
  * @return New session or NULL.
  */
 suz_session *suz_session_from_conllu(const char *text, char **error);
+
+/**
+ * Like suz_session_from_conllu(), and a `Gloss=` item in the MISC column of a
+ * word line is the gloss of its morph, as suz_conllu() writes it. The item is
+ * left out of the MISC text of the UD annotation. The value is split at
+ * periods: the first part is a tag when the language lists it and the lexical
+ * part otherwise. `%25`, `%7C`, `%20`, `%09`, `%0A` and `%0D` in the value
+ * stand for a percent sign, a vertical bar, a space, a tab and the line
+ * breaks. The first item of a line is used, an empty value leaves the morph
+ * unglossed. The language is not changed.
+ * @param language Language that supplies the tag list.
+ * @param text CoNLL-U text.
+ * @param error Receives the message on failure, may be NULL.
+ * @return New session or NULL.
+ */
+suz_session *suz_session_from_conllu_with_language(const suz_language *language, const char *text, char **error);
 
 /**
  * Creates a session from JSON text as written by suz_json(), with the

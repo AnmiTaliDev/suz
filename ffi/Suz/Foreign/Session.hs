@@ -22,6 +22,7 @@ foreign export ccall "suz_session_from_text_with_language" sessionFromTextWithLa
 foreign export ccall "suz_session_from_toolbox" sessionFromToolbox :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_leipzig" sessionFromLeipzig :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_conllu" sessionFromConllu :: CString -> Ptr CString -> IO (Ptr ())
+foreign export ccall "suz_session_from_conllu_with_language" sessionFromConlluWith :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_elan" sessionFromElan :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_session_from_elan_tier" sessionFromElanTier :: Ptr () -> CString -> CString -> Ptr CString -> IO (Ptr ())
 foreign export ccall "suz_elan_tiers" elanTierList :: CString -> Ptr CString -> IO CString
@@ -99,6 +100,14 @@ sessionFromConllu :: CString -> Ptr CString -> IO (Ptr ())
 sessionFromConllu s errp = do
   input <- peekText s
   case input >>= first lineError . parseConllu of
+    Left msg -> failHandle errp msg
+    Right doc -> newIORef (newSession doc) >>= newHandle
+
+sessionFromConlluWith :: Ptr () -> CString -> Ptr CString -> IO (Ptr ())
+sessionFromConlluWith lh s errp = do
+  lang <- readLanguage lh
+  input <- peekText s
+  case input >>= first lineError . parseConlluWith lang of
     Left msg -> failHandle errp msg
     Right doc -> newIORef (newSession doc) >>= newHandle
 

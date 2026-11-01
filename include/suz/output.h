@@ -65,12 +65,13 @@ char *suz_toolbox(suz_session *session);
 
 /**
  * CoNLL-U text of the document: one sentence per segment with the ID and FORM
- * columns filled and the others set to `_`. A token with several morphs is a
- * range line followed by a line per morph form. Segments without tokens are
- * skipped. Whitespace in a form is written as a no-break space and an empty
- * form as `_`. The text can be read with suz_session_from_conllu(), which
- * gives each word one unglossed morph, so glosses and the morph forms of
- * single-morph tokens are not kept.
+ * columns filled and the UD annotation of the morphs in the others, `_` where
+ * there is none. A token with several morphs is a range line followed by a
+ * line per morph form. The gloss of a morph is a `Gloss=` item at the end of
+ * its MISC column. Segments without tokens are skipped. Whitespace in a form
+ * is written as a no-break space and an empty form as `_`. The text can be
+ * read with suz_session_from_conllu_with_language(), which restores the
+ * glosses. The morph forms of single-morph tokens are not kept.
  * @param session Session.
  * @return Text, release with suz_free().
  */
