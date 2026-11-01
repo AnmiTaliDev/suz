@@ -1,0 +1,17 @@
+suz-language	1
+language	Armenian
+tag	1PL
+tag	1SG
+tag	COP
+tag	IPFV
+tag	PL
+punctuation	!,.?։
+foldcase
+weight	գրք	10.0	book
+weight	եմ	10.0	-	1SG	COP
+weight	ենք	10.0	-	1PL	COP
+weight	ես	10.0	-	1SG
+weight	եր	9.0	-	PL
+weight	կարդ	10.0	read
+weight	մենք	10.0	-	1PL
+weight	ում	9.0	-	IPFV

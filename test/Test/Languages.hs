@@ -59,6 +59,12 @@ files =
         ("أنا أقرأ الكتب.",
          "أنا أقرأ         الكتب       .\nأنا أ-قرأ        ال-كتب      .\n1SG 1SG.PRS-read DEF-book.PL ?")
       ])
+  , ("armenian",
+      [ ("Ես կարդում եմ գրքեր։",
+         "Ես  կարդում   եմ      գրքեր   ։\nես  կարդ-ում  եմ      գրք-եր  ։\n1SG read-IPFV 1SG.COP book-PL ?"),
+        ("Մենք կարդում ենք գրքեր։",
+         "Մենք կարդում   ենք     գրքեր   ։\nմենք կարդ-ում  ենք     գրք-եր  ։\n1PL  read-IPFV 1PL.COP book-PL ?")
+      ])
   , ("azerbaijani",
       [ ("İşıq kitabları oxudum.",
          "İşıq  kitabları   oxudum       .\nişıq  kitab-lar-ı oxu-du-m     .\nlight book-PL-ACC read-PST-1SG ?"),
