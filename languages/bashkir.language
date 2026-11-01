@@ -1,0 +1,93 @@
+suz-language	1
+language	Bashkir
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	DAT
+tag	GEN
+tag	LOC
+tag	NEG
+tag	PL
+tag	POSS
+tag	PST
+punctuation	!,.?
+foldcase
+weight	гә	8.0	-	DAT
+weight	да	8.0	-	LOC
+weight	дан	8.0	-	ABL
+weight	дар	8.0	-	PL
+weight	де	5.0	-	PST
+weight	ды	5.0	-	PST
+weight	дә	8.0	-	LOC
+weight	дән	8.0	-	ABL
+weight	дәр	8.0	-	PL
+weight	ем	8.0	-	1SG	POSS
+weight	ең	8.0	-	2SG	POSS
+weight	китап	10.0	book
+weight	лар	8.0	-	PL
+weight	ләр	8.0	-	PL
+weight	м	9.0	-	1SG
+weight	ма	8.0	-	NEG
+weight	мин	10.0	-	1SG
+weight	мә	8.0	-	NEG
+weight	не	9.0	-	ACC
+weight	не	5.0	-	PST
+weight	нең	8.0	-	GEN
+weight	но	5.0	-	PST
+weight	ны	9.0	-	ACC
+weight	ны	5.0	-	PST
+weight	ның	8.0	-	GEN
+weight	нө	5.0	-	PST
+weight	та	8.0	-	LOC
+weight	тан	8.0	-	ABL
+weight	тар	8.0	-	PL
+weight	те	9.0	-	ACC
+weight	те	5.0	-	PST
+weight	тең	8.0	-	GEN
+weight	ты	9.0	-	ACC
+weight	ты	5.0	-	PST
+weight	тың	8.0	-	GEN
+weight	тә	8.0	-	LOC
+weight	тән	8.0	-	ABL
+weight	тәр	8.0	-	PL
+weight	уҡы	10.0	read
+weight	ым	8.0	-	1SG	POSS
+weight	ың	8.0	-	2SG	POSS
+weight	ға	8.0	-	DAT
+weight	ҙа	8.0	-	LOC
+weight	ҙан	8.0	-	ABL
+weight	ҙар	8.0	-	PL
+weight	ҙе	9.0	-	ACC
+weight	ҙе	5.0	-	PST
+weight	ҙең	8.0	-	GEN
+weight	ҙы	9.0	-	ACC
+weight	ҙы	5.0	-	PST
+weight	ҙың	8.0	-	GEN
+weight	ҙә	8.0	-	LOC
+weight	ҙән	8.0	-	ABL
+weight	ҙәр	8.0	-	PL
+weight	ҡа	8.0	-	DAT
+weight	ҡә	8.0	-	DAT
+weight	һин	10.0	-	2SG
+weight	өй	10.0	house
+context	ма	де	9.0	-	PST
+context	ма	ды	9.0	-	PST
+context	ма	не	9.0	-	PST
+context	ма	но	9.0	-	PST
+context	ма	ны	9.0	-	PST
+context	ма	нө	9.0	-	PST
+context	ма	те	9.0	-	PST
+context	ма	ты	9.0	-	PST
+context	ма	ҙе	9.0	-	PST
+context	ма	ҙы	9.0	-	PST
+context	уҡы	де	9.0	-	PST
+context	уҡы	ды	9.0	-	PST
+context	уҡы	не	9.0	-	PST
+context	уҡы	но	9.0	-	PST
+context	уҡы	ны	9.0	-	PST
+context	уҡы	нө	9.0	-	PST
+context	уҡы	те	9.0	-	PST
+context	уҡы	ты	9.0	-	PST
+context	уҡы	ҙе	9.0	-	PST
+context	уҡы	ҙы	9.0	-	PST
