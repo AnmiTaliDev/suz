@@ -59,6 +59,12 @@ files =
         ("Мин өйҙә китапты уҡыманым.",
          "Мин өйҙә      китапты  уҡыманым         .\nмин өй-ҙә     китап-ты уҡы-ма-ны-м      .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
       ])
+  , ("chuvash",
+      [ ("Эпӗ кӗнекесене вуларӑм.",
+         "Эпӗ кӗнекесене  вуларӑм      .\nэпӗ кӗнеке-сене вула-р-ӑм    .\n1SG book-PL.ACC read-PST-1SG ?"),
+        ("Эпӗ ҫуртра кӗнеке вуламарӑм.",
+         "Эпӗ ҫуртра    кӗнеке вуламарӑм        .\nэпӗ ҫурт-ра   кӗнеке вула-ма-р-ӑм     .\n1SG house-LOC book   read-NEG-PST-1SG ?")
+      ])
   , ("crimean-tatar",
       [ ("Men kitaplarnı oqudım.",
          "Men kitaplarnı   oqudım       .\nmen kitap-lar-nı oqu-dı-m     .\n1SG book-PL-ACC  read-PST-1SG ?"),

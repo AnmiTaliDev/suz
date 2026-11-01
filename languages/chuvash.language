@@ -1,0 +1,34 @@
+suz-language	1
+language	Chuvash
+tag	1SG
+tag	2SG
+tag	ABL
+tag	ACC
+tag	LOC
+tag	NEG
+tag	PL
+tag	PST
+punctuation	!,.?
+foldcase
+weight	вула	10.0	read
+weight	кӗнеке	10.0	book
+weight	ма	8.0	-	NEG
+weight	ме	8.0	-	NEG
+weight	на	9.0	-	ACC
+weight	не	9.0	-	ACC
+weight	р	9.0	-	PST
+weight	ра	8.0	-	LOC
+weight	ран	8.0	-	ABL
+weight	ре	8.0	-	LOC
+weight	рен	8.0	-	ABL
+weight	сем	8.0	-	PL
+weight	сене	9.0	-	PL	ACC
+weight	та	8.0	-	LOC
+weight	тан	8.0	-	ABL
+weight	те	8.0	-	LOC
+weight	тен	8.0	-	ABL
+weight	эпӗ	10.0	-	1SG
+weight	эсӗ	10.0	-	2SG
+weight	ҫурт	10.0	house
+weight	ӑм	9.0	-	1SG
+weight	ӗм	9.0	-	1SG
