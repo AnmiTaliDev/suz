@@ -10,6 +10,7 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import Test.QuickCheck
 import Suz
+import Suz.Codec.XmlTree (parseXml)
 
 wild, tame :: String
 wild = "аБ b\t\n\r\\-._?\x00a0;#"
@@ -449,6 +450,9 @@ properties =
     )
   , ( "changed JSON is read or rejected"
     , forAll (genDocument >>= mutate . renderJson) $ \t -> length (show (parseJson t)) >= 0
+    )
+  , ( "changed XML is read or rejected"
+    , forAll (genDocument >>= mutate . renderFlex "tt" "en") $ \t -> length (show (parseXml t)) >= 0
     )
   , ( "ELAN annotations have unique identifiers and every reference resolves"
     , forAll genDocument $ \d ->

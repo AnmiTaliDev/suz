@@ -44,6 +44,7 @@ library
                       Suz.Codec.Escape
                       Suz.Codec.JsonValue
                       Suz.Codec.Xml
+                      Suz.Codec.XmlTree
                       Suz.Codec.Parser
                       Suz.Codec.Ud
                       Suz.Command
@@ -86,6 +87,7 @@ test-suite suz-test
                       Test.Escape
                       Test.Elan
                       Test.Flex
+                      Test.XmlTree
                       Test.Html
                       Test.Import
                       Test.Journal

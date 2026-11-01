@@ -27,6 +27,7 @@ import qualified Test.Languages as Languages
 import qualified Test.Latex as Latex
 import qualified Test.Elan as Elan
 import qualified Test.Flex as Flex
+import qualified Test.XmlTree as XmlTree
 import qualified Test.Html as Html
 import System.Exit (exitFailure, exitSuccess)
 import Test.QuickCheck (Args (..), isSuccess, output, quickCheckWithResult, stdArgs)
@@ -58,6 +59,7 @@ checks = concat
   , Html.checks
   , Elan.checks
   , Flex.checks
+  , XmlTree.checks
   ]
 
 main :: IO ()
