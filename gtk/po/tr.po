@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Suz 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 09:03+0500\n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
 "PO-Revision-Date: 2026-10-31 19:03+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,15 +24,15 @@ msgstr "Biçimbirim düzeyinde satır arası glosslama."
 msgid "Documents"
 msgstr "Belgeler"
 
-#: main.c:65 suz-window.c:947
+#: main.c:65 suz-window.c:1011
 msgid "Open Text"
 msgstr "Metin Aç"
 
-#: main.c:66 suz-window.c:959
+#: main.c:66 suz-window.c:1023
 msgid "Open Document"
 msgstr "Belge Aç"
 
-#: main.c:67 suz-window.c:1203 suz-window.c:1267
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
 msgid "Save"
 msgstr "Kaydet"
 
@@ -44,15 +44,15 @@ msgstr "Farklı Kaydet"
 msgid "Editing"
 msgstr "Düzenleme"
 
-#: main.c:72 suz-window.c:1323
+#: main.c:72 suz-window.c:1387
 msgid "Annotate"
 msgstr "Etiketle"
 
-#: main.c:73 suz-window.c:1265 suz-window.c:1299
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
 msgid "Undo"
 msgstr "Geri Al"
 
-#: main.c:74 suz-window.c:1266 suz-window.c:1302
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
 msgid "Redo"
 msgstr "Yinele"
 
@@ -60,7 +60,7 @@ msgstr "Yinele"
 msgid "General"
 msgstr "Genel"
 
-#: main.c:78 suz-window.c:1273
+#: main.c:78 suz-window.c:1337
 msgid "Keyboard Shortcuts"
 msgstr "Klavye Kısayolları"
 
@@ -132,7 +132,7 @@ msgstr "bilinmeyen hata"
 msgid "Cannot autosave the document"
 msgstr "Belge otomatik olarak kaydedilemedi"
 
-#: suz-window.c:169 suz-window.c:804 suz-window.c:1073 suz-window.c:1168
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
 msgid "Untitled"
 msgstr "Adsız"
 
@@ -193,7 +193,7 @@ msgstr ""
 "Dil, birlikte gelen ağırlıklara döner. Düzeltmelerinizden öğrenilen "
 "ağırlıklar kaybolur."
 
-#: suz-window.c:595 suz-window.c:883 suz-window.c:1203
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
 msgid "Cancel"
 msgstr "İptal"
 
@@ -201,13 +201,13 @@ msgstr "İptal"
 msgid "Reset"
 msgstr "Sıfırla"
 
-#: suz-window.c:609 suz-window.c:613 suz-window.c:643 suz-window.c:647
-#: suz-window.c:688 suz-window.c:695 suz-window.c:761 suz-window.c:926
-#: suz-window.c:937 suz-window.c:977
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
 msgid "Cannot open the file"
 msgstr "Dosya açılamadı"
 
-#: suz-window.c:613 suz-window.c:647
+#: suz-window.c:613 suz-window.c:703
 msgid "the text is not valid UTF-8"
 msgstr "metin geçerli UTF-8 değil"
 
@@ -215,152 +215,164 @@ msgstr "metin geçerli UTF-8 değil"
 msgid "Cannot import the text"
 msgstr "Metin içe aktarılamadı"
 
-#: suz-window.c:636 suz-window.c:666
+#: suz-window.c:635 suz-window.c:692
 msgid "Cannot import the file"
 msgstr "Dosya içe aktarılamadı"
 
-#: suz-window.c:636
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "Katman Seç"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr ""
+"Dosyada üst katmanı olmayan birden çok katman var. Bölütler seçtiğiniz "
+"katmandan okunur."
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "İçe Aktar"
+
+#: suz-window.c:692
 msgid "no language is selected"
 msgstr "dil seçilmedi"
 
-#: suz-window.c:688 suz-window.c:761 suz-window.c:1024
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
 msgid "the document is open in another instance"
 msgstr "belge başka bir örnekte açık"
 
-#: suz-window.c:703
+#: suz-window.c:760
 msgid "Cannot read the document"
 msgstr "Belge okunamadı"
 
-#: suz-window.c:735
+#: suz-window.c:792
 msgid "Cannot read the recovery file"
 msgstr "Kurtarma dosyası okunamadı"
 
-#: suz-window.c:804
+#: suz-window.c:861
 #, c-format
 msgid "The previous session ended with unsaved changes to \"%s\"."
 msgstr ""
 "Önceki oturum, “%s” belgesindeki kaydedilmemiş değişikliklerle sona erdi."
 
-#: suz-window.c:805
+#: suz-window.c:862
 msgid "Recover Unsaved Document?"
 msgstr "Kaydedilmemiş Belge Kurtarılsın mı?"
 
-#: suz-window.c:806
+#: suz-window.c:863
 msgid "Not Now"
 msgstr "Şimdi Değil"
 
-#: suz-window.c:806 suz-window.c:883 suz-window.c:1203
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
 msgid "Discard"
 msgstr "Vazgeç"
 
-#: suz-window.c:806
+#: suz-window.c:863
 msgid "Restore"
 msgstr "Kurtar"
 
-#: suz-window.c:882
+#: suz-window.c:939
 msgid "Discard Changes?"
 msgstr "Değişikliklerden Vazgeçilsin mi?"
 
-#: suz-window.c:882
+#: suz-window.c:939
 msgid "The current document has unsaved changes."
 msgstr "Geçerli belgede kaydedilmemiş değişiklikler var."
 
-#: suz-window.c:946
+#: suz-window.c:1010
 msgid "Text files"
 msgstr "Metin dosyaları"
 
-#: suz-window.c:958 suz-window.c:1072
+#: suz-window.c:1022 suz-window.c:1136
 msgid "Suz documents"
 msgstr "Suz belgeleri"
 
-#: suz-window.c:1024 suz-window.c:1030 suz-window.c:1066
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
 msgid "Cannot save the document"
 msgstr "Belge kaydedilemedi"
 
-#: suz-window.c:1046
+#: suz-window.c:1110
 msgid "Document saved"
 msgstr "Belge kaydedildi"
 
-#: suz-window.c:1074
+#: suz-window.c:1138
 msgid "Save Document"
 msgstr "Belgeyi Kaydet"
 
-#: suz-window.c:1135 suz-window.c:1139
+#: suz-window.c:1199 suz-window.c:1203
 msgid "Cannot export the document"
 msgstr "Belge dışa aktarılamadı"
 
-#: suz-window.c:1136
+#: suz-window.c:1200
 msgid "Document exported"
 msgstr "Belge dışa aktarıldı"
 
-#: suz-window.c:1151 suz-window.c:1259
+#: suz-window.c:1215 suz-window.c:1323
 msgid "Export"
 msgstr "Dışa Aktar"
 
-#: suz-window.c:1202
+#: suz-window.c:1266
 msgid "Save Changes?"
 msgstr "Değişiklikler Kaydedilsin mi?"
 
-#: suz-window.c:1202
+#: suz-window.c:1266
 msgid ""
 "The document has unsaved changes. They are lost if you close without saving."
 msgstr ""
 "Belgede kaydedilmemiş değişiklikler var. Kaydetmeden kapatırsanız "
 "kaybolurlar."
 
-#: suz-window.c:1232
+#: suz-window.c:1296
 msgid "Reset Learned Weights…"
 msgstr "Öğrenilen Ağırlıkları Sıfırla…"
 
-#: suz-window.c:1237
+#: suz-window.c:1301
 msgid "Language"
 msgstr "Dil"
 
-#: suz-window.c:1248
-msgid "Import"
-msgstr "İçe Aktar"
-
-#: suz-window.c:1268
+#: suz-window.c:1332
 msgid "Save As…"
 msgstr "Farklı Kaydet…"
 
-#: suz-window.c:1274
+#: suz-window.c:1338
 msgid "About Suz"
 msgstr "Suz Hakkında"
 
-#: suz-window.c:1285 suz-window.c:1347
+#: suz-window.c:1349 suz-window.c:1411
 msgid "Open Text…"
 msgstr "Metin Aç…"
 
-#: suz-window.c:1286
+#: suz-window.c:1350
 msgid "Open Document…"
 msgstr "Belge Aç…"
 
-#: suz-window.c:1288
+#: suz-window.c:1352
 msgid "Open"
 msgstr "Aç"
 
-#: suz-window.c:1291
+#: suz-window.c:1355
 msgid "Open a text file"
 msgstr "Bir metin dosyası aç"
 
-#: suz-window.c:1313
+#: suz-window.c:1377
 msgid "Main Menu"
 msgstr "Ana Menü"
 
-#: suz-window.c:1320
+#: suz-window.c:1384
 msgid "Save the document"
 msgstr "Belgeyi kaydet"
 
-#: suz-window.c:1326
+#: suz-window.c:1390
 msgid "Split the words and suggest glosses"
 msgstr "Sözcükleri böl ve gloss öner"
 
-#: suz-window.c:1344
+#: suz-window.c:1408
 msgid "Open a Text"
 msgstr "Bir Metin Açın"
 
-#: suz-window.c:1345
+#: suz-window.c:1409
 msgid "Choose a text file, or drop one here, to start glossing."
 msgstr ""
 "Glosslamaya başlamak için bir metin dosyası seçin veya buraya sürükleyin."
