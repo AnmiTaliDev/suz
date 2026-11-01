@@ -348,9 +348,9 @@ msgstr "גלוסה;גלוסציה;בין-שורתי;מורפמה;בלשנות;"
 
 #: ../data/dev.anmitali.Suz.metainfo.xml:10
 msgid ""
-"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML and ELAN."
+"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
 msgstr ""
-"Suz מפצל את המילים בטקסט למורפים ומוסיף להם גלוסות באמצעות טבלאות משקלים הלומדות מהתיקונים שלך. הוא קורא טקסט רגיל ומייצא טקסט בין-שורתי, Toolbox, CoNLL-U, JSON, LaTeX,‏ HTML ו-ELAN."
+"Suz מפצל את המילים בטקסט למורפים ומוסיף להם גלוסות באמצעות טבלאות משקלים הלומדות מהתיקונים שלך. הוא קורא טקסט רגיל ומייצא טקסט בין-שורתי, Toolbox, CoNLL-U, JSON, LaTeX,‏ HTML,‏ ELAN ו-FLExText."
 
 #: suz-window.c:633
 msgid "the document is open in another instance"
@@ -359,3 +359,7 @@ msgstr "המסמך פתוח במופע אחר"
 #: suz-window.c:50
 msgid "ELAN…"
 msgstr "ELAN…"
+
+#: suz-window.c:51
+msgid "FLEx…"
+msgstr "FLEx…"

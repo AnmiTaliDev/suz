@@ -348,9 +348,9 @@ msgstr "برچسب;برچسب‌گذاری;بین‌خطی;تکواژ;زبان�
 
 #: ../data/dev.anmitali.Suz.metainfo.xml:10
 msgid ""
-"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML and ELAN."
+"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
 msgstr ""
-"Suz واژه‌های یک متن را به تکواژها تقسیم می‌کند و با جدول‌های وزنی که از اصلاحات شما می‌آموزند برای آن‌ها برچسب می‌گذارد. این برنامه متن ساده را می‌خواند و متن بین‌خطی، Toolbox، CoNLL-U، JSON، LaTeX، HTML و ELAN را برون‌بری می‌کند."
+"Suz واژه‌های یک متن را به تکواژها تقسیم می‌کند و با جدول‌های وزنی که از اصلاحات شما می‌آموزند برای آن‌ها برچسب می‌گذارد. این برنامه متن ساده را می‌خواند و متن بین‌خطی، Toolbox، CoNLL-U، JSON، LaTeX، HTML، ELAN و FLExText را برون‌بری می‌کند."
 
 #: suz-window.c:633
 msgid "the document is open in another instance"
@@ -359,3 +359,7 @@ msgstr "سند در نمونهٔ دیگری باز است"
 #: suz-window.c:50
 msgid "ELAN…"
 msgstr "ELAN…"
+
+#: suz-window.c:51
+msgid "FLEx…"
+msgstr "FLEx…"

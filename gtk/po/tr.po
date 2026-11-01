@@ -348,9 +348,9 @@ msgstr "gloss;glosslama;satır arası;biçimbirim;dilbilim;"
 
 #: ../data/dev.anmitali.Suz.metainfo.xml:10
 msgid ""
-"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML and ELAN."
+"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
 msgstr ""
-"Suz, bir metindeki sözcükleri biçimbirimlere böler ve düzeltmelerinizden öğrenen ağırlık tablolarını kullanarak bunlara gloss ekler. Düz metni okur; satır arası metin, Toolbox, CoNLL-U, JSON, LaTeX, HTML ve ELAN olarak dışa aktarır."
+"Suz, bir metindeki sözcükleri biçimbirimlere böler ve düzeltmelerinizden öğrenen ağırlık tablolarını kullanarak bunlara gloss ekler. Düz metni okur; satır arası metin, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN ve FLExText olarak dışa aktarır."
 
 #: suz-window.c:633
 msgid "the document is open in another instance"
@@ -359,3 +359,7 @@ msgstr "belge başka bir örnekte açık"
 #: suz-window.c:50
 msgid "ELAN…"
 msgstr "ELAN…"
+
+#: suz-window.c:51
+msgid "FLEx…"
+msgstr "FLEx…"

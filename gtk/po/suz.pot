@@ -349,7 +349,7 @@ msgstr ""
 
 #: ../data/dev.anmitali.Suz.metainfo.xml:10
 msgid ""
-"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML and ELAN."
+"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
 msgstr ""
 
 #: suz-window.c:633
@@ -358,4 +358,8 @@ msgstr ""
 
 #: suz-window.c:50
 msgid "ELAN…"
+msgstr ""
+
+#: suz-window.c:51
+msgid "FLEx…"
 msgstr ""

@@ -348,9 +348,9 @@ msgstr "注释;行间注释;语素;语言学;"
 
 #: ../data/dev.anmitali.Suz.metainfo.xml:10
 msgid ""
-"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML and ELAN."
+"Suz splits the words of a text into morphs and glosses them, using weight tables that learn from your corrections. It reads plain text and exports interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
 msgstr ""
-"Suz 将文本中的词拆分为语素并为其添加注释，使用可根据您的更正学习的权重表。它可读取纯文本，并导出为行间文本、Toolbox、CoNLL-U、JSON、LaTeX、HTML 和 ELAN。"
+"Suz 将文本中的词拆分为语素并为其添加注释，使用可根据您的更正学习的权重表。它可读取纯文本，并导出为行间文本、Toolbox、CoNLL-U、JSON、LaTeX、HTML、ELAN 和 FLExText。"
 
 #: suz-window.c:633
 msgid "the document is open in another instance"
@@ -359,3 +359,7 @@ msgstr "文档已在另一个实例中打开"
 #: suz-window.c:50
 msgid "ELAN…"
 msgstr "ELAN…"
+
+#: suz-window.c:51
+msgid "FLEx…"
+msgstr "FLEx…"
