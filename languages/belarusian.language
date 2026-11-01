@@ -1,0 +1,16 @@
+suz-language	1
+language	Belarusian
+tag	1PL
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	ем	9.0	-	1PL	PRS
+weight	кніг	10.0	book
+weight	мы	10.0	-	1PL
+weight	чыта	10.0	read
+weight	ю	9.0	-	1SG	PRS
+weight	я	10.0	-	1SG
+weight	і	9.0	-	PL	ACC
