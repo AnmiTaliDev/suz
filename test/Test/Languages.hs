@@ -123,6 +123,14 @@ files =
         ("אני קורא ספרים.",
          "אני קורא ספרים   .\nאני קורא ספר-ים  .\n1SG read book-PL ?")
       ])
+  , ("hungarian",
+      [ ("Könyveket olvasok.",
+         "Könyveket   olvasok      .\nkönyv-ek-et olvas-ok     .\nbook-PL-ACC read-1SG.PRS ?"),
+        ("Olvastam a könyvet.",
+         "Olvastam     a   könyvet  .\nolvas-t-am   a   könyv-et .\nread-PST-1SG DEF book-ACC ?"),
+        ("Házban olvastam.",
+         "Házban    olvastam     .\nház-ban   olvas-t-am   .\nhouse-INE read-PST-1SG ?")
+      ])
   , ("italian",
       [ ("Io leggo libri.",
          "Io  leggo        libri   .\nio  legg-o       libr-i  .\n1SG read-1SG.PRS book-PL ?")

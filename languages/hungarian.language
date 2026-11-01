@@ -1,0 +1,26 @@
+suz-language	1
+language	Hungarian
+tag	1SG
+tag	ACC
+tag	DEF
+tag	INE
+tag	PL
+tag	PRS
+tag	PST
+punctuation	!,.?
+foldcase
+weight	a	10.0	-	DEF
+weight	ak	8.0	-	PL
+weight	am	9.0	-	1SG
+weight	at	9.0	-	ACC
+weight	ban	8.0	-	INE
+weight	ben	8.0	-	INE
+weight	ek	8.0	-	PL
+weight	et	9.0	-	ACC
+weight	ház	10.0	house
+weight	könyv	10.0	book
+weight	ok	9.0	-	1SG	PRS
+weight	olvas	10.0	read
+weight	ot	9.0	-	ACC
+weight	t	9.0	-	PST
+weight	én	10.0	-	1SG
