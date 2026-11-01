@@ -1,0 +1,12 @@
+suz-language	1
+language	Macedonian
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	и	9.0	-	PL
+weight	книг	10.0	book
+weight	м	9.0	-	1SG	PRS
+weight	чита	10.0	read
+weight	јас	10.0	-	1SG
