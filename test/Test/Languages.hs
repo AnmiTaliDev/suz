@@ -77,6 +77,12 @@ files =
         ("Мин өйҙә китапты уҡыманым.",
          "Мин өйҙә      китапты  уҡыманым         .\nмин өй-ҙә     китап-ты уҡы-ма-ны-м      .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
       ])
+  , ("basque",
+      [ ("Nik liburuak irakurtzen ditut.",
+         "Nik     liburuak  irakurtzen  ditut .\nnik     liburu-ak irakurtz-en ditut .\n1SG.ERG book-PL   read-IPFV   AUX   ?"),
+        ("Nik liburua irakurtzen dut.",
+         "Nik     liburua  irakurtzen  dut .\nnik     liburu-a irakurtz-en dut .\n1SG.ERG book-DEF read-IPFV   AUX ?")
+      ])
   , ("belarusian",
       [ ("Я чытаю кнігі.",
          "Я   чытаю        кнігі       .\nя   чыта-ю       кніг-і      .\n1SG read-1SG.PRS book-PL.ACC ?"),

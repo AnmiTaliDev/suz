@@ -1,0 +1,18 @@
+suz-language	1
+language	Basque
+tag	1SG
+tag	AUX
+tag	DEF
+tag	ERG
+tag	IPFV
+tag	PL
+punctuation	!,.?
+foldcase
+weight	a	9.0	-	DEF
+weight	ak	9.0	-	PL
+weight	ditut	10.0	-	AUX
+weight	dut	10.0	-	AUX
+weight	en	9.0	-	IPFV
+weight	irakurtz	10.0	read
+weight	liburu	10.0	book
+weight	nik	10.0	-	1SG	ERG
