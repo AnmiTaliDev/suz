@@ -271,6 +271,12 @@ files =
       [ ("Јас читам книги.",
          "Јас читам        книги   .\nјас чита-м       книг-и  .\n1SG read-1SG.PRS book-PL ?")
       ])
+  , ("malay",
+      [ ("Saya baca bukunya.",
+         "Saya baca bukunya  .\nsaya baca buku-nya .\n1SG  read book-DEF ?"),
+        ("Kami baca buku itu.",
+         "Kami baca buku itu .\nkami baca buku itu .\n1PL  read book DEF ?")
+      ])
   , ("mongolian",
       [ ("Би номуудыг уншсан.",
          "Би  номуудыг    уншсан   .\nби  ном-ууд-ыг  унш-сан  .\n1SG book-PL-ACC read-PST ?"),

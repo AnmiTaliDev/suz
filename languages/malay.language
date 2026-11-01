@@ -1,0 +1,15 @@
+suz-language	1
+language	Malay
+tag	1PL
+tag	1SG
+tag	CAUS
+tag	DEF
+punctuation	!,.?
+foldcase
+weight	baca	10.0	read
+weight	buku	10.0	book
+weight	itu	10.0	-	DEF
+weight	kami	10.0	-	1PL
+weight	kan	8.0	-	CAUS
+weight	nya	9.0	-	DEF
+weight	saya	10.0	-	1SG
