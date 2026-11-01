@@ -1,0 +1,393 @@
+# Translation of Suz to ar.
+# Copyright (C) the Suz authors
+# This file is distributed under the same license as the Suz package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Suz 0.4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
+"PO-Revision-Date: 2026-11-01 09:25+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: main.c:46
+msgid "Morpheme-level interlinear glossing."
+msgstr "التفسير بين السطور على مستوى المورفيمات."
+
+#: main.c:64
+msgid "Documents"
+msgstr "المستندات"
+
+#: main.c:65 suz-window.c:1011
+msgid "Open Text"
+msgstr "فتح نص"
+
+#: main.c:66 suz-window.c:1023
+msgid "Open Document"
+msgstr "فتح مستند"
+
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
+msgid "Save"
+msgstr "حفظ"
+
+#: main.c:68
+msgid "Save As"
+msgstr "حفظ باسم"
+
+#: main.c:71
+msgid "Editing"
+msgstr "تحرير"
+
+#: main.c:72 suz-window.c:1387
+msgid "Annotate"
+msgstr "إضافة شروح"
+
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
+msgid "Undo"
+msgstr "تراجع"
+
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
+msgid "Redo"
+msgstr "إعادة"
+
+#: main.c:77
+msgid "General"
+msgstr "عام"
+
+#: main.c:78 suz-window.c:1337
+msgid "Keyboard Shortcuts"
+msgstr "اختصارات لوحة المفاتيح"
+
+#: main.c:79
+msgid "Quit"
+msgstr "خروج"
+
+#: suz-document-view.c:94
+msgid "no gloss"
+msgstr "بلا تفسير"
+
+#: suz-morph-editor.c:199
+msgid "Form"
+msgstr "الصيغة"
+
+#: suz-morph-editor.c:206
+msgid "Gloss"
+msgstr "التفسير"
+
+#: suz-morph-editor.c:213
+msgid "Separate the parts of a gloss with periods, for example book.PL."
+msgstr "افصل أجزاء التفسير بنقاط، مثل book.PL."
+
+#: suz-morph-editor.c:223
+msgid "Suggestions"
+msgstr "اقتراحات"
+
+#: suz-morph-editor.c:232
+msgid "Remove Gloss"
+msgstr "إزالة التفسير"
+
+#: suz-window.c:49 suz-window.c:60
+msgid "Interlinear Text…"
+msgstr "نص بين السطور…"
+
+#: suz-window.c:50 suz-window.c:61
+msgid "Toolbox…"
+msgstr "Toolbox…"
+
+#: suz-window.c:51 suz-window.c:62
+msgid "CoNLL-U…"
+msgstr "CoNLL-U…"
+
+#: suz-window.c:52 suz-window.c:63
+msgid "JSON…"
+msgstr "JSON…"
+
+#: suz-window.c:53
+msgid "LaTeX (gb4e)…"
+msgstr "LaTeX (gb4e)…"
+
+#: suz-window.c:54
+msgid "HTML…"
+msgstr "HTML…"
+
+#: suz-window.c:55 suz-window.c:64
+msgid "ELAN…"
+msgstr "ELAN…"
+
+#: suz-window.c:56 suz-window.c:65
+msgid "FLEx…"
+msgstr "FLEx…"
+
+#: suz-window.c:77
+msgid "unknown error"
+msgstr "خطأ غير معروف"
+
+#: suz-window.c:137 suz-window.c:139
+msgid "Cannot autosave the document"
+msgstr "تعذّر حفظ المستند تلقائيًا"
+
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
+msgid "Untitled"
+msgstr "بلا عنوان"
+
+#: suz-window.c:315
+msgid "Cannot load the language"
+msgstr "تعذّر تحميل اللغة"
+
+#: suz-window.c:352 suz-window.c:354
+msgid "Cannot save the learned weights"
+msgstr "تعذّر حفظ الأوزان المتعلَّمة"
+
+#: suz-window.c:397
+msgid "Cannot apply the change"
+msgstr "تعذّر تطبيق التغيير"
+
+#: suz-window.c:504
+msgid "Cannot split the words"
+msgstr "تعذّر تقسيم الكلمات"
+
+#: suz-window.c:510
+msgid "Cannot suggest glosses"
+msgstr "تعذّر اقتراح التفسيرات"
+
+#: suz-window.c:517
+msgid "Nothing to annotate"
+msgstr "لا شيء لإضافة شروح عليه"
+
+#: suz-window.c:526
+#, c-format
+msgid "Split %d, glossed %d"
+msgstr "قُسّمت %d، فُسّرت %d"
+
+#: suz-window.c:542
+msgid "Cannot undo"
+msgstr "تعذّر التراجع"
+
+#: suz-window.c:542
+msgid "Cannot redo"
+msgstr "تعذّرت الإعادة"
+
+#: suz-window.c:577
+msgid "Cannot reset the language"
+msgstr "تعذّرت إعادة ضبط اللغة"
+
+#: suz-window.c:585
+msgid "Learned weights reset"
+msgstr "أُعيد ضبط الأوزان المتعلَّمة"
+
+#: suz-window.c:594
+msgid "Reset Learned Weights?"
+msgstr "هل تريد إعادة ضبط الأوزان المتعلَّمة؟"
+
+#: suz-window.c:594
+msgid ""
+"The language returns to the weights it shipped with. The weights learned "
+"from your corrections are lost."
+msgstr ""
+"تعود اللغة إلى الأوزان التي جاءت بها. تُفقد الأوزان التي تعلّمتها من تصحيحاتك."
+
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: suz-window.c:595
+msgid "Reset"
+msgstr "إعادة ضبط"
+
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
+msgid "Cannot open the file"
+msgstr "تعذّر فتح الملف"
+
+#: suz-window.c:613 suz-window.c:703
+msgid "the text is not valid UTF-8"
+msgstr "النص ليس بترميز UTF-8 صالح"
+
+#: suz-window.c:622
+msgid "Cannot import the text"
+msgstr "تعذّر استيراد النص"
+
+#: suz-window.c:635 suz-window.c:692
+msgid "Cannot import the file"
+msgstr "تعذّر استيراد الملف"
+
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "اختيار طبقة"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr ""
+"يحتوي الملف على عدة طبقات بلا طبقة أم. تُقرأ المقاطع من الطبقة التي تختارها."
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "استيراد"
+
+#: suz-window.c:692
+msgid "no language is selected"
+msgstr "لم تُحدَّد أي لغة"
+
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
+msgid "the document is open in another instance"
+msgstr "المستند مفتوح في نسخة أخرى"
+
+#: suz-window.c:760
+msgid "Cannot read the document"
+msgstr "تعذّرت قراءة المستند"
+
+#: suz-window.c:792
+msgid "Cannot read the recovery file"
+msgstr "تعذّرت قراءة ملف الاسترداد"
+
+#: suz-window.c:861
+#, c-format
+msgid "The previous session ended with unsaved changes to \"%s\"."
+msgstr "انتهت الجلسة السابقة بتغييرات غير محفوظة في «%s»."
+
+#: suz-window.c:862
+msgid "Recover Unsaved Document?"
+msgstr "هل تريد استرداد المستند غير المحفوظ؟"
+
+#: suz-window.c:863
+msgid "Not Now"
+msgstr "ليس الآن"
+
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
+msgid "Discard"
+msgstr "تجاهل"
+
+#: suz-window.c:863
+msgid "Restore"
+msgstr "استعادة"
+
+#: suz-window.c:939
+msgid "Discard Changes?"
+msgstr "هل تريد تجاهل التغييرات؟"
+
+#: suz-window.c:939
+msgid "The current document has unsaved changes."
+msgstr "المستند الحالي فيه تغييرات غير محفوظة."
+
+#: suz-window.c:1010
+msgid "Text files"
+msgstr "ملفات نصية"
+
+#: suz-window.c:1022 suz-window.c:1136
+msgid "Suz documents"
+msgstr "مستندات Suz"
+
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
+msgid "Cannot save the document"
+msgstr "تعذّر حفظ المستند"
+
+#: suz-window.c:1110
+msgid "Document saved"
+msgstr "تم حفظ المستند"
+
+#: suz-window.c:1138
+msgid "Save Document"
+msgstr "حفظ المستند"
+
+#: suz-window.c:1199 suz-window.c:1203
+msgid "Cannot export the document"
+msgstr "تعذّر تصدير المستند"
+
+#: suz-window.c:1200
+msgid "Document exported"
+msgstr "تم تصدير المستند"
+
+#: suz-window.c:1215 suz-window.c:1323
+msgid "Export"
+msgstr "تصدير"
+
+#: suz-window.c:1266
+msgid "Save Changes?"
+msgstr "هل تريد حفظ التغييرات؟"
+
+#: suz-window.c:1266
+msgid ""
+"The document has unsaved changes. They are lost if you close without saving."
+msgstr "المستند فيه تغييرات غير محفوظة. ستضيع إذا أغلقته دون حفظ."
+
+#: suz-window.c:1296
+msgid "Reset Learned Weights…"
+msgstr "إعادة ضبط الأوزان المتعلَّمة…"
+
+#: suz-window.c:1301
+msgid "Language"
+msgstr "اللغة"
+
+#: suz-window.c:1332
+msgid "Save As…"
+msgstr "حفظ باسم…"
+
+#: suz-window.c:1338
+msgid "About Suz"
+msgstr "حول Suz"
+
+#: suz-window.c:1349 suz-window.c:1411
+msgid "Open Text…"
+msgstr "فتح نص…"
+
+#: suz-window.c:1350
+msgid "Open Document…"
+msgstr "فتح مستند…"
+
+#: suz-window.c:1352
+msgid "Open"
+msgstr "فتح"
+
+#: suz-window.c:1355
+msgid "Open a text file"
+msgstr "فتح ملف نصي"
+
+#: suz-window.c:1377
+msgid "Main Menu"
+msgstr "القائمة الرئيسية"
+
+#: suz-window.c:1384
+msgid "Save the document"
+msgstr "حفظ المستند"
+
+#: suz-window.c:1390
+msgid "Split the words and suggest glosses"
+msgstr "تقسيم الكلمات واقتراح التفسيرات"
+
+#: suz-window.c:1408
+msgid "Open a Text"
+msgstr "فتح نص"
+
+#: suz-window.c:1409
+msgid "Choose a text file, or drop one here, to start glossing."
+msgstr "اختر ملفًا نصيًا، أو أفلته هنا، لبدء التفسير."
+
+#: ../data/dev.anmitali.Suz.desktop:3 ../data/dev.anmitali.Suz.metainfo.xml:7
+msgid "Suz"
+msgstr ""
+
+#: ../data/dev.anmitali.Suz.desktop:4 ../data/dev.anmitali.Suz.metainfo.xml:8
+msgid "Morpheme-level interlinear glossing"
+msgstr "التفسير بين السطور على مستوى المورفيمات"
+
+#: ../data/dev.anmitali.Suz.desktop:11
+msgid "gloss;glossing;interlinear;morpheme;linguistics;"
+msgstr "تفسير;تفسير بين السطور;مورفيم;لسانيات;"
+
+#: ../data/dev.anmitali.Suz.metainfo.xml:10
+msgid ""
+"Suz splits the words of a text into morphs and glosses them, using weight "
+"tables that learn from your corrections. It reads plain text and exports "
+"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
+msgstr ""
+"يقسّم Suz كلمات النص إلى مورفات ويفسّرها بجداول أوزان تتعلم من تصحيحاتك. يقرأ "
+"النص العادي ويصدّر نصًا بين السطور وصيغ Toolbox وCoNLL-U وJSON وLaTeX وHTML "
+"وELAN وFLExText."
