@@ -53,6 +53,7 @@ static const char *const export_formats[][3] = {
     {"latex", N_("LaTeX (gb4e)…"), "tex"},
     {"html", N_("HTML…"), "html"},
     {"elan", N_("ELAN…"), "eaf"},
+    {"flex", N_("FLEx…"), "flextext"},
 };
 
 static void show_toast(SuzWindow *self, const char *message)
@@ -1025,6 +1026,8 @@ static void on_export_done(GObject *source, GAsyncResult *result, gpointer user_
             text = suz_html(self->session);
         else if (g_str_equal(pending->format, "elan"))
             text = suz_elan(self->session);
+        else if (g_str_equal(pending->format, "flex"))
+            text = suz_flex(self->session, "und", "en");
 
         if (text && write_text(self, file, text, _("Cannot export the document")))
             show_toast(self, _("Document exported"));
