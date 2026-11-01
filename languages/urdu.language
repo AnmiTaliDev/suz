@@ -1,0 +1,18 @@
+suz-language	1
+language	Urdu
+tag	1PL
+tag	1SG
+tag	COP
+tag	IPFV
+tag	M
+tag	PL
+punctuation	!,.?۔،
+foldcase
+weight	تا	9.0	-	IPFV	M
+weight	میں	10.0	-	1SG
+weight	پڑھ	10.0	read
+weight	کتاب	10.0	book
+weight	ہم	10.0	-	1PL
+weight	ہوں	10.0	-	1SG	COP
+weight	ہیں	10.0	-	1PL	COP
+weight	یں	9.0	-	PL
