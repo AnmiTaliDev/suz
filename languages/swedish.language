@@ -1,0 +1,19 @@
+suz-language	1
+language	Swedish
+tag	1SG
+tag	DEF
+tag	PL
+tag	PRS
+tag	PST
+punctuation	!,.?
+foldcase
+weight	bok	10.0	book
+weight	böck	10.0	book
+weight	en	9.0	-	DEF
+weight	er	9.0	-	PRS
+weight	er	5.0	-	PL
+weight	jag	10.0	-	1SG
+weight	läs	10.0	read
+weight	te	9.0	-	PST
+context	böck	er	9.0	-	PL
+context	läs	er	9.0	-	PRS

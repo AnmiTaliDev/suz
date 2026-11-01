@@ -209,6 +209,12 @@ files =
         ("Nilisoma kitabu.",
          "Nilisoma     kitabu  .\nni-li-soma   ki-tabu .\n1SG-PST-read SG-book ?")
       ])
+  , ("swedish",
+      [ ("Jag läser böcker.",
+         "Jag läser    böcker  .\njag läs-er   böck-er .\n1SG read-PRS book-PL ?"),
+        ("Jag läste boken.",
+         "Jag läste    boken    .\njag läs-te   bok-en   .\n1SG read-PST book-DEF ?")
+      ])
   , ("tajik",
       [ ("Ман китобҳоро мехонам.",
          "Ман китобҳоро   мехонам       .\nман китоб-ҳо-ро ме-хон-ам     .\n1SG book-PL-ACC IPFV-read-1SG ?")
