@@ -1,0 +1,13 @@
+suz-language	1
+language	Irish
+tag	1PL
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	im	9.0	-	1SG	PRS
+weight	imid	9.0	-	1PL	PRS
+weight	leabhair	10.0	book	PL
+weight	leabhar	10.0	book
+weight	lé	10.0	read

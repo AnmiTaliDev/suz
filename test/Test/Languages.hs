@@ -217,6 +217,12 @@ files =
         ("Kami membaca buku di rumah.",
          "Kami membaca  buku di  rumah .\nkami mem-baca buku di  rumah .\n1PL  AV-read  book LOC house ?")
       ])
+  , ("irish",
+      [ ("Léim leabhair.",
+         "Léim         leabhair .\nlé-im        leabhair .\nread-1SG.PRS book.PL  ?"),
+        ("Léimid leabhair.",
+         "Léimid       leabhair .\nlé-imid      leabhair .\nread-1PL.PRS book.PL  ?")
+      ])
   , ("italian",
       [ ("Io leggo libri.",
          "Io  leggo        libri   .\nio  legg-o       libr-i  .\n1SG read-1SG.PRS book-PL ?")
