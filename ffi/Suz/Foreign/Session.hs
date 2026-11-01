@@ -9,7 +9,7 @@ import qualified Data.Text as T
 import Data.Word (Word64)
 import Foreign.C.String (CString)
 import Foreign.C.Types (CInt (..))
-import Foreign.Ptr (Ptr)
+import Foreign.Ptr (Ptr, nullPtr)
 import Suz
 import Suz.Foreign.Handle (at, deref, failCode, failHandle, freeHandle, lineError, newHandle, newUtf8, peekText)
 import Suz.Foreign.Language (readLanguage)
@@ -39,6 +39,7 @@ foreign export ccall "suz_json" sessionJson :: Ptr () -> IO CString
 foreign export ccall "suz_latex" sessionLatex :: Ptr () -> IO CString
 foreign export ccall "suz_html" sessionHtml :: Ptr () -> IO CString
 foreign export ccall "suz_elan" sessionElan :: Ptr () -> IO CString
+foreign export ccall "suz_flex" sessionFlex :: Ptr () -> CString -> CString -> IO CString
 foreign export ccall "suz_validate_ud" sessionValidateUd :: Ptr () -> IO CString
 foreign export ccall "suz_conllu" sessionConllu :: Ptr () -> IO CString
 
@@ -188,6 +189,13 @@ sessionHtml h = readSession h >>= newUtf8 . renderHtml . sessionDocument
 
 sessionElan :: Ptr () -> IO CString
 sessionElan h = readSession h >>= newUtf8 . renderElan . sessionDocument
+
+sessionFlex :: Ptr () -> CString -> CString -> IO CString
+sessionFlex h vernacular analysis = do
+  session <- readSession h
+  v <- peekText vernacular
+  a <- peekText analysis
+  either (const (pure nullPtr)) newUtf8 (renderFlex <$> v <*> a <*> pure (sessionDocument session))
 
 sessionValidateUd :: Ptr () -> IO CString
 sessionValidateUd h = readSession h >>= newUtf8 . T.unlines . map line . validateUd . sessionDocument

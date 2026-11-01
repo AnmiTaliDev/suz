@@ -119,6 +119,21 @@ char *suz_html(suz_session *session);
 char *suz_elan(suz_session *session);
 
 /**
+ * A FLExText file (`.flextext`) for the FieldWorks import of interlinear
+ * texts. The document is one text with one paragraph, each segment that has
+ * tokens is a phrase, each token a word with its morphs. A gloss is its lexical
+ * part and its tags joined by periods, a morph without a gloss has none, and a
+ * token of only punctuation or symbols is a punctuation word. The text is not
+ * read back.
+ * @param session Session.
+ * @param vernacular Tag of the writing system of the text, such as `kk`.
+ * @param analysis Tag of the writing system of the glosses, such as `en`.
+ * @return Text, release with suz_free(), or NULL if an argument is not valid
+ *         UTF-8.
+ */
+char *suz_flex(suz_session *session, const char *vernacular, const char *analysis);
+
+/**
  * Problems with the UD heads of the document, one per line with tab-separated
  * fields: `dangling`, the morph and a head that does not exist, `outside`,
  * the morph and a head in another segment, or `cycle` and a morph on a cycle

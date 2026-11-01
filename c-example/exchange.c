@@ -110,6 +110,10 @@ void demo_exchange(suz_language *language)
     printf("-- ELAN (%zu bytes)\n", strlen(elan));
     suz_free(elan);
 
+    char *flex = suz_flex(raw, "tt", "en");
+    printf("-- FLExText (%zu bytes)\n", strlen(flex));
+    suz_free(flex);
+
     char *json = suz_json(raw);
     printf("-- JSON\n%s\n", json);
     suz_session *from_json = suz_session_from_json(json, &error);
