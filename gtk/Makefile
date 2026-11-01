@@ -1,10 +1,10 @@
 GHC_VERSION := $(shell ghc --numeric-version)
-SUZ_BUILD ?= $(abspath ../dist-newstyle/build/$(shell uname -m)-linux/ghc-$(GHC_VERSION)/suz-0.3.0.0/f/suz/build/suz)
+SUZ_BUILD ?= $(abspath ../dist-newstyle/build/$(shell uname -m)-linux/ghc-$(GHC_VERSION)/suz-0.4.0.0/f/suz/build/suz)
 LIBSUZ = $(wildcard $(SUZ_BUILD)/libsuz.so.*)
 SONAME = $(basename $(basename $(notdir $(LIBSUZ))))
 CC ?= cc
 CFLAGS ?= -Wall -Wextra -O2
-VERSION := 0.3.0.0
+VERSION := 0.4.0.0
 APP_ID := dev.anmitali.Suz
 PREFIX ?= /usr/local
 GETTEXT_PACKAGE := suz

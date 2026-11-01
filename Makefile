@@ -1,6 +1,6 @@
 GHC_VERSION := $(shell ghc --numeric-version)
-SUZ_BUILD ?= $(abspath dist-newstyle/build/$(shell uname -m)-linux/ghc-$(GHC_VERSION)/suz-0.3.0.0/f/suz/build/suz)
-VERSION := 0.3.0.0
+SUZ_BUILD ?= $(abspath dist-newstyle/build/$(shell uname -m)-linux/ghc-$(GHC_VERSION)/suz-0.4.0.0/f/suz/build/suz)
+VERSION := 0.4.0.0
 ABI_VERSION := 0.3.0
 PREFIX ?= /usr/local
 LIBDIR = $(PREFIX)/lib/suz
