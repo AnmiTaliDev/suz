@@ -407,4 +407,10 @@ files =
         ("Men uyda kitobni o'qimadim.",
          "Men uyda      kitobni  o'qimadim        .\nmen uy-da     kitob-ni o'qi-ma-di-m     .\n1SG house-LOC book-ACC read-NEG-PST-1SG ?")
       ])
+  , ("welsh",
+      [ ("Darllenaf lyfrau.",
+         "Darllenaf    lyfrau  .\ndarllen-af   lyfr-au .\nread-1SG.PRS book-PL ?"),
+        ("Darllenwn lyfrau.",
+         "Darllenwn    lyfrau  .\ndarllen-wn   lyfr-au .\nread-1PL.PRS book-PL ?")
+      ])
   ]

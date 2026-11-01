@@ -1,0 +1,14 @@
+suz-language	1
+language	Welsh
+tag	1PL
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	af	9.0	-	1SG	PRS
+weight	au	9.0	-	PL
+weight	darllen	10.0	read
+weight	llyfr	10.0	book
+weight	lyfr	10.0	book
+weight	wn	9.0	-	1PL	PRS
