@@ -629,6 +629,62 @@ static void open_text(SuzWindow *self, GFile *file)
     set_lock(self, -1, NULL);
 }
 
+static void adopt_import(SuzWindow *self, suz_session *session, char *message, const char *name)
+{
+    if (!session) {
+        show_error(self, _("Cannot import the file"), message);
+        suz_free(message);
+        return;
+    }
+    replace_session(self, session, NULL, name, TRUE);
+    set_lock(self, -1, NULL);
+}
+
+typedef struct {
+    SuzWindow *window;
+    char *text;
+    char *name;
+    char **tiers;
+    GtkWidget *choice;
+} PendingTier;
+
+static void on_tier_response(GObject *source, GAsyncResult *result, gpointer user_data)
+{
+    PendingTier *pending = user_data;
+    const char *response = adw_alert_dialog_choose_finish(ADW_ALERT_DIALOG(source), result);
+    if (g_str_equal(response, "import")) {
+        char *message = NULL;
+        guint selected = gtk_drop_down_get_selected(GTK_DROP_DOWN(pending->choice));
+        suz_session *session = suz_session_from_elan_tier(pending->window->language, pending->text, pending->tiers[selected], &message);
+        adopt_import(pending->window, session, message, pending->name);
+    }
+    g_object_unref(pending->window);
+    g_free(pending->text);
+    g_free(pending->name);
+    g_strfreev(pending->tiers);
+    g_free(pending);
+}
+
+static void choose_tier(SuzWindow *self, char *text, char *name, char **tiers)
+{
+    PendingTier *pending = g_new0(PendingTier, 1);
+    pending->window = g_object_ref(self);
+    pending->text = text;
+    pending->name = name;
+    pending->tiers = tiers;
+
+    GtkStringList *list = gtk_string_list_new((const char *const *)tiers);
+    pending->choice = gtk_drop_down_new(G_LIST_MODEL(list), NULL);
+
+    AdwDialog *dialog = adw_alert_dialog_new(_("Choose a Tier"), _("The file has several tiers without a parent. The segments are read from the tier you choose."));
+    adw_alert_dialog_add_responses(ADW_ALERT_DIALOG(dialog), "cancel", _("Cancel"), "import", _("Import"), NULL);
+    adw_alert_dialog_set_response_appearance(ADW_ALERT_DIALOG(dialog), "import", ADW_RESPONSE_SUGGESTED);
+    adw_alert_dialog_set_default_response(ADW_ALERT_DIALOG(dialog), "import");
+    adw_alert_dialog_set_close_response(ADW_ALERT_DIALOG(dialog), "cancel");
+    adw_alert_dialog_set_extra_child(ADW_ALERT_DIALOG(dialog), pending->choice);
+    adw_alert_dialog_choose(ADW_ALERT_DIALOG(dialog), GTK_WIDGET(self), NULL, on_tier_response, pending);
+}
+
 static void import_file(SuzWindow *self, GFile *file, const char *format)
 {
     gboolean needs_language = !g_str_equal(format, "conllu") && !g_str_equal(format, "json");
@@ -658,19 +714,20 @@ static void import_file(SuzWindow *self, GFile *file, const char *format)
         session = suz_session_from_conllu(text, &message);
     else if (g_str_equal(format, "json"))
         session = suz_session_from_json(text, &message);
-    else if (g_str_equal(format, "elan"))
-        session = suz_session_from_elan(self->language, text, &message);
-    else
+    else if (g_str_equal(format, "elan")) {
+        char *list = suz_elan_tiers(text, &message);
+        g_auto(GStrv) tiers = list ? g_strsplit(list, "\n", -1) : NULL;
+        suz_free(list);
+        if (tiers && g_strv_length(tiers) > 1) {
+            choose_tier(self, g_steal_pointer(&text), base_name_without_extension(file), g_steal_pointer(&tiers));
+            return;
+        }
+        session = tiers ? suz_session_from_elan(self->language, text, &message) : NULL;
+    } else
         session = suz_session_from_flex(self->language, text, &message);
-    if (!session) {
-        show_error(self, _("Cannot import the file"), message);
-        suz_free(message);
-        return;
-    }
 
     g_autofree char *name = base_name_without_extension(file);
-    replace_session(self, session, NULL, name, TRUE);
-    set_lock(self, -1, NULL);
+    adopt_import(self, session, message, name);
 }
 
 static void open_document(SuzWindow *self, GFile *file)
