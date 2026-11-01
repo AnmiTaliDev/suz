@@ -41,6 +41,12 @@ files =
       [ ("בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הָאָרֶץ׃",
          "בְּרֵאשִׁית       בָּרָא    אֱלֹהִים אֵת  הָאָרֶץ      ׃\nבְּ-רֵאשִׁית      בָּרָא    אֱלֹהִים אֵת  הָ-אָרֶץ     ׃\nin-beginning create God   ACC DEF-earth ?")
       ])
+  , ("arabic",
+      [ ("قرأت الكتب.",
+         "قرأت         الكتب       .\nقرأ-ت        ال-كتب      .\nread-1SG.PST DEF-book.PL ?"),
+        ("أنا أقرأ الكتب.",
+         "أنا أقرأ         الكتب       .\nأنا أ-قرأ        ال-كتب      .\n1SG 1SG.PRS-read DEF-book.PL ?")
+      ])
   , ("azerbaijani",
       [ ("İşıq kitabları oxudum.",
          "İşıq  kitabları   oxudum       .\nişıq  kitab-lar-ı oxu-du-m     .\nlight book-PL-ACC read-PST-1SG ?"),

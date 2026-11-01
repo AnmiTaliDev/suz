@@ -1,0 +1,15 @@
+suz-language	1
+language	Arabic
+tag	1SG
+tag	DEF
+tag	PL
+tag	PRS
+tag	PST
+punctuation	!.?،؟
+weight	أ	9.0	-	1SG	PRS
+weight	أنا	10.0	-	1SG
+weight	ال	10.0	-	DEF
+weight	بيت	10.0	house
+weight	ت	9.0	-	1SG	PST
+weight	قرأ	10.0	read
+weight	كتب	10.0	book	PL
