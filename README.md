@@ -87,6 +87,8 @@ make install PREFIX=/usr/local
 make -C gtk install PREFIX=/usr/local
 ```
 
+The installation adds the media types `application/x-suz-document` (`*.suz`), `application/x-eaf+xml` (`*.eaf`), `application/x-flextext+xml` (`*.flextext`) and `text/x-conllu` (`*.conllu`) in `share/mime/packages` and lists them in the desktop file, so a file manager offers Suz for these files. `update-mime-database` runs after an install without `DESTDIR`; a package has to run it itself.
+
 The interface is translated with gettext. The catalogs are `gtk/po/*.po`, the languages are listed in `gtk/po/LINGUAS`. `msgfmt` and `xgettext` from GNU gettext are needed to build it. `make -C gtk` compiles the catalogs into `gtk/locale`, `make install` puts them in `PREFIX/share/locale` and translates the desktop file and the metainfo. `make -C gtk pot` regenerates `po/suz.pot` and `make -C gtk update-po` merges it into the catalogs.
 
 Languages are read from `SUZ_LANGUAGES_DIR` (a list of directories), from `suz/languages` in the user data directory and from `suz/languages` in the system data directories. The weights a language learns from your corrections are saved to `suz/languages` in the user data directory and used instead of the installed file, which also means that later changes to the installed table do not reach you. "Reset Learned Weights" in the language menu removes the saved copy.
