@@ -1,0 +1,14 @@
+suz-language	1
+language	Czech
+tag	1PL
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	eme	9.0	-	1PL	PRS
+weight	knih	10.0	book
+weight	u	9.0	-	1SG	PRS
+weight	y	9.0	-	PL	ACC
+weight	čt	10.0	read
