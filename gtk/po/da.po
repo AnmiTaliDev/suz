@@ -1,0 +1,397 @@
+# Translation of Suz to da.
+# Copyright (C) the Suz authors
+# This file is distributed under the same license as the Suz package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Suz 0.4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
+"PO-Revision-Date: 2026-11-01 09:25+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: main.c:46
+msgid "Morpheme-level interlinear glossing."
+msgstr "Interlineær glossering på morfemniveau."
+
+#: main.c:64
+msgid "Documents"
+msgstr "Dokumenter"
+
+#: main.c:65 suz-window.c:1011
+msgid "Open Text"
+msgstr "Åbn tekst"
+
+#: main.c:66 suz-window.c:1023
+msgid "Open Document"
+msgstr "Åbn dokument"
+
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
+msgid "Save"
+msgstr "Gem"
+
+#: main.c:68
+msgid "Save As"
+msgstr "Gem som"
+
+#: main.c:71
+msgid "Editing"
+msgstr "Redigering"
+
+#: main.c:72 suz-window.c:1387
+msgid "Annotate"
+msgstr "Annotér"
+
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
+msgid "Undo"
+msgstr "Fortryd"
+
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
+msgid "Redo"
+msgstr "Gentag"
+
+#: main.c:77
+msgid "General"
+msgstr "Generelt"
+
+#: main.c:78 suz-window.c:1337
+msgid "Keyboard Shortcuts"
+msgstr "Tastaturgenveje"
+
+#: main.c:79
+msgid "Quit"
+msgstr "Afslut"
+
+#: suz-document-view.c:94
+msgid "no gloss"
+msgstr "ingen gloss"
+
+#: suz-morph-editor.c:199
+msgid "Form"
+msgstr "Form"
+
+#: suz-morph-editor.c:206
+msgid "Gloss"
+msgstr "Gloss"
+
+#: suz-morph-editor.c:213
+msgid "Separate the parts of a gloss with periods, for example book.PL."
+msgstr "Adskil delene af en gloss med punktummer, for eksempel book.PL."
+
+#: suz-morph-editor.c:223
+msgid "Suggestions"
+msgstr "Forslag"
+
+#: suz-morph-editor.c:232
+msgid "Remove Gloss"
+msgstr "Fjern gloss"
+
+#: suz-window.c:49 suz-window.c:60
+msgid "Interlinear Text…"
+msgstr "Interlineær tekst…"
+
+#: suz-window.c:50 suz-window.c:61
+msgid "Toolbox…"
+msgstr "Toolbox…"
+
+#: suz-window.c:51 suz-window.c:62
+msgid "CoNLL-U…"
+msgstr "CoNLL-U…"
+
+#: suz-window.c:52 suz-window.c:63
+msgid "JSON…"
+msgstr "JSON…"
+
+#: suz-window.c:53
+msgid "LaTeX (gb4e)…"
+msgstr "LaTeX (gb4e)…"
+
+#: suz-window.c:54
+msgid "HTML…"
+msgstr "HTML…"
+
+#: suz-window.c:55 suz-window.c:64
+msgid "ELAN…"
+msgstr "ELAN…"
+
+#: suz-window.c:56 suz-window.c:65
+msgid "FLEx…"
+msgstr "FLEx…"
+
+#: suz-window.c:77
+msgid "unknown error"
+msgstr "ukendt fejl"
+
+#: suz-window.c:137 suz-window.c:139
+msgid "Cannot autosave the document"
+msgstr "Dokumentet kunne ikke gemmes automatisk"
+
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
+msgid "Untitled"
+msgstr "Uden titel"
+
+#: suz-window.c:315
+msgid "Cannot load the language"
+msgstr "Sproget kunne ikke indlæses"
+
+#: suz-window.c:352 suz-window.c:354
+msgid "Cannot save the learned weights"
+msgstr "De indlærte vægte kunne ikke gemmes"
+
+#: suz-window.c:397
+msgid "Cannot apply the change"
+msgstr "Ændringen kunne ikke anvendes"
+
+#: suz-window.c:504
+msgid "Cannot split the words"
+msgstr "Ordene kunne ikke opdeles"
+
+#: suz-window.c:510
+msgid "Cannot suggest glosses"
+msgstr "Glosser kunne ikke foreslås"
+
+#: suz-window.c:517
+msgid "Nothing to annotate"
+msgstr "Intet at annotere"
+
+#: suz-window.c:526
+#, c-format
+msgid "Split %d, glossed %d"
+msgstr "Opdelt %d, glosseret %d"
+
+#: suz-window.c:542
+msgid "Cannot undo"
+msgstr "Kan ikke fortryde"
+
+#: suz-window.c:542
+msgid "Cannot redo"
+msgstr "Kan ikke gentage"
+
+#: suz-window.c:577
+msgid "Cannot reset the language"
+msgstr "Sproget kunne ikke nulstilles"
+
+#: suz-window.c:585
+msgid "Learned weights reset"
+msgstr "De indlærte vægte er nulstillet"
+
+#: suz-window.c:594
+msgid "Reset Learned Weights?"
+msgstr "Nulstil indlærte vægte?"
+
+#: suz-window.c:594
+msgid ""
+"The language returns to the weights it shipped with. The weights learned "
+"from your corrections are lost."
+msgstr ""
+"Sproget vender tilbage til de vægte, det blev leveret med. De vægte, der er "
+"indlært fra dine rettelser, går tabt."
+
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
+msgid "Cancel"
+msgstr "Annuller"
+
+#: suz-window.c:595
+msgid "Reset"
+msgstr "Nulstil"
+
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
+msgid "Cannot open the file"
+msgstr "Filen kunne ikke åbnes"
+
+#: suz-window.c:613 suz-window.c:703
+msgid "the text is not valid UTF-8"
+msgstr "teksten er ikke gyldig UTF-8"
+
+#: suz-window.c:622
+msgid "Cannot import the text"
+msgstr "Teksten kunne ikke importeres"
+
+#: suz-window.c:635 suz-window.c:692
+msgid "Cannot import the file"
+msgstr "Filen kunne ikke importeres"
+
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "Vælg et niveau"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr ""
+"Filen har flere niveauer uden overordnet niveau. Segmenterne læses fra det "
+"niveau, du vælger."
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "Importér"
+
+#: suz-window.c:692
+msgid "no language is selected"
+msgstr "intet sprog er valgt"
+
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
+msgid "the document is open in another instance"
+msgstr "dokumentet er åbent i en anden instans"
+
+#: suz-window.c:760
+msgid "Cannot read the document"
+msgstr "Dokumentet kunne ikke læses"
+
+#: suz-window.c:792
+msgid "Cannot read the recovery file"
+msgstr "Gendannelsesfilen kunne ikke læses"
+
+#: suz-window.c:861
+#, c-format
+msgid "The previous session ended with unsaved changes to \"%s\"."
+msgstr "Den forrige session sluttede med ugemte ændringer i \"%s\"."
+
+#: suz-window.c:862
+msgid "Recover Unsaved Document?"
+msgstr "Gendan ugemt dokument?"
+
+#: suz-window.c:863
+msgid "Not Now"
+msgstr "Ikke nu"
+
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
+msgid "Discard"
+msgstr "Kassér"
+
+#: suz-window.c:863
+msgid "Restore"
+msgstr "Gendan"
+
+#: suz-window.c:939
+msgid "Discard Changes?"
+msgstr "Kassér ændringer?"
+
+#: suz-window.c:939
+msgid "The current document has unsaved changes."
+msgstr "Det aktuelle dokument har ugemte ændringer."
+
+#: suz-window.c:1010
+msgid "Text files"
+msgstr "Tekstfiler"
+
+#: suz-window.c:1022 suz-window.c:1136
+msgid "Suz documents"
+msgstr "Suz-dokumenter"
+
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
+msgid "Cannot save the document"
+msgstr "Dokumentet kunne ikke gemmes"
+
+#: suz-window.c:1110
+msgid "Document saved"
+msgstr "Dokument gemt"
+
+#: suz-window.c:1138
+msgid "Save Document"
+msgstr "Gem dokument"
+
+#: suz-window.c:1199 suz-window.c:1203
+msgid "Cannot export the document"
+msgstr "Dokumentet kunne ikke eksporteres"
+
+#: suz-window.c:1200
+msgid "Document exported"
+msgstr "Dokument eksporteret"
+
+#: suz-window.c:1215 suz-window.c:1323
+msgid "Export"
+msgstr "Eksportér"
+
+#: suz-window.c:1266
+msgid "Save Changes?"
+msgstr "Gem ændringer?"
+
+#: suz-window.c:1266
+msgid ""
+"The document has unsaved changes. They are lost if you close without saving."
+msgstr ""
+"Dokumentet har ugemte ændringer. De går tabt, hvis du lukker uden at gemme."
+
+#: suz-window.c:1296
+msgid "Reset Learned Weights…"
+msgstr "Nulstil indlærte vægte…"
+
+#: suz-window.c:1301
+msgid "Language"
+msgstr "Sprog"
+
+#: suz-window.c:1332
+msgid "Save As…"
+msgstr "Gem som…"
+
+#: suz-window.c:1338
+msgid "About Suz"
+msgstr "Om Suz"
+
+#: suz-window.c:1349 suz-window.c:1411
+msgid "Open Text…"
+msgstr "Åbn tekst…"
+
+#: suz-window.c:1350
+msgid "Open Document…"
+msgstr "Åbn dokument…"
+
+#: suz-window.c:1352
+msgid "Open"
+msgstr "Åbn"
+
+#: suz-window.c:1355
+msgid "Open a text file"
+msgstr "Åbn en tekstfil"
+
+#: suz-window.c:1377
+msgid "Main Menu"
+msgstr "Hovedmenu"
+
+#: suz-window.c:1384
+msgid "Save the document"
+msgstr "Gem dokumentet"
+
+#: suz-window.c:1390
+msgid "Split the words and suggest glosses"
+msgstr "Opdel ordene og foreslå glosser"
+
+#: suz-window.c:1408
+msgid "Open a Text"
+msgstr "Åbn en tekst"
+
+#: suz-window.c:1409
+msgid "Choose a text file, or drop one here, to start glossing."
+msgstr "Vælg en tekstfil, eller slip en her, for at begynde at glossere."
+
+#: ../data/dev.anmitali.Suz.desktop:3 ../data/dev.anmitali.Suz.metainfo.xml:7
+msgid "Suz"
+msgstr ""
+
+#: ../data/dev.anmitali.Suz.desktop:4 ../data/dev.anmitali.Suz.metainfo.xml:8
+msgid "Morpheme-level interlinear glossing"
+msgstr "Interlineær glossering på morfemniveau"
+
+#: ../data/dev.anmitali.Suz.desktop:11
+msgid "gloss;glossing;interlinear;morpheme;linguistics;"
+msgstr "gloss;glossering;interlineær;morfem;lingvistik;"
+
+#: ../data/dev.anmitali.Suz.metainfo.xml:10
+msgid ""
+"Suz splits the words of a text into morphs and glosses them, using weight "
+"tables that learn from your corrections. It reads plain text and exports "
+"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
+msgstr ""
+"Suz opdeler ordene i en tekst i morfer og glosserer dem med vægttabeller, "
+"der lærer af dine rettelser. Det læser almindelig tekst og eksporterer "
+"interlineær tekst, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN og FLExText."
