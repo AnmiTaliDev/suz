@@ -211,6 +211,12 @@ files =
         ("Mēs lasām grāmatas.",
          "Mēs lasām        grāmatas  .\nmēs las-ām       grāmat-as .\n1PL read-1PL.PRS book-PL   ?")
       ])
+  , ("lithuanian",
+      [ ("Aš skaitau knygas.",
+         "Aš  skaitau      knygas      .\naš  skait-au     knyg-as     .\n1SG read-1SG.PRS book-PL.ACC ?"),
+        ("Mes skaitome knygas.",
+         "Mes skaitome     knygas      .\nmes skait-ome    knyg-as     .\n1PL read-1PL.PRS book-PL.ACC ?")
+      ])
   , ("mongolian",
       [ ("Би номуудыг уншсан.",
          "Би  номуудыг    уншсан   .\nби  ном-ууд-ыг  унш-сан  .\n1SG book-PL-ACC read-PST ?"),

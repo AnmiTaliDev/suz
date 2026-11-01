@@ -1,0 +1,16 @@
+suz-language	1
+language	Lithuanian
+tag	1PL
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	as	9.0	-	PL	ACC
+weight	au	9.0	-	1SG	PRS
+weight	aš	10.0	-	1SG
+weight	knyg	10.0	book
+weight	mes	10.0	-	1PL
+weight	ome	9.0	-	1PL	PRS
+weight	skait	10.0	read
