@@ -1,0 +1,17 @@
+suz-language	1
+language	Swahili
+tag	1SG
+tag	PL
+tag	PRS
+tag	PST
+tag	SG
+punctuation	!,.?
+foldcase
+weight	ki	9.0	-	SG
+weight	li	9.0	-	PST
+weight	na	9.0	-	PRS
+weight	ni	9.0	-	1SG
+weight	nyumba	10.0	house
+weight	soma	10.0	read
+weight	tabu	10.0	book
+weight	vi	9.0	-	PL

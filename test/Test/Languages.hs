@@ -203,6 +203,12 @@ files =
       [ ("Yo leo libros.",
          "Yo  leo          libros    .\nyo  le-o         libr-o-s  .\n1SG read-1SG.PRS book-M-PL ?")
       ])
+  , ("swahili",
+      [ ("Ninasoma vitabu.",
+         "Ninasoma     vitabu  .\nni-na-soma   vi-tabu .\n1SG-PRS-read PL-book ?"),
+        ("Nilisoma kitabu.",
+         "Nilisoma     kitabu  .\nni-li-soma   ki-tabu .\n1SG-PST-read SG-book ?")
+      ])
   , ("tajik",
       [ ("Ман китобҳоро мехонам.",
          "Ман китобҳоро   мехонам       .\nман китоб-ҳо-ро ме-хон-ам     .\n1SG book-PL-ACC IPFV-read-1SG ?")
