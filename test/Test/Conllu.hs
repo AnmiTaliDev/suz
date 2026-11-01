@@ -35,8 +35,33 @@ checks =
   , ("conllu writes a head from another sentence as an underscore", renderConllu crossDoc == T.unlines [row "1" "a", "", urow "1" "b" ["_", "_", "_", "_", "_", "dep", "_", "_"], ""])
   , ("conllu writes a tab in a UD column as a space", renderConllu tabDoc == T.unlines [urow "1" "a" ["x y", "_", "_", "_", "_", "_", "_", "_"], ""])
   , ("conllu renumbers heads after an empty node", fmap renderConllu (parseConllu (T.unlines [row "1" "a", row "1.1" "e", urow "2" "b" ["_", "_", "_", "_", "1", "dep", "_", "_"]])) == Right (T.unlines [row "1" "a", urow "2" "b" ["_", "_", "_", "_", "1", "dep", "_", "_"], ""]))
+  , ("conllu writes the gloss of a morph in MISC", renderConllu baseDoc == T.unlines [row "1-2" "китаплар", miscRow "1" "китап" "Gloss=book", miscRow "2" "лар" "Gloss=PL", row "3" "мин", ""])
+  , ("conllu escapes a gloss", renderConllu (glossedWith (Gloss "a b|c%d" ["PL"])) == T.unlines [miscRow "1" "x" "Gloss=a%20b%7Cc%25d.PL", ""])
+  , ("conllu escapes tabs and line breaks in a gloss", renderConllu (glossedWith (Gloss "a\tb\nc\rd" [])) == T.unlines [miscRow "1" "x" "Gloss=a%09b%0Ac%0Dd", ""])
+  , ("conllu writes the gloss after the other MISC items", renderConllu (glossedUd "SpaceAfter=No" (Gloss "book" [])) == T.unlines [urow "1" "x" ["_", "_", "_", "_", "_", "_", "_", "SpaceAfter=No|Gloss=book"], ""])
+  , ("conllu replaces a Gloss item of MISC with the gloss", renderConllu (glossedUd "Gloss=old|X=1" (Gloss "new" [])) == T.unlines [urow "1" "x" ["_", "_", "_", "_", "_", "_", "_", "X=1|Gloss=new"], ""])
+  , ("conllu keeps a Gloss item of MISC for an unglossed morph", fmap renderConllu (parseConllu (T.unlines [miscRow "1" "x" "Gloss=old"])) == Right (T.unlines [miscRow "1" "x" "Gloss=old", ""]))
+  , ("parseConlluWith reads the glosses that renderConllu wrote", fmap glosses (parseConlluWith tinyLanguage (renderConllu baseDoc)) == Right [Just (Gloss "book" []), Just (Gloss "" ["PL"]), Nothing])
+  , ("parseConlluWith splits a gloss at periods with the tags of the language", fmap glosses (parseConlluWith tinyLanguage (T.unlines [miscRow "1" "x" "Gloss=book.PL"])) == Right [Just (Gloss "book" ["PL"])])
+  , ("parseConlluWith takes a leading tag of the language as a tag", fmap glosses (parseConlluWith tinyLanguage (T.unlines [miscRow "1" "x" "Gloss=PL.3SG"])) == Right [Just (Gloss "" ["PL", "3SG"])])
+  , ("parseConlluWith reads an escaped gloss", fmap glosses (parseConlluWith tinyLanguage (T.unlines [miscRow "1" "x" "Gloss=a%20b%7Cc%25d%09e%0Af%0Dg"])) == Right [Just (Gloss "a b|c%d\te\nf\rg" [])])
+  , ("parseConlluWith keeps text after a percent sign that is not an escape", fmap glosses (parseConlluWith tinyLanguage (T.unlines [miscRow "1" "x" "Gloss=100%zz%2"])) == Right [Just (Gloss "100%zz%2" [])])
+  , ("parseConlluWith leaves the Gloss item out of the UD annotation", uds' (T.unlines [urow "1" "x" ["a", "_", "_", "_", "_", "_", "_", "SpaceAfter=No|Gloss=book|X=1"]]) == Right [Just (UdFields "a" "" "" "" NoHead "" "" "SpaceAfter=No|X=1")])
+  , ("parseConlluWith leaves a word with only a gloss without UD annotation", uds' (T.unlines [miscRow "1" "x" "Gloss=book"]) == Right [Nothing])
+  , ("parseConlluWith uses the first Gloss item", fmap glosses (parseConlluWith tinyLanguage (T.unlines [miscRow "1" "x" "Gloss=a|Gloss=b"])) == Right [Just (Gloss "a" [])])
+  , ("parseConlluWith leaves a morph with an empty Gloss item unglossed", fmap glosses (parseConlluWith tinyLanguage (T.unlines [miscRow "1" "x" "Gloss="])) == Right [Nothing])
+  , ("parseConlluWith leaves a morph with the gloss ? unglossed", fmap glosses (parseConlluWith tinyLanguage (T.unlines [miscRow "1" "x" "Gloss=?"])) == Right [Nothing])
+  , ("parseConlluWith reads the glosses of the words of a range", fmap glosses (parseConlluWith tinyLanguage (T.unlines [row "1-2" "vámonos", miscRow "1" "vamos" "Gloss=go", miscRow "2" "nos" "Gloss=PL"])) == Right [Just (Gloss "go" []), Just (Gloss "" ["PL"])])
+  , ("parseConllu does not read a Gloss item as a gloss", fmap glosses (parseConllu (T.unlines [miscRow "1" "x" "Gloss=book"])) == Right [Nothing])
+  , ("parseConlluWith keeps a document without Gloss items as parseConllu does", parseConlluWith tinyLanguage udText == parseConllu udText)
   ]
   where
+    miscRow i f misc = urow i f (replicate 7 "_" ++ [misc])
+    glosses = map morphGloss . concatMap tokenMorphs . concatMap segmentTokens . documentSegments
+    uds' t = fmap (map morphUd . concatMap tokenMorphs . concatMap segmentTokens . documentSegments) (parseConlluWith tinyLanguage t)
+    oneWord = Document 3 [buildSegment emptyDocument [("x", ["x"])]]
+    glossedWith g = fst (must (apply (SetGloss (MorphId 2) (Just g)) oneWord))
+    glossedUd misc g = fst (must (apply (SetGloss (MorphId 2) (Just g)) (fst (must (apply (SetUd (MorphId 2) (Just (UdFields "" "" "" "" NoHead "" "" misc))) oneWord)))))
     split = documentOf [("китаплар", ["китап", "лар"]), ("бар", ["бар"])]
     oddForms = documentOf [("a \tb", ["a"]), ("", [])]
     documentOf specs = Document 100 [buildSegment emptyDocument specs]

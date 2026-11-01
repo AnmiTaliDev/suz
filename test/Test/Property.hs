@@ -375,6 +375,14 @@ properties =
               Nothing -> []
          in map (\v -> (violationMorph v, violationTags v)) (validateDocument l d) === [(morphId m, bad m) | m <- allMorphs d, not (null (bad m))]
     )
+  , ( "glosses are read back from CoNLL-U"
+    , forAll genLeipzigDocument $ \d ->
+        fmap (map morphGloss . concatMap tokenMorphs . concatMap segmentTokens . documentSegments) (parseConlluWith toolboxLanguage (renderConllu d))
+          === Right (map morphGloss (concatMap tokenMorphs (concatMap segmentTokens (documentSegments d))))
+    )
+  , ( "CoNLL-U with glosses is read back to the same output"
+    , forAll genLeipzigDocument $ \d -> fmap renderConllu (parseConlluWith toolboxLanguage (renderConllu d)) === Right (renderConllu d)
+    )
   , ( "conllu output is read back to the same output"
     , forAll genDocument $ \d -> fmap renderConllu (parseConllu (renderConllu d)) === Right (renderConllu d)
     )
@@ -434,6 +442,9 @@ properties =
     )
   , ( "changed CoNLL-U text is read or rejected"
     , forAll (genDocument >>= mutate . renderConllu) $ \t -> length (show (parseConllu t)) >= 0
+    )
+  , ( "changed CoNLL-U text is read or rejected with a language"
+    , forAll (genDocument >>= mutate . renderConllu) $ \t -> length (show (parseConlluWith toolboxLanguage t)) >= 0
     )
   , ( "changed language text is read or rejected"
     , forAll (genLanguage >>= mutate . renderLanguage) $ \t -> length (show (parseLanguage t)) >= 0
