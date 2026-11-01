@@ -1,0 +1,14 @@
+suz-language	1
+language	Serbian
+tag	1PL
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	е	9.0	-	PL	ACC
+weight	књиг	10.0	book
+weight	м	9.0	-	1SG	PRS
+weight	мо	9.0	-	1PL	PRS
+weight	чита	10.0	read

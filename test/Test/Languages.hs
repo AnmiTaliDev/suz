@@ -323,6 +323,12 @@ files =
       [ ("Ahaṃ pustakāni paṭhāmi.",
          "Ahaṃ pustakāni       paṭhāmi         .\nahaṃ pustak-āni      paṭh-ā-mi       .\n1SG  book-NOM.ACC.PL read-TH-1SG.PRS ?")
       ])
+  , ("serbian",
+      [ ("Читам књиге.",
+         "Читам        књиге       .\nчита-м       књиг-е      .\nread-1SG.PRS book-PL.ACC ?"),
+        ("Читамо књиге.",
+         "Читамо       књиге       .\nчита-мо      књиг-е      .\nread-1PL.PRS book-PL.ACC ?")
+      ])
   , ("slovak",
       [ ("Čítam knihy.",
          "Čítam        knihy       .\nčíta-m       knih-y      .\nread-1SG.PRS book-PL.ACC ?"),
