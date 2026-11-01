@@ -1,0 +1,399 @@
+# Translation of Suz to hu.
+# Copyright (C) the Suz authors
+# This file is distributed under the same license as the Suz package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Suz 0.4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 09:25+0500\n"
+"PO-Revision-Date: 2026-11-01 09:25+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: main.c:46
+msgid "Morpheme-level interlinear glossing."
+msgstr "Morfémaszintű sorközi glosszázás."
+
+#: main.c:64
+msgid "Documents"
+msgstr "Dokumentumok"
+
+#: main.c:65 suz-window.c:1011
+msgid "Open Text"
+msgstr "Szöveg megnyitása"
+
+#: main.c:66 suz-window.c:1023
+msgid "Open Document"
+msgstr "Dokumentum megnyitása"
+
+#: main.c:67 suz-window.c:1267 suz-window.c:1331
+msgid "Save"
+msgstr "Mentés"
+
+#: main.c:68
+msgid "Save As"
+msgstr "Mentés másként"
+
+#: main.c:71
+msgid "Editing"
+msgstr "Szerkesztés"
+
+#: main.c:72 suz-window.c:1387
+msgid "Annotate"
+msgstr "Annotálás"
+
+#: main.c:73 suz-window.c:1329 suz-window.c:1363
+msgid "Undo"
+msgstr "Visszavonás"
+
+#: main.c:74 suz-window.c:1330 suz-window.c:1366
+msgid "Redo"
+msgstr "Újra"
+
+#: main.c:77
+msgid "General"
+msgstr "Általános"
+
+#: main.c:78 suz-window.c:1337
+msgid "Keyboard Shortcuts"
+msgstr "Billentyűparancsok"
+
+#: main.c:79
+msgid "Quit"
+msgstr "Kilépés"
+
+#: suz-document-view.c:94
+msgid "no gloss"
+msgstr "nincs glossza"
+
+#: suz-morph-editor.c:199
+msgid "Form"
+msgstr "Alak"
+
+#: suz-morph-editor.c:206
+msgid "Gloss"
+msgstr "Glossza"
+
+#: suz-morph-editor.c:213
+msgid "Separate the parts of a gloss with periods, for example book.PL."
+msgstr "A glossza részeit ponttal válassza el, például book.PL."
+
+#: suz-morph-editor.c:223
+msgid "Suggestions"
+msgstr "Javaslatok"
+
+#: suz-morph-editor.c:232
+msgid "Remove Gloss"
+msgstr "Glossza eltávolítása"
+
+#: suz-window.c:49 suz-window.c:60
+msgid "Interlinear Text…"
+msgstr "Sorközi szöveg…"
+
+#: suz-window.c:50 suz-window.c:61
+msgid "Toolbox…"
+msgstr "Toolbox…"
+
+#: suz-window.c:51 suz-window.c:62
+msgid "CoNLL-U…"
+msgstr "CoNLL-U…"
+
+#: suz-window.c:52 suz-window.c:63
+msgid "JSON…"
+msgstr "JSON…"
+
+#: suz-window.c:53
+msgid "LaTeX (gb4e)…"
+msgstr "LaTeX (gb4e)…"
+
+#: suz-window.c:54
+msgid "HTML…"
+msgstr "HTML…"
+
+#: suz-window.c:55 suz-window.c:64
+msgid "ELAN…"
+msgstr "ELAN…"
+
+#: suz-window.c:56 suz-window.c:65
+msgid "FLEx…"
+msgstr "FLEx…"
+
+#: suz-window.c:77
+msgid "unknown error"
+msgstr "ismeretlen hiba"
+
+#: suz-window.c:137 suz-window.c:139
+msgid "Cannot autosave the document"
+msgstr "A dokumentum automatikus mentése nem sikerült"
+
+#: suz-window.c:169 suz-window.c:861 suz-window.c:1137 suz-window.c:1232
+msgid "Untitled"
+msgstr "Névtelen"
+
+#: suz-window.c:315
+msgid "Cannot load the language"
+msgstr "A nyelv betöltése nem sikerült"
+
+#: suz-window.c:352 suz-window.c:354
+msgid "Cannot save the learned weights"
+msgstr "A tanult súlyok mentése nem sikerült"
+
+#: suz-window.c:397
+msgid "Cannot apply the change"
+msgstr "A módosítás alkalmazása nem sikerült"
+
+#: suz-window.c:504
+msgid "Cannot split the words"
+msgstr "A szavak szétválasztása nem sikerült"
+
+#: suz-window.c:510
+msgid "Cannot suggest glosses"
+msgstr "A glosszák javaslása nem sikerült"
+
+#: suz-window.c:517
+msgid "Nothing to annotate"
+msgstr "Nincs mit annotálni"
+
+#: suz-window.c:526
+#, c-format
+msgid "Split %d, glossed %d"
+msgstr "%d szétválasztva, %d glosszázva"
+
+#: suz-window.c:542
+msgid "Cannot undo"
+msgstr "A visszavonás nem sikerült"
+
+#: suz-window.c:542
+msgid "Cannot redo"
+msgstr "Az újra végrehajtás nem sikerült"
+
+#: suz-window.c:577
+msgid "Cannot reset the language"
+msgstr "A nyelv visszaállítása nem sikerült"
+
+#: suz-window.c:585
+msgid "Learned weights reset"
+msgstr "A tanult súlyok visszaállítva"
+
+#: suz-window.c:594
+msgid "Reset Learned Weights?"
+msgstr "Visszaállítja a tanult súlyokat?"
+
+#: suz-window.c:594
+msgid ""
+"The language returns to the weights it shipped with. The weights learned "
+"from your corrections are lost."
+msgstr ""
+"A nyelv visszatér a kiadáskor kapott súlyokhoz. A javításaiból tanult súlyok "
+"elvesznek."
+
+#: suz-window.c:595 suz-window.c:680 suz-window.c:940 suz-window.c:1267
+msgid "Cancel"
+msgstr "Mégse"
+
+#: suz-window.c:595
+msgid "Reset"
+msgstr "Visszaállítás"
+
+#: suz-window.c:609 suz-window.c:613 suz-window.c:699 suz-window.c:703
+#: suz-window.c:745 suz-window.c:752 suz-window.c:818 suz-window.c:990
+#: suz-window.c:1001 suz-window.c:1041
+msgid "Cannot open the file"
+msgstr "A fájl megnyitása nem sikerült"
+
+#: suz-window.c:613 suz-window.c:703
+msgid "the text is not valid UTF-8"
+msgstr "a szöveg nem érvényes UTF-8"
+
+#: suz-window.c:622
+msgid "Cannot import the text"
+msgstr "A szöveg importálása nem sikerült"
+
+#: suz-window.c:635 suz-window.c:692
+msgid "Cannot import the file"
+msgstr "A fájl importálása nem sikerült"
+
+#: suz-window.c:679
+msgid "Choose a Tier"
+msgstr "Válasszon réteget"
+
+#: suz-window.c:679
+msgid ""
+"The file has several tiers without a parent. The segments are read from the "
+"tier you choose."
+msgstr ""
+"A fájlban több szülő nélküli réteg van. A szegmensek a kiválasztott rétegből "
+"kerülnek beolvasásra."
+
+#: suz-window.c:680 suz-window.c:1312
+msgid "Import"
+msgstr "Importálás"
+
+#: suz-window.c:692
+msgid "no language is selected"
+msgstr "nincs nyelv kiválasztva"
+
+#: suz-window.c:745 suz-window.c:818 suz-window.c:1088
+msgid "the document is open in another instance"
+msgstr "a dokumentum egy másik példányban nyitva van"
+
+#: suz-window.c:760
+msgid "Cannot read the document"
+msgstr "A dokumentum olvasása nem sikerült"
+
+#: suz-window.c:792
+msgid "Cannot read the recovery file"
+msgstr "A helyreállítási fájl olvasása nem sikerült"
+
+#: suz-window.c:861
+#, c-format
+msgid "The previous session ended with unsaved changes to \"%s\"."
+msgstr "Az előző munkamenet a(z) „%s” mentetlen módosításaival ért véget."
+
+#: suz-window.c:862
+msgid "Recover Unsaved Document?"
+msgstr "Helyreállítja a mentetlen dokumentumot?"
+
+#: suz-window.c:863
+msgid "Not Now"
+msgstr "Most nem"
+
+#: suz-window.c:863 suz-window.c:940 suz-window.c:1267
+msgid "Discard"
+msgstr "Elvetés"
+
+#: suz-window.c:863
+msgid "Restore"
+msgstr "Helyreállítás"
+
+#: suz-window.c:939
+msgid "Discard Changes?"
+msgstr "Elveti a módosításokat?"
+
+#: suz-window.c:939
+msgid "The current document has unsaved changes."
+msgstr "Az aktuális dokumentumnak mentetlen módosításai vannak."
+
+#: suz-window.c:1010
+msgid "Text files"
+msgstr "Szövegfájlok"
+
+#: suz-window.c:1022 suz-window.c:1136
+msgid "Suz documents"
+msgstr "Suz-dokumentumok"
+
+#: suz-window.c:1088 suz-window.c:1094 suz-window.c:1130
+msgid "Cannot save the document"
+msgstr "A dokumentum mentése nem sikerült"
+
+#: suz-window.c:1110
+msgid "Document saved"
+msgstr "Dokumentum mentve"
+
+#: suz-window.c:1138
+msgid "Save Document"
+msgstr "Dokumentum mentése"
+
+#: suz-window.c:1199 suz-window.c:1203
+msgid "Cannot export the document"
+msgstr "A dokumentum exportálása nem sikerült"
+
+#: suz-window.c:1200
+msgid "Document exported"
+msgstr "Dokumentum exportálva"
+
+#: suz-window.c:1215 suz-window.c:1323
+msgid "Export"
+msgstr "Exportálás"
+
+#: suz-window.c:1266
+msgid "Save Changes?"
+msgstr "Menti a módosításokat?"
+
+#: suz-window.c:1266
+msgid ""
+"The document has unsaved changes. They are lost if you close without saving."
+msgstr ""
+"A dokumentumnak mentetlen módosításai vannak. Mentés nélküli bezárás esetén "
+"elvesznek."
+
+#: suz-window.c:1296
+msgid "Reset Learned Weights…"
+msgstr "Tanult súlyok visszaállítása…"
+
+#: suz-window.c:1301
+msgid "Language"
+msgstr "Nyelv"
+
+#: suz-window.c:1332
+msgid "Save As…"
+msgstr "Mentés másként…"
+
+#: suz-window.c:1338
+msgid "About Suz"
+msgstr "A Suz névjegye"
+
+#: suz-window.c:1349 suz-window.c:1411
+msgid "Open Text…"
+msgstr "Szöveg megnyitása…"
+
+#: suz-window.c:1350
+msgid "Open Document…"
+msgstr "Dokumentum megnyitása…"
+
+#: suz-window.c:1352
+msgid "Open"
+msgstr "Megnyitás"
+
+#: suz-window.c:1355
+msgid "Open a text file"
+msgstr "Szövegfájl megnyitása"
+
+#: suz-window.c:1377
+msgid "Main Menu"
+msgstr "Főmenü"
+
+#: suz-window.c:1384
+msgid "Save the document"
+msgstr "A dokumentum mentése"
+
+#: suz-window.c:1390
+msgid "Split the words and suggest glosses"
+msgstr "Szavak szétválasztása és glosszák javaslása"
+
+#: suz-window.c:1408
+msgid "Open a Text"
+msgstr "Szöveg megnyitása"
+
+#: suz-window.c:1409
+msgid "Choose a text file, or drop one here, to start glossing."
+msgstr ""
+"Válasszon szövegfájlt, vagy húzzon ide egyet a glosszázás megkezdéséhez."
+
+#: ../data/dev.anmitali.Suz.desktop:3 ../data/dev.anmitali.Suz.metainfo.xml:7
+msgid "Suz"
+msgstr ""
+
+#: ../data/dev.anmitali.Suz.desktop:4 ../data/dev.anmitali.Suz.metainfo.xml:8
+msgid "Morpheme-level interlinear glossing"
+msgstr "Morfémaszintű sorközi glosszázás"
+
+#: ../data/dev.anmitali.Suz.desktop:11
+msgid "gloss;glossing;interlinear;morpheme;linguistics;"
+msgstr "glossza;glosszázás;sorközi;morféma;nyelvészet;"
+
+#: ../data/dev.anmitali.Suz.metainfo.xml:10
+msgid ""
+"Suz splits the words of a text into morphs and glosses them, using weight "
+"tables that learn from your corrections. It reads plain text and exports "
+"interlinear text, Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN and FLExText."
+msgstr ""
+"A Suz a szöveg szavait morfokra bontja, és a javításaiból tanuló "
+"súlytáblákkal glosszázza őket. Egyszerű szöveget olvas, és sorközi szövegbe, "
+"Toolbox, CoNLL-U, JSON, LaTeX, HTML, ELAN és FLExText formátumba exportál."
