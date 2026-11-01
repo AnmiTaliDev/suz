@@ -2,6 +2,8 @@
 module Suz.Elan
   ( renderElan
   , parseElan
+  , parseElanTier
+  , elanTiers
   ) where
 
 import Control.Monad (foldM, unless)
@@ -155,11 +157,33 @@ data Annotation = Annotation
 -- error.
 parseElan :: Language -> Text -> Either String Document
 parseElan lang input = do
+  tiers <- readTiers input
+  top <- maybe (Left "no tier without a parent") Right (find (isNothing . tierParent) tiers)
+  readDocument lang tiers top
+
+-- | Like 'parseElan', with the segments taken from the tier without a parent
+-- that has the given identifier. The tiers below it are found as for
+-- 'parseElan'.
+parseElanTier :: Language -> Text -> Text -> Either String Document
+parseElanTier lang tier input = do
+  tiers <- readTiers input
+  top <- maybe (Left ("no tier without a parent named " ++ T.unpack tier)) Right (find (\t -> isNothing (tierParent t) && tierId t == tier) tiers)
+  readDocument lang tiers top
+
+-- | The identifiers of the tiers without a parent in an ELAN annotation file,
+-- in the order of the file. 'parseElan' reads the first of them.
+elanTiers :: Text -> Either String [Text]
+elanTiers input = map tierId . filter (isNothing . tierParent) <$> readTiers input
+
+readTiers :: Text -> Either String [Tier]
+readTiers input = do
   root <- first (\(n, msg) -> "line " ++ show n ++ ": " ++ msg) (parseXml input)
   unless (xmlName root == "ANNOTATION_DOCUMENT") (Left "not an ELAN annotation document")
   let constraints = [(i, attribute "CONSTRAINTS" t) | t <- childElements "LINGUISTIC_TYPE" root, Just i <- [attribute "LINGUISTIC_TYPE_ID" t]]
-  tiers <- traverse (readTier constraints) (childElements "TIER" root)
-  top <- maybe (Left "no tier without a parent") Right (find (isNothing . tierParent) tiers)
+  traverse (readTier constraints) (childElements "TIER" root)
+
+readDocument :: Language -> [Tier] -> Tier -> Either String Document
+readDocument lang tiers top = do
   let childOf parent kind = find (\t -> tierParent t == Just (tierId parent) && tierConstraint t == Just kind) tiers
       wordTier = childOf top "Symbolic_Subdivision"
       morphTier = wordTier >>= \w -> childOf w "Symbolic_Subdivision"

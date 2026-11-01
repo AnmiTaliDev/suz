@@ -75,9 +75,19 @@ checks =
   , ("parseElan rejects a tier without an identifier", parseElan tinyLanguage "<ANNOTATION_DOCUMENT><TIER/></ANNOTATION_DOCUMENT>" == Left "a tier has no TIER_ID")
   , ("parseElan rejects an annotation without an identifier", parseElan tinyLanguage "<ANNOTATION_DOCUMENT><TIER TIER_ID=\"t\"><ANNOTATION><ALIGNABLE_ANNOTATION/></ANNOTATION></TIER></ANNOTATION_DOCUMENT>" == Left "tier t: an annotation has no ANNOTATION_ID")
   , ("parseElan rejects a reference annotation without a reference", parseElan tinyLanguage "<ANNOTATION_DOCUMENT><TIER TIER_ID=\"t\"><ANNOTATION><REF_ANNOTATION ANNOTATION_ID=\"a\"/></ANNOTATION></TIER></ANNOTATION_DOCUMENT>" == Left "tier t: annotation a has no ANNOTATION_REF")
+  , ("elanTiers lists the tier without a parent", elanTiers (renderElan baseDoc) == Right ["segment"])
+  , ("elanTiers lists the tiers without a parent in file order", elanTiers (twoSpeakers) == Right ["segment", "other"])
+  , ("elanTiers is empty for a file without tiers", elanTiers "<ANNOTATION_DOCUMENT/>" == Right [])
+  , ("elanTiers rejects a file that is not an annotation document", elanTiers "<a/>" == Left "not an ELAN annotation document")
+  , ("parseElanTier reads the segments from the named tier", fmap formsOf (parseElanTier tinyLanguage "other" twoSpeakers) == Right ["y", "z"])
+  , ("parseElanTier takes the tiers below the chosen tier", fmap formsOf (parseElanTier tinyLanguage "segment" twoSpeakers) == Right ["x"])
+  , ("parseElanTier of the first tier is parseElan", parseElanTier tinyLanguage "segment" twoSpeakers == parseElan tinyLanguage twoSpeakers)
+  , ("parseElanTier rejects a tier that is not there", parseElanTier tinyLanguage "q" twoSpeakers == Left "no tier without a parent named q")
+  , ("parseElanTier rejects a tier that has a parent", parseElanTier tinyLanguage "word" (renderElan baseDoc) == Left "no tier without a parent named word")
   , ("elan keeps other characters", one "мин-китап. ;#\160" == "<ANNOTATION_VALUE>мин-китап. ;#\160</ANNOTATION_VALUE>")
   ]
   where
+    twoSpeakers = eafTiers [segmentTier [segment "a0" "x"], wordsTier [word "a1" "a0" Nothing "x"], tier "other" Nothing "segment" [segment "b0" "y z"]]
     glosses = map morphGloss . allMorphs
     formsOf = map morphForm . allMorphs
     allMorphs = concatMap tokenMorphs . concatMap segmentTokens . documentSegments

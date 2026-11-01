@@ -452,6 +452,8 @@ properties =
     , forAll (genDocument >>= mutate . renderJson) $ \t -> length (show (parseJson t)) >= 0
     )
   , ("ELAN round trip", forAll genLeipzigDocument $ \d -> parseElan toolboxLanguage (renderElan d) == Right d)
+  , ("ELAN tier choice of the first tier reads the same", forAll genDocument $ \d -> parseElanTier toolboxLanguage "segment" (renderElan d) === parseElan toolboxLanguage (renderElan d))
+  , ("ELAN lists the segment tier", forAll genDocument $ \d -> elanTiers (renderElan d) === Right ["segment"])
   , ( "changed ELAN is read or rejected"
     , forAll (genDocument >>= mutate . renderElan) $ \t -> length (show (parseElan toolboxLanguage t)) >= 0
     )
