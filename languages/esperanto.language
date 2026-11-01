@@ -1,0 +1,20 @@
+suz-language	1
+language	Esperanto
+tag	1PL
+tag	1SG
+tag	ACC
+tag	N
+tag	PL
+tag	PRS
+tag	PST
+punctuation	!,.?
+foldcase
+weight	as	9.0	-	PRS
+weight	is	9.0	-	PST
+weight	j	9.0	-	PL
+weight	leg	10.0	read
+weight	libr	10.0	book
+weight	mi	10.0	-	1SG
+weight	n	9.0	-	ACC
+weight	ni	10.0	-	1PL
+weight	o	9.0	-	N

@@ -87,6 +87,12 @@ files =
       [ ("she walks",
          "she   walks\nshe   walk-s\n3SG.F walk-PL")
       ])
+  , ("esperanto",
+      [ ("Mi legas librojn.",
+         "Mi  legas    librojn       .\nmi  leg-as   libr-o-j-n    .\n1SG read-PRS book-N-PL-ACC ?"),
+        ("Ni legis librojn.",
+         "Ni  legis    librojn       .\nni  leg-is   libr-o-j-n    .\n1PL read-PST book-N-PL-ACC ?")
+      ])
   , ("french",
       [ ("Nous lisons des livres.",
          "Nous lisons       des      livres  .\nnous lis-ons      des      livre-s .\n1PL  read-1PL.PRS INDEF.PL book-PL ?")
