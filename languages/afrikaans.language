@@ -1,0 +1,12 @@
+suz-language	1
+language	Afrikaans
+tag	1SG
+tag	DEF
+tag	PL
+punctuation	!,.?
+foldcase
+weight	boek	10.0	book
+weight	die	10.0	-	DEF
+weight	e	9.0	-	PL
+weight	ek	10.0	-	1SG
+weight	lees	10.0	read
