@@ -1,0 +1,16 @@
+suz-language	1
+language	Ukrainian
+tag	1PL
+tag	1SG
+tag	ACC
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	и	9.0	-	PL	ACC
+weight	книг	10.0	book
+weight	ми	10.0	-	1PL
+weight	чита	10.0	read
+weight	ю	9.0	-	1SG	PRS
+weight	я	10.0	-	1SG
+weight	ємо	9.0	-	1PL	PRS
