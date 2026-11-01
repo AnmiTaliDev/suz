@@ -183,6 +183,12 @@ files =
       [ ("Czytam książki.",
          "Czytam       książki     .\nczyta-m      książk-i    .\nread-1SG.PRS book-PL.ACC ?")
       ])
+  , ("portuguese",
+      [ ("Eu leio livros.",
+         "Eu  leio         livros    .\neu  le-io        livr-o-s  .\n1SG read-1SG.PRS book-M-PL ?"),
+        ("Nós lemos livros.",
+         "Nós lemos        livros    .\nnós le-mos       livr-o-s  .\n1PL read-1PL.PRS book-M-PL ?")
+      ])
   , ("russian",
       [ ("Я читаю книги.",
          "Я   читаю        книги       .\nя   чита-ю       книг-и      .\n1SG read-1SG.PRS book-PL.ACC ?")

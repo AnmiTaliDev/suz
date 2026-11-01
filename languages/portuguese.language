@@ -1,0 +1,17 @@
+suz-language	1
+language	Portuguese
+tag	1PL
+tag	1SG
+tag	M
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	eu	10.0	-	1SG
+weight	io	9.0	-	1SG	PRS
+weight	le	10.0	read
+weight	livr	10.0	book
+weight	mos	9.0	-	1PL	PRS
+weight	nós	10.0	-	1PL
+weight	o	9.0	-	M
+weight	s	9.0	-	PL
