@@ -4,6 +4,7 @@ module Suz.Interlinear
   , blocks
   , segmentFromLines
   , tokenFrom
+  , parseGloss
   , escapeCell
   ) where
 

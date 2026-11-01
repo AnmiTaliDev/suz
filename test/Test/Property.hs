@@ -451,6 +451,10 @@ properties =
   , ( "changed JSON is read or rejected"
     , forAll (genDocument >>= mutate . renderJson) $ \t -> length (show (parseJson t)) >= 0
     )
+  , ("ELAN round trip", forAll genLeipzigDocument $ \d -> parseElan toolboxLanguage (renderElan d) == Right d)
+  , ( "changed ELAN is read or rejected"
+    , forAll (genDocument >>= mutate . renderElan) $ \t -> length (show (parseElan toolboxLanguage t)) >= 0
+    )
   , ( "changed XML is read or rejected"
     , forAll (genDocument >>= mutate . renderFlex "tt" "en") $ \t -> length (show (parseXml t)) >= 0
     )

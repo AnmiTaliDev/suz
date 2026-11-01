@@ -1,11 +1,21 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 module Suz.Elan
   ( renderElan
+  , parseElan
   ) where
 
+import Control.Monad (foldM, unless)
+import Data.Bifunctor (first)
+import Data.List (find, mapAccumL)
+import Data.Maybe (isNothing)
+import Data.Map.Strict (Map)
+import qualified Data.Map.Strict as Map
 import Data.Text (Text)
 import qualified Data.Text as T
 import Suz.Codec.Xml (escapeXml)
+import Suz.Codec.XmlTree
+import Suz.Interlinear (parseGloss, tokenFrom)
+import Suz.Language
 import Suz.Model
 
 -- | An ELAN annotation file (EAF 3.0) of a document. There is no media file, so
@@ -115,3 +125,95 @@ value t = "<ANNOTATION_VALUE>" <> escapeXml t <> "</ANNOTATION_VALUE>"
 
 number :: Show a => a -> Text
 number = T.pack . show
+
+data Tier = Tier
+  { tierId :: Text
+  , tierParent :: Maybe Text
+  , tierConstraint :: Maybe Text
+  , tierAnnotations :: [Annotation]
+  }
+
+data Annotation = Annotation
+  { annotationId :: Text
+  , annotationRef :: Maybe Text
+  , annotationValue :: Text
+  }
+
+-- | Reads an ELAN annotation file (EAF) with the structure that 'renderElan'
+-- writes. The first tier without a parent holds the segments. A tier below it
+-- that subdivides its annotations symbolically holds the words, one below that
+-- the morphs, and a tier below the morphs that is a symbolic association holds
+-- the glosses. The tiers are found by their place and constraint, not by
+-- name, and other tiers are ignored. Without a word tier the words are the
+-- text of a segment split at white space, and without a morph tier each word
+-- has one morph with the word as its form. A gloss is split at periods: the
+-- first part is a tag when the language lists it as one and the lexical part
+-- otherwise, the rest are tags, and a morph without a gloss annotation is
+-- unglossed. Annotations are used in the order of the file, times and
+-- @PREVIOUS_ANNOTATION@ are not read. Identifiers are assigned in document
+-- order from 0. The error holds a description, with the line for a syntax
+-- error.
+parseElan :: Language -> Text -> Either String Document
+parseElan lang input = do
+  root <- first (\(n, msg) -> "line " ++ show n ++ ": " ++ msg) (parseXml input)
+  unless (xmlName root == "ANNOTATION_DOCUMENT") (Left "not an ELAN annotation document")
+  let constraints = [(i, attribute "CONSTRAINTS" t) | t <- childElements "LINGUISTIC_TYPE" root, Just i <- [attribute "LINGUISTIC_TYPE_ID" t]]
+  tiers <- traverse (readTier constraints) (childElements "TIER" root)
+  top <- maybe (Left "no tier without a parent") Right (find (isNothing . tierParent) tiers)
+  let childOf parent kind = find (\t -> tierParent t == Just (tierId parent) && tierConstraint t == Just kind) tiers
+      wordTier = childOf top "Symbolic_Subdivision"
+      morphTier = wordTier >>= \w -> childOf w "Symbolic_Subdivision"
+      glossTier = morphTier >>= \m -> childOf m "Symbolic_Association"
+      groupsOf = maybe Map.empty (groupByRef . tierAnnotations)
+      wordMap = groupsOf wordTier
+      morphMap = groupsOf morphTier
+      glossMap = groupsOf glossTier
+      wordsOf a = case wordTier of
+        Nothing -> [Annotation "" Nothing w | w <- T.words (annotationValue a)]
+        Just _ -> Map.findWithDefault [] (annotationId a) wordMap
+      formsOf w = case morphTier of
+        Nothing -> [Annotation "" Nothing (annotationValue w)]
+        Just _ -> Map.findWithDefault [] (annotationId w) morphMap
+      glossOf m = case Map.lookup (annotationId m) glossMap of
+        Just (g : _) -> first snd (parseGloss lang False (\_ t -> Right t) 0 (annotationValue g))
+        _ -> Right Nothing
+      token w = do
+        let forms = formsOf w
+        glosses <- traverse glossOf forms
+        pure (annotationValue w, map annotationValue forms, glosses)
+      segment n a = do
+        triples <- traverse token (wordsOf a)
+        let (end, tokens) = mapAccumL tokenFrom (n + 1) triples
+        pure (end, Segment (SegmentId n) tokens)
+      step (n, acc) a = (\(end, s) -> (end, s : acc)) <$> segment n a
+  (next, segments) <- foldM step (0, []) (tierAnnotations top)
+  pure (Document next (reverse segments))
+
+groupByRef :: [Annotation] -> Map Text [Annotation]
+groupByRef anns = Map.fromListWith (flip (++)) [(r, [a]) | a <- anns, Just r <- [annotationRef a]]
+
+readTier :: [(Text, Maybe Text)] -> XmlElement -> Either String Tier
+readTier constraints e = do
+  tid <- maybe (Left "a tier has no TIER_ID") Right (attribute "TIER_ID" e)
+  anns <- traverse (readAnnotation (T.unpack tid)) [a | c <- childElements "ANNOTATION" e, a <- xmlElements c]
+  pure
+    Tier
+      { tierId = tid
+      , tierParent = attribute "PARENT_REF" e
+      , tierConstraint = attribute "LINGUISTIC_TYPE_REF" e >>= \r -> lookup r constraints >>= id
+      , tierAnnotations = anns
+      }
+
+xmlElements :: XmlElement -> [XmlElement]
+xmlElements e = [c | XmlChild c <- xmlChildren e]
+
+readAnnotation :: String -> XmlElement -> Either String Annotation
+readAnnotation tier e = do
+  aid <- maybe (Left ("tier " ++ tier ++ ": an annotation has no ANNOTATION_ID")) Right (attribute "ANNOTATION_ID" e)
+  let text = T.concat (map elementText (childElements "ANNOTATION_VALUE" e))
+  case xmlName e of
+    "ALIGNABLE_ANNOTATION" -> Right (Annotation aid Nothing text)
+    "REF_ANNOTATION" -> case attribute "ANNOTATION_REF" e of
+      Just r -> Right (Annotation aid (Just r) text)
+      Nothing -> Left ("tier " ++ tier ++ ": annotation " ++ T.unpack aid ++ " has no ANNOTATION_REF")
+    other -> Left ("tier " ++ tier ++ ": unexpected element " ++ T.unpack other)
