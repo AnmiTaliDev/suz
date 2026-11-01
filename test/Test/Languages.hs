@@ -169,6 +169,12 @@ files =
       [ ("Nous lisons des livres.",
          "Nous lisons       des      livres  .\nnous lis-ons      des      livre-s .\n1PL  read-1PL.PRS INDEF.PL book-PL ?")
       ])
+  , ("galician",
+      [ ("Eu leo libros.",
+         "Eu  leo          libros  .\neu  le-o         libr-os .\n1SG read-1SG.PRS book-PL ?"),
+        ("Nós lemos libros.",
+         "Nós lemos        libros  .\nnós le-mos       libr-os .\n1PL read-1PL.PRS book-PL ?")
+      ])
   , ("german",
       [ ("Ich lese Bücher.",
          "Ich lese         Bücher  .\nich les-e        büch-er .\n1SG read-1SG.PRS book-PL ?")

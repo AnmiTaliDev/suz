@@ -1,0 +1,15 @@
+suz-language	1
+language	Galician
+tag	1PL
+tag	1SG
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	eu	10.0	-	1SG
+weight	le	10.0	read
+weight	libr	10.0	book
+weight	mos	9.0	-	1PL	PRS
+weight	nós	10.0	-	1PL
+weight	o	9.0	-	1SG	PRS
+weight	os	9.0	-	PL
