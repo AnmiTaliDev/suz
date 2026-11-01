@@ -1,0 +1,15 @@
+suz-language	1
+language	Indonesian
+tag	1PL
+tag	1SG
+tag	AV
+tag	LOC
+punctuation	!,.?
+foldcase
+weight	baca	10.0	read
+weight	buku	10.0	book
+weight	di	10.0	-	LOC
+weight	kami	10.0	-	1PL
+weight	mem	9.0	-	AV
+weight	rumah	10.0	house
+weight	saya	10.0	-	1SG

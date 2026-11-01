@@ -131,6 +131,12 @@ files =
         ("Házban olvastam.",
          "Házban    olvastam     .\nház-ban   olvas-t-am   .\nhouse-INE read-PST-1SG ?")
       ])
+  , ("indonesian",
+      [ ("Saya membaca buku.",
+         "Saya membaca  buku .\nsaya mem-baca buku .\n1SG  AV-read  book ?"),
+        ("Kami membaca buku di rumah.",
+         "Kami membaca  buku di  rumah .\nkami mem-baca buku di  rumah .\n1PL  AV-read  book LOC house ?")
+      ])
   , ("italian",
       [ ("Io leggo libri.",
          "Io  leggo        libri   .\nio  legg-o       libr-i  .\n1SG read-1SG.PRS book-PL ?")
