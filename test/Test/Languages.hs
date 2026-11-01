@@ -205,6 +205,12 @@ files =
         ("Házban olvastam.",
          "Házban    olvastam     .\nház-ban   olvas-t-am   .\nhouse-INE read-PST-1SG ?")
       ])
+  , ("icelandic",
+      [ ("Ég les bókina.",
+         "Ég  les  bókina       .\nég  les  bók-ina      .\n1SG read book-DEF.ACC ?"),
+        ("Við lesum bækur.",
+         "Við lesum        bækur   .\nvið les-um       bæk-ur  .\n1PL read-1PL.PRS book-PL ?")
+      ])
   , ("indonesian",
       [ ("Saya membaca buku.",
          "Saya membaca  buku .\nsaya mem-baca buku .\n1SG  AV-read  book ?"),

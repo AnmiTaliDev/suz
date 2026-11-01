@@ -1,0 +1,18 @@
+suz-language	1
+language	Icelandic
+tag	1PL
+tag	1SG
+tag	ACC
+tag	DEF
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	bæk	10.0	book
+weight	bók	10.0	book
+weight	ina	9.0	-	DEF	ACC
+weight	les	10.0	read
+weight	um	9.0	-	1PL	PRS
+weight	ur	9.0	-	PL
+weight	við	10.0	-	1PL
+weight	ég	10.0	-	1SG
