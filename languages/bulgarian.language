@@ -1,0 +1,17 @@
+suz-language	1
+language	Bulgarian
+tag	1PL
+tag	1SG
+tag	DEF
+tag	PL
+tag	PRS
+punctuation	!,.?
+foldcase
+weight	а	9.0	-	1SG	PRS
+weight	аз	10.0	-	1SG
+weight	ем	9.0	-	1PL	PRS
+weight	и	9.0	-	PL
+weight	книг	10.0	book
+weight	ние	10.0	-	1PL
+weight	те	9.0	-	DEF
+weight	чет	10.0	read
