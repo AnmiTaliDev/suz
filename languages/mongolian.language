@@ -1,0 +1,22 @@
+suz-language	1
+language	Mongolian
+tag	1SG
+tag	ACC
+tag	LOC
+tag	PL
+tag	PST
+punctuation	!,.?
+foldcase
+weight	би	10.0	-	1SG
+weight	гэр	10.0	house
+weight	д	8.0	-	LOC
+weight	ийг	9.0	-	ACC
+weight	ном	10.0	book
+weight	сан	9.0	-	PST
+weight	сэн	9.0	-	PST
+weight	т	8.0	-	LOC
+weight	унш	10.0	read
+weight	ууд	8.0	-	PL
+weight	ыг	9.0	-	ACC
+weight	ыыг	9.0	-	ACC
+weight	үүд	8.0	-	PL

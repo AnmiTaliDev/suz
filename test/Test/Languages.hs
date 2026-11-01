@@ -169,6 +169,12 @@ files =
       [ ("Libros lego.",
          "Libros      lego         .\nlibr-os     leg-o        .\nbook-ACC.PL read-1SG.PRS ?")
       ])
+  , ("mongolian",
+      [ ("Би номуудыг уншсан.",
+         "Би  номуудыг    уншсан   .\nби  ном-ууд-ыг  унш-сан  .\n1SG book-PL-ACC read-PST ?"),
+        ("Би номыг уншсан.",
+         "Би  номыг    уншсан   .\nби  ном-ыг   унш-сан  .\n1SG book-ACC read-PST ?")
+      ])
   , ("persian",
       [ ("من کتاب\8204ها را می\8204خوانم.",
          "من  کتاب\8204ها  را  می\8204خوانم       .\nمن  کتاب\8204-ها را  می\8204-خوان-م     .\n1SG book-PL ACC IPFV-read-1SG ?")
